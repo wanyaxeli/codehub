@@ -1,0 +1,316 @@
+.HomeWrapper{
+  width: 100%;
+  height: auto;
+}
+.headerWrapper{
+  width: 100%;
+  height: 70px;
+  background-color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+}
+.headerContainer{
+  max-width: 1200px;
+  height: 100%;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.leftHeader{
+  flex: .4;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
+  padding: 0 5px;
+ gap: 10px;
+}
+.rightHeader{
+  flex: .45;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5px;
+}
+.rightHeader button{
+  text-transform: capitalize;
+  border: none;
+  outline: none;
+  padding: 10px 15px;
+  background-color: #fff;
+  color: #000;
+  cursor: pointer;
+}
+.rightHeader button:nth-child(2){
+  border: 1px solid #0097b2;
+  border-radius: 5px;
+  color: #0097b2;
+}
+.rightHeader button:nth-child(3){
+  background-color: #0097b2;
+  color: #fff;
+  border-radius: 5px;
+}
+.rightHeader button:nth-child(1):hover{
+  color: #0097b2;
+}
+.rightHeader button:nth-child(3):hover{
+  border: 1px solid #0097b2;
+  border-radius: 5px;
+  background-color: transparent;
+  color: #0097b2;
+}
+.rightHeader button:nth-child(2):hover{
+  border: none;
+  background-color: #0097b2;
+  color: #fff;
+}
+.logoWRapper{
+  height: 100%;
+  width: 35%;
+  background-color: red;
+  /* display: flex;
+  align-items: flex-start;
+  justify-content: flex-start; */
+  padding: 2px 0;
+
+}
+.logoWRapper img{
+  width:100% ;
+  height: 100% ;
+  object-fit: contain;
+}
+.leftHeader select{
+  width: 50%;
+  height: 40px;
+  border-radius: 6px;
+  padding-left: 6px;
+  text-transform: capitalize;
+  border: 1px solid #0097b2;
+}
+.bannerWrapper{
+  max-width: 1200px;
+  height:88vh;
+  margin: auto;
+  display:flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.bannerDetailsWrapper{
+  height: 100%;
+  flex: .58;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+}
+.bannerImgWrapper{
+  position: relative;
+  height: 100%;
+  flex: .4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bannnerAnimationWrapper{
+  position: absolute;
+  left: -20px;
+  top: 30%;
+  width: 250px;
+  height: 80px;
+  border-radius: 10px;
+  background-color: #fff;
+   /* Animation */
+   animation: moveForwardAndBack 2s infinite ease-in-out;
+}
+/* Define the animation */
+@keyframes moveForwardAndBack {
+  0%, 100% {
+    transform: translateX(0); /* Initial and final position */
+  }
+  50% {
+    transform: translateX(30px); /* Move 30px forward */
+  }
+}
+.InnerbannnerAnimationWrapper{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 10px 8px;
+  justify-content: space-between;
+}
+.bannerAnimationIcon{
+  flex: .3;
+  height: 100%;
+  background-color: #0097b2;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bannerAnimationDetailsWRapper{
+  flex: .6;
+  height: 100%;
+}
+.bannerAnimationIcon .fa{
+  color: #fff;
+}
+.bannerImgWrapper img{
+  width: 100%;
+  height: 90%;
+  object-fit: cover;
+  position: relative;
+  border-radius: 25px;
+}
+.introWrapper{
+  background-color: #fff;
+  padding: 8px 15px;
+  border-radius: 15px;
+  font-size: 1.1rem;
+}
+.sharedStyles{
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.IConWrapper,.IconContainer{
+  position: relative;
+  z-index: 1; /* Place it below the content */
+}
+.IConWrapper .fa,.IconContainer .fa{
+  color: #fff;
+  /* z-index: 1; */
+}
+.IConWrapper::after{
+  content: '';
+  position: absolute;
+  top: 2.5px; /* Adjust to your needs */
+  left: -6px; /* Adjust to your needs */
+  border-radius: 50%; /* Make it circular */
+  width: 23px;
+  height: 23px;
+  background-color: #0097b2;
+  z-index: -1; /* Place it below the content */
+}
+.IconContainer::after{
+  content: '';
+  position: absolute;
+  top: 2.5px; /* Adjust to your needs */
+  left: -2px; /* Adjust to your needs */
+  border-radius: 50%; /* Make it circular */
+  width: 23px;
+  height: 23px;
+  background-color: #0097b2;
+  z-index: -1; /* Place it below the content */
+}
+.engage::after{
+  top: 1px; /* Adjust to your needs */
+  left: -8px; /* Adjust to your needs */
+}
+.learn::after{
+  top: 1px; /* Adjust to your needs */
+  left: -5px; /* Adjust to your needs */
+}
+.Aboutcodehub p{
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 20px 0;
+}
+.bannerDetailsWrapper ul{
+  list-style: none;
+}
+.bannerDetailsWrapper ul li{
+  padding: 10px 0;
+}
+.bannerDetailsWrapper ul li span{
+  padding-right: 10px;
+}
+.bannerDetailsWrapper ul li .fa{
+  margin-left: -2px;
+}
+.inputWrapper{
+  width: auto;
+  height: auto;
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+}
+.countCodeHolder{
+  width: 50px;
+  height: 50px;
+  background-color: #fff;
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+  border-right: 1px solid #e8e8ee;
+
+}
+.inputWrapper input{
+  height: 50px;
+  width: 300px;
+  border: none;
+  outline: none;
+}
+.inputWrapper button{
+  height: 50px;
+  border: none;
+  outline: none;
+  background-color: #0097b2;
+  cursor: pointer;
+  width: 150px;
+  color: #fff;
+  text-transform: capitalize;
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.kidsContainer{
+  padding: 15px 0;
+}
+.acitiveStudentsWrapper h3{
+  font-size: 1.5rem;
+}
+.CoursesWrapper{
+  width: 100%;
+  height: auto;
+}
+.CoursesContainer{
+  max-width: 1200px;
+  height: auto;
+  margin: auto;
+}
+.CoursesContainer h3{
+  text-align: center;
+  font-size: 2rem;
+  padding: 30px 0;
+}
+.courseCardContainer{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+.courseCard{
+  width: 224px;
+  height: 300px;
+  background-color: #fff;
+  border-radius: 10px;
+}
+.parentsComments{
+  width: 100%;
+  height: auto;
+  padding: 10px 0;
+  background-color: #f4faff;
+}
+.parentsCommentsHolder{
+  max-width: 1200px;
+  height: auto;
+  margin: auto;
+}
