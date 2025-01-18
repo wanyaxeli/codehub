@@ -1,10 +1,15 @@
 import React,{useState} from 'react'
 import pic from '../assets/codeHubLogo.png'
+import {useNavigate} from 'react-router-dom'
 export default function Header() {
     const [selectedValue, setSelectedValue] = useState('');
+    const navigate=useNavigate()
     const handleChange = (event) => {
         setSelectedValue(event.target.value);
       };
+    const handleToFreeClass =()=>{
+    navigate('/register')
+    }
   return (
     <div className='headerWrapper'>
         <div className='headerContainer'>
@@ -25,7 +30,7 @@ export default function Header() {
             <div className='rightHeader'>
                 <button>login</button>
                 <button>join class</button>
-                <button>book free class</button>
+                <button onClick={handleToFreeClass}>book free class</button>
             </div>
         </div>
     </div>
