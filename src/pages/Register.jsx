@@ -15,6 +15,9 @@ export default function Register() {
         
     }
     const navigate=useNavigate()
+    const handleToTeacherLogin=()=>{
+        navigate('/teacher') 
+    }
     const handleToLapTop=()=>{
     navigate('/laptop')
     }
@@ -50,7 +53,7 @@ export default function Register() {
                 <div className='rightSideLogoLeft'></div>
                 <div className='rightSideLogoRight'>
                     <ul>
-                        <li>Are you are teacher </li>
+                        <li onClick={handleToTeacherLogin}>Are you are teacher </li>
                         <li><i className="fa fa-envelope-open" aria-hidden="true"></i>  support:support@codehub.com</li>
                     </ul>
                 </div>

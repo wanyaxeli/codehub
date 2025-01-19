@@ -613,3 +613,199 @@
   background-color: #e8e8ee;
   color: #000;
 }
+.InnerBookingWrapper{
+  width: 100%;
+  height: auto;
+  padding: 0 10px;
+  margin-top: -10px;
+}
+.InnerBookingWrapper h3{
+  font-size: 2rem;
+}
+.timeSeletorWrapper{
+  width: 100%;
+  height: auto;
+}
+.timeSeletorWrapper p{
+  font-size: 1.1rem;
+  background-color: #c1dfe5 ;
+  padding: 8px 10px;
+  align-self: flex-start;
+  margin: 15px 0;
+  color: #000;
+  display: inline-block;
+  border-radius: 10px;
+}
+.timeSeletorWrapper input{
+  width: 100%;
+  height: 50px;
+  border: none;
+  padding: 0 10px;
+  margin: 15px 0 ;
+  border-radius: 10px;
+}
+.bookBtnWrapper{
+  width: auto;
+  height: auto;
+  margin-top: 15px;
+}
+.bookBtnWrapper button{
+  padding: 15px 25px;
+  background-color: #0097b2;
+  text-transform: capitalize;
+  color: #fff;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border-radius: 10px;
+}
+.bookBtnWrapper button:hover{
+  border: 1px solid #0097b2;
+  color: #000;
+  background-color: transparent;
+}
+.LoginWrapper{
+  width: 100%;
+  height: auto;
+}
+.LoginContainer{
+  max-width: 1200px;
+  height: auto;
+  margin: auto;
+}
+.InnerLoginWrapper{
+  width: 70%;
+  height: auto;
+  padding-bottom: 20px;
+}
+.InnerLoginWrapper h3{
+  font-size: 2.2rem;
+}
+.loginInputWrapper{
+  width: 100%;
+  height: auto;
+}
+.loginInputWrapper .passwordInput{
+  width: 100%;
+  height: 50px;
+  margin: 15px 0;
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  padding: 0 10px;
+}
+.LoginCountryCodeWrapper{
+  display: flex;
+  align-items: center;
+  margin: 15px 0;
+}
+.LoginCountryCodeWrapper input{
+  width: 92%;
+  height: 50px;
+  border: none;
+  outline: none;
+  border-bottom-right-radius:10px;
+  border-top-right-radius:10px;
+  padding: 0 10px;
+}
+.loginCountryCode{
+  width: 40px;
+  background-color: #fff;
+  height: 50px; 
+  border-bottom-left-radius:10px;
+  border-top-left-radius:10px;
+  border-right: 1px solid #e8e8ee;
+}
+.LoginBtnWrapper{
+  width: 100%;
+  height: auto;
+}
+.LoginBtnWrapper button{
+  width: 100%;
+  height: 50px;
+  background-color: #0097b2;
+  margin-top: 20px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: #fff;
+  border-radius: 10px;
+}
+.DashboardWrapper{
+  width: 100%;
+  height: auto;
+}
+.teacherLogin input{
+  width: 100%;
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+}
+.dashBoardContainer{
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  overflow-y: auto;
+}
+.dashBoardContainer aside{
+  flex:.2;
+  height: 88vh;
+  position: sticky;
+  top: 0;  
+  background-color: #fff;
+  padding: 10px 10px 10px 45px;
+}
+.dashBoardContainer aside ul{
+  list-style: none;
+  width: 100%;
+  height: 60%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.dashBoardContainer aside ul li{
+  text-transform: capitalize;
+  cursor: pointer;
+  width: 100%;
+  padding: 15px 10px ;
+}
+.dashBoardContainer aside ul .active{
+  background-color: #0097b2;
+  color: #fff;
+  padding: 15px 10px ;
+  border-radius: 10px;
+}
+.dashBoardContainer aside ul li:hover{
+  background-color: #c1dfe5;
+  color: #fff;
+  padding: 15px 10px ;
+  border-radius: 10px;
+  color: #000;
+}
+.dashBoardContainer main{
+  flex: .76;
+  height: 88vh;
+}
+/* .dashboardDisplayer{
+  background-color: red;
+} */
+.dashboardDetailsHolder{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* background-color: black; */
+  height: 100%;
+  width: 50%;
+}
+.Dashboardimage{
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+}
+.Dashboardimage img{
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}

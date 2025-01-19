@@ -37,8 +37,17 @@ export default function ClassBooking() {
                 </div>
             </div>
             <div className='RegisterFormWrapper'>
-               <div className='InnerRegisterFormWrapper'>
-                 
+               <div className='InnerBookingWrapper'>
+                 <h3>Book a free lesson to enter the wonderful world of coding</h3>
+                 <div className='timeSeletorWrapper'>
+                    <p>Select a date</p>
+                    <input type='date'/>
+                    <p>Select a time </p>
+                    <input type='time'/>
+                 </div>
+                 <div className='bookBtnWrapper'>
+                    <button>book now</button>
+                 </div>
                </div>
             </div>
             </main>
