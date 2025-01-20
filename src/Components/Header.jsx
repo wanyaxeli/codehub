@@ -22,7 +22,10 @@ export default function Header() {
       navigate('/')
     }
     const handleJoinClass=()=>{
-      navigate('/')
+      navigate('/student/dashboard')
+    }
+    const handleToDashboard=()=>{
+      navigate('/teacher/dashboard/Details')
     }
   return (
     <div className='headerWrapper'>
@@ -41,19 +44,25 @@ export default function Header() {
                 <option value="option3">scratch programming</option>
                 </select>
             </div>
-            {pathname==='/teacher/dashboard'?<div className='rightHeader dashboardDisplayer'>
-              <p>Dashboard</p>
-              <div className='dashboardDetailsHolder'>
-                <p>Ms  Gaundencia</p>
-                <div className='Dashboardimage'>
-                  <img src={pic1}/>
+            {pathname.includes('/teacher') ? (
+              <div className='rightHeader dashboardDisplayer'>
+                <div onClick={handleToDashboard} className='headerDashlinkWrapper'>
+                <p>Dashboard</p>
+                </div>
+                <div className='dashboardDetailsHolder'>
+                  <p>Ms Gaundencia</p>
+                  <div className='Dashboardimage'>
+                    <img src={pic1} alt="Profile" />
+                  </div>
                 </div>
               </div>
-            </div>: <div className='rightHeader'>
-                <button onClick={handleToLogin}> login</button>
-                <button onClick={handleJoinClass}>join class</button>
-                <button onClick={handleToFreeClass}>book free class</button>
-            </div>}
+            ) : (
+              <div className='rightHeader'>
+                <button onClick={handleToLogin}>Login</button>
+                <button onClick={handleJoinClass}>Join Class</button>
+                <button onClick={handleToFreeClass}>Book Free Class</button>
+              </div>
+            )}
         </div>
     </div>
   )

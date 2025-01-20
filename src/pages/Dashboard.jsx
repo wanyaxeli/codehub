@@ -1,22 +1,41 @@
 import React from 'react'
 import Header from '../Components/Header'
-import { Outlet } from 'react-router-dom'
+import { Outlet,useNavigate ,useLocation} from 'react-router-dom'
 export default function Dashboard() {
+  const navigate=useNavigate()
+  const location =useLocation()
+  const {pathname}=location
+  const dashboardLinks=['/teacher/dashboard/Details','/teacher/dashboard/Add%Students','/teacher/dashboard/All%20Teachers',
+  '/teacher/dashboard/All%20Students','/teacher/dashboard/Add%20Teachers']
+  console.log('pa',pathname)
+  const handleToCalendar=()=>{
+  navigate('/teacher/dashboard/Calendar')
+  }
+  const handleToMystudents=()=>{
+    navigate('/teacher/dashboard/My students')
+    }
+  const handleToProjects=()=>{
+      navigate('/teacher/dashboard/Projects')
+      }
+  const handleToDashboard=()=>{
+        navigate('/teacher/dashboard/Details')
+        }
   return (
     <div className='DashboardWrapper'>
         <Header/>
       <div className='dashBoardContainer '>
         <aside>
           <ul>
-            <li className='active'>dashboard</li>
-            <li>dashboard</li>
-            <li>dashboard</li>
-            <li>dashboard</li>
-            <li>dashboard</li>
+            <li className={dashboardLinks.includes(pathname)?'active':""} onClick={handleToDashboard} >dashboard</li>
+            <li className={pathname==='/teacher/dashboard/Calendar'?'active':""} onClick={handleToCalendar} >calendar</li>
+            <li className={pathname==='/teacher/dashboard/Projects'?'active':""} onClick={handleToProjects}>projects</li>
+            <li className={pathname==='/teacher/dashboard/My%20students'?'active':""} onClick={handleToMystudents}>my students</li>
           </ul>
         </aside>
         <main>
+           <div className='mainInnerWrapper'>
            <Outlet/>
+           </div>
         </main>
       </div>
     </div>
