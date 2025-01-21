@@ -38,7 +38,7 @@ export default function AppRoutes() {
         </Route>
         <Route path='/student/dashboard' element={<StudentDashboard/>}></Route>
         <Route path='/Class booking' element={<ClassBooking/>}/>
-        <Route path='/Class ' element={<Class/>}/>
+        <Route path='/Class' element={<Class/>}/>
     {/* <Route path="/" element={<Layout />}>
       <Route index element={<Home />} />
       <Route path="blogs" element={<Blogs />} />
