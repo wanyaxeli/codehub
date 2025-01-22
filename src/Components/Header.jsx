@@ -2,6 +2,8 @@ import React,{useState} from 'react'
 import pic from '../assets/codeHubLogo.png'
 import {useNavigate,useLocation} from 'react-router-dom'
 import pic1 from '../assets/women1.jpg'
+import pic2 from '../assets/man.jpg'
+import HeaderDetails from './HeaderDetails';
 export default function Header() {
     const [selectedValue, setSelectedValue] = useState('');
     const location = useLocation()
@@ -44,7 +46,8 @@ export default function Header() {
                 <option value="option3">scratch programming</option>
                 </select>
             </div>
-            {pathname.includes('/teacher') ? (
+            <HeaderDetails pic2={pic2} handleToFreeClass={handleToFreeClass} handleToLogin={handleToLogin}  handleJoinClass={handleJoinClass} handleToDashboard={handleToDashboard}  pic1={pic1}/>
+            {/* {pathname.includes('/teacher') ? (
               <div className='rightHeader dashboardDisplayer'>
                 <div onClick={handleToDashboard} className='headerDashlinkWrapper'>
                 <p>Dashboard</p>
@@ -62,7 +65,7 @@ export default function Header() {
                 <button onClick={handleJoinClass}>Join Class</button>
                 <button onClick={handleToFreeClass}>Book Free Class</button>
               </div>
-            )}
+            )} */}
         </div>
     </div>
   )

@@ -1,7 +1,42 @@
 import React from 'react'
-
+import Header from '../Components/Header'
+import { Outlet,useNavigate ,useLocation} from 'react-router-dom'
 export default function StudentDashboard() {
+    const navigate=useNavigate()
+  const location =useLocation()
+  const {pathname}=location
+  const dashboardLinks=['/student/dashboard/Details','/student/dashboard']
+  console.log('path',pathname)
+  const handleToLessons=()=>{
+  navigate('/student/dashboard/My  lessons')
+  }
+  const handleToMyQuizzes=()=>{
+    navigate('/student/dashboard/My  quizzes')
+    }
+  const handleToMyProjects=()=>{
+      navigate('/student/dashboard/My  projects')
+      }
+  const handleToDashboard=()=>{
+        navigate('/student/dashboard/Details')
+        }
   return (
-    <div>StudentDashboard</div>
+    <div className='StudentDashboardWrapper'>
+        <Header/>
+        <div className='dashBoardContainer '>
+        <aside>
+          <ul>
+            <li className={dashboardLinks.includes(pathname)?'active':""} onClick={handleToDashboard} >dashboard</li>
+            <li className={pathname==='/student/dashboard/My%20%20lessons'?'active':""} onClick={handleToLessons} >my lessons</li>
+            <li className={pathname==='/student/dashboard/My%20%20projects'?'active':""} onClick={handleToMyProjects}>my projects</li>
+            <li className={pathname==='/student/dashboard/My%20%20quizzes'?'active':""} onClick={handleToMyQuizzes}>my quizzes</li>
+          </ul>
+        </aside>
+        <main>
+           <div className='mainInnerWrapper'>
+           <Outlet/>
+           </div>
+        </main>
+      </div>
+    </div>
   )
 }

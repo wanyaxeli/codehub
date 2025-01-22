@@ -6,6 +6,7 @@ export default function Class() {
     const [asideCss,setAsideCss]=useState('closeAside')
     const [toggleChat,setToggleChat]=useState(false)
     const [mic,setToggleMic]=useState(true)
+    const [cam,setToggleCam]=useState(true)
     const [openSubmitModal,setopenSubmitModal]=useState(false)
     const handleOpenChat=()=>{
         console.log("hello")
@@ -78,8 +79,9 @@ export default function Class() {
                 <ul>
                     <li>
                         <div>
-                            <div className='classInconHolder'>
-
+                            <div className='classInconHolder' >
+                            <i className="fa fa-video-camera" aria-hidden="true"></i>
+                            {/* <i className="fi fi-rr-video-slash"></i> */}
                             </div>
                             <p>cam</p>
                         </div>
@@ -95,7 +97,7 @@ export default function Class() {
                     <li>
                     <div>
                         <div className='classInconHolder'>
-
+                        <i className="fa fa-desktop" aria-hidden="true"></i>
                         </div>
                         <p>share</p>
                     </div>

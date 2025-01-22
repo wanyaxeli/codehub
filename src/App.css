@@ -944,25 +944,25 @@
 table{
   border-collapse: collapse;
 }
-.TodaysClasses table th,.AllTeachersContainer table th{
+.TodaysClasses table th,.MyLessonWrapper table th,.AllTeachersContainer table th,.todayLessonContainer table th{
   text-transform: capitalize;
   text-align: left;
   padding: 10px 5px;
 }
-.TodaysClasses table td,.AllTeachersContainer table td{
+.TodaysClasses table td ,.MyLessonWrapper table td,.AllTeachersContainer table td,.todayLessonContainer table td{
   padding: 10px 5px;
 }
-.TodaysClasses table td:first-child,.AllTeachersContainer table td:first-child{
+.TodaysClasses table td:first-child,.todayLessonContainer table td:first-child,.AllTeachersContainer table td:first-child{
   text-transform: capitalize;
 }
 
-.TodaysClasses table tr:nth-child(odd) td{
+.TodaysClasses table tr:nth-child(odd) td,.todayLessonContainer table tr:nth-child(odd) td{
  background-color: #e8e8ee;
 }
-.AllTeachersContainer table tr:nth-child(odd) td{
+.AllTeachersContainer table tr:nth-child(odd) td,.MyLessonWrapper table tr:nth-child(odd) td{
   background-color: #fff;
 }
-.TodaysClasses table td button,.AllTeachersContainer table td button{
+.TodaysClasses table td button,.todayLessonContainer table td button,.AllTeachersContainer table td button{
   border: none;
   outline: none;
   padding: 8px 10px;
@@ -970,15 +970,16 @@ table{
   border-radius: 5px;
   text-transform: capitalize;
   color: #fff;
+  cursor: pointer;
 }
-.TodaysClasses table td button:hover,.AllTeachersContainer table td button:hover{
+.TodaysClasses table td button:hover,.todayLessonContainer table td button:hover,.AllTeachersContainer table td button:hover{
   transform: scale(1.1);
 }
-.TodaysClasses table tr:nth-child(odd) td:first-child,.AllTeachersContainer table tr:nth-child(odd) td:first-child{
+.TodaysClasses table tr:nth-child(odd) td:first-child,.MyLessonWrapper table tr:nth-child(odd) td:first-child,.todayLessonContainer table tr:nth-child(odd) td:first-child,.AllTeachersContainer table tr:nth-child(odd) td:first-child{
   border-bottom-left-radius: 10px;
   border-top-left-radius: 10px;
 }
-.TodaysClasses table tr:nth-child(odd) td:last-child,.AllTeachersContainer table tr:nth-child(odd) td:last-child{
+.TodaysClasses table tr:nth-child(odd) td:last-child,.MyLessonWrapper table tr:nth-child(odd) td:last-child,.todayLessonContainer table tr:nth-child(odd) td:last-child,.AllTeachersContainer table tr:nth-child(odd) td:last-child{
   border-bottom-right-radius: 10px;
   border-top-right-radius: 10px;
 }
@@ -1323,4 +1324,76 @@ table{
 }
 .classInconHolder .fa{
   color: #0097b2;
+}
+.StudentDashboardWrapper{
+  width: 100%;
+  height: 100%;
+}
+.todayLessonWrapper{
+  width: 100%;
+  height: auto;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 10px;
+}
+.todayLessonWrapper h3{
+  padding: 10px 15px;
+  background-color: #0097b2;
+  align-self: flex-start;
+  display: inline-block;
+  border-radius: 10px;
+  text-transform: capitalize;
+  color: #fff;
+}
+.todayLessonContainer{
+  width: 100%;
+  height: auto;
+}
+.todayLessonContainer table{
+  width: 100%;
+  height: auto;
+  margin: 15px 0;
+}
+.todayLessonContainer table th{
+  text-align: start;
+  text-transform: capitalize;
+}
+.MyLessonWrapper{
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+}
+.MyLessonWrapper table{
+  width: 100%;
+  height: 100%;
+}
+.MyLessonWrapper table tr th{
+  text-align: left;
+}
+.MyProjectsWrapper {
+  width: 100%;
+  height: 88vh;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.MyProjectsContainer{
+  width: 60%;
+  height: 80%;
+  background-color: #fff;
+  border-radius: 10px;
+  overflow-y: auto;
+  padding: 15px 25px;
+}
+.MyProjectsContainer ol{
+  width: 100%;
+  height: auto;
+}
+.MyProjectsContainer ol li{
+  padding: 15px 10px;
+}
+.MyProjectsContainer ol li:nth-child(odd){
+  background-color: #e8e8ee;
+  border-radius: 10px;
 }

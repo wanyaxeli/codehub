@@ -12,10 +12,14 @@ import Details from '../pages/Details.jsx';
 import Home from '../pages/Home.jsx';
 import Laptop from '../pages/Laptop.jsx';
 import Login from '../pages/Login.jsx';
+import MyProjects from '../pages/MyProjects.jsx';
 import MyStudents from '../pages/MyStudents.jsx';
 import Projects from '../pages/Projects.jsx';
 import Register from '../pages/Register.jsx';
 import StudentDashboard from '../pages/StudentDashboard.jsx';
+import MyLessons from '../pages/students/MyLessons.jsx';
+import MyQuizzes from '../pages/students/MyQuizzes.jsx';
+import StudentDetails from '../pages/students/StudentDetails.jsx';
 import Teacher from '../pages/Teacher.jsx';
 export default function AppRoutes() {
   return (
@@ -26,7 +30,7 @@ export default function AppRoutes() {
         <Route path='/login' element={<Login/>}/>
         <Route path='/teacher' element={<Teacher/>}/>
         <Route path='/teacher/dashboard' element={<Dashboard/>}>
-        <Route index element={<Details/>}/>
+          <Route index element={<Details/>}/>
           <Route path='/teacher/dashboard/Details' element={<Details/>}/>
           <Route path='/teacher/dashboard/Calendar' element={<Calendar/>}/>
           <Route path='/teacher/dashboard/My students' element={<MyStudents/>}/>
@@ -36,7 +40,13 @@ export default function AppRoutes() {
           <Route path='/teacher/dashboard/Add Teachers' element={<AddTeachers/>}/>
           <Route path='/teacher/dashboard/Add Students' element={<AddStudents/>}/>
         </Route>
-        <Route path='/student/dashboard' element={<StudentDashboard/>}></Route>
+        <Route path='/student/dashboard' element={<StudentDashboard/>}>
+          <Route index element={<StudentDetails/>}/>
+          <Route path='/student/dashboard/Details' element={<StudentDetails/>}/>
+          <Route path='/student/dashboard/My  lessons' element={<MyLessons/>}/>
+          <Route path='/student/dashboard/My  projects' element={<MyProjects/>}/>
+          <Route path='/student/dashboard/My  quizzes' element={<MyQuizzes/>}/>
+        </Route>
         <Route path='/Class booking' element={<ClassBooking/>}/>
         <Route path='/Class' element={<Class/>}/>
     {/* <Route path="/" element={<Layout />}>
