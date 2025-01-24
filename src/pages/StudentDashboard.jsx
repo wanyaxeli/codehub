@@ -6,6 +6,7 @@ export default function StudentDashboard() {
   const location =useLocation()
   const {pathname}=location
   const dashboardLinks=['/student/dashboard/Details','/student/dashboard']
+  const quizLinks=['/student/dashboard/My%20%20quizzes','/student/dashboard/Quiz']
   console.log('path',pathname)
   const handleToLessons=()=>{
   navigate('/student/dashboard/My  lessons')
@@ -28,7 +29,7 @@ export default function StudentDashboard() {
             <li className={dashboardLinks.includes(pathname)?'active':""} onClick={handleToDashboard} >dashboard</li>
             <li className={pathname==='/student/dashboard/My%20%20lessons'?'active':""} onClick={handleToLessons} >my lessons</li>
             <li className={pathname==='/student/dashboard/My%20%20projects'?'active':""} onClick={handleToMyProjects}>my projects</li>
-            <li className={pathname==='/student/dashboard/My%20%20quizzes'?'active':""} onClick={handleToMyQuizzes}>my quizzes</li>
+            <li className={quizLinks.includes( pathname)?'active':""} onClick={handleToMyQuizzes}>my quizzes</li>
           </ul>
         </aside>
         <main>

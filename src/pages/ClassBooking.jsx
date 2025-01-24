@@ -1,7 +1,21 @@
-import React from 'react'
+import React,{useState,useContext} from 'react'
 import pic from '../assets/student.jpg'
+import { context } from '../App'
 export default function ClassBooking() {
-
+    const {value,CountryCode}=useContext(context)
+    const initialState={date:'',time:""}
+    console.log('value',value)
+    console.log('coede',CountryCode)
+    const [booking,setBooking]=useState(initialState)
+    const handleChange=(e)=>{
+    const {name,value}=e.target
+    console.log('name',name)
+    setBooking(pre=>({...pre,[name]:value}))
+    }
+    const handleBook=()=>{
+        const data={phone_number:value,
+        time:booking.time,date:booking.date,countryCode:CountryCode}
+    }
   return (
     <div className='RegisterWRapper'>
         <div className='RegisterContainer'>
@@ -39,14 +53,15 @@ export default function ClassBooking() {
             <div className='RegisterFormWrapper'>
                <div className='InnerBookingWrapper'>
                  <h3>Book a free lesson to enter the wonderful world of coding</h3>
+                 <p className='timezone'>This will in recorded in your country's time zone</p>
                  <div className='timeSeletorWrapper'>
                     <p>Select a date</p>
-                    <input type='date'/>
+                    <input onChange={handleChange} name='date'  value={booking.date} type='date'/>
                     <p>Select a time </p>
-                    <input type='time'/>
+                    <input onChange={handleChange} name='time' value={booking.time} type='time'/>
                  </div>
                  <div className='bookBtnWrapper'>
-                    <button>book now</button>
+                    <button onClick={handleBook}>book now</button>
                  </div>
                </div>
             </div>

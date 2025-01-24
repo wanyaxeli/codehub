@@ -1,6 +1,6 @@
 import React from 'react'
 import {useNavigate,useLocation} from 'react-router-dom'
-export default function HeaderDetails({pic1,pic2,handleToFreeClass,handleToLogin,handleJoinClass,handleToDashboard}) {
+export default function HeaderDetails({pic1,pic2,handleToFreeClass,handleToStudentDashboard,handleToLogin,handleJoinClass,handleToDashboard}) {
     const location = useLocation()
     console.log('location',location)
     const navigate=useNavigate()
@@ -23,7 +23,7 @@ export default function HeaderDetails({pic1,pic2,handleToFreeClass,handleToLogin
     }else if(pathname.includes('/student')){
          return(
         <div className='rightHeader dashboardDisplayer'>
-            <div onClick={handleToDashboard} className='headerDashlinkWrapper'>
+            <div onClick={handleToStudentDashboard} className='headerDashlinkWrapper'>
             <p>Dashboard</p>
             </div>
             <div className='dashboardDetailsHolder'>

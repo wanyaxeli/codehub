@@ -1,9 +1,41 @@
-import React,{useState} from 'react'
+import React,{useState,useContext,useEffect} from 'react'
 import pic from '../assets/student.jpg'
+import { context } from '../App'
+import { isValidPhoneNumber, parsePhoneNumber } from 'react-phone-number-input';
 import Slider from 'react-slick'
+import PhoneInput from 'react-phone-number-input'
 import {useNavigate}from 'react-router-dom'
 export default function Register() {
     const [selectedValue, setSelectedValue] = useState('');
+    const [error,setErrors]=useState('')
+    const africanCountries = [
+        'DZ', 'AO', 'BJ', 'BW', 'BF', 'BI', 'CM', 'CV', 'CF', 'TD', 'KM', 'CG', 'CD', 
+        'DJ', 'EG', 'GQ', 'ER', 'SZ', 'ET', 'GA', 'GM', 'GH', 'GN', 'GW', 'CI', 'KE', 
+        'LS', 'LR', 'LY', 'MG', 'MW', 'ML', 'MR', 'MU', 'YT', 'MA', 'MZ', 'NA', 'NE', 
+        'NG', 'RW', 'RE', 'SH', 'ST', 'SN', 'SC', 'SL', 'SO', 'ZA', 'SS', 'SD', 'TZ', 
+        'TG', 'TN', 'UG', 'EH', 'ZM', 'ZW'
+      ];
+      const {value,setValue,CountryCode,setCountryCode,grade,setGrade}=useContext(context)
+      const handlePhoneChange = (phone) => {
+        setErrors('')
+        if (phone) {
+          const parsed = parsePhoneNumber(phone, "KE"); // Replace "KE" with default country code if needed
+          const countryCode = parsed?.countryCallingCode ? `+${parsed.countryCallingCode}` : "";
+          const phoneNumber = parsed?.nationalNumber || "";
+          const number=countryCode + phoneNumber
+          setValue(number)
+          setCountryCode(countryCode)
+          console.log('phone',number,'code',countryCode)
+        //   setValue({ countryCode, phoneNumber }); // Update state with both values
+        }
+      };
+        const customStyle = {
+            backgroundColor: "#fff",
+            borderRadius: "10px",
+            paddingLeft: "10px",
+            width:'100%'
+          };
+        console.log('grade',selectedValue)
     var settings = {
         dots: false,
         infinite: true,
@@ -19,11 +51,25 @@ export default function Register() {
         navigate('/teacher') 
     }
     const handleToLapTop=()=>{
-    navigate('/laptop')
+    // navigate('/laptop')
+    console.log('grade',grade)
+    console.log('number',value)
+    if (isValidPhoneNumber(value)) {
+        if(grade){
+            navigate('/laptop')
+        }else{
+            setErrors('please grade cannot be empty');
+        }
+      } else {
+        setErrors('Invalid phone number');
+      }
     }
     const handleChange = (event) => {
         setSelectedValue(event.target.value);
       };
+    useEffect(()=>{
+    setGrade(selectedValue)
+    },[selectedValue])
   return (
     <div className='RegisterWRapper'>
         <div className='RegisterContainer'>
@@ -62,18 +108,31 @@ export default function Register() {
                <div className='InnerRegisterFormWrapper'>
                  <h3>Let's get started</h3>
                  <h4>Enter your WhatsApp phone number</h4>
+                 {error &&  <p className='errorPara'>{error}</p>}
                  <div className='formInputWrapper'>
-                     <div className='InputCodeWrapper'> </div>
-                     <input type='text'/>
+                     {/* <div className='InputCodeWrapper'> </div> */}
+                     <PhoneInput
+                    placeholder="Enter phone number"
+                    value={value}
+                    countries={africanCountries}
+                    defaultCountry="KE"
+                    style={customStyle}
+                    onChange={handlePhoneChange}/>
                  </div>
                  <div className='gradeSelectorHolder'>
                     <select value={selectedValue} onChange={handleChange}>
                     <option value="" disabled>
-                    courses
+                    grade
                     </option>
-                    <option value="option1">python for kids</option>
-                    <option value="option2">web development</option>
-                    <option value="option3">scratch programming</option>
+                    <option value="1">grade 1</option>
+                    <option value="2">grade 2</option>
+                    <option value="3">grade 3</option>
+                    <option value="4">grade 4</option>
+                    <option value="5">grade 5</option>
+                    <option value="6">grade 6</option>
+                    <option value="7">grade 7</option>
+                    <option value="8">grade 8</option>
+                    <option value="9">grade 9</option>
                     </select>
                  </div>
                  <div className='formBtnwrapper'>

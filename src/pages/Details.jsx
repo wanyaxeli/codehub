@@ -18,6 +18,9 @@ export default function Details() {
     const handleJoinClass =()=>{
         navigate('/class')
     }
+    const handleSetQuiz=()=>{
+        navigate('/teacher/dashboard/Set Quiz')
+    }
   return (
     <div className='DetailsWrapper'>
         <div className='TeacherDetailsWrapper'>
@@ -59,6 +62,9 @@ export default function Details() {
             </div>
             <div className='actionBtnContainer uploadedvideo'>
             <p>uploaded videos</p>
+            </div>
+            <div onClick={handleSetQuiz} className='actionBtnContainer quiz'>
+            <p>Quiz</p>
             </div>
         </div>
         <div className='TodaysClasses'>

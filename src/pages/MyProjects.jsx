@@ -6,22 +6,34 @@ export default function MyProjects() {
         <div className='MyProjectsContainer'>
           <ol>
             <li>
-              <a href='/student/dashboard/My%20%20projects'>/student/dashboard/My%20%20projects</a>
+              <div>
+                <p>Introduction to html</p>
+                <a href='/student/dashboard/My%20%20projects'>/student/dashboard/My%20%20projects</a>
+              </div>
             </li>
             <li>
-              <a href='/student/dashboard/My%20%20projects'>/student/dashboard/My%20%20projects</a>
+              <div>
+                <p>Introduction to html</p>
+                <a href='/student/dashboard/My%20%20projects'>/student/dashboard/My%20%20projects</a>
+              </div>
             </li>
             <li>
-              <a href='/student/dashboard/My%20%20projects'>/student/dashboard/My%20%20projects</a>
+              <div>
+                <p>Introduction to html</p>
+                <a href='/student/dashboard/My%20%20projects'>/student/dashboard/My%20%20projects</a>
+              </div>
             </li>
             <li>
-              <a href='/student/dashboard/My%20%20projects'>/student/dashboard/My%20%20projects</a>
+              <div>
+                <p>Introduction to html</p>
+                <a href='/student/dashboard/My%20%20projects'>/student/dashboard/My%20%20projects</a>
+              </div>
             </li>
             <li>
-              <a href='/student/dashboard/My%20%20projects'>/student/dashboard/My%20%20projects</a>
-            </li>
-            <li>
-              <a href='/student/dashboard/My%20%20projects'>/student/dashboard/My%20%20projects</a>
+              <div>
+                <p>Introduction to html</p>
+                <a href='/student/dashboard/My%20%20projects'>/student/dashboard/My%20%20projects</a>
+              </div>
             </li>
           </ol>
         </div>

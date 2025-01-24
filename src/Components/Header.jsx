@@ -23,6 +23,9 @@ export default function Header() {
     const handleHome =()=>{
       navigate('/')
     }
+    const handleToStudentDashboard =()=>{
+      navigate('/student/dashboard/Details')
+    }
     const handleJoinClass=()=>{
       navigate('/student/dashboard')
     }
@@ -46,7 +49,7 @@ export default function Header() {
                 <option value="option3">scratch programming</option>
                 </select>
             </div>
-            <HeaderDetails pic2={pic2} handleToFreeClass={handleToFreeClass} handleToLogin={handleToLogin}  handleJoinClass={handleJoinClass} handleToDashboard={handleToDashboard}  pic1={pic1}/>
+            <HeaderDetails pic2={pic2} handleToStudentDashboard={handleToStudentDashboard} handleToFreeClass={handleToFreeClass} handleToLogin={handleToLogin}  handleJoinClass={handleJoinClass} handleToDashboard={handleToDashboard}  pic1={pic1}/>
             {/* {pathname.includes('/teacher') ? (
               <div className='rightHeader dashboardDisplayer'>
                 <div onClick={handleToDashboard} className='headerDashlinkWrapper'>

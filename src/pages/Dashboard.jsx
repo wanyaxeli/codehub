@@ -5,9 +5,10 @@ export default function Dashboard() {
   const navigate=useNavigate()
   const location =useLocation()
   const {pathname}=location
-  const dashboardLinks=['/teacher/dashboard/Details','/teacher/dashboard/Add%Students','/teacher/dashboard/All%20Teachers',
-  '/teacher/dashboard/All%20Students','/teacher/dashboard/Add%20Teachers']
+  const dashboardLinks=['/teacher/dashboard/Details','/teacher/dashboard','/teacher/dashboard/Add%Students','/teacher/dashboard/All%20Teachers',
+  '/teacher/dashboard/All%20Students','/teacher/dashboard/Add%20Teachers','/teacher/dashboard/Set%20Quiz']
   console.log('pa',pathname)
+  const studentLink=['/teacher/dashboard/Student%20Profile','/teacher/dashboard/My%20students']
   const handleToCalendar=()=>{
   navigate('/teacher/dashboard/Calendar')
   }
@@ -29,7 +30,7 @@ export default function Dashboard() {
             <li className={dashboardLinks.includes(pathname)?'active':""} onClick={handleToDashboard} >dashboard</li>
             <li className={pathname==='/teacher/dashboard/Calendar'?'active':""} onClick={handleToCalendar} >calendar</li>
             <li className={pathname==='/teacher/dashboard/Projects'?'active':""} onClick={handleToProjects}>projects</li>
-            <li className={pathname==='/teacher/dashboard/My%20students'?'active':""} onClick={handleToMystudents}>my students</li>
+            <li className={studentLink.includes(pathname)?'active':""} onClick={handleToMystudents}>my students</li>
           </ul>
         </aside>
         <main>

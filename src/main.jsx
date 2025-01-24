@@ -6,6 +6,7 @@ import "font-awesome/css/font-awesome.min.css"
 // import 'https://cdn.jsdelivr.net/npm/@flaticon/icons/font/flaticon.css';
 import { BrowserRouter as Router } from "react-router-dom";
 import "slick-carousel/slick/slick.css"; 
+import 'react-phone-number-input/style.css'
 import "slick-carousel/slick/slick-theme.css";
 createRoot(document.getElementById('root')).render(
   <StrictMode>
