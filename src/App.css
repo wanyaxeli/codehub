@@ -512,9 +512,14 @@
   padding: 10px 0;
 }
 .formInputWrapper{
-  display: flex;
-  align-items: center;
+  /* display: flex;
+  align-items: center; */
   margin: 10px 0;
+}
+.formInputWrapper input[type='email']{
+  margin-bottom: 15px;
+  border-radius: 15px;
+  padding:0 15px;
 }
 .InputCodeWrapper{
   width: 40px;
@@ -1624,4 +1629,7 @@ table{
 .StudentProfileWrapper{
   width: 100%;
   height: 100%;
+}
+.timeSeletorWrapper input{
+  outline: none;
 }

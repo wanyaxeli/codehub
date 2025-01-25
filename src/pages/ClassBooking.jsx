@@ -2,10 +2,11 @@ import React,{useState,useContext} from 'react'
 import pic from '../assets/student.jpg'
 import { context } from '../App'
 export default function ClassBooking() {
-    const {value,CountryCode}=useContext(context)
+    const {value,email,CountryCode}=useContext(context)
     const initialState={date:'',time:""}
     console.log('value',value)
     console.log('coede',CountryCode)
+    console.log('email',email)
     const [booking,setBooking]=useState(initialState)
     const handleChange=(e)=>{
     const {name,value}=e.target

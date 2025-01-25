@@ -15,7 +15,7 @@ export default function Register() {
         'NG', 'RW', 'RE', 'SH', 'ST', 'SN', 'SC', 'SL', 'SO', 'ZA', 'SS', 'SD', 'TZ', 
         'TG', 'TN', 'UG', 'EH', 'ZM', 'ZW'
       ];
-      const {value,setValue,CountryCode,setCountryCode,grade,setGrade}=useContext(context)
+      const {value,setValue,email,setEmail,CountryCode,setCountryCode,grade,setGrade}=useContext(context)
       const handlePhoneChange = (phone) => {
         setErrors('')
         if (phone) {
@@ -36,6 +36,10 @@ export default function Register() {
             width:'100%'
           };
         console.log('grade',selectedValue)
+        const handleEmail =(e)=>{
+            setErrors('')
+            setEmail(e.target.value)
+        }
     var settings = {
         dots: false,
         infinite: true,
@@ -56,7 +60,11 @@ export default function Register() {
     console.log('number',value)
     if (isValidPhoneNumber(value)) {
         if(grade){
-            navigate('/laptop')
+             if(email){
+                isValidEmail(email)
+             }else{
+                setErrors('Please Enter your email')
+             }
         }else{
             setErrors('please grade cannot be empty');
         }
@@ -64,7 +72,16 @@ export default function Register() {
         setErrors('Invalid phone number');
       }
     }
+    function isValidEmail(email) {
+        const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if(pattern.test(email)){
+            navigate('/laptop')
+        }else{
+             setErrors('Invalid email')
+        }
+    }
     const handleChange = (event) => {
+        setErrors('')
         setSelectedValue(event.target.value);
       };
     useEffect(()=>{
@@ -111,6 +128,7 @@ export default function Register() {
                  {error &&  <p className='errorPara'>{error}</p>}
                  <div className='formInputWrapper'>
                      {/* <div className='InputCodeWrapper'> </div> */}
+                     <input onChange={handleEmail} type='email' placeholder='Email'/>
                      <PhoneInput
                     placeholder="Enter phone number"
                     value={value}

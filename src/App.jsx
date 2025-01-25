@@ -8,11 +8,12 @@ export const context = createContext()
 function App() {
   const [value, setValue] = useState('')
   const [grade, setGrade] = useState('')
+  const [email,setEmail]=useState('')
   const [CountryCode, setCountryCode] = useState('')
 
   return (
     <>
-    <context.Provider value={{value,setValue,CountryCode,setCountryCode,grade,setGrade}}>
+    <context.Provider value={{value,email,setEmail,setValue,CountryCode,setCountryCode,grade,setGrade}}>
     <AppRoutes/>
     </context.Provider>
     </>
