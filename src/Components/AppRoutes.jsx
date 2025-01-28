@@ -24,6 +24,8 @@ import Teacher from '../pages/Teacher.jsx';
 import Quiz from '../pages/students/Quiz.jsx';
 import SetQuiz from '../pages/SetQuiz.jsx';
 import StudentProfile from '../pages/StudentProfile.jsx';
+import SignUp from '../pages/SignUp.jsx';
+import Error from '../pages/Error.jsx';
 export default function AppRoutes() {
   return (
     <Routes>
@@ -31,6 +33,8 @@ export default function AppRoutes() {
         <Route path='/register' element={<Register/>}/>
         <Route path='/laptop' element={<Laptop/>}/>
         <Route path='/login' element={<Login/>}/>
+        <Route path='/SignUp/:token' element={<SignUp/>}/>
+        <Route path='/SignUp/' element={<SignUp/>}/>
         <Route path='/teacher' element={<Teacher/>}/>
         <Route path='/teacher/dashboard' element={<Dashboard/>}>
           <Route index element={<Details/>}/>
@@ -54,7 +58,8 @@ export default function AppRoutes() {
           <Route path='/student/dashboard/Quiz' element={<Quiz/>}/>
         </Route>
         <Route path='/Class booking' element={<ClassBooking/>}/>
-        <Route path='/Class' element={<Class/>}/>
+        <Route path='/Class/:name' element={<Class/>}/>
+        <Route path='/Error' element={<Error/>}/>
     {/* <Route path="/" element={<Layout />}>
       <Route index element={<Home />} />
       <Route path="blogs" element={<Blogs />} />

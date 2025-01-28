@@ -13,11 +13,14 @@
     "@flaticon/flaticon-uicons": "^3.3.1",
     "axios": "^1.7.9",
     "font-awesome": "^4.7.0",
+    "i18n-iso-countries": "^7.13.0",
+    "libphonenumber-js": "^1.11.18",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-phone-number-input": "^3.4.11",
     "react-slick": "^0.30.3",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "uuid": "^11.0.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",

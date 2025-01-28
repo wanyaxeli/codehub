@@ -1,7 +1,15 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import pic from '../assets/women1.jpg'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { parsePhoneNumberFromString } from "libphonenumber-js";
+import countries from "i18n-iso-countries";
+import en from "i18n-iso-countries/langs/en.json";
+// countries.registerLocale(en);
 export default function Details() {
+    const [booking,setBookings]=useState([])
+    const [loading,setLoading]=useState(false)
+    const [todayBooking,settodayBooking]=useState([])
     const navigate=useNavigate()
     const handleToAllTeachers=()=>{
     navigate('/teacher/dashboard/All Teachers')
@@ -15,12 +23,82 @@ export default function Details() {
     const handleToAddStudent=()=>{
         navigate('/teacher/dashboard/Add Students')
     }
-    const handleJoinClass =()=>{
-        navigate('/class')
+    const handleJoinClass =(name)=>{
+        console.log(name)
+        navigate(`/class/${name}`,{state:name})
     }
     const handleSetQuiz=()=>{
         navigate('/teacher/dashboard/Set Quiz')
     }
+    // Register the English locale for i18n-iso-countries
+    countries.registerLocale(en);
+
+    // Function to fetch country name by country code
+    const getCountryName = (countryCode) => {
+    return countries.getName(countryCode, "en") || "Unknown Country";
+    };
+    useEffect(()=>{
+     const url ='http://127.0.0.1:8000/booking/'
+     setLoading(true)
+     axios.get(url,{headers:{
+        'Content-Type':'application/json'
+     }})
+     .then(res=>{
+        console.log("data",res.data)
+        const data=res.data
+        data.forEach(item=>{
+            console.log('item',item)
+            const {countryCode,BookingName,phone_number,grade,time,joined,id,email,date} =item
+            console.log('countrycode',countryCode)
+            // const countryName = getCountryName(countryCode);
+             // Parse the phone number
+             try {
+                // Parse the phone number
+                const parsedNumber = parsePhoneNumberFromString(phone_number);
+              
+                if (parsedNumber) {
+                  const countryISO = parsedNumber.country; // Get ISO 3166-1 alpha-2 code (e.g., "KE")
+                  const countryName = countries.getName(countryISO, "en"); // Get country name
+                //   setCountryName(countryName || "Unknown Country");
+                 const newData={countryName:countryName||'Unknown'}
+                 setBookings(pre => [...pre, { ...item, ...newData }]);
+                 setLoading(false)
+                console.log('country',countryName)
+                } else {
+                //   setCountryName("Invalid Phone Number");
+                console.log("Invalid Phone Number")
+                }
+              } catch (error) {
+                // setCountryName("Invalid Phone Number");
+                console.log("Invalid Phone Number")
+              }
+        })
+     })
+     .catch(error=>{
+        console.log(error)
+     })
+    },[])
+    useEffect(()=>{
+    if(booking){
+       // Get year, month, and day
+    const date =new Date()
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Add 1 because months are 0-indexed
+    const day = date.getDate().toString().padStart(2, '0'); // Pad day with leading 0 if necessary
+
+    // Combine them into the desired format (YYYY-MM-DD)
+    const fullDate = `${year}-${month}-${day}`;
+
+    console.log('Full Date:', fullDate);
+    const todayBookings = booking.filter(item=>item.date===fullDate)
+        // booking.filter()
+        console.log('totbookings',todayBookings)
+        console.log('totbookings',todayBookings)
+    settodayBooking(todayBookings)
+    }
+    },[booking])
+     console.log('toda',todayBooking)
+     console.log('booking',booking)
   return (
     <div className='DetailsWrapper'>
         <div className='TeacherDetailsWrapper'>
@@ -58,10 +136,10 @@ export default function Details() {
               <p>add student</p>
             </div>
             <div className='actionBtnContainer createcurriculum'>
-            <p>create curriculum</p>
+            <p>curriculum</p>
             </div>
             <div className='actionBtnContainer uploadedvideo'>
-            <p>uploaded videos</p>
+            <p>videos</p>
             </div>
             <div onClick={handleSetQuiz} className='actionBtnContainer quiz'>
             <p>Quiz</p>
@@ -71,35 +149,27 @@ export default function Details() {
             <h3>Today Bookings</h3>
             <table>
                 <thead>
-                    <tr>
-                        <th>student name</th>
+                    <tr> 
+                         <th> County Code</th>
+                        <th>student County</th>
                         <th>student Number</th>
+                        <th>student email</th>
                         <th>student grade</th>
                         <th>time</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>elias wanyama</td>
-                        <td>0715310742</td>
-                        <td>2</td>
-                        <td>10:01pm</td>
-                        <td><button onClick={handleJoinClass}>join</button></td>
-                    </tr>
-                    <tr>
-                        <td>elias wanyama</td>
-                        <td>0715310742</td>
-                        <td>2</td>
-                        <td>10:01pm</td>
-                        <td><button>join</button></td>
-                    </tr>
-                    <tr>
-                        <td>elias wanyama</td>
-                        <td>0715310742</td>
-                        <td>2</td>
-                        <td>10:01pm</td>
-                        <td><button>join</button></td>
-                    </tr>
+                {loading===true?<i className="fa fa-spinner spinner" aria-hidden="true"></i>:todayBooking.length>1?todayBooking.map((item) => (
+                <tr key={item.id}>
+                    <td>{item.countryCode}</td>
+                    <td>{item.countryName}</td>
+                    <td>{item.phone_number}</td>
+                    <td>{item.email}</td>
+                    <td>{item.grade}</td>
+                    <td>{item.time}</td>
+                    <td><button onClick={()=>handleJoinClass(item.BookingName)}>join</button></td>
+                </tr>
+                )):<p>No bookings for today</p>}
                 </tbody>
             </table>
         </div>

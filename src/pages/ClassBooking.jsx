@@ -1,21 +1,39 @@
 import React,{useState,useContext} from 'react'
 import pic from '../assets/student.jpg'
 import { context } from '../App'
-export default function ClassBooking() {
-    const {value,email,CountryCode}=useContext(context)
+import { v4 as uuidv4 } from "uuid";
+import axios from 'axios'
+import AlertPOPUp from '../Components/AlertPOPUp';
+ export default function ClassBooking() {
+
+    const {value,email,grade,CountryCode}=useContext(context)
     const initialState={date:'',time:""}
-    console.log('value',value)
-    console.log('coede',CountryCode)
-    console.log('email',email)
     const [booking,setBooking]=useState(initialState)
+    const [loading,setLoading]=useState(false)
+    const [bookingMessage,setBookingMessage]=useState("")
     const handleChange=(e)=>{
     const {name,value}=e.target
     console.log('name',name)
     setBooking(pre=>({...pre,[name]:value}))
     }
     const handleBook=()=>{
-        const data={phone_number:value,
-        time:booking.time,date:booking.date,countryCode:CountryCode}
+        const uniqueId = uuidv4();
+        const BookingName = `class${uniqueId}`
+        setLoading(true)
+        const data={phone_number:value,email:email,
+        time:booking.time,date:booking.date,grade:grade,BookingName:BookingName,countryCode:CountryCode}
+        const url ='http://127.0.0.1:8000/booking/'
+        console.log('class',BookingName)
+        axios.post(url,data)
+        .then(res=>{
+            console.log(res.data)
+            const {message}=res.data
+            setBookingMessage(message)
+            setLoading(false)
+        })
+        .catch(error=>{
+            console.log(error)
+        })
     }
   return (
     <div className='RegisterWRapper'>
@@ -62,12 +80,13 @@ export default function ClassBooking() {
                     <input onChange={handleChange} name='time' value={booking.time} type='time'/>
                  </div>
                  <div className='bookBtnWrapper'>
-                    <button onClick={handleBook}>book now</button>
+                    {loading===false?<button onClick={handleBook}>book now</button>:<button><i className="fa fa-spinner spinner" aria-hidden="true"></i></button>}
                  </div>
                </div>
             </div>
             </main>
         </div>
+        {bookingMessage && <AlertPOPUp bookingMessage={bookingMessage}/>}
     </div>
   )
 }

@@ -1,7 +1,13 @@
 import React from 'react'
 import Header from '../Components/Header'
+import { useNavigate } from 'react-router-dom'
 import pic from '../assets/student.jpg'
 export default function Login() {
+    const navigate =useNavigate()
+   
+    const handleToSignUp =()=>{
+    navigate('/SignUp')
+    }
   return (
     <div className='RegisterWRapper'>
     <div className='RegisterContainer'>
@@ -47,7 +53,7 @@ export default function Login() {
             <input placeholder='Enter Password' className='passwordInput' type='password'/>
            </div>
            <div className='LoginBtnWrapper'>
-            <button>Login</button>
+            <button onClick={handleToSignUp}>Login</button>
            </div>
            </div>
         </div>

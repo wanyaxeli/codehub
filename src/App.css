@@ -699,6 +699,24 @@
   border-radius: 10px;
   padding: 0 10px;
 }
+.loginInputWrapper .signUpInput{
+  width: 100%;
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  padding:15px 20px;
+  
+}
+.InnerSignWrapper h3{
+  margin-bottom: 15px;
+  font-size: 1.4rem;
+}
+.upper{
+  margin: 15px 0;
+}
+.lower{
+  margin-bottom: 15px;
+}
 .LoginCountryCodeWrapper{
   display: flex;
   align-items: center;
@@ -1632,4 +1650,69 @@ table{
 }
 .timeSeletorWrapper input{
   outline: none;
+}
+/* Spinner animation */
+.spinner {
+  animation: spin 1s linear infinite; /* Infinite spinning */
+}
+
+/* Keyframes for spinning effect */
+@keyframes spin {
+  from {
+    transform: rotate(0deg); /* Start from 0 degrees */
+  }
+  to {
+    transform: rotate(360deg); /* End at 360 degrees */
+  }
+}
+.AlertPOPUpWrapper{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  background-color: #000;
+  opacity: .75;
+}
+.AlertPOPUpContainer{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.AlertPOPUp{
+  width: 30%;
+  height: 30%;
+  background-color: #fff;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.AlertPOPU p{
+  font-size: 1.1rem;
+}
+.AlertPOPU p::first-letter{
+  text-transform: capitalize;
+}
+.AlertPOPUp button{
+  padding: 10px 15px;
+  background-color: #0097b2;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  margin-top: 10px;
+  text-transform: capitalize;
+}
+.AlertPOPUp button:hover{
+  transform: scale(1.1);
+}
+.ErrorPage{
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

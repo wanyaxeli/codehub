@@ -1,4 +1,5 @@
 import React,{useState,useEffect} from 'react'
+import { useLocation } from 'react-router-dom'
 import pic from '../assets/logoCodeHub.png'
 import SubmitProjectModal from '../Components/SubmitProjectModal'
 export default function Class() {
@@ -7,9 +8,10 @@ export default function Class() {
     const [toggleChat,setToggleChat]=useState(false)
     const [mic,setToggleMic]=useState(true)
     const [cam,setToggleCam]=useState(true)
+    const [className,setClassName]=useState('')
     const [openSubmitModal,setopenSubmitModal]=useState(false)
+    const location = useLocation()
     const handleOpenChat=()=>{
-        console.log("hello")
         if(toggleChat===false){
             setToggleChat(true)
         }else{
@@ -32,6 +34,11 @@ export default function Class() {
     }
     },[toggleChat])
     console.log('aks',mainCss)
+    useEffect(()=>{
+        const {state}=location
+        setClassName(state)
+    console.log('locate',state)
+    },[])
     useEffect(() => {
         setMainCss('fullPageMain'); // This overrides the initial state
         setAsideCss('closeAside')
