@@ -2,30 +2,100 @@ import React,{useState,useEffect} from 'react'
 import Header from '../Components/Header'
 import pic from '../assets/student.jpg'
 import { useParams, useNavigate } from "react-router-dom";
-import { isValidPhoneNumber, parsePhoneNumber } from 'react-phone-number-input';
+import {  parsePhoneNumber } from 'react-phone-number-input';
+import { isValidPhoneNumber, isPossiblePhoneNumber } from "libphonenumber-js";
 import Slider from 'react-slick'
-import PhoneInput from 'react-phone-number-input'
+import PhoneInput from 'react-phone-input-2'
+import 'react-phone-input-2/lib/style.css'
 import axios from 'axios';
+import { parsePhoneNumberFromString } from "libphonenumber-js";
+import countries from "i18n-iso-countries";
+// import "react-phone-number-input/style.css";
+import en from "i18n-iso-countries/langs/en.json";
+import Login from './Login';
 export default function SignUp() {
     const initialState={first_name:'',last_name:'',email:'',
     password:'',confirm_password:''}
+    // Register the English locale for i18n-iso-countries
+    countries.registerLocale(en);
     const [countryCode,setCountryCode]=useState('')
     const [teacherValues,setTeacherValues]=useState(initialState)
     const [phone_number,setPhone_number]=useState('')
+    const [loading,setLoading]=useState(false)
     const [errors,setErrors]=useState('')
     const { token } = useParams(); // Get the token from the URL
     const navigate = useNavigate();
     console.log('token',token)
     const africanCountries = [
-        'DZ', 'AO', 'BJ', 'BW', 'BF', 'BI', 'CM', 'CV', 'CF', 'TD', 'KM', 'CG', 'CD', 
-        'DJ', 'EG', 'GQ', 'ER', 'SZ', 'ET', 'GA', 'GM', 'GH', 'GN', 'GW', 'CI', 'KE', 
-        'LS', 'LR', 'LY', 'MG', 'MW', 'ML', 'MR', 'MU', 'YT', 'MA', 'MZ', 'NA', 'NE', 
-        'NG', 'RW', 'RE', 'SH', 'ST', 'SN', 'SC', 'SL', 'SO', 'ZA', 'SS', 'SD', 'TZ', 
-        'TG', 'TN', 'UG', 'EH', 'ZM', 'ZW'
-      ];
+      "dz", "ao", "bj", "bw", "bf", "bi", "cv", "cm", "cf", "td", "km", "cd",
+      "dj", "eg", "gq", "er", "sz", "et", "ga", "gm", "gh", "gn", "gw", "ci",
+      "ke", "ls", "lr", "ly", "mg", "mw", "ml", "mr", "mu", "ma", "mz", "na",
+      "ne", "ng", "rw", "st", "sn", "sc", "sl", "so", "za", "ss", "sd", "tz",
+      "tg", "tn", "ug", "zm", "zw"
+    ];
+
       const handleSignUP =()=>{
-        const data ={...teacherValues,...{phone_number:phone_number}}
-        console.log('teacher',data)
+        const cleanedNumber = phone_number.toString();
+        console.log('cleaned',cleanedNumber)
+        if (isValidPhoneNumber(phone_number)) {
+                     // Parse the phone number
+            const parsedNumber = parsePhoneNumberFromString(phone_number);
+            if (parsedNumber) {
+                      const countryISO = parsedNumber.country; // Get ISO 3166-1 alpha-2 code (e.g., "KE")
+                      const countryName = countries.getName(countryISO, "en"); // Get country name
+                    //   setCountryName(countryName || "Unknown Country");
+                        const country={countryName:countryName||'Unknown'}
+                        const data ={...teacherValues,...{phone_number:phone_number},...country}
+                        console.log('teacherc',data)
+                        isValidEmail(data) 
+                        
+              }
+         
+            console.log('hello',parsedNumber)
+        } else {
+          // setError("Invalid phone number");
+          console.log('errororoe')
+        }
+      //  if (phone_number && isValidPhoneNumber(phone_number)){
+      //   try {
+      //       // Parse the phone number
+      //       const parsedNumber = parsePhoneNumberFromString(phone_number);
+      //       setLoading(true)
+      //       if (parsedNumber) {
+      //         const countryISO = parsedNumber.country; // Get ISO 3166-1 alpha-2 code (e.g., "KE")
+      //         const countryName = countries.getName(countryISO, "en"); // Get country name
+      //       //   setCountryName(countryName || "Unknown Country");
+      //           const country={countryName:countryName||'Unknown'}
+      //           const data ={...teacherValues,...{phone_number:phone_number},...country}
+      //           isValidEmail(data) 
+      //           console.log('teacherc',countryName)
+      //       } else {
+      //       //   setCountryName("Invalid Phone Number");
+      //       setErrors("Invalid Phone Number")
+      //       setLoading(false)
+      //       }
+      //     } catch (error) {
+      //       // setCountryName("Invalid Phone Number");
+      //       setErrors("Invalid Phone Number")
+      //       setLoading(false)
+      //     }
+      //  }else{
+      //   setErrors('Something went wrong while creating the user. Please try again.');
+      //  }
+      }
+      function isValidEmail(data) {
+        console.log('askladlasksld',data)
+        const email=data.email
+        console.log('mea',email)
+        const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if(pattern.test(email)){
+            login(data)
+        }else{
+             setErrors('Invalid email')
+        }
+    }
+    console.log('number',phone_number)
+    function login(data){
         const url ='http://127.0.0.1:8000/registerTeacher/'
         axios.post(url,data,{
             headers:{
@@ -34,23 +104,47 @@ export default function SignUp() {
         })
         .then(res=>{
             console.log('res',res.data)
+            const data = res.data
+            const {access}=data
+            localStorage.setItem('token',access)
+            setLoading(false)
+            navigate('/teacher/dashboard/Details')
         })
         .catch(error=>{
-            console.log(error)
+            setLoading(false)
+            if (error.response) {
+                // The server responded with a status code outside of 2xx range
+                setErrors('Something went wrong while creating the user. Please try again.');
+              } else if (error.request) {
+                // The request was made but no response was received
+                setErrors('Something went wrong while creating the user. Please try again.');
+              }
+              else if (error.response.status === 500) {
+                setErrors('Something went wrong while creating the user. Please try again.');
+              }
+              else {
+                // Something else happened in setting up the request
+                setErrors(error.message);
+              }
+          
+              setErrors(error.config); // For debugging the Axios config
         })
-      }
+    }
       const handlePhoneChange = (phone) => {
         setErrors('')
-        if (phone) {
-          const parsed = parsePhoneNumber(phone, "KE"); // Replace "KE" with default country code if needed
-          const countryCode = parsed?.countryCallingCode ? `+${parsed.countryCallingCode}` : "";
-          const phoneNumber = parsed?.nationalNumber || "";
-          const number=countryCode + phoneNumber
-          setPhone_number(number)
-          setCountryCode(countryCode)
-          console.log('phone',number,'code',countryCode)
-        //   setValue({ countryCode, phoneNumber }); // Update state with both values
-        }
+        const formattedNumber = `+${phone}`;
+         setPhone_number(formattedNumber)
+        console.log('fo',formattedNumber)
+        // if (phone) {
+        //   const parsed = parsePhoneNumber(phone, "KE"); // Replace "KE" with default country code if needed
+        //   const countryCode = parsed?.countryCallingCode ? `+${parsed.countryCallingCode}` : "";
+        //   const phoneNumber = parsed?.nationalNumber || "";
+        //   const number=countryCode + phoneNumber
+        //   setPhone_number(number)
+        //   setCountryCode(countryCode)
+        //   console.log('phone',number,'code',countryCode)
+        // //   setValue({ countryCode, phoneNumber }); // Update state with both values
+        // }
       }
       const customStyle = {
         backgroundColor: "#fff",
@@ -58,6 +152,7 @@ export default function SignUp() {
         paddingLeft: "10px",
         width:'100%'
       };
+      console.log('error',errors)
       useEffect(() => {
         // Send the token to the backend to verify it
         const verifyToken = async () => {
@@ -90,9 +185,13 @@ export default function SignUp() {
         verifyToken();
       }, [token]);
       const handleChange=(e)=>{
+        setErrors('')
         const {value,name}=e.target
         setTeacherValues({...teacherValues,[name]:value})
       }
+      useEffect(()=>{
+      setLoading(false)
+      },[errors])
   return (
     <div className='RegisterWRapper'>
     <div className='RegisterContainer'>
@@ -129,25 +228,38 @@ export default function SignUp() {
         </div>
         <div className='RegisterFormWrapper'>
            <div className='InnerSignWrapper'>
+           {errors && <p style={{textAlign:'center',color:"red"}}>{errors}</p>}
            <h3>Let's get started</h3>
            <div className='loginInputWrapper'>
                 <input name='first_name' onChange={handleChange} placeholder='First name' className='signUpInput ' type='text'/>
                 <input name='last_name' onChange={handleChange} placeholder='Last name' className='signUpInput upper' type='text'/>
                 <input name='email' onChange={handleChange} placeholder='Email' className='signUpInput' type='email'/>
                 <div className='LoginCountryCodeWrapper'>
-                <PhoneInput
+                {/* <PhoneInput
                         placeholder="Enter phone number"
                         value={phone_number}
                         countries={africanCountries}
                         defaultCountry="KE"
                         style={customStyle}
-                        onChange={handlePhoneChange}/>
+                        rules={{validate: (value) => isPossiblePhoneNumber(`${value}`)}}
+                        onChange={handlePhoneChange}/> */}
+                         <PhoneInput
+                        country={"ke"} // Default country (Kenya)
+                        value={phone_number}
+                        containerClass="custom_container"
+                        inputClass="custom_input"
+                        regions={'africa'}
+                        // onlyCountries={africanCountries} // Restrict to African countries
+                        placeholder="Enter phone number"
+                        onChange={handlePhoneChange}
+                        style={customStyle}
+                      />
                 </div>
                 <input name='password' onChange={handleChange} placeholder='Enter Password' className='signUpInput lower' type='password'/>
                 <input name='confirm_password' onChange={handleChange} placeholder='Confirm Password' className='signUpInput' type='password'/>
            </div>
            <div className='LoginBtnWrapper'>
-            <button onClick={handleSignUP}>Sign up</button>
+            <button onClick={handleSignUP}>{loading===false?'Sign up':<i className="fa fa-spinner spinner" aria-hidden="true"></i>}</button>
            </div>
            </div>
         </div>

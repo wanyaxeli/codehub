@@ -1,6 +1,22 @@
-import React from 'react'
-
+import React,{useState,useEffect} from 'react'
+import axios from 'axios'
 export default function AllTeachers() {
+  const [teacher,setTeacher]=useState([])
+  
+  useEffect(()=>{
+    const url ='http://127.0.0.1:8000/registerTeacher/'
+    axios.get(url,{headers:{
+        'Authorization':'application/json'
+    }})
+    .then(res=>{
+        console.log(res.data)
+        const data=res.data
+        setTeacher(data)
+    })
+    .catch(error=>{
+        console.log(error)
+    })
+  },[])
   return (
     <div className='AllTeachersWrapper'>
         <h3>All Teachers</h3>
@@ -16,30 +32,18 @@ export default function AllTeachers() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>elias wanyama</td>
-                        <td>eliwanyax@gmail.com</td>
-                        <td>0795962808</td>
-                        <td>Kenya</td>
-                        <td>2000</td>
+                   {teacher.map(item=>{
+                    return(
+                        <tr key={item.user.id}>
+                        <td>{item.user.first_name} {item.user.last_name}</td>
+                        <td>{item.user.email}</td>
+                        <td>{item.user.phone_number}</td>
+                        <td>{item.country}</td>
+                        <td>{item.salary}</td>
                         <td><button>fire</button></td>
                     </tr>
-                    <tr>
-                        <td>elias wanyama</td>
-                        <td>eliwanyax@gmail.com</td>
-                        <td>0795962808</td>
-                        <td>Kenya</td>
-                        <td>2000</td>
-                        <td><button>fire</button></td>
-                    </tr>
-                    <tr>
-                        <td>elias wanyama</td>
-                        <td>eliwanyax@gmail.com</td>
-                        <td>0795962808</td>
-                        <td>Kenya</td>
-                        <td>2000</td>
-                        <td><button>fire</button></td>
-                    </tr>
+                    )
+                   })}
                 </tbody>
             </table>
         </div>
