@@ -18,7 +18,7 @@ import AlertPOPUp from '../Components/AlertPOPUp';
     }
     const handleBook=()=>{
         const uniqueId = uuidv4();
-        const BookingName = `class${uniqueId}`
+        const BookingName = `freeTrial${uniqueId}`
         setLoading(true)
         const data={phone_number:value,email:email,
         time:booking.time,date:booking.date,grade:grade,BookingName:BookingName,countryCode:CountryCode}

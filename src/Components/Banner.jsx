@@ -6,6 +6,7 @@ import PhoneInput from 'react-phone-number-input'
 import { isValidPhoneNumber, parsePhoneNumber } from 'react-phone-number-input';
 export default function Banner() {
     const [error, setError] = useState()
+    const [token, setToken] = useState('')
     const africanCountries = [
         'DZ', 'AO', 'BJ', 'BW', 'BF', 'BI', 'CM', 'CV', 'CF', 'TD', 'KM', 'CG', 'CD', 
         'DJ', 'EG', 'GQ', 'ER', 'SZ', 'ET', 'GA', 'GM', 'GH', 'GN', 'GW', 'CI', 'KE', 
@@ -45,6 +46,19 @@ export default function Banner() {
         borderRadius: "10px",
         paddingLeft: "10px",
       };
+      async function getToken(){
+        try{
+            const token= JSON.parse(localStorage.getItem('token')) // No need to await
+            if (token){
+                setToken(token);
+            }
+        } catch(error) {
+            console.log(error);
+        }
+    }
+  useEffect(()=>{
+  getToken()
+  },[])
   return (
     <div className='bannerWrapper'>
         <div className='bannerDetailsWrapper'>

@@ -1,10 +1,13 @@
-import React from 'react'
+import React,{useState,useEffect,useContext} from 'react'
+import { context } from '../App'
 import Header from '../Components/Header'
 import { Outlet,useNavigate ,useLocation} from 'react-router-dom'
 export default function StudentDashboard() {
     const navigate=useNavigate()
+    const [token,setToken]=useState('')
   const location =useLocation()
   const {pathname}=location
+  const {getStudent}=useContext(context)
   const dashboardLinks=['/student/dashboard/Details','/student/dashboard']
   const quizLinks=['/student/dashboard/My%20%20quizzes','/student/dashboard/Quiz']
   console.log('path',pathname)
@@ -20,6 +23,24 @@ export default function StudentDashboard() {
   const handleToDashboard=()=>{
         navigate('/student/dashboard/Details')
         }
+  async function getToken(){
+          try{
+              const token= localStorage.getItem('token') // No need to await
+              if (token){
+                  setToken(token);
+              }
+          } catch(error) {
+              console.log(error);
+          }
+  }
+  useEffect(()=>{
+   if(token){
+    getStudent(token)
+   }
+    },[token])
+  useEffect(()=>{
+  getToken()
+  },[])
   return (
     <div className='StudentDashboardWrapper'>
         <Header/>

@@ -1,12 +1,43 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import Header from '../Components/Header'
 import { useNavigate } from 'react-router-dom'
 import pic from '../assets/student.jpg'
+import axios from 'axios'
+
 export default function Login() {
     const navigate =useNavigate()
-   
+    const initialState={
+        email:"",
+        password:''
+    }
+    const [values,setValues]=useState(initialState)
+    const handleChange =(e)=>{
+    const {value,name}=e.target
+    setValues({...values,[name]:value})
+    }
     const handleToSignUp =()=>{
-    navigate('/SignUp')
+     const url='http://127.0.0.1:8000/api/token/'
+      axios.post(url,values,{headers:{
+        'Content-Type':'application/json'
+      }})
+      .then(res=>{
+        const data = res.data
+        const{access, refresh, role}=data
+        localStorage.setItem('token',access)
+        console.log(access)
+        if(role ==='student'){
+            navigate('/student/dashboard/Details')
+        }else if(role==='teacher'){
+            navigate('/teacher/dashboard/Details')
+        }
+      })
+      .catch(error=>{
+        console.log(error)
+      })
+    }
+    console.log('va',values)
+    const handleTeacher =()=>{
+        
     }
   return (
     <div className='RegisterWRapper'>
@@ -37,7 +68,7 @@ export default function Login() {
             <div className='rightSideLogoLeft'></div>
             <div className='rightSideLogoRight'>
                 <ul>
-                    <li>Are you are teacher </li>
+                    <li onClick={handleTeacher}>Are you are teacher </li>
                     <li><i className="fa fa-envelope-open" aria-hidden="true"></i>  support:support@codehub.com</li>
                 </ul>
             </div>
@@ -47,10 +78,10 @@ export default function Login() {
            <h3>Let's get started</h3>
            <div className='loginInputWrapper'>
             <div className='LoginCountryCodeWrapper'>
-                <div className='loginCountryCode'></div>
-                <input placeholder='Enter Phone Number' type='text'/>
+                {/* <div className='loginCountryCode'></div> */}
+                <input name='email' onChange={handleChange} placeholder='Enter email' type='email'/>
             </div>
-            <input placeholder='Enter Password' className='passwordInput' type='password'/>
+            <input name='password' onChange={handleChange} placeholder='Enter Password' className='passwordInput' type='password'/>
            </div>
            <div className='LoginBtnWrapper'>
             <button onClick={handleToSignUp}>Login</button>

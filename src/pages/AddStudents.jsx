@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react'
-
+import axios from 'axios'
 export default function AddStudents() {
   const initialState={
     name:'',
@@ -15,7 +15,17 @@ export default function AddStudents() {
    const {name,value}=e.target
    setStudent({...student,[name]:value})
   }
-  console.log(student)
+ const handleAddStudent =()=>{
+  const email = student.email
+  const url ='http://127.0.0.1:8000/acceptedStudent/'
+  axios.post(url,{email:email},{headers:{
+    'Content-Type':"Application/json"
+  }})
+  .then(res=>{
+    console.log(res.data)
+  })
+  .catch(error=>console.log(error))
+ }
   return (
     <div className='AddStudentsWrapper'>
         <h3>Add Students</h3>
@@ -29,7 +39,7 @@ export default function AddStudents() {
                 <input name='password' onChange={handleChange} type='password' placeholder='Password'/><br/>
                 <input name='confirm_password' onChange={handleChange} type='password' placeholder='Cornfirm Password'/>
                 <div className='AddBtnWrapper'>
-                    <button>Add Student</button>
+                    <button onClick={handleAddStudent}>Add Student</button>
                 </div>
             </div>
         </div>

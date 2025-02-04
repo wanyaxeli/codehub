@@ -1,5 +1,6 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect,useContext} from 'react'
 import pic from '../assets/women1.jpg'
+import { context } from '../App'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { parsePhoneNumberFromString } from "libphonenumber-js";
@@ -11,6 +12,7 @@ export default function Details() {
     const [loading,setLoading]=useState(false)
     const [todayBooking,settodayBooking]=useState([])
     const navigate=useNavigate()
+    const {teacher} =useContext(context)
     const handleToAllTeachers=()=>{
     navigate('/teacher/dashboard/All Teachers')
     }
@@ -29,6 +31,9 @@ export default function Details() {
     }
     const handleSetQuiz=()=>{
         navigate('/teacher/dashboard/Set Quiz')
+    }
+    const handleSetLessons=()=>{
+        navigate('/teacher/dashboard/Lessons')
     }
     // Register the English locale for i18n-iso-countries
     countries.registerLocale(en);
@@ -61,7 +66,11 @@ export default function Details() {
                   const countryName = countries.getName(countryISO, "en"); // Get country name
                 //   setCountryName(countryName || "Unknown Country");
                  const newData={countryName:countryName||'Unknown'}
-                 setBookings(pre => [...pre, { ...item, ...newData }]);
+                 console.log('data',item)
+                    setBookings(prev => {
+                        const exists = prev.some(existingItem => existingItem.id === item.id);
+                        return exists ? prev : [...prev, { ...item, ...newData }];
+                    });
                  setLoading(false)
                 console.log('country',countryName)
                 } else {
@@ -78,6 +87,7 @@ export default function Details() {
         console.log(error)
      })
     },[])
+    console.log('booking',booking)
     useEffect(()=>{
     if(booking){
        // Get year, month, and day
@@ -97,8 +107,9 @@ export default function Details() {
     settodayBooking(todayBookings)
     }
     },[booking])
-     console.log('toda',todayBooking)
-     console.log('booking',booking)
+    const handleCurriculum =()=>{
+        navigate('/StudentSignup')
+    }
   return (
     <div className='DetailsWrapper'>
         <div className='TeacherDetailsWrapper'>
@@ -113,12 +124,12 @@ export default function Details() {
                 </div>
             </div>
             <div className='TeacherNameWrapper'>
-                <p>ms gaudencia wanyama <span><i className="fa fa-pencil" aria-hidden="true"></i></span></p>
+               {teacher &&  <p>{teacher.user.first_name} {teacher.user.last_name}<span><i className="fa fa-pencil" aria-hidden="true"></i></span></p>}
             </div>
             <div className='TeacherEarnsWrapper'>
                 <div>
                     <p>Live earning</p>
-                    <p>ksh 20000</p>
+                    {teacher && <p>ksh {teacher.salary}</p>}
                 </div>
             </div>
         </div>
@@ -135,7 +146,7 @@ export default function Details() {
             <div onClick={handleToAddStudent} className='actionBtnContainer addStudent'>
               <p>add student</p>
             </div>
-            <div className='actionBtnContainer createcurriculum'>
+            <div onClick={handleCurriculum} className='actionBtnContainer createcurriculum'>
             <p>curriculum</p>
             </div>
             <div className='actionBtnContainer uploadedvideo'>
@@ -143,6 +154,9 @@ export default function Details() {
             </div>
             <div onClick={handleSetQuiz} className='actionBtnContainer quiz'>
             <p>Quiz</p>
+            </div>
+            <div onClick={handleSetLessons} className='actionBtnContainer quiz'>
+            <p>class</p>
             </div>
         </div>
         <div className='TodaysClasses'>

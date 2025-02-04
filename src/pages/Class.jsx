@@ -6,8 +6,12 @@ export default function Class() {
     const [mainCss,setMainCss]=useState('fullPageMain')
     const [asideCss,setAsideCss]=useState('closeAside')
     const [toggleChat,setToggleChat]=useState(false)
+    const [toggleDisplay,setToggleDisplay]=useState('classDisplayer')
+    const [card,setCard]=useState('classCardDisplayer')
+    const [Videocard,setVideoCard]=useState('hideVideo')
     const [mic,setToggleMic]=useState(true)
     const [cam,setToggleCam]=useState(true)
+    const [openSharing,setOpenSharing]=useState('')
     const [className,setClassName]=useState('')
     const [openSubmitModal,setopenSubmitModal]=useState(false)
     const location = useLocation()
@@ -51,9 +55,22 @@ export default function Class() {
             setToggleMic(false)
          }
       }
-    //   useEffect(()=>{
-    //   
-    //   },[mic])
+    const handleShareScreen=()=>{
+     if(toggleDisplay==='classDisplayer'){
+        setToggleDisplay('classImageDisplayer')
+        setOpenSharing('on')
+        setVideoCard('shareVideoWrapper')
+     }else{
+        setToggleDisplay('classDisplayer')
+        setVideoCard('hideVideo')
+        setOpenSharing('')
+     }
+     if(card==='classCardDisplayer'){
+        setCard('classCard')
+     }else{
+        setCard('classCardDisplayer')
+     }
+    }
   return (
     <div className='ClassWRapper'>
         <div className='ClassHeader'>
@@ -81,7 +98,21 @@ export default function Class() {
         </div> 
         <div className='classContainer'>
           <main className={mainCss}>
-            <div className='classImageDisplayer'></div>
+            <div className='classVideoImageWrapper'>
+                 {/* <div className='shareVideoWrapper'></div>
+                    <div className='classImageDisplayer'>
+                        <div className='classCard'></div>
+                        <div className='classCard'></div>
+                    </div> */}
+                    <div className={Videocard}></div>
+                    <div className={toggleDisplay}>
+                        <div className={card}></div>
+                        {/* <div className='classCardDisplayer'></div>
+                        <div className='classCardDisplayer'></div>
+                        <div className='classCardDisplayer'></div>
+                        <div className='classCardDisplayer'></div> */}
+                    </div>
+            </div>
            <div className='mainClassBtnActionHolder'>
                 <ul>
                     <li>
@@ -95,7 +126,7 @@ export default function Class() {
                     </li>
                     <li>
                     <div>
-                        <div className='classInconHolder' onClick={handleToggleMic}>
+                        <div className='classInconHolder ' onClick={handleToggleMic}>
                         {mic===true?<i className="fa fa-microphone" aria-hidden="true"></i>:<i className="fa fa-microphone-slash" aria-hidden="true"></i>}
                         </div>
                         <p>mic</p>
@@ -103,7 +134,7 @@ export default function Class() {
                     </li>
                     <li>
                     <div>
-                        <div className='classInconHolder'>
+                        <div onClick={handleShareScreen} className={`classInconHolder ${openSharing}`}>
                         <i className="fa fa-desktop" aria-hidden="true"></i>
                         </div>
                         <p>share</p>

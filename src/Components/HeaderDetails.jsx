@@ -1,11 +1,11 @@
 import React from 'react'
 import {useNavigate,useLocation} from 'react-router-dom'
-export default function HeaderDetails({pic1,pic2,handleToFreeClass,handleToStudentDashboard,handleToLogin,handleJoinClass,handleToDashboard}) {
+export default function HeaderDetails({pic1,student,teacher,pic2,token,handleToFreeClass,handleToStudentDashboard,handleToLogin,handleJoinClass,handleToDashboard}) {
     const location = useLocation()
     console.log('location',location)
     const navigate=useNavigate()
     const {pathname}=location
-    console.log('lo',pathname)
+    console.log('lo',student)
     if (pathname.includes('/teacher')){
         return(
         <div className='rightHeader dashboardDisplayer'>
@@ -13,7 +13,7 @@ export default function HeaderDetails({pic1,pic2,handleToFreeClass,handleToStude
             <p>Dashboard</p>
             </div>
             <div className='dashboardDetailsHolder'>
-              <p>Ms Gaundencia</p>
+             {teacher &&  <p>{teacher.user.first_name} {teacher.user.last_name}</p>}
               <div className='Dashboardimage'>
                 <img src={pic1} alt="Profile" />
               </div>
@@ -27,7 +27,7 @@ export default function HeaderDetails({pic1,pic2,handleToFreeClass,handleToStude
             <p>Dashboard</p>
             </div>
             <div className='dashboardDetailsHolder'>
-              <p>Elias wanyama</p>
+              {student && <p>{student.user.first_name} {student.user.last_name}</p>}
               <div className='Dashboardimage'>
                 <img src={pic2} alt="Profile" />
               </div>
