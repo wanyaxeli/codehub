@@ -5,7 +5,7 @@ export default function HeaderDetails({pic1,student,teacher,pic2,token,handleToF
     console.log('location',location)
     const navigate=useNavigate()
     const {pathname}=location
-    console.log('lo',student)
+    console.log('loss',student,teacher)
     if (pathname.includes('/teacher')){
         return(
         <div className='rightHeader dashboardDisplayer'>

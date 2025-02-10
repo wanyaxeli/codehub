@@ -29,6 +29,7 @@ import Error from '../pages/Error.jsx';
 import StudentSignUp from '../pages/StudentSignUp.jsx';
 import Stdent from '../pages/students/Stdent.jsx';
 import CreatLessons from '../pages/CreatLessons.jsx';
+import ClassNotes from '../pages/ClassNotes.jsx';
 export default function AppRoutes() {
   return (
     <Routes>
@@ -54,6 +55,7 @@ export default function AppRoutes() {
           <Route path='/teacher/dashboard/Set Quiz' element={<SetQuiz/>}/>
           <Route path='/teacher/dashboard/Lessons' element={<CreatLessons/>}/>
           <Route path='/teacher/dashboard/Student Profile' element={<StudentProfile/>}/>
+          <Route path='/teacher/dashboard/student/:id' element={<Stdent/>}/>
         </Route>
         <Route path='/student/dashboard' element={<StudentDashboard/>}>
           <Route index element={<StudentDetails/>}/>
@@ -61,8 +63,8 @@ export default function AppRoutes() {
           <Route path='/student/dashboard/My  lessons' element={<MyLessons/>}/>
           <Route path='/student/dashboard/My  projects' element={<MyProjects/>}/>
           <Route path='/student/dashboard/My  quizzes' element={<MyQuizzes/>}/>
+          <Route path='/student/dashboard/Notes/:id' element={<ClassNotes/>}/>
           <Route path='/student/dashboard/Quiz' element={<Quiz/>}/>
-          <Route path='/student/dashboard/student/:id' element={<Stdent/>}/>
         </Route>
         <Route path='/Class booking' element={<ClassBooking/>}/>
         <Route path='/Class/:name' element={<Class/>}/>

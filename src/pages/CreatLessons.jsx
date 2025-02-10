@@ -3,10 +3,11 @@ import { v4 as uuidv4 } from "uuid";
 import axios from 'axios';
 export default function CreatLessons() {
     const initialState={
+        grade:"",
         classname:'',
         module:'',
-        time:'',
-        notes:''
+        notes:'',
+        LessonNumber:''
     }
     const [inputs,setInputs]=useState(initialState)
     const [notes,setNotes]=useState([])
@@ -19,6 +20,7 @@ export default function CreatLessons() {
         setInputs({...inputs,[name]:value})
      }
     }
+    console.log('ada',inputs)
     function getNotes(){
         const url ='http://127.0.0.1:8000/classNotes/'
         axios.get(url)
@@ -66,11 +68,12 @@ export default function CreatLessons() {
     <div className='CreatLessonsWrapper'>
         <h3>create classes</h3>
         <div className='CreatLessonsContainer'>
-            <input name='classname' onChange={handleChange} type='text' placeholder='Name'/><br/>
+            <input name='grade' onChange={handleChange} type='text' placeholder='Grade'/><br/>
             <input name='module' onChange={handleChange} type='text' placeholder='Module'/><br/>
-            <input name='time' onChange={handleChange} type='time' placeholder='time'/><br/>
+            <input name='classname' onChange={handleChange} type='text' placeholder='Lesson Name'/><br/>
+            <input name='LessonNumber' onChange={handleChange} type='text' placeholder='Lesson Number'/><br/>
             <label for="file-upload" class="custom-file-upload">
-             {inputs.files?inputs.files:'Upload Notes'}
+             {inputs.notes?inputs.notes:'Upload Notes'}
             </label>
             <input name='notes' accept='.pdf'  onChange={handleChange} id="file-upload" type="file" />
             <div className='classBtnContainer'>
@@ -95,7 +98,7 @@ export default function CreatLessons() {
                         <td>{note.time}</td>
                         <td>{note.notesOnly}</td>
                         <td><button>add student</button></td>
-                        <td><button>add teacher</button></td>
+                        {/* <td><button>add teacher</button></td> */}
                         </tr>
                         )
                     })}

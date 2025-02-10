@@ -1371,7 +1371,7 @@ table{
 .todayLessonWrapper{
   width: 100%;
   height: auto;
-  background-color: #fff;
+  background-color: #e8e8ee;
   border-radius: 10px;
   padding: 10px;
 }
@@ -1384,11 +1384,46 @@ table{
   text-transform: capitalize;
   color: #fff;
 }
+.todayLessonHeaderwrapper{
+  width: 100%;
+  height: auto;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom:25px;
+}
 .todayLessonContainer{
   width: 100%;
   height: auto;
+  background-color: #e8e8ee;
 }
-.todayLessonContainer table{
+.TodayClassContainer{
+  width: 35%;
+  height: 155px;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 10px;
+}
+.TodayClassContainer h4,.TodayClassContainer p{
+  text-transform: capitalize;
+}
+.TodayClassContainer button{
+  width: 100%;
+  height: 50px;
+  margin-top: 10px;
+  background-color: #0097b2;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 10px;
+  text-transform: capitalize;
+}
+.TodayClassContainer button:hover{
+  border: 2px solid #c1dfe5;
+  background-color: transparent;
+  color: #000;
+}
+/* .todayLessonContainer table{
   width: 100%;
   height: auto;
   margin: 15px 0;
@@ -1396,7 +1431,7 @@ table{
 .todayLessonContainer table th{
   text-align: start;
   text-transform: capitalize;
-}
+} */
 .MyLessonWrapper{
   width: 100%;
   height: 100%;
@@ -1852,6 +1887,7 @@ table{
  height: 50px;
  color: #fff;
 }
+
 .classBtnContainer button:hover{
   background-color: transparent;
   color: #000;
@@ -1896,3 +1932,77 @@ input[type="file"] {
 .classesShowWrapper table td button:hover{
   transform: scale(1.1);
 }
+.studentDetails{
+  width: 100%;
+  height: auto;
+  background-color: #fff;
+  margin-top: 20px;
+  border-radius: 10px;
+  padding: 10px;
+}
+.studentDetails h3{
+  text-transform: capitalize;
+  padding-bottom: 10px;
+}
+.studentDetailsClassattendance{
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+.studentDetailsClassattendance input,.ActivateStudentWrapper button{
+  height: 50px;
+  width: 47%;
+  border-radius: 10px;
+  outline: none;
+  border: none;
+  background-color: #e8e8ee;
+  padding: 0 10px;
+}
+.ActivateStudentWrapper button{
+  color: gray;
+}
+.ActivateStudentWrapper button:hover{
+  border: 2px solid #0097b2;
+  cursor: pointer;
+}
+.ActivateStudentWrapper p{
+  display: inline-block;
+  width: 47%;
+  background-color: #0097b2;
+  padding: 13px 10px;
+  border-radius: 10px;
+  color: #fff;
+  text-transform: capitalize;
+}
+.StdBtnWrapper{
+  width: 100%;
+  height: auto;
+  text-align: center;
+  /* padding: 15px 0; */
+  /* display: flex;
+  align-items: center;
+  justify-content: center; */
+  /* background-color: red; */
+}
+.StdBtnWrapper button{
+  width: 100px;
+  height: 40px;
+  margin-top: 15px;
+  text-transform: capitalize;
+  background-color: #0097b2;
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #fff;
+}
+.StdBtnWrapper button:hover{
+  background-color: transparent;
+  border: 2px solid #0097b2;
+  color: #000;
+}
+

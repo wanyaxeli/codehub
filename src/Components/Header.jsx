@@ -13,7 +13,7 @@ export default function Header() {
     const navigate=useNavigate()
     const {teacher,student}=useContext(context)
     const {pathname}=location
-    console.log('lo',pathname)
+    console.log('teacher',teacher)
     const handleChange = (event) => {
         setSelectedValue(event.target.value);
       };

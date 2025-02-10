@@ -18,7 +18,7 @@ export default function AllStudents() {
     }
     const handleStudent =(id)=>{
      console.log('id',id)
-     navigate(`/student/dashboard/student/${id}`)
+     navigate(`/teacher/dashboard/student/${id}`,{state:id})
     }
     useEffect(()=>{
     getStudent()
