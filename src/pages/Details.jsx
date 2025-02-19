@@ -10,6 +10,7 @@ import en from "i18n-iso-countries/langs/en.json";
 export default function Details() {
     const [booking,setBookings]=useState([])
     const [loading,setLoading]=useState(false)
+    const [token,setToken]=useState('')
     const [todayBooking,settodayBooking]=useState([])
     const navigate=useNavigate()
     const {teacher} =useContext(context)
@@ -43,51 +44,64 @@ export default function Details() {
     return countries.getName(countryCode, "en") || "Unknown Country";
     };
     useEffect(()=>{
-     const url ='http://127.0.0.1:8000/booking/'
-     setLoading(true)
-     axios.get(url,{headers:{
-        'Content-Type':'application/json'
-     }})
-     .then(res=>{
-        console.log("data",res.data)
-        const data=res.data
-        data.forEach(item=>{
-            console.log('item',item)
-            const {countryCode,BookingName,phone_number,grade,time,joined,id,email,date} =item
-            console.log('countrycode',countryCode)
-            // const countryName = getCountryName(countryCode);
-             // Parse the phone number
-             try {
+    if(token){
+        const url ='http://127.0.0.1:8000/Teacherbooking/'
+        setLoading(true)
+        axios.get(url,{headers:{
+           'Content-Type':'application/json',
+           'Authorization':`Bearer ${token}`
+        }})
+        .then(res=>{
+           console.log("data",res.data)
+           const data=res.data
+           setLoading(false)
+           data.forEach(item=>{
+               console.log('item',item)
+               const {countryCode,BookingName,phone_number,grade,time,joined,id,email,date} =item
+               console.log('countrycode',countryCode)
+               // const countryName = getCountryName(countryCode);
                 // Parse the phone number
-                const parsedNumber = parsePhoneNumberFromString(phone_number);
-              
-                if (parsedNumber) {
-                  const countryISO = parsedNumber.country; // Get ISO 3166-1 alpha-2 code (e.g., "KE")
-                  const countryName = countries.getName(countryISO, "en"); // Get country name
-                //   setCountryName(countryName || "Unknown Country");
-                 const newData={countryName:countryName||'Unknown'}
-                 console.log('data',item)
-                    setBookings(prev => {
-                        const exists = prev.some(existingItem => existingItem.id === item.id);
-                        return exists ? prev : [...prev, { ...item, ...newData }];
-                    });
-                 setLoading(false)
-                console.log('country',countryName)
-                } else {
-                //   setCountryName("Invalid Phone Number");
-                console.log("Invalid Phone Number")
-                }
-              } catch (error) {
-                // setCountryName("Invalid Phone Number");
-                console.log("Invalid Phone Number")
-              }
+                try {
+                   // Parse the phone number
+                   const parsedNumber = parsePhoneNumberFromString(phone_number);
+                 
+                   if (parsedNumber) {
+                     const countryISO = parsedNumber.country; // Get ISO 3166-1 alpha-2 code (e.g., "KE")
+                     const countryName = countries.getName(countryISO, "en"); // Get country name
+                   //   setCountryName(countryName || "Unknown Country");
+                    const newData={countryName:countryName||'Unknown'}
+                    console.log('data',item)
+                       setBookings(prev => {
+                           const exists = prev.some(existingItem => existingItem.id === item.id);
+                           return exists ? prev : [...prev, { ...item, ...newData }];
+                       });
+                    
+                   console.log('country',countryName)
+                   } else {
+                   //   setCountryName("Invalid Phone Number");
+                   console.log("Invalid Phone Number")
+                   }
+                 } catch (error) {
+                   // setCountryName("Invalid Phone Number");
+                   console.log("Invalid Phone Number")
+                 }
+           })
         })
-     })
-     .catch(error=>{
-        console.log(error)
-     })
-    },[])
-    console.log('booking',booking)
+        .catch(error=>{
+           console.log(error)
+        })
+    }
+    },[token])
+    async function getToken(){
+        try{
+            const token= localStorage.getItem('token') // No need to await
+            if (token){
+                setToken(token);
+            }
+        } catch(error) {
+            console.log(error);
+  }
+}
     useEffect(()=>{
     if(booking){
        // Get year, month, and day
@@ -110,6 +124,12 @@ export default function Details() {
     const handleCurriculum =()=>{
         navigate('/StudentSignup')
     }
+    const handleBookingManager=()=>{
+        navigate('/teacher/dashboard/Booking Manager')
+    }
+    useEffect(()=>{
+    getToken()
+    },[])
   return (
     <div className='DetailsWrapper'>
         <div className='TeacherDetailsWrapper'>
@@ -157,6 +177,9 @@ export default function Details() {
             </div>
             <div onClick={handleSetLessons} className='actionBtnContainer quiz'>
             <p>class</p>
+            </div>
+            <div onClick={handleBookingManager} className='actionBtnContainer quiz'>
+            <p>Bookings</p>
             </div>
         </div>
         <div className='TodaysClasses'>

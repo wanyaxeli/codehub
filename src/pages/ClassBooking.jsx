@@ -4,37 +4,63 @@ import { context } from '../App'
 import { v4 as uuidv4 } from "uuid";
 import axios from 'axios'
 import AlertPOPUp from '../Components/AlertPOPUp';
+import { useEffect } from 'react';
  export default function ClassBooking() {
 
     const {value,email,grade,CountryCode}=useContext(context)
     const initialState={date:'',time:""}
     const [booking,setBooking]=useState(initialState)
     const [loading,setLoading]=useState(false)
+    const [availability,setAvailability]=useState([])
+    const [pickedTime,setPickedTime]=useState([])
     const [bookingMessage,setBookingMessage]=useState("")
     const handleChange=(e)=>{
     const {name,value}=e.target
-    console.log('name',name)
     setBooking(pre=>({...pre,[name]:value}))
+    }
+    function GetAvailabeBookingTime(){
+        const url='http://127.0.0.1:8000/TeacherAvailability/'
+        axios.get(url)
+        .then(res=>{
+            console.log('ress',res.data)
+            const data=res.data
+            setAvailability(data)
+        })
+        .catch(error=>console.log(error))
     }
     const handleBook=()=>{
         const uniqueId = uuidv4();
         const BookingName = `freeTrial${uniqueId}`
         setLoading(true)
-        const data={phone_number:value,email:email,
-        time:booking.time,date:booking.date,grade:grade,BookingName:BookingName,countryCode:CountryCode}
         const url ='http://127.0.0.1:8000/booking/'
         console.log('class',BookingName)
-        axios.post(url,data)
-        .then(res=>{
-            console.log(res.data)
-            const {message}=res.data
-            setBookingMessage(message)
-            setLoading(false)
-        })
-        .catch(error=>{
-            console.log(error)
+        pickedTime.forEach(item=>{
+            // console.log('as',item)
+            const {teacher,time,date}=item
+            const first_name=teacher.user.first_name
+            const last_name=teacher.user.last_name
+            console.log(first_name)
+            const data={phone_number:value,email:email,
+                first_name:first_name,last_name:last_name,time:time,date:date,grade:grade,BookingName:BookingName,countryCode:CountryCode}
+                axios.post(url,data)
+                .then(res=>{
+                    console.log(res.data)
+                    const {message}=res.data
+                    setBookingMessage(message)
+                    setLoading(false)
+                })
+                .catch(error=>{
+                    console.log(error)
+                })
         })
     }
+    const handlePickedTime=(item)=>{
+     console.log(item)
+     setPickedTime([item])
+    }
+    useEffect(()=>{
+    GetAvailabeBookingTime()
+    },[])
   return (
     <div className='RegisterWRapper'>
         <div className='RegisterContainer'>
@@ -75,9 +101,23 @@ import AlertPOPUp from '../Components/AlertPOPUp';
                  <p className='timezone'>This will in recorded in your country's time zone</p>
                  <div className='timeSeletorWrapper'>
                     <p>Select a date</p>
-                    <input onChange={handleChange} name='date'  value={booking.date} type='date'/>
+                    <div className='bookingDateWrapper'>
+                        <ul>
+                            <li className='activeDay'>today</li>
+                            <li>tomorrow</li>
+                        </ul>
+                    </div>
                     <p>Select a time </p>
-                    <input onChange={handleChange} name='time' value={booking.time} type='time'/>
+                    <div className='bookingTimeWrapper'>
+                        {/* <span className='selectedTime'>10:10pm</span> */}
+                       {availability.map(item=>{
+                        return(
+                            <div key={item.id}>
+                                <span className={pickedTime.map(time=>time.id===item.id?'selectedTime':'')} onClick={()=>handlePickedTime(item)}>{item.time}</span>
+                            </div>
+                        )
+                       })}
+                    </div>
                  </div>
                  <div className='bookBtnWrapper'>
                     {loading===false?<button onClick={handleBook}>book now</button>:<button><i className="fa fa-spinner spinner" aria-hidden="true"></i></button>}

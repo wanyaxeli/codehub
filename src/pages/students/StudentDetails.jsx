@@ -13,7 +13,7 @@ export default function StudentDetails() {
     const {getStudent,student}=useContext(context)
     console.log(student)
     const handleToJoinClass =(id)=>{
-    navigate(`/class/${id}`)
+    navigate(`/class/${id}`,{state:id})
     }
     async function getToken(){
         try{
@@ -60,7 +60,7 @@ export default function StudentDetails() {
         setTodayClass([])
     }
     console.log('lesson',todaylesson)
-    console.log('alllesson',lessons)
+    console.log('alllessons',lessons)
     console.log('fuul',fullDate)
    }
  },[lessons])
@@ -72,7 +72,6 @@ useEffect(()=>{
         const decoded = jwtDecode(token);
         const {user_id}=decoded
         setStudentId(user_id)
-    console.log('decoded',decoded)
     }
 },[token])
 useEffect(()=>{
@@ -112,7 +111,7 @@ useEffect(()=>{
            <h3>today Classes</h3>
            </div>
             <div className='todayLessonContainer'>
-               {todayClass.map(lesson=>{
+               {todayClass.length>0?todayClass.map(lesson=>{
                 return(
                     <div key={lesson.id} className='TodayClassContainer'>
                     <h4>{lesson.lesson.title}</h4>
@@ -121,42 +120,9 @@ useEffect(()=>{
                     <button onClick={()=>handleToJoinClass(lesson.lesson.lessonId)}>join</button>
                   </div>
                 )
-               })}
-                {/* <table>
-                    <thead>
-                        <tr>
-                            <th>class name</th>
-                            <th>class time</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td> html begginer level</td>
-                            <td>10:10 pm</td>
-                            <td><button onClick={handleToJoinClass}>Join</button></td>
-                        </tr>
-                        <tr>
-                            <td> html begginer level</td>
-                            <td>10:10 pm</td>
-                            <td><button>Join</button></td>
-                        </tr>
-                        <tr>
-                            <td> html begginer level</td>
-                            <td>10:10 pm</td>
-                            <td><button>Join</button></td>
-                        </tr>
-                        <tr>
-                            <td> html begginer level</td>
-                            <td>10:10 pm</td>
-                            <td><button>Join</button></td>
-                        </tr>
-                        <tr>
-                            <td> html begginer level</td>
-                            <td>10:10 pm</td>
-                            <td><button>Join</button></td>
-                        </tr>
-                    </tbody>
-                </table> */}
+               }):<div className='NoClassDiv'>
+                <p>You do not have a class today</p>
+                </div>}
             </div>
         </div>
     </div>

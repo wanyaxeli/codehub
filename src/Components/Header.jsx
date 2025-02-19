@@ -1,5 +1,5 @@
 import React,{useState,useEffect,useContext} from 'react'
-import pic from '../assets/codeHubLogo.png'
+import pic from '../assets/logoCodeHub.png'
 import { context } from '../App'
 import {useNavigate,useLocation} from 'react-router-dom'
 import pic1 from '../assets/women1.jpg'
@@ -58,7 +58,10 @@ export default function Header() {
             <div className='leftHeader'>
                 {/* //logo */}
                 <div onClick={handleHome} className='logoWRapper'>
+                    <div className='logoContainer'>
                     <img src={pic}/>
+                    </div>
+                    <h4>Codehub Academy</h4>
                 </div>
                 <select value={selectedValue} onChange={handleChange}>
                 <option value="" disabled>

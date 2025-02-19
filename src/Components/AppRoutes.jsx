@@ -30,6 +30,9 @@ import StudentSignUp from '../pages/StudentSignUp.jsx';
 import Stdent from '../pages/students/Stdent.jsx';
 import CreatLessons from '../pages/CreatLessons.jsx';
 import ClassNotes from '../pages/ClassNotes.jsx';
+import TeacherClassDetails from '../pages/TeacherClassDetails.jsx';
+import NotesViewer from '../pages/NotesViewer.jsx';
+import BookingsManager from '../pages/BookingsManager.jsx';
 export default function AppRoutes() {
   return (
     <Routes>
@@ -45,6 +48,7 @@ export default function AppRoutes() {
         <Route path='/teacher/dashboard' element={<Dashboard/>}>
           <Route index element={<Details/>}/>
           <Route path='/teacher/dashboard/Details' element={<Details/>}/>
+          <Route path='/teacher/dashboard/Booking Manager' element={<BookingsManager/>}/>
           <Route path='/teacher/dashboard/Calendar' element={<Calendar/>}/>
           <Route path='/teacher/dashboard/My students' element={<MyStudents/>}/>
           <Route path='/teacher/dashboard/Projects' element={<Projects/>}/>
@@ -53,7 +57,9 @@ export default function AppRoutes() {
           <Route path='/teacher/dashboard/Add Teachers' element={<AddTeachers/>}/>
           <Route path='/teacher/dashboard/Add Students' element={<AddStudents/>}/>
           <Route path='/teacher/dashboard/Set Quiz' element={<SetQuiz/>}/>
+          <Route path='/teacher/dashboard/Teacher Class Details' element={<TeacherClassDetails/>}/>
           <Route path='/teacher/dashboard/Lessons' element={<CreatLessons/>}/>
+          <Route path='/teacher/dashboard/Notes/:id' element={<NotesViewer/>}/>
           <Route path='/teacher/dashboard/Student Profile' element={<StudentProfile/>}/>
           <Route path='/teacher/dashboard/student/:id' element={<Stdent/>}/>
         </Route>
@@ -63,11 +69,12 @@ export default function AppRoutes() {
           <Route path='/student/dashboard/My  lessons' element={<MyLessons/>}/>
           <Route path='/student/dashboard/My  projects' element={<MyProjects/>}/>
           <Route path='/student/dashboard/My  quizzes' element={<MyQuizzes/>}/>
-          <Route path='/student/dashboard/Notes/:id' element={<ClassNotes/>}/>
+          {/* <Route path='/student/dashboard/Notes/:id' element={<ClassNotes/>}/> */}
           <Route path='/student/dashboard/Quiz' element={<Quiz/>}/>
         </Route>
         <Route path='/Class booking' element={<ClassBooking/>}/>
         <Route path='/Class/:name' element={<Class/>}/>
+        <Route path="/Class/:name/:token" element={<Class />} />
         <Route path='/Error' element={<Error/>}/>
     {/* <Route path="/" element={<Layout />}>
       <Route index element={<Home />} />

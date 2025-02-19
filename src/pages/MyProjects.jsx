@@ -3,40 +3,18 @@ import React from 'react'
 export default function MyProjects() {
   return (
     <div className='MyProjectsWrapper'>
-        <div className='MyProjectsContainer'>
-          <ol>
-            <li>
-              <div>
-                <p>Introduction to html</p>
-                <a href='/student/dashboard/My%20%20projects'>/student/dashboard/My%20%20projects</a>
-              </div>
-            </li>
-            <li>
-              <div>
-                <p>Introduction to html</p>
-                <a href='/student/dashboard/My%20%20projects'>/student/dashboard/My%20%20projects</a>
-              </div>
-            </li>
-            <li>
-              <div>
-                <p>Introduction to html</p>
-                <a href='/student/dashboard/My%20%20projects'>/student/dashboard/My%20%20projects</a>
-              </div>
-            </li>
-            <li>
-              <div>
-                <p>Introduction to html</p>
-                <a href='/student/dashboard/My%20%20projects'>/student/dashboard/My%20%20projects</a>
-              </div>
-            </li>
-            <li>
-              <div>
-                <p>Introduction to html</p>
-                <a href='/student/dashboard/My%20%20projects'>/student/dashboard/My%20%20projects</a>
-              </div>
-            </li>
-          </ol>
-        </div>
+        
+          {Array(4).fill(0).map((item,i)=>{
+            return(
+          <div key={i} className='MyProjectsContainer'>
+            <div className='ProjectsContainerUpper'></div>
+            <div  className='ProjectsHolder'>
+           <p>Introduction to html</p>
+           <button>View</button>
+          </div>
+          </div>
+            )
+          })}
     </div>
   )
 }

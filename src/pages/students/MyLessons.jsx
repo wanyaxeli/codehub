@@ -1,42 +1,65 @@
-import React from 'react'
-
+import React ,{useState,useEffect}from 'react'
+import axios from 'axios'
 export default function MyLessons() {
-    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday','Saturday','Sunday'];
-    const timeSlots = ['9:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '1:00 PM','2:00 PM',
-    '3:00 PM','4:00 PM','5:00 PM','6:00 PM','7:00 PM'];
-    const lessons = [
-    { day: 'Monday', time: '9:00 AM', lesson: 'Math' },
-    { day: 'Tuesday', time: '10:00 AM', lesson: 'Science', time: '1:00 PM' ,lesson: 'Html for begginer'},
-    { day: 'Wednesday', time: '11:00 AM', lesson: 'History' },
-    { day: 'Saturday', time: '11:00 AM', lesson: 'History', time: '3:00 PM', lesson: 'Css ', time: '7:00 PM', lesson: 'Roblox' },
-    ];
-     // Helper function to find a lesson for a specific day and time
-  const getLesson = (day, time) => {
-    const lesson = lessons.find(lesson => lesson.day === day && lesson.time === time);
-    return lesson ? lesson.lesson : ''; // Return lesson name or empty string
-  };
+  const [token,setToken]=useState('')
+  const [lessons,setLessons]=useState([])
+  function GetMyLessons(){
+    if(token){
+      const url ='http://127.0.0.1:8000/studentLessons/'
+      axios.get(url,{headers:{
+        'Authorization':`Bearer ${token}`
+      }})
+      .then(res=>{
+        const data =res.data
+        console.log('res',res.data)
+        // setLessons(data)
+        data.forEach(lessons=>{
+          const now = new Date(lessons.date_time)
+          const time = now.toLocaleTimeString();
+          const date=now.toLocaleDateString()
+          // const{lesson}=lessons
+          const newData={...lessons,...{time:time},...{date:date}}
+          setLessons(pre=>([...pre,newData]))
+          console.log('newdarsa',newData)
+        })
+      })
+      .catch(error=>console.log(error))
+    }
+  }
+  async function getToken(){
+    try{
+        const token= localStorage.getItem('token') // No need to await
+        if (token){
+            setToken(token);
+        }
+    } catch(error) {
+        console.log(error);
+}
+}
+useEffect(()=>{
+  GetMyLessons()
+},[token])
+useEffect(()=>{
+  getToken()
+},[])
   return (
     <div className='MyLessonWrapper'>
-         <table>
-        <thead>
-          <tr>
-            <th>Time</th>
-            {days.map(day => (
-              <th key={day}>{day}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {timeSlots.map(time => (
-            <tr key={time}>
-              <td>{time}</td>
-              {days.map(day => (
-                <td key={`${day}-${time}`}>{getLesson(day, time)}</td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {lessons.map(lesson=>{
+        return(
+        <div key={lesson.id} className='MyLessonContainer'>
+        <div className='lessonModuleWrapper'>
+          <h2>Lesson {lesson.lesson.lesson_number}</h2>
+        </div>
+        <div className='lessonsDetailsWrapper'>
+        <h3>{lesson.lesson.title}</h3>
+        <p>date:<span>{lesson.date}</span></p>
+        <p>date:<span>{lesson.time}</span></p>
+        <p>status:{lesson.is_complate===true?<span className='lessonStatus'>complete</span>:<span className='lessonStatus'>Incomplete</span>}</p>
+        <p>notes:<span>992020</span></p>
+        </div>
+      </div>
+        )
+      })}
     </div>
   )
 }

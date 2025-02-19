@@ -21,12 +21,11 @@
 }
 
 .leftHeader{
-  flex: .4;
+  flex: .49;
   height: 100%;
   display: flex;
   align-items: center;
   /* justify-content: space-between; */
-  padding: 0 5px;
  gap: 10px;
 }
 .rightHeader{
@@ -72,18 +71,20 @@
 }
 .logoWRapper{
   height: 100%;
-  width: 35%;
-  background-color: red;
-  /* display: flex;
-  align-items: flex-start;
-  justify-content: flex-start; */
+  width: 50%;
+  display: flex;
+  align-items:center;
   padding: 2px 0;
-
 }
-.logoWRapper img{
+.logoContainer{
+  width: 80px;
+  height:80px;
+  margin-right: 10px;
+}
+.logoContainer img{
   width:100% ;
   height: 100% ;
-  object-fit: contain;
+  object-fit:fill;
 }
 .leftHeader select{
   width: 50%;
@@ -863,6 +864,10 @@
   align-items: center;
   justify-content: center;
 }
+.TeacherImageWrapper{
+  justify-content: space-between;
+  padding: 10px;
+}
 .TeacherActionWrapper{
   padding: 20px 10px;
   width: 100%;
@@ -894,7 +899,8 @@
  background-color: #0097b2;
  border-radius: 50%;
  position: absolute;
- right: 17%;
+ /* left:30%; */
+ right: 42%;
 }
 .imageChanger:hover{
   transform: scale(1.1);
@@ -1197,11 +1203,12 @@ table{
 }
 .classVideoImageWrapper{
   width: 100%;
-  flex: .9;
+  /* flex: .9; */
+  height: 75vh;
 }
 .mainClassBtnActionHolder{
   width: 100%;
-  flex: .1;
+  height: 20vh
 }
 .ClassasideWrapper{
   height: 100%;
@@ -1334,7 +1341,7 @@ table{
 .mainClassBtnActionHolder{
   max-width: 1200px;
   margin: auto;
-  height: 100%;
+  flex: .1;
   padding: 10px 0;
   box-sizing: border-box;
   display: flex;
@@ -1342,6 +1349,7 @@ table{
   justify-content: center;
   gap: 10px;
 }
+
 .mainClassBtnActionHolder ul{
   list-style: none;
   display: flex;
@@ -1423,42 +1431,95 @@ table{
   background-color: transparent;
   color: #000;
 }
-/* .todayLessonContainer table{
-  width: 100%;
-  height: auto;
-  margin: 15px 0;
-}
-.todayLessonContainer table th{
-  text-align: start;
-  text-transform: capitalize;
-} */
 .MyLessonWrapper{
   width: 100%;
   height: 100%;
   padding: 10px;
 }
-.MyLessonWrapper table{
+.MyLessonContainer{
   width: 100%;
-  height: 100%;
+  height: auto;
+  background-color: #fff;
+  border-radius: 10px;
+  margin-bottom: 20px;
 }
-.MyLessonWrapper table tr th{
-  text-align: left;
+.lessonModuleWrapper{
+  width: 100%;
+  height: 40px;
+  background-color: #0097b2;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  padding-left: 10px;
+}
+.lessonModuleWrapper h2{
+  text-transform: capitalize;
+  color: #fff;
+}
+.lessonsDetailsWrapper{
+  padding: 10px;
+}
+.MyLessonContainer h3{
+  text-transform: capitalize;
+  padding-bottom: 5px;
+}
+.MyLessonContainer p{
+  padding-bottom: 5px;
+}
+.lessonStatus{
+  background-color: orange;
+  border-radius: 5px;
+  color: #fff;
+  padding: 2px 5px;
+}
+.MyLessonContainer p::first-letter{
+  text-transform: capitalize;
 }
 .MyProjectsWrapper {
   width: 100%;
-  height: 88vh;
+  height: 100%;
+  overflow-y: auto;
   padding: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 .MyProjectsContainer{
-  width: 60%;
-  height: 80%;
+  width: 100%;
+  height:auto;
   background-color: #fff;
   border-radius: 10px;
-  overflow-y: auto;
-  padding: 15px 25px;
+  margin-bottom: 20px;
+}
+.ProjectsContainerUpper{
+  width: 100%;
+  height: 40px;
+  background-color: #0097b2;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.projectBtnWRapper button:last-child{
+  margin-left: 15px;
+}
+.ProjectsHolder{
+  padding: 10px;
+  width: 100%;
+  height: 100%;
+}
+.ProjectsHolder button{
+  width: 100px;
+  height: 35px;
+  margin-top: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background-color: #0097b2;
+  color: #fff;
+}
+.ProjectsHolder p::first-letter{
+  text-transform: capitalize;
+}
+.ProjectsHolder button:hover{
+  border: 2px solid #0097b2;
+  color: #000;
+  background-color: transparent;
 }
 .MyProjectsContainer ol{
   width: 100%;
@@ -1796,13 +1857,16 @@ table{
   height: 200px;
   background-color: #fff;
   border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
 .classVideoImageWrapper{
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  height: 100%;
   padding: 10px;
 }
 .shareVideoWrapper{
@@ -1817,10 +1881,9 @@ table{
   display: flex;
   align-items: flex-start;
   flex-direction: column;
-  flex-wrap: wrap;
   padding: 10px;
   gap: 20px;
-  overflow-y: auto;
+  overflow-y:scroll;
 }
 .classDisplayer{
   width: 100%;
@@ -1831,10 +1894,31 @@ table{
   flex-wrap: wrap;
 }
 .classCardDisplayer{
-  width: 300px;
-  height: 200px;
+  flex: .4;
+  height:100%;
   background-color: #fff;
   border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.micWrapper{
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #0097b2;
+}
+.cardShortnameWrapper{
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: #0097b2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .hideVideo{
   display: none;
@@ -1861,6 +1945,56 @@ table{
   max-width: 80%;
   height: auto;
   margin: auto;
+}
+.LessConnctedUsersWrapper{
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.fistUserDivWrapper{
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  border-radius: 10px;
+
+}
+.MainUserDetails{
+  width: 100px;
+  height: 100px;
+  background-color: #0097b2;
+  border-radius: 50%;
+}
+.SecondUserDivWrapper{
+ position: absolute;
+ right: 0;
+ bottom: -18%;
+ width: 200px;
+ background-color: #0097b2;
+ z-index: 1;
+ height: 160px;
+ border-radius: 10px;
+ box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.InnerSecondUserDivWrapper{
+  width: 100%;
+  height: 100%;
+}
+.sideUserDetails{
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #fff;
+}
+.sideUserDetails,.InnerSecondUserDivWrapper,.fistUserDivWrapper,.MainUserDetails{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* .InnerSecondUserDivWrapper p{
+  color: #0097b2;
+} */
+.hideSideUser{
+  display: none;
 }
 .CreatLessonsContainer input{
   width: 100%;
@@ -2005,4 +2139,118 @@ input[type="file"] {
   border: 2px solid #0097b2;
   color: #000;
 }
+.InnersideUserDetails{
+  width: 100px;
+  height: 100px;
+  background-color: #0097b2;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cardShortnameWrapper p,.InnersideUserDetails p,.InnerSecondUserDivWrapper p,.MainUserDetails p{
+  color: #fff;
+  text-transform: capitalize;
+  font-size: 2rem;
+  font-weight: bold;
+}
 
+.sideUserDetails p{
+  color: #0097b2;
+}
+video{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+.CalendarWrapper{
+  width: 100%;
+  height: 100%;
+}
+.TodayClassContainer p{
+  cursor: pointer;
+}
+.NotesViewerWrapper{
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+}
+.BookingsManagerWrapper{
+  width: 100%;
+  height: 100%;
+  padding-top: 20px;
+}
+.BookingsManagerWrapper{
+  width: 60%;
+  margin: auto;
+  height: auto;
+}
+.BookingsManagerWrapper input{
+  width: 100%;
+  height: 50px;
+  border: none;
+  outline: none;
+  background-color: #fff;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  padding: 0 10px;
+}
+.BookingsManagerContainer button{
+  width: 100%;
+  height: 50px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  text-transform: capitalize;
+  background-color: #0097b2;
+  color: #fff;
+}
+.BookingsManagerContainer button:hover{
+  border: 2px solid #0097b2;
+  background-color: transparent;
+  color: #000;
+}
+.bookingDateWrapper{
+  width: 100%;
+  height: auto;
+}
+.bookingDateWrapper ul{
+  list-style: none;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  
+}
+.bookingDateWrapper ul li,.bookingTimeWrapper span{
+  text-transform: capitalize;
+  background-color: #fff;
+  border-radius: 10px;
+  cursor: pointer;
+  padding: 10px 15px;
+}
+.bookingTimeWrapper{
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  overflow-y: auto;
+  max-height: 180px;
+  width: 100%;
+}
+.bookingTimeWrapper  span{
+  display: inline-block;
+}
+.activeDay{
+  background-color: orange !important;
+  color: #fff;
+}
+.bookingTimeWrapper{
+  height: auto;
+}
+.selectedTime{
+  background-color: orange !important;
+  color: #fff;
+}
