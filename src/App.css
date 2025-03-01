@@ -2254,3 +2254,35 @@ video{
   background-color: orange !important;
   color: #fff;
 }
+.chatContainer{
+  padding: 10px 0 10px 10px;
+}
+.chatContainer ul{
+  list-style: none;
+}
+.chatContainer ul li{
+  margin-bottom: 20px;
+  width: 100%;
+}
+.sender{
+  float:left;
+}
+.reciever{
+  float: right;
+  text-align: right;
+}
+.chatContainer ul li p{
+  display: inline-block;
+  padding: 10px;
+  border-radius: 10px;
+}
+.chatContainer ul .reciever p{
+  background-color: orange;
+  color: #fff;
+  text-align:start;
+}
+.chatContainer ul .sender p{
+  background-color: #0097b2;
+  color: #fff;
+  text-align:start;
+}

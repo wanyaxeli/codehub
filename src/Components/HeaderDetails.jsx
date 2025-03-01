@@ -13,7 +13,7 @@ export default function HeaderDetails({pic1,student,teacher,pic2,token,handleToF
             <p>Dashboard</p>
             </div>
             <div className='dashboardDetailsHolder'>
-             {teacher &&  <p>{teacher.user.first_name} {teacher.user.last_name}</p>}
+             {teacher && teacher!='undefined' && <p>{teacher.user.first_name} {teacher.user.last_name}</p>}
               <div className='Dashboardimage'>
                 <img src={pic1} alt="Profile" />
               </div>
@@ -27,8 +27,10 @@ export default function HeaderDetails({pic1,student,teacher,pic2,token,handleToF
             <p>Dashboard</p>
             </div>
             <div className='dashboardDetailsHolder'>
-              {student && <p>{student.user.first_name} {student.user.last_name}</p>}
-              <div className='Dashboardimage'>
+                {student?.user && (
+                  <p>{student.user.first_name} {student.user.last_name}</p>
+                )}
+                  <div className='Dashboardimage'>
                 <img src={pic2} alt="Profile" />
               </div>
             </div>

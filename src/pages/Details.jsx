@@ -55,6 +55,7 @@ export default function Details() {
            console.log("data",res.data)
            const data=res.data
            setLoading(false)
+           if (data){ 
            data.forEach(item=>{
                console.log('item',item)
                const {countryCode,BookingName,phone_number,grade,time,joined,id,email,date} =item
@@ -85,7 +86,7 @@ export default function Details() {
                    // setCountryName("Invalid Phone Number");
                    console.log("Invalid Phone Number")
                  }
-           })
+           })}
         })
         .catch(error=>{
            console.log(error)
@@ -113,11 +114,7 @@ export default function Details() {
     // Combine them into the desired format (YYYY-MM-DD)
     const fullDate = `${year}-${month}-${day}`;
 
-    console.log('Full Date:', fullDate);
     const todayBookings = booking.filter(item=>item.date===fullDate)
-        // booking.filter()
-        console.log('totbookings',todayBookings)
-        console.log('totbookings',todayBookings)
     settodayBooking(todayBookings)
     }
     },[booking])
@@ -144,7 +141,7 @@ export default function Details() {
                 </div>
             </div>
             <div className='TeacherNameWrapper'>
-               {teacher &&  <p>{teacher.user.first_name} {teacher.user.last_name}<span><i className="fa fa-pencil" aria-hidden="true"></i></span></p>}
+               {teacher && teacher!='undefined' &&  <p>{teacher.user.first_name} {teacher.user.last_name}<span><i className="fa fa-pencil" aria-hidden="true"></i></span></p>}
             </div>
             <div className='TeacherEarnsWrapper'>
                 <div>

@@ -2,15 +2,17 @@ import React,{useState,useEffect,useContext} from 'react'
 import { context } from '../App'
 import Header from '../Components/Header'
 import { Outlet,useNavigate ,useLocation} from 'react-router-dom'
+import axios from 'axios'
+import { jwtDecode } from 'jwt-decode'
 export default function StudentDashboard() {
-    const navigate=useNavigate()
-    const [token,setToken]=useState('')
+  const navigate=useNavigate()
+  const [token,setToken]=useState('')
+  const [user_id,setUser_id]=useState('')
   const location =useLocation()
   const {pathname}=location
-  const {getStudent}=useContext(context)
+  const {setStudent}=useContext(context)
   const dashboardLinks=['/student/dashboard/Details','/student/dashboard']
   const quizLinks=['/student/dashboard/My%20%20quizzes','/student/dashboard/Quiz']
-  console.log('path',pathname)
   const handleToLessons=()=>{
   navigate('/student/dashboard/My  lessons')
   }
@@ -23,6 +25,18 @@ export default function StudentDashboard() {
   const handleToDashboard=()=>{
         navigate('/student/dashboard/Details')
         }
+   useEffect(() => {
+          if (token) {
+            try {
+              const decode = jwtDecode(token);
+              const {role,user_id}=decode
+              setUser_id(user_id)
+              console.log("Decoded Tokens:", user_id);
+            } catch (error) {
+              console.error("JWT Decode Error:", error);
+            }
+          }
+  }, [token]);
   async function getToken(){
           try{
               const token= localStorage.getItem('token') // No need to await
@@ -33,11 +47,23 @@ export default function StudentDashboard() {
               console.log(error);
           }
   }
-  useEffect(()=>{
-   if(token){
-    getStudent(token)
+  function Student(){
+   if(token && user_id){
+    const url=`http://127.0.0.1:8000/getstudent/${user_id}`
+    axios.get(url,{headers:{
+      'Authorization':`Bearer ${token}`
+    }})
+    .then(res=>{
+      console.log('student',res.data)
+      const data= res.data
+      setStudent(data)
+    })
+    .catch(error=>console.log(error))
    }
-    },[token])
+  }
+  useEffect(()=>{
+    Student()
+    },[token,user_id])
   useEffect(()=>{
   getToken()
   },[])

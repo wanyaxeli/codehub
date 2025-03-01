@@ -2,11 +2,16 @@ import React ,{useEffect,useState,useContext}from 'react'
 import Header from '../Components/Header'
 import { context } from '../App'
 import { Outlet,useNavigate ,useLocation} from 'react-router-dom'
+import { jwtDecode } from 'jwt-decode'
+import axios from 'axios'
 export default function Dashboard() {
   const navigate=useNavigate()
   const location =useLocation()
   const [token,setToken]=useState('')
-  const {getTeacher}= useContext(context)
+  const [role,setRole]=useState('')
+  const [user_id,setUser_id]=useState('')
+  const {setTeacher}= useContext(context)
+  // const [teacher,setTeacher]=useState('')
   const {pathname}=location
   const dashboardLinks=['/teacher/dashboard/Details','/teacher/dashboard/student/:id','/teacher/dashboard/Lessons','/teacher/dashboard','/teacher/dashboard/Add%Students','/teacher/dashboard/All%20Teachers',
   '/teacher/dashboard/All%20Students','/teacher/dashboard/Add%20Teachers','/teacher/dashboard/Set%20Quiz']
@@ -24,6 +29,7 @@ export default function Dashboard() {
   const handleToDashboard=()=>{
         navigate('/teacher/dashboard/Details')
         }
+  console.log('role',role)
   async function getToken(){
           try{
               const token= localStorage.getItem('token') // No need to await
@@ -34,17 +40,45 @@ export default function Dashboard() {
               console.log(error);
     }
   }
+  console.log('toke',token)
+  function getTeacher(){
+    console.log('tea',token)
+    if(token && user_id && role ==='teacher'){
+     const url=`http://127.0.0.1:8000/getTeacher/${user_id}`
+     console.log('user',role)
+     axios.get(url,{headers:{
+      //  'Authorization':`Bearer ${token}`
+     }})
+     .then(res=>{
+       console.log('teachers',res.data)
+       const data = res.data
+       setTeacher(data)
+     })
+     .catch(error=>console.log(error))
+    }
+  }
+  useEffect(() => {
+    if (token) {
+      try {
+        const decode = jwtDecode(token);
+        const {role,user_id}=decode
+        setUser_id(user_id)
+        setRole(role)
+        console.log("Decoded Tokens:", user_id);
+      } catch (error) {
+        console.error("JWT Decode Error:", error);
+      }
+    }
+  }, [token]);
   useEffect(()=>{
-   if(token){
-    getTeacher(token)
-   }
-    },[token])
+    getTeacher()
+    },[token,user_id,role])
   useEffect(()=>{
   getToken()
   },[])
   return (
     <div className='DashboardWrapper'>
-        <Header/>
+        <Header />
       <div className='dashBoardContainer '>
         <aside>
           <ul>

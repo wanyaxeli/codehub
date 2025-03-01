@@ -10,7 +10,7 @@ export default function StudentDetails() {
     const [lessons,setLesson]=useState([])
     const [todayClass,setTodayClass]=useState([])
     const [studentId,setStudentId]=useState('')
-    const {getStudent,student}=useContext(context)
+    const {student}=useContext(context)
     console.log(student)
     const handleToJoinClass =(id)=>{
     navigate(`/class/${id}`,{state:id})
@@ -75,11 +75,6 @@ useEffect(()=>{
     }
 },[token])
 useEffect(()=>{
-    if(token){
-     getStudent(token)
-    }
-     },[token])
-useEffect(()=>{
  getToken()
 },[])
 
@@ -97,7 +92,14 @@ useEffect(()=>{
                 </div>
             </div>
             <div className='TeacherNameWrapper'>
-                {student&& <p>{student.user.first_name} {student.user.last_name} <span><i className="fa fa-pencil" aria-hidden="true"></i></span></p>}
+            {student?.user && (
+                <p>
+                    {student.user.first_name} {student.user.last_name}
+                    <span>
+                    <i className="fa fa-pencil" aria-hidden="true"></i>
+                    </span>
+                </p>
+                )}
             </div>
             <div className='TeacherEarnsWrapper'>
                 <div>
