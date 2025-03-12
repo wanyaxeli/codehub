@@ -13,9 +13,9 @@ import { Buffer } from "buffer";
 window.global = window;  // Define global to avoid ReferenceError
 window.Buffer = Buffer;  // Fix Buffer issue if needed
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+  // <StrictMode>
    <Router>
     <App/>
    </Router>
-  </StrictMode>,
+  // </StrictMode>,
 )

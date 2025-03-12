@@ -32,6 +32,7 @@ export default function Class() {
     const [role, setRole] = useState('');
     const [socket, setSocket] = useState(null);
     const [peer, setPeer] = useState(null);
+    const peerRef = useRef(null);
     const [user_id, setUser_id] = useState('');
     const [waiting, setWaiting] = useState(false);
     const [connected, setConnected] = useState([]);
@@ -40,6 +41,7 @@ export default function Class() {
     const partnerVideo = useRef();
     const [videoElement, setVideoElement] = useState(null);
     const [localStream, setLocalStream] = useState(null);
+    const [ice, setIce] = useState([]);
     const handleOpenChat=()=>{
         if(toggleChat===false){
             setToggleChat(true)
@@ -60,6 +62,14 @@ export default function Class() {
             console.log(error);
   }
 }  
+// const iceServers = [
+//     { urls: "stun:stun.l.google.com:19302" },  // Google's STUN server
+//     {
+//         urls: "turn:154.159.237.48",  // Replace with your actual public IP
+//         username: "ewany",  
+//         credential: "wany2002"
+//     }
+// ];
 useEffect(()=>{
     getToken()
 },[])
@@ -77,6 +87,51 @@ useEffect(() => {
       }
     }
   }, [UserToken]);
+//   const fetchIceServers = async () => {
+//     try {
+//       const authToken = Buffer.from("wanyCoder:4f2b6c64-f75d-11ef-832f-0242ac150002").toString("base64");
+  
+//       const response = await fetch("https://global.xirsys.net/_turn/codehub", {
+//         method: "GET",
+//         headers: {
+//           "Authorization": "Basic " + authToken,
+//           "Content-Type": "application/json",
+//         },
+//       });
+  
+//       if (!response.ok) {
+//         throw new Error(`HTTP error! Status: ${response.status}`);
+//       }
+  
+//       const data = await response.json();
+//       return data?.v?.iceServers || [];
+//     } catch (error) {
+//       console.error("Failed to fetch ICE servers:", error);
+//       return [];
+//     }
+//   };
+  const fetchIceServers = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/get-ice-servers/");
+      const data = await response.json();
+      console.log("ICE Servers data:", data.ice_servers);
+      return data.ice_servers || []
+    } catch (error) {
+      console.error("Failed to fetch ICE servers:", error);
+      return [];
+    }
+  };
+  useEffect(() => {
+    const getIceServers = async () => {
+      const iceServers = await fetchIceServers();
+      if(iceServers){
+        console.log("ICE Servers:", iceServers);
+        setIce(iceServers)
+      }
+    };
+    
+    getIceServers();
+  }, [token]);
 console.log('connectes',connected)
     useEffect(() => {
         // Send the token to the backend to verify it
@@ -146,12 +201,18 @@ console.log('connectes',connected)
         // if (!localStream) return;
         // localStream.getVideoTracks().forEach((track) => (track.enabled = false));
     }
-    
+     function hasUserMedia() { 
+   //check if the browser supports the WebRTC 
+   return !!(navigator.getUserMedia || navigator.webkitGetUserMedia || 
+      navigator.mozGetUserMedia); 
+} 
     useEffect(() => {
         if (!code) return;
     
         const ws = new WebSocket(`ws://localhost:8000/ws/classRoom/${code}/`);
         console.log('innerws',ws)
+
+
         navigator.mediaDevices
         .getUserMedia({ video: true, audio: true })
         .then((stream) => {
@@ -169,14 +230,17 @@ console.log('connectes',connected)
             const Recieveddata = JSON.parse(data.data)
             if(Recieveddata.type ==='user-joined'){
                 const {users,users_count}= Recieveddata
-                if(users_count>1){
+                console.log('user number count',users_count)
+                if(users_count && users_count===2){
                     setWaiting(false)
-                    const user = users.find(user => String(user.userId) === String(user_id));
-                    const targetUser = users.find(user => String(user.userId) !== String(user_id));
-                    console.log('initiator',user)
-                    if (user && user.initiator===true ){
-                        initiateCall(ws,targetUser)
-                        console.log('true initiator',user)
+                    const InitiatorUser = users.find(user =>user.initiator === true);
+                    const initiatorId=InitiatorUser.userId
+                    const targetUser = users.find(user =>user.initiator ===false);
+                    console.log('non initiator',targetUser)
+                    console.log('user in',users)
+                    if (InitiatorUser && String(initiatorId) === String(user_id)){
+                        initiateCall(ws,targetUser,initiatorId)
+                        console.log('true initiator',InitiatorUser)
                     }
                     }else{
                         setWaiting(true)
@@ -189,15 +253,35 @@ console.log('connectes',connected)
             } 
             else if(Recieveddata.type === "offer"){
                 // handleOffer(ws,Recieveddata.signal);
-                if (String(Recieveddata.target) ===String(user_id)) {
-                    handleOffer(ws, Recieveddata.offer);
+                if (String(Recieveddata.target) === String(user_id)) {  // Prevent duplicate handling
+                    handleOffer(ws,Recieveddata.offer,Recieveddata.sender,Recieveddata.target);
                 }
             }
             else if(Recieveddata.type === "answer"){
                 console.log('recanswer',Recieveddata)
-                if (peer) {
-                    peer.signal(Recieveddata.answer);
-                  }
+                if (peerRef.current && String(Recieveddata.target===String(user_id))) {  // Ensure peer exists and is not closed
+                    try {
+                        peerRef.current.signal(Recieveddata.answer); // Set remote answer
+                    } catch (error) {
+                        console.error("Error setting remote answer:", error);
+                    }
+                } else {
+                    console.log("Peer connection not found or already closed.");
+                }
+            }
+            else if (Recieveddata.type === "candidate") {
+                console.log("Received ICE candidates:", Recieveddata);
+                console.log('peer obj',peerRef)
+                // if (peer && Recieveddata.candidate) {
+                //     try {
+                //         peer.signal(Recieveddata.candidate);  // Apply ICE candidate
+                //     } catch (error) {
+                //         console.error("Error adding ICE candidate:", error);
+                //     }
+                // }
+                if (peerRef.current && Recieveddata.candidate) {
+                    peerRef.current.signal(Recieveddata.candidate);
+                 }
             }
             // const users =Recieveddata.users
             console.log('mes',Recieveddata)
@@ -205,72 +289,112 @@ console.log('connectes',connected)
      return () => {
             ws.close();
         };
-    },[code,user_id]);
+    },[code,user_id,ice]);
     console.log("WebSocket instance:", ws);
  
-    function initiateCall(socket,targetUser){
-        console.log("WebSocket readyState initiate:", socket?.readyState);
-        console.log("target use:",targetUser);
-       if (localStream && targetUser && socket && socket.readyState === WebSocket.OPEN){
-        const initiator = new Peer({ initiator: true, trickle: false, stream: localStream });
-        initiator?.on("signal", (signal) => {
-            // socket.send(JSON.stringify({ type: "offer", signal }));
-         console.log('offers',signal)
-        // socket.send(JSON.stringify({ type: "offer", signal }));
-        socket.send(JSON.stringify({ type: "offer", signal, target: targetUser.userId }))
-        });
-        initiator?.on("stream", (remoteStream) => {
-            console.log('initiator video ',remoteStream)
-            partnerVideo.current.srcObject = remoteStream;
-        });
-
-        setPeer(initiator);
-       } else{
-        console.log("ws not connected")
-       }
+    function initiateCall(socket, targetUser, id) {
+        if (localStream && targetUser && id && socket && socket.readyState === WebSocket.OPEN && ice) {
+            const peerConfig = {iceServers:ice};
+            const initiator = new Peer({ initiator: true, trickle: true, stream: localStream, config: peerConfig });
+    
+            initiator.on("error", err => console.log("peererror", err));
+    
+            initiator.on("signal", (signal) => {
+                if (signal.candidate) {
+                    socket.send(JSON.stringify({ type: "candidate", candidate: signal, sender: id, target: targetUser.userId }));
+                } else {
+                    socket.send(JSON.stringify({ type: "offer", signal, sender: id, target: targetUser.userId }));
+                }
+            });
+    
+            initiator.on("connect", () => {
+                console.log("Initiator: Peer connected successfully!");
+            });
+    
+            initiator.on("stream", (remoteStream) => {
+                if (partnerVideo.current) {
+                    partnerVideo.current.pause();
+                    partnerVideo.current.srcObject = remoteStream;
+                    partnerVideo.current.onloadedmetadata = () => {
+                        partnerVideo.current.play().catch((error) => console.log("Play error:", error));
+                    };
+                }
+            });
+    
+            setPeer(initiator);
+            peerRef.current = initiator;
+        } else {
+            console.log("WebSocket not connected");
+        }
     }
-    const handleOffer = (socket,signal) => {
-        if (localStream===null) return;
-        console.log("I am the receiver");
-        const responder = new Peer({ initiator: false, trickle: false, stream: localStream });
-
-        responder?.on("signal", (signal) => {
-            
-            if (socket && socket.readyState === WebSocket.OPEN) {
-                socket.send(JSON.stringify({ type: "answer", signal }));
-                console.log("Generated ans:", signal);
+    const handleOffer = (socket, signal, targetID,senderId) => {
+        if (!localStream || !ice) return;
+    
+        console.log("I am the receiver", signal);
+        const peerConfig = { iceServers: ice };
+        const responder = new Peer({ initiator: false, trickle: true, stream: localStream, config: peerConfig });
+    
+        responder.on("connect", () => {
+            console.log("Responder: Peer connected successfully!");
+        });
+    
+        responder.signal(signal);
+    
+        responder.on("signal", (answerSignal) => {
+            if (answerSignal.candidate) {
+                socket.send(JSON.stringify({ type: "candidate", candidate: answerSignal,sender:senderId}));
             } else {
-                console.log("WebSocket not connected yet.");
+                socket.send(JSON.stringify({ type: "answer", signal: answerSignal, target: targetID }));
             }
         });
-
-        responder?.signal(signal);
-        console.log("receiver",responder);
-        responder?.on("stream", (remoteStream) => {
-            if (remoteStream){
-                console.log("partnerdvid",remoteStream)
-                setRemoteStream(remoteStream)
+    
+        responder.on("stream", (remoteStream) => {
+            if (remoteStream) {
+                console.log("Partner video streams:", remoteStream);
+                setRemoteStream(remoteStream);
             }
-            // if (partnerVideo.current  ) {
-            //     partnerVideo.current.srcObject = remoteStream;
-            //     console.log("partnerdvid",remoteStream)
-            //     console.log("partnerdvid track",remoteStream.getTracks())
-            //     console.log("partnerInner",partnerVideo)
-            //     partnerVideo.current.play().catch(error => {
-            //         console.error("Playback error:", error);
-            //     });
-               
-            //   }
-            
         });
-
+    
+        responder.on("close", () => {
+            console.log("Connection with peer closed :(");
+        });
+    
+        responder.on("error", (err) => console.log("res error", err));
+    
         setPeer(responder);
+        peerRef.current = responder
     };
     useEffect(() => {
-        if (peer) {
-            console.log("Peer object updateds:", peer);
+        if (peerRef) {
+            console.log("Peer object updated:", peerRef);
         }
-    }, [peer]);
+    }, [peerRef]);
+    // useEffect(() => {
+    //     if (!RemoteStream || !partnerVideo.current) return;
+    
+    //     const videoElement = partnerVideo.current;
+    //     const videoTracks = RemoteStream.getVideoTracks();
+    
+    //     if (videoTracks.length === 0) {
+    //         console.error("No video tracks found in RemoteStream.");
+    //         return;
+    //     }
+    
+    //     console.log("Attaching video track:", videoTracks[0]);
+    
+    //     // Create a new MediaStream with only the video track
+    //     const newStream = new MediaStream();
+    //     newStream.addTrack(videoTracks[0]);
+    
+    //     videoElement.srcObject = newStream;
+    
+    //     setTimeout(() => {
+    //         const playPromise = videoElement.play();
+    //         if (playPromise !== undefined) {
+    //             playPromise.catch(error => console.error("Playback error:", error));
+    //         }
+    //     }, 100);
+    // }, [RemoteStream]);
     useEffect(() => {
         if (!RemoteStream || !partnerVideo.current) return;
     
@@ -279,7 +403,11 @@ console.log('connectes',connected)
         console.log("Video element is ready:", videoElement);
         console.log("Remote Stream:", RemoteStream);
         console.log("Tracks:", RemoteStream.getTracks());
-    
+        console.log("Video Tracks:", RemoteStream.getVideoTracks());
+        console.log("Audio Tracks:", RemoteStream.getAudioTracks());
+        RemoteStream.getTracks().forEach(track => {
+            console.log(`Track kind: ${track.kind}, enabled: ${track.enabled}, readyState: ${track.readyState}`);
+        });
         // Check if we are assigning a new stream
         if (videoElement.srcObject !== RemoteStream) {
             // Stop any existing tracks before assigning a new stream
@@ -296,7 +424,7 @@ console.log('connectes',connected)
             if (playPromise !== undefined) {
                 playPromise
                     .then(() => console.log("Playback started successfully"))
-                    .catch(error => console.error("Playback error:", error));
+                    .catch(error => console.error("Playback errors:", error));
             }
         }, 100); // Small delay to allow stream to load
     
@@ -308,9 +436,9 @@ console.log('connectes',connected)
         };
     
     }, [RemoteStream]);
-    useEffect(()=>{
-        console.log("partner",partnerVideo)
-    },[partnerVideo])
+    // useEffect(()=>{
+        console.log("partner vid",partnerVideo)
+    // },[partnerVideo])
     useEffect(()=>{
         const {state}=location
         if (state) {
@@ -444,7 +572,7 @@ console.log('connectes',connected)
                                 <p>w</p>
                             </div>
                         )} */}
-                        <video ref={partnerVideo} autoPlay playsInline />
+                        <video ref={partnerVideo} autoPlay playsInline muted/>
                         </div>
                         <div className={toggleSideUser}>
                             <div className='InnerSecondUserDivWrapper'>
