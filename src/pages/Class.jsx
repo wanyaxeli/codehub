@@ -13,7 +13,7 @@ export default function Class() {
     const [Videocard,setVideoCard]=useState('hideVideo')
     const [toggleClassOnJoinedUser,settoggleClassOnJoinedUser]=useState('LessConnctedUsersWrapper')
     const [mic,setToggleMic]=useState(true)
-    const [cam,setToggleCam]=useState(false)
+    const [cam,setToggleCam]=useState(true)
     const [chat,setChat]=useState('')
     const [Wschat,setWsChat]=useState([])
     const [toggleSideUser,settoggleSideUser]=useState('SecondUserDivWrapper')
@@ -38,10 +38,13 @@ export default function Class() {
     const [connected, setConnected] = useState([]);
     const [RemoteStream, setRemoteStream] = useState('');
     const userVideo = useRef();
+    const [sharing,setSharing]=useState(false)
+    const [Usersharing,setUserSharing]=useState('')
     const partnerVideo = useRef();
     const [videoElement, setVideoElement] = useState(null);
     const [localStream, setLocalStream] = useState(null);
     const [ice, setIce] = useState([]);
+    const [screenStream,setScreenStream]=useState(null)
     const handleOpenChat=()=>{
         if(toggleChat===false){
             setToggleChat(true)
@@ -193,26 +196,17 @@ console.log('connectes',connected)
         }
     }
     function turnOnVideo() {
-        // if (!localStream) return;
-        // localStream.getVideoTracks().forEach((track) => (track.enabled = true));
+        if (!localStream) return;
+        localStream.getVideoTracks().forEach((track) => (track.enabled = true));
+        setToggleCam(true)
     }
     
     function turnOffVideo() {
-        // if (!localStream) return;
-        // localStream.getVideoTracks().forEach((track) => (track.enabled = false));
+        if (!localStream) return;
+        localStream.getVideoTracks().forEach((track) => (track.enabled = false));
+        setToggleCam(false)
     }
-     function hasUserMedia() { 
-   //check if the browser supports the WebRTC 
-   return !!(navigator.getUserMedia || navigator.webkitGetUserMedia || 
-      navigator.mozGetUserMedia); 
-} 
-    useEffect(() => {
-        if (!code) return;
-    
-        const ws = new WebSocket(`ws://localhost:8000/ws/classRoom/${code}/`);
-        console.log('innerws',ws)
-
-
+     function  getMedia(){
         navigator.mediaDevices
         .getUserMedia({ video: true, audio: true })
         .then((stream) => {
@@ -220,6 +214,15 @@ console.log('connectes',connected)
         if (userVideo.current) userVideo.current.srcObject = stream;
         })
         .catch((error) => console.error("Error accessing media devices:", error));
+     }
+    useEffect(() => {
+        if (!code) return;
+    
+        const ws = new WebSocket(`ws://localhost:8000/ws/classRoom/${code}/`);
+        console.log('innerws',ws)
+
+
+        getMedia()
         ws.onopen = () =>{
             console.log("WebSocket connected");
             ws.send(JSON.stringify({type:"id",user_id}));
@@ -283,6 +286,14 @@ console.log('connectes',connected)
                     peerRef.current.signal(Recieveddata.candidate);
                  }
             }
+            else if (Recieveddata.type === "sharing_screen") {
+                setSharing(Recieveddata.sharing)
+                setUserSharing(Recieveddata.sender)
+            }
+            else if (Recieveddata.type === "stop_sharing_screen") {
+                setSharing(Recieveddata.sharing)
+                setUserSharing('')
+            }
             // const users =Recieveddata.users
             console.log('mes',Recieveddata)
         }
@@ -327,10 +338,11 @@ console.log('connectes',connected)
             console.log("WebSocket not connected");
         }
     }
+
     const handleOffer = (socket, signal, targetID,senderId) => {
         if (!localStream || !ice) return;
     
-        console.log("I am the receiver", signal);
+        console.log("I am the receiver's", signal);
         const peerConfig = { iceServers: ice };
         const responder = new Peer({ initiator: false, trickle: true, stream: localStream, config: peerConfig });
     
@@ -363,6 +375,37 @@ console.log('connectes',connected)
     
         setPeer(responder);
         peerRef.current = responder
+    };
+    const startScreenSharing = async () => {
+        try {
+            const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+            setScreenStream(screenStream); // Save screen stream for UI display
+    
+            // Send screen stream to the peer connection
+            screenStream.getTracks().forEach(track => {
+                peerRef.current.addTrack(track, screenStream);
+            });
+    
+            // When screen sharing stops, remove the track
+            screenStream.getVideoTracks()[0].onended = () => {
+                stopScreenSharing();
+            };
+        } catch (error) {
+            console.error("Error accessing screen:", error);
+        }
+    };
+    const stopScreenSharing = () => {
+        if (screenStream) {
+            screenStream.getTracks().forEach(track => track.stop()); // Stop screen stream
+            setScreenStream(null); // Reset screen stream
+            if (peerRef.current) {
+                peerRef.current.getSenders().forEach(sender => {
+                    if (sender.track && sender.track.kind === "video" && sender.track.label.includes("screen")) {
+                        peerRef.current.removeTrack(sender); // Remove only screen-sharing track
+                    }
+                });
+            }
+        }
     };
     useEffect(() => {
         if (peerRef) {
@@ -404,7 +447,7 @@ console.log('connectes',connected)
         console.log("Remote Stream:", RemoteStream);
         console.log("Tracks:", RemoteStream.getTracks());
         console.log("Video Tracks:", RemoteStream.getVideoTracks());
-        console.log("Audio Tracks:", RemoteStream.getAudioTracks());
+        console.log("Audio Track:", RemoteStream.getAudioTracks());
         RemoteStream.getTracks().forEach(track => {
             console.log(`Track kind: ${track.kind}, enabled: ${track.enabled}, readyState: ${track.readyState}`);
         });
@@ -436,6 +479,21 @@ console.log('connectes',connected)
         };
     
     }, [RemoteStream]);
+    useEffect(()=>{
+     if (sharing ===true){
+        settoggleClassOnJoinedUser('classImageDisplayer')
+        setOpenSharing('on')
+        setInnertoggleSideUser('InnersideUserDetails')
+        setVideoCard('shareVideoWrapper')
+        settoggleSideUser('fistUserDivWrapper')
+     }else{
+        settoggleClassOnJoinedUser('LessConnctedUsersWrapper')
+        setOpenSharing('of')
+        setVideoCard('hideVideo')
+        settoggleSideUser('SecondUserDivWrapper') 
+        setInnertoggleSideUser('sideUserDetails')
+     }
+    },[sharing])
     // useEffect(()=>{
         console.log("partner vid",partnerVideo)
     // },[partnerVideo])
@@ -446,20 +504,34 @@ console.log('connectes',connected)
           } 
         // startLocalStream()
     },[location])
+    // useEffect(()=>{
+    // if(cam===true){
+    //     setOpenVideo('on')
+    // }else{
+    //     setOpenVideo('')
+    // }
+    // },[cam])
     useEffect(() => {
         setMainCss('fullPageMain'); // This overrides the initial state
         setAsideCss('closeAside')
         setToggleMic(true)
       }, []); // This runs on mount
-      const handleToggleVideo =()=>{
-        if (openVidoe===''){
-            setOpenVideo('on')
-            turnOnVideo()
-         }else{
-            setOpenVideo('')
-            turnOffVideo()
-         }
-      }
+      const handleToggleVideo = () => {
+        if (!localStream) return; 
+    
+        const videoTracks = localStream.getVideoTracks();
+        
+        if (cam) {
+            videoTracks.forEach(track => track.enabled = false);
+            setOpenVideo('');
+            setToggleCam(false);
+        } else {
+            // videoTracks.forEach(track => track.enabled = true);
+            getMedia()
+            setOpenVideo('on');
+            setToggleCam(true);
+        }
+    };
       const handleChat =(e)=>{
         setChat(e.target.value)
       }
@@ -486,38 +558,65 @@ console.log('connectes',connected)
       }
      
     const handleShareScreen=()=>{
-    if(connectedUsers>2){
-        if(toggleDisplay==='classDisplayer'){
-            setToggleDisplay('classImageDisplayer')
-            setOpenSharing('on')
-            setVideoCard('shareVideoWrapper')
-         }else{
-            setToggleDisplay('classDisplayer')
-            setVideoCard('hideVideo')
-            setOpenSharing('')
-         }
-         if(card==='classCardDisplayer'){
-            setCard('classCard')
-         }else{
-            setCard('classCardDisplayer')
-         }
-    }else{
-        if(toggleClassOnJoinedUser==='LessConnctedUsersWrapper'){
-            settoggleClassOnJoinedUser('classImageDisplayer')
-            setOpenSharing('on')
-            setInnertoggleSideUser('InnersideUserDetails')
-            setVideoCard('shareVideoWrapper')
-            settoggleSideUser('fistUserDivWrapper')
-        }else {
-            settoggleClassOnJoinedUser('LessConnctedUsersWrapper')
-            setOpenSharing('of')
-            setVideoCard('hideVideo')
-            settoggleSideUser('SecondUserDivWrapper') 
-            setInnertoggleSideUser('sideUserDetails')
+        if(sharing===true){
+            if(Usersharing===user_id){
+                StopSharing()
+            }else{
+                alert(`${Usersharing} is sharing screen already`)
+            }
+        }else{
+            StartSharing()
         }
+    // display if the class has more than two people don't delete !
+    // if(connectedUsers>2){
+    //     if(toggleDisplay==='classDisplayer'){
+    //         setToggleDisplay('classImageDisplayer')
+    //         setOpenSharing('on')
+    //         setVideoCard('shareVideoWrapper')
+    //      }else{
+    //         setToggleDisplay('classDisplayer')
+    //         setVideoCard('hideVideo')
+    //         setOpenSharing('')
+    //      }
+    //      if(card==='classCardDisplayer'){
+    //         setCard('classCard')
+    //      }else{
+    //         setCard('classCardDisplayer')
+    //      }
+    // }else{
+    //     if(toggleClassOnJoinedUser==='LessConnctedUsersWrapper'){
+    //         settoggleClassOnJoinedUser('classImageDisplayer')
+    //         setOpenSharing('on')
+    //         setInnertoggleSideUser('InnersideUserDetails')
+    //         setVideoCard('shareVideoWrapper')
+    //         settoggleSideUser('fistUserDivWrapper')
+            
+    //     }else {
+    //         settoggleClassOnJoinedUser('LessConnctedUsersWrapper')
+    //         setOpenSharing('of')
+    //         setVideoCard('hideVideo')
+    //         settoggleSideUser('SecondUserDivWrapper') 
+    //         setInnertoggleSideUser('sideUserDetails')
+    //     }
+    // }
     }
-    }
-   console.log('uservide',userVideo)
+   function StartSharing(){
+    if (ws && ws.readyState === WebSocket.OPEN && user_id && sharing===false){
+        ws.send(JSON.stringify({ 
+            type: "sharing",
+            sharing: true,
+            userId: user_id 
+        }));
+    } 
+   }
+   function StopSharing(){
+    if (ws && ws.readyState === WebSocket.OPEN && user_id && sharing ===true){
+        ws.send(JSON.stringify({ 
+            type: "stop_sharing",
+            sharing: false,
+        }));
+    } 
+   }
   return (
     <div className='ClassWRapper'>
         <div className='ClassHeader'>
@@ -576,7 +675,7 @@ console.log('connectes',connected)
                         </div>
                         <div className={toggleSideUser}>
                             <div className='InnerSecondUserDivWrapper'>
-                            {userVideo ? (
+                            {cam ===true ? (
                                 <video ref={userVideo} autoPlay playsInline muted />
                             ) : (
                                 <div className={toggleInnerSideUser}>
@@ -608,10 +707,10 @@ console.log('connectes',connected)
                     </li>
                     <li>
                     <div>
-                        <div onClick={handleShareScreen} className={`classInconHolder ${openSharing}`}>
+                        <div onClick={handleShareScreen} className={`classInconHolder ${Usersharing &&Usersharing === user_id ?openSharing:""}`}>
                         <i className="fa fa-desktop" aria-hidden="true"></i>
                         </div>
-                        <p>share</p>
+                       {sharing && Usersharing &&Usersharing ===user_id? <p>stop  share</p>: <p>share</p>}
                     </div>
                     </li>
                     {/* <li>
