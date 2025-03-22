@@ -33,6 +33,7 @@ export default function Class() {
     const [socket, setSocket] = useState(null);
     const [peer, setPeer] = useState(null);
     const peerRef = useRef(null);
+    const screenPeerRef = useRef(null);
     const [user_id, setUser_id] = useState('');
     const [waiting, setWaiting] = useState(false);
     const [connected, setConnected] = useState([]);
@@ -45,6 +46,9 @@ export default function Class() {
     const [localStream, setLocalStream] = useState(null);
     const [ice, setIce] = useState([]);
     const [screenStream,setScreenStream]=useState(null)
+    const [participants,setparticipants]=useState([])
+    const screenVideo = useRef(null); // Remote screen video element
+    const LocalscreenVideo = useRef(null); // Local screen video element
     const handleOpenChat=()=>{
         if(toggleChat===false){
             setToggleChat(true)
@@ -77,7 +81,7 @@ useEffect(()=>{
     getToken()
 },[])
 useEffect(() => {
-    console.log("Usertoken:", UserToken);
+   
     if (UserToken) {
       try {
         const decode = jwtDecode(UserToken);
@@ -195,17 +199,17 @@ console.log('connectes',connected)
             });
         }
     }
-    function turnOnVideo() {
-        if (!localStream) return;
-        localStream.getVideoTracks().forEach((track) => (track.enabled = true));
-        setToggleCam(true)
-    }
+    // function turnOnVideo() {
+    //     if (!localStream) return;
+    //     localStream.getVideoTracks().forEach((track) => (track.enabled = true));
+    //     setToggleCam(true)
+    // }
     
-    function turnOffVideo() {
-        if (!localStream) return;
-        localStream.getVideoTracks().forEach((track) => (track.enabled = false));
-        setToggleCam(false)
-    }
+    // function turnOffVideo() {
+    //     if (!localStream) return;
+    //     localStream.getVideoTracks().forEach((track) => (track.enabled = false));
+    //     setToggleCam(false)
+    // }
      function  getMedia(){
         navigator.mediaDevices
         .getUserMedia({ video: true, audio: true })
@@ -233,17 +237,20 @@ console.log('connectes',connected)
             const Recieveddata = JSON.parse(data.data)
             if(Recieveddata.type ==='user-joined'){
                 const {users,users_count}= Recieveddata
-                console.log('user number count',users_count)
+                
                 if(users_count && users_count===2){
+                    setparticipants(users)
+                    console.log('users in class',users)
                     setWaiting(false)
                     const InitiatorUser = users.find(user =>user.initiator === true);
                     const initiatorId=InitiatorUser.userId
                     const targetUser = users.find(user =>user.initiator ===false);
-                    console.log('non initiator',targetUser)
-                    console.log('user in',users)
+                   
                     if (InitiatorUser && String(initiatorId) === String(user_id)){
-                        initiateCall(ws,targetUser,initiatorId)
-                        console.log('true initiator',InitiatorUser)
+                        setTimeout(() => {
+                            initiateCall(ws, targetUser, initiatorId);
+                            console.log('true initiator', InitiatorUser);
+                        }, 2000);
                     }
                     }else{
                         setWaiting(true)
@@ -251,17 +258,21 @@ console.log('connectes',connected)
             }
              else if(Recieveddata.type==='chat'){
                  const {message}= Recieveddata
-                console.log('chats',message)
+               
                 setWsChat(pre=>([...pre,message]))
             } 
             else if(Recieveddata.type === "offer"){
                 // handleOffer(ws,Recieveddata.signal);
-                if (String(Recieveddata.target) === String(user_id)) {  // Prevent duplicate handling
-                    handleOffer(ws,Recieveddata.offer,Recieveddata.sender,Recieveddata.target);
+                // if (String(Recieveddata.target) === String(user_id)) {  // Prevent duplicate handling
+                //     handleOffer(ws,Recieveddata.offer,Recieveddata.sender,Recieveddata.target);
+                // }
+                if (String(Recieveddata.target) === String(user_id)) {  
+                    const isRenegotiation = Recieveddata.renegotiation;
+                    handleOffer(ws, Recieveddata.offer, Recieveddata.sender, Recieveddata.target, isRenegotiation);
                 }
             }
             else if(Recieveddata.type === "answer"){
-                console.log('recanswer',Recieveddata)
+              
                 if (peerRef.current && String(Recieveddata.target===String(user_id))) {  // Ensure peer exists and is not closed
                     try {
                         peerRef.current.signal(Recieveddata.answer); // Set remote answer
@@ -273,8 +284,7 @@ console.log('connectes',connected)
                 }
             }
             else if (Recieveddata.type === "candidate") {
-                console.log("Received ICE candidates:", Recieveddata);
-                console.log('peer obj',peerRef)
+             
                 // if (peer && Recieveddata.candidate) {
                 //     try {
                 //         peer.signal(Recieveddata.candidate);  // Apply ICE candidate
@@ -286,6 +296,19 @@ console.log('connectes',connected)
                     peerRef.current.signal(Recieveddata.candidate);
                  }
             }
+            else if (Recieveddata.type === "screen_candidate") {
+             
+                // if (peer && Recieveddata.candidate) {
+                //     try {
+                //         peer.signal(Recieveddata.candidate);  // Apply ICE candidate
+                //     } catch (error) {
+                //         console.error("Error adding ICE candidate:", error);
+                //     }
+                // }
+                if (screenPeerRef.current && Recieveddata.candidate) {
+                    screenPeerRef.current.signal(Recieveddata.candidate);
+                 }
+            }
             else if (Recieveddata.type === "sharing_screen") {
                 setSharing(Recieveddata.sharing)
                 setUserSharing(Recieveddata.sender)
@@ -294,15 +317,30 @@ console.log('connectes',connected)
                 setSharing(Recieveddata.sharing)
                 setUserSharing('')
             }
+            else if (Recieveddata.type === "screen_offer") {
+                if (String(Recieveddata.target) === String(user_id)) {  
+                    handleScreenOffer(ws, Recieveddata.offer, Recieveddata.sender, Recieveddata.target,);
+                }
+            }
+            else if(Recieveddata.type === "screen_answer"){
+              
+                if (screenPeerRef.current && String(Recieveddata.target===String(user_id))) {  // Ensure peer exists and is not closed
+                    try {
+                        screenPeerRef.current.signal(Recieveddata.answer); // Set remote answer
+                    } catch (error) {
+                        console.error("Error setting remote answer:", error);
+                    }
+                } else {
+                    console.log("Peer connection not found or already closed.");
+                }
+            }
             // const users =Recieveddata.users
-            console.log('mes',Recieveddata)
+            
         }
      return () => {
             ws.close();
         };
     },[code,user_id,ice]);
-    console.log("WebSocket instance:", ws);
- 
     function initiateCall(socket, targetUser, id) {
         if (localStream && targetUser && id && socket && socket.readyState === WebSocket.OPEN && ice) {
             const peerConfig = {iceServers:ice};
@@ -314,7 +352,7 @@ console.log('connectes',connected)
                 if (signal.candidate) {
                     socket.send(JSON.stringify({ type: "candidate", candidate: signal, sender: id, target: targetUser.userId }));
                 } else {
-                    socket.send(JSON.stringify({ type: "offer", signal, sender: id, target: targetUser.userId }));
+                    socket.send(JSON.stringify({ type: "offer", signal, renegotiation: false  ,sender: id, target: targetUser.userId }));
                 }
             });
     
@@ -338,7 +376,40 @@ console.log('connectes',connected)
             console.log("WebSocket not connected");
         }
     }
+    const handleScreenOffer =(socket, signal, targetID, senderId)=>{
+        const peerConfig = { iceServers: ice };
+        const screenPeer = new Peer({
+            initiator: false,
+            trickle: true,
+            config: peerConfig
+        });
 
+        screenPeer.signal(signal);
+
+        screenPeer.on("signal", (answer) => {
+            if (answer.candidate) {
+                socket.send(JSON.stringify({ type: "screen_candidate", candidate: answer,sender:senderId}));
+            } else {
+                socket.send(JSON.stringify({ type: "screen_answer", signal: answer, target: targetID }));
+            }
+            // socket.send(
+            //     JSON.stringify({
+            //         type: "screen-answer",
+            //         signal: answer,
+            //         sender: targetID,
+            //         target:senderId,
+            //     })
+            // );
+        });
+
+        screenPeer.on("stream", (stream) => {
+            if (screenVideo.current) {
+                console.log('screen stream',stream)
+                screenVideo.current.srcObject = stream; // Display screen share
+            }
+        screenPeerRef.current=screenPeer
+        });
+    }
     const handleOffer = (socket, signal, targetID,senderId) => {
         if (!localStream || !ice) return;
     
@@ -376,42 +447,138 @@ console.log('connectes',connected)
         setPeer(responder);
         peerRef.current = responder
     };
-    const startScreenSharing = async () => {
-        try {
-            const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
-            setScreenStream(screenStream); // Save screen stream for UI display
-    
-            // Send screen stream to the peer connection
-            screenStream.getTracks().forEach(track => {
-                peerRef.current.addTrack(track, screenStream);
-            });
-    
-            // When screen sharing stops, remove the track
-            screenStream.getVideoTracks()[0].onended = () => {
-                stopScreenSharing();
-            };
-        } catch (error) {
-            console.error("Error accessing screen:", error);
-        }
-    };
-    const stopScreenSharing = () => {
-        if (screenStream) {
-            screenStream.getTracks().forEach(track => track.stop()); // Stop screen stream
-            setScreenStream(null); // Reset screen stream
-            if (peerRef.current) {
-                peerRef.current.getSenders().forEach(sender => {
-                    if (sender.track && sender.track.kind === "video" && sender.track.label.includes("screen")) {
-                        peerRef.current.removeTrack(sender); // Remove only screen-sharing track
-                    }
+    console.log('remote screens ',screenVideo)
+    async function startScreenShare() {
+        if (participants.length > 1) {
+            const InitiatorUser = participants.find(user => String(user.userId) === String(user_id));
+            const NonInitiatorUser = participants.find(user => String(user.userId) !== String(user_id));
+            const peerConfig = { iceServers: ice };
+            try {
+                // Get the screen stream
+                const screenStream = await navigator.mediaDevices.getDisplayMedia({
+                    video: { cursor: "always" },
+                    audio: false,
                 });
+        
+                if (LocalscreenVideo.current) {
+                    LocalscreenVideo.current.srcObject = screenStream; // Show preview
+                }
+        
+                // Create a separate peer connection for screen sharing
+                const screenPeer = new Peer({
+                    initiator: true,
+                    trickle: true, // Disable trickle ICE for easier signaling
+                    stream: screenStream,
+                    config: peerConfig
+                });
+        
+                // Send offer to remote peer
+                screenPeer.on("signal", (data) => {
+                    console.log('screen offer',data)
+                    if (data.candidate) {
+                        ws.send(JSON.stringify({ type: "screen_candidate", candidate: data, sender: InitiatorUser.userId, target: targetUser.userId }));
+                    } else {
+                        ws.send(JSON.stringify({ type: "screen-offer", data ,sender: InitiatorUser.userId, target: NonInitiatorUser.userId }));
+                    }
+                    // ws.send(
+                    //     JSON.stringify({
+                    //         type: "screen-offer",
+                    //         signal: data,
+                    //         sender: InitiatorUser.userId,
+                    //         target: NonInitiatorUser.userId,
+                    //     })
+                    // );
+                });
+                screenPeerRef.current = screenPeer;
+                // Stop sharing when the user closes the screen share
+                screenStream.getVideoTracks()[0].onended = () => {
+                    stopScreenSharing();
+                };
+            } catch (error) {
+                console.error("Error starting screen sharing:", error);
             }
         }
-    };
-    useEffect(() => {
-        if (peerRef) {
-            console.log("Peer object updated:", peerRef);
+    }
+    // async function shareScreen() {
+    //     if (participants.length > 1) {
+    //         const InitiatorUser = participants.find(user => String(user.userId) === String(user_id));
+    //         const NonInitiatorUser = participants.find(user => String(user.userId) !== String(user_id));
+    
+    //         try {
+    //             const screenStream = await navigator.mediaDevices.getDisplayMedia({
+    //                 video: { cursor: "always" },
+    //                 audio: false
+    //             });
+    
+    //             if (LocalscreenVideo.current) {
+    //                 LocalscreenVideo.current.srcObject = screenStream;
+    //             }
+    
+    //             if (!peerRef.current) {
+    //                 console.error("Peer connection not initialized.");
+    //                 return;
+    //             }
+    
+    //             // Add the screen-sharing track separately without replacing the camera track
+    //             screenStream.getTracks().forEach(track => {
+    //                 peerRef.current.addTrack(track, screenStream);
+    //             });
+    
+    //             // Handle negotiation for the new track
+    //             peerRef.current.onnegotiationneeded = async () => {
+    //                 try {
+    //                     const offer = await peerRef.current.createOffer();
+    //                     await peerRef.current.setLocalDescription(offer);
+    
+    //                     setTimeout(() => {
+    //                         if (ws && ws.readyState === WebSocket.OPEN) {
+    //                             ws.send(JSON.stringify({
+    //                                 type: "offer",
+    //                                 signal: peerRef.current.localDescription,
+    //                                 sender: InitiatorUser.userId,
+    //                                 target: NonInitiatorUser.userId
+    //                             }));
+    //                         }
+    //                     }, 500);
+    //                 } catch (error) {
+    //                     console.error("Error during negotiation:", error);
+    //                 }
+    //             };
+    
+    //             // Stop screen sharing when ended
+    //             screenStream.getVideoTracks()[0].onended = () => {
+    //                 screenStream.getTracks().forEach(track => track.stop());
+    //                 console.log("Screen sharing stopped.");
+    
+    //                 // Remove track from peer connection when screen sharing stops
+    //                 const senders = peerRef.current.getSenders();
+    //                 senders.forEach(sender => {
+    //                     if (sender.track && sender.track.kind === "video" && sender.track.label.includes("screen")) {
+    //                         peerRef.current.removeTrack(sender);
+    //                     }
+    //                 });
+    
+    //                 // Renegotiate after removing screen-sharing track
+    //                 peerRef.current.onnegotiationneeded();
+    //             };
+    
+    //         } catch (error) {
+    //             console.error("Error starting screen share:", error);
+    //         }
+    //     }
+    // }
+   
+    useEffect(()=>{
+    console.log('peer',peerRef)
+    },[peerRef])
+    function stopScreenSharing() {
+        if (screenPeerRef) {
+            screenPeerRef.current.destroy();
+            screenPeerRef.current = null;
         }
-    }, [peerRef]);
+        console.log("Screen sharing stopped.");
+    }
+  
     // useEffect(() => {
     //     if (!RemoteStream || !partnerVideo.current) return;
     
@@ -443,11 +610,7 @@ console.log('connectes',connected)
     
         const videoElement = partnerVideo.current;
     
-        console.log("Video element is ready:", videoElement);
-        console.log("Remote Stream:", RemoteStream);
-        console.log("Tracks:", RemoteStream.getTracks());
-        console.log("Video Tracks:", RemoteStream.getVideoTracks());
-        console.log("Audio Track:", RemoteStream.getAudioTracks());
+        
         RemoteStream.getTracks().forEach(track => {
             console.log(`Track kind: ${track.kind}, enabled: ${track.enabled}, readyState: ${track.readyState}`);
         });
@@ -494,9 +657,6 @@ console.log('connectes',connected)
         setInnertoggleSideUser('sideUserDetails')
      }
     },[sharing])
-    // useEffect(()=>{
-        console.log("partner vid",partnerVideo)
-    // },[partnerVideo])
     useEffect(()=>{
         const {state}=location
         if (state) {
@@ -504,13 +664,7 @@ console.log('connectes',connected)
           } 
         // startLocalStream()
     },[location])
-    // useEffect(()=>{
-    // if(cam===true){
-    //     setOpenVideo('on')
-    // }else{
-    //     setOpenVideo('')
-    // }
-    // },[cam])
+   
     useEffect(() => {
         setMainCss('fullPageMain'); // This overrides the initial state
         setAsideCss('closeAside')
@@ -607,6 +761,9 @@ console.log('connectes',connected)
             sharing: true,
             userId: user_id 
         }));
+        // startScreenSharing()
+        // shareScreen()
+        startScreenShare()
     } 
    }
    function StopSharing(){
@@ -645,7 +802,11 @@ console.log('connectes',connected)
         <div className='classContainer'>
           <main className={mainCss}>
             <div className='classVideoImageWrapper'>
-                    <div className={Videocard}></div>
+                    <div className={Videocard}>
+                        {Usersharing === user_id?
+                        <video ref={LocalscreenVideo} autoPlay playsInline muted />
+                        :<video ref={screenVideo} autoPlay playsInline muted />}
+                    </div>
                     {connectedUsers>2?<div className={toggleDisplay}>
                         <div className={card}>
                             <div className='cardShortnameWrapper'>
