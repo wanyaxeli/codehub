@@ -236,7 +236,7 @@
   margin-left: -2px;
 }
 .inputWrapper{
-  width: auto;
+  width: 64%;
   height: auto;
   display: flex;
   align-items: center;
@@ -251,23 +251,21 @@
   border-right: 1px solid #e8e8ee;
 
 }
-.inputWrapper input{
-  height: 50px;
-  width: 300px;
-  border: none;
-  outline: none;
-}
 .inputWrapper button{
-  height: 50px;
+  height: 44px;
   border: none;
   outline: none;
   background-color: #0097b2;
   cursor: pointer;
-  width: 150px;
+  width: 100%;
   color: #fff;
   text-transform: capitalize;
-  border-bottom-right-radius: 10px;
-  border-top-right-radius: 10px;
+  border-radius: 10px;
+}
+.inputWrapper button:hover{
+  border: 2px solid #0097b2 ;
+  background-color: transparent;
+  color: #000;
 }
 .kidsContainer{
   padding: 15px 0;
@@ -569,6 +567,11 @@
   color: #fff;
   cursor: pointer;
 }
+.formBtnwrapper button:hover{
+  border:2px solid #0097b2;
+  background-color:transparent;
+  color: #000;
+}
 .registerPromptWrapper{
   padding: 10px 0;
 }
@@ -755,6 +758,11 @@
   color: #fff;
   border-radius: 10px;
 }
+.LoginBtnWrapper button:hover{
+  border:2px solid #0097b2;
+  background-color:transparent;
+  color: #000;
+}
 .DashboardWrapper{
   width: 100%;
   height: auto;
@@ -871,13 +879,14 @@
 .TeacherActionWrapper{
   padding: 20px 10px;
   width: 100%;
-  height: auto;
+  height: 275px;
   background-color: #fff;
   border-radius: 10px;
   margin-bottom: 20px;
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 25px;
+  flex-wrap: wrap;
   overflow-x: auto;
 }
 .TeacherNameWrapper p{
@@ -929,7 +938,7 @@
   cursor: pointer;
 }
 .actionBtnContainer{
-  flex: 150px;
+  width: 160px;
   height: 100px;
   background-color: green;
   border-radius: 10px;
@@ -960,6 +969,14 @@
 }
 .addStudent{
   background-color: purple;
+}
+.lessonsBtn{
+  background-color: brown;
+  color: #fff;
+}
+.bookingsManagerBtn{
+  background-color: rgb(77, 42, 165);
+  color: #fff;
 }
 .addStudent p,.uploadedvideo p,.createcurriculum p{
   color: #fff;
@@ -1089,9 +1106,13 @@ table{
 .headerDashlinkWrapper p:hover{
   color: #0097b2;
 }
+body{
+  overflow-x:hidden;
+}
 .ClassWRapper{
   width: 100%;
   height: 100%;
+  overflow-x:hidden;
 }
 
 .ClassHeaderWrapper{
@@ -2285,4 +2306,156 @@ video{
   background-color: #0097b2;
   color: #fff;
   text-align:start;
+}
+.RegisterStudentModal{
+  width: 400px;
+  position: absolute;
+  top:13%;
+  z-index: 1;
+  right:1%;
+  height:80%;
+  background-color:#e8e8ee;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  border-radius: 10px;
+  transition: all 2s;
+  transform: translateX(0);
+}
+.CloseRegisterStudentModal{
+  width: 400px;
+  position: absolute;
+  top:13%;
+  z-index: 1;
+  right:1%;
+  height:75%;
+  background-color:#e8e8ee;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  border-radius: 10px;
+  transition: all 2s;
+  transform: translateX(1000px);
+}
+.InnerRegisterStudentModal{
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  padding: 10px;
+}
+.InnerRegisterStudentModalBtnClosewrapper{
+  width: 100%;
+  height: auto;
+ display: flex;
+ align-items: center;
+ justify-content: flex-end;
+}
+.ModalBtnCloseContainer{
+  width: 25px;
+  height: 25px;
+  background-color: #0097b2;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 5px;
+  cursor: pointer;
+}
+.ModalBtnCloseContainer:hover{
+  transform: scale(1.1);
+}
+.ModalBtnCloseContainer span:hover{
+  color: #fff;
+}
+.registerstudentFormwrapper{
+  width: 100%;
+  height: auto;
+  padding: 15px 0;
+}
+.registerstudentFormwrapper input{
+  width: 100%;
+  height: 45px;
+  outline: none;
+  border: none;
+  border-radius: 10px;
+  padding:0 10px;
+  margin-bottom:11px ;
+}
+.registerStudentBntWrapper{
+  width: 100%;
+  height: auto;
+}
+.registerStudentBntWrapper button{
+  height: 50px;
+  background-color: #0097b2;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  width: 100%;
+  border-radius: 10px;
+  text-transform: capitalize;
+  color: #fff;
+}
+.registerStudentBntWrapper button:hover{
+  background-color: transparent;
+  border: 2px solid #0097b2;
+  color: #000;
+}
+.classNotStartedWrapper{
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.classNotStartedWrapper main,.classNotStartedWrapper aside{
+  flex: .5;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+.classNotStartedWrapper aside p{
+  font-size: 1.5rem;
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+}
+.classNotStartedWrapper aside p span{
+  display: inline-block;
+}
+.VideoHolder{
+  width: 100%;
+  height: 100%;
+  background-color: #ffff;
+  border-radius: 10px;
+}
+.VideoHolder video{
+  width: 100%;
+  height: 100%;
+}
+.errorWrapper{
+  width: 100%;
+  height: 100vh;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.noOtherMemberJoinedWrapper{
+  text-align: center;
+  padding: 10px 0;
+}
+.noOtherMemberJoinedWrapper button{
+  width: 100px;
+  height: 40px;
+  background-color: #0097b2;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  margin-top: 10px;
+  border-radius: 10px;
+  text-transform: capitalize;
+}
+.noOtherMemberJoinedWrapper button:hover{
+  background-color: transparent;
+  border: 2px solid #0097b2;
+  color: #000;
 }

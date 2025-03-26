@@ -17,12 +17,13 @@ export default function Banner() {
     const {value,setValue,CountryCode,setCountryCode}=useContext(context)
     const navigate=useNavigate()
     const handleTOFreeLesson =()=>{
-        if (isValidPhoneNumber(value)) {
-            console.log('Valid phone number:', value);
-            navigate('/laptop')
-          } else {
-            setError('Invalid phone number');
-          }
+        // if (isValidPhoneNumber(value)) {
+        //     console.log('Valid phone number:', value);
+        //     navigate('/laptop')
+        //   } else {
+        //     setError('Invalid phone number');
+        //   }
+        navigate('/register')
     }
     console.log('va',value)
      // Handle phone number change
@@ -77,13 +78,13 @@ export default function Banner() {
             <div className='inputWrapper'>
                 {/* <div className='countCodeHolder'></div>
                 <input type="text" /> */}
-                <PhoneInput
+                {/* <PhoneInput
                 placeholder="Enter phone number"
                 value={value}
                 countries={africanCountries}
                 defaultCountry="KE"
                 style={customStyle}
-                onChange={handlePhoneChange}/>
+                onChange={handlePhoneChange}/> */}
                 <button onClick={handleTOFreeLesson} >Try Free Lesson</button>
             </div>
             <div className='sharedStyles kidsContainer'>

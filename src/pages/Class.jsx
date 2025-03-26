@@ -4,6 +4,8 @@ import pic from '../assets/logoCodeHub.png'
 import SubmitProjectModal from '../Components/SubmitProjectModal'
 import Peer from "simple-peer";
 import { jwtDecode } from 'jwt-decode';
+import RegisterStudentModal from '../Components/RegisterStudentModal';
+import CountdownTimer from '../Components/CountdownTimer';
 export default function Class() {
     const [mainCss,setMainCss]=useState('fullPageMain')
     const [asideCss,setAsideCss]=useState('closeAside')
@@ -23,12 +25,14 @@ export default function Class() {
     const [openMic,setOpenMic]=useState('')
     const [openVidoe,setOpenVideo]=useState('on')
     const [code,setCode]=useState('')
+    const [timeLeft, setTimeLeft] = useState(null);
     const [openSubmitModal,setopenSubmitModal]=useState(false)
     const location = useLocation()
     const [isConnected, setIsConnected] = useState(false);
     const [ws, setWs] = useState(null);
     const { name, token } = useParams();
     const [UserToken, setToken] = useState('');
+    const [startingTime, setStartingTime] = useState('');
     const [role, setRole] = useState('');
     const [socket, setSocket] = useState(null);
     const [peer, setPeer] = useState(null);
@@ -37,15 +41,18 @@ export default function Class() {
     const [user_id, setUser_id] = useState('');
     const [waiting, setWaiting] = useState(false);
     const [connected, setConnected] = useState([]);
+    const [peerConnected, setpeerConnected] = useState(false);
     const [RemoteStream, setRemoteStream] = useState('');
     const userVideo = useRef();
+    const [counter, setCounter] = useState(0);
+    const [openStudentRegistrationform,setopenStudentRegistrationform]=useState('CloseRegisterStudentModal')
     const [sharing,setSharing]=useState(false)
     const [Usersharing,setUserSharing]=useState('')
     const partnerVideo = useRef();
     const [videoElement, setVideoElement] = useState(null);
     const [localStream, setLocalStream] = useState(null);
     const [ice, setIce] = useState([]);
-    const [screenStream,setScreenStream]=useState(null)
+    const [toggleMic,setToggleMuteMic]=useState(true)
     const [participants,setparticipants]=useState([])
     const screenVideo = useRef(null); // Remote screen video element
     const LocalscreenVideo = useRef(null); // Local screen video element
@@ -183,19 +190,20 @@ console.log('connectes',connected)
         setAsideCss('closeAside')
     }
     },[toggleChat])
-    function tunOnMic(){
-        if (localStream !=null) {
+    function tunOnMic() {
+        if (localStream) {
             localStream.getAudioTracks().forEach((track) => {
-              track.enabled = true;
-            });}
-            else{
-                console.log('no steam')
-            }
-   }
-    function tunOFMic(){
-        if (localStream !=null) {
+                track.enabled = true; // Enable the audio track
+            });
+        } else {
+            console.log('No stream available');
+        }
+    }
+    
+    function tunOFMic() {
+        if (localStream) {
             localStream.getAudioTracks().forEach((track) => {
-              track.enabled = false;
+                track.enabled = false; // Disable the audio track
             });
         }
     }
@@ -237,24 +245,25 @@ console.log('connectes',connected)
             const Recieveddata = JSON.parse(data.data)
             if(Recieveddata.type ==='user-joined'){
                 const {users,users_count}= Recieveddata
-                
-                if(users_count && users_count===2){
-                    setparticipants(users)
-                    console.log('users in class',users)
-                    setWaiting(false)
-                    const InitiatorUser = users.find(user =>user.initiator === true);
-                    const initiatorId=InitiatorUser.userId
-                    const targetUser = users.find(user =>user.initiator ===false);
+                setparticipants(users)
+                console.log('in class',users)
+                // if(users_count && users_count===2){
+                    
+                //     console.log('users in class',users)
+                //     setWaiting(false)
+                //     const InitiatorUser = users.find(user =>user.initiator === true);
+                //     const initiatorId=InitiatorUser.userId
+                //     const targetUser = users.find(user =>user.initiator ===false);
                    
-                    if (InitiatorUser && String(initiatorId) === String(user_id)){
-                        setTimeout(() => {
-                            initiateCall(ws, targetUser, initiatorId);
-                            console.log('true initiator', InitiatorUser);
-                        }, 2000);
-                    }
-                    }else{
-                        setWaiting(true)
-                    }
+                //     if (InitiatorUser && String(initiatorId) === String(user_id)){
+                //         setTimeout(() => {
+                //             initiateCall(ws, targetUser, initiatorId);
+                //             console.log('true initiator', InitiatorUser);
+                //         }, 2000);
+                //     }
+                //     }else{
+                //         setWaiting(true)
+                //     }
             }
              else if(Recieveddata.type==='chat'){
                  const {message}= Recieveddata
@@ -341,6 +350,17 @@ console.log('connectes',connected)
             ws.close();
         };
     },[code,user_id,ice]);
+    function startCall(){
+        if(participants && participants.length===2 && timeLeft ===0 && user_id && socket){
+            const InitiatorUser = participants.find(user =>user.initiator === true);
+            const initiatorId=InitiatorUser.userId
+            const targetUser = participants.find(user =>user.initiator ===false);
+            if (InitiatorUser && String(initiatorId) === String(user_id)){
+                    initiateCall(socket, targetUser, initiatorId);
+                    console.log('true initiator', InitiatorUser);
+            }
+        }
+    }
     function initiateCall(socket, targetUser, id) {
         if (localStream && targetUser && id && socket && socket.readyState === WebSocket.OPEN && ice) {
             const peerConfig = {iceServers:ice};
@@ -358,6 +378,7 @@ console.log('connectes',connected)
     
             initiator.on("connect", () => {
                 console.log("Initiator: Peer connected successfully!");
+                setpeerConnected(true)
             });
     
             initiator.on("stream", (remoteStream) => {
@@ -419,6 +440,7 @@ console.log('connectes',connected)
     
         responder.on("connect", () => {
             console.log("Responder: Peer connected successfully!");
+            setpeerConnected(true)
         });
     
         responder.signal(signal);
@@ -480,94 +502,19 @@ console.log('connectes',connected)
                     } else {
                         ws.send(JSON.stringify({ type: "screen-offer", data ,sender: InitiatorUser.userId, target: NonInitiatorUser.userId }));
                     }
-                    // ws.send(
-                    //     JSON.stringify({
-                    //         type: "screen-offer",
-                    //         signal: data,
-                    //         sender: InitiatorUser.userId,
-                    //         target: NonInitiatorUser.userId,
-                    //     })
-                    // );
                 });
                 screenPeerRef.current = screenPeer;
                 // Stop sharing when the user closes the screen share
                 screenStream.getVideoTracks()[0].onended = () => {
-                    stopScreenSharing();
+                    console.log("Screen sharing stopped via browser UI");
+                    StopSharing()
+                   
                 };
             } catch (error) {
                 console.error("Error starting screen sharing:", error);
             }
         }
-    }
-    // async function shareScreen() {
-    //     if (participants.length > 1) {
-    //         const InitiatorUser = participants.find(user => String(user.userId) === String(user_id));
-    //         const NonInitiatorUser = participants.find(user => String(user.userId) !== String(user_id));
-    
-    //         try {
-    //             const screenStream = await navigator.mediaDevices.getDisplayMedia({
-    //                 video: { cursor: "always" },
-    //                 audio: false
-    //             });
-    
-    //             if (LocalscreenVideo.current) {
-    //                 LocalscreenVideo.current.srcObject = screenStream;
-    //             }
-    
-    //             if (!peerRef.current) {
-    //                 console.error("Peer connection not initialized.");
-    //                 return;
-    //             }
-    
-    //             // Add the screen-sharing track separately without replacing the camera track
-    //             screenStream.getTracks().forEach(track => {
-    //                 peerRef.current.addTrack(track, screenStream);
-    //             });
-    
-    //             // Handle negotiation for the new track
-    //             peerRef.current.onnegotiationneeded = async () => {
-    //                 try {
-    //                     const offer = await peerRef.current.createOffer();
-    //                     await peerRef.current.setLocalDescription(offer);
-    
-    //                     setTimeout(() => {
-    //                         if (ws && ws.readyState === WebSocket.OPEN) {
-    //                             ws.send(JSON.stringify({
-    //                                 type: "offer",
-    //                                 signal: peerRef.current.localDescription,
-    //                                 sender: InitiatorUser.userId,
-    //                                 target: NonInitiatorUser.userId
-    //                             }));
-    //                         }
-    //                     }, 500);
-    //                 } catch (error) {
-    //                     console.error("Error during negotiation:", error);
-    //                 }
-    //             };
-    
-    //             // Stop screen sharing when ended
-    //             screenStream.getVideoTracks()[0].onended = () => {
-    //                 screenStream.getTracks().forEach(track => track.stop());
-    //                 console.log("Screen sharing stopped.");
-    
-    //                 // Remove track from peer connection when screen sharing stops
-    //                 const senders = peerRef.current.getSenders();
-    //                 senders.forEach(sender => {
-    //                     if (sender.track && sender.track.kind === "video" && sender.track.label.includes("screen")) {
-    //                         peerRef.current.removeTrack(sender);
-    //                     }
-    //                 });
-    
-    //                 // Renegotiate after removing screen-sharing track
-    //                 peerRef.current.onnegotiationneeded();
-    //             };
-    
-    //         } catch (error) {
-    //             console.error("Error starting screen share:", error);
-    //         }
-    //     }
-    // }
-   
+    }   
     useEffect(()=>{
     console.log('peer',peerRef)
     },[peerRef])
@@ -575,36 +522,13 @@ console.log('connectes',connected)
         if (screenPeerRef) {
             screenPeerRef.current.destroy();
             screenPeerRef.current = null;
+          
         }
         console.log("Screen sharing stopped.");
     }
-  
-    // useEffect(() => {
-    //     if (!RemoteStream || !partnerVideo.current) return;
-    
-    //     const videoElement = partnerVideo.current;
-    //     const videoTracks = RemoteStream.getVideoTracks();
-    
-    //     if (videoTracks.length === 0) {
-    //         console.error("No video tracks found in RemoteStream.");
-    //         return;
-    //     }
-    
-    //     console.log("Attaching video track:", videoTracks[0]);
-    
-    //     // Create a new MediaStream with only the video track
-    //     const newStream = new MediaStream();
-    //     newStream.addTrack(videoTracks[0]);
-    
-    //     videoElement.srcObject = newStream;
-    
-    //     setTimeout(() => {
-    //         const playPromise = videoElement.play();
-    //         if (playPromise !== undefined) {
-    //             playPromise.catch(error => console.error("Playback error:", error));
-    //         }
-    //     }, 100);
-    // }, [RemoteStream]);
+    useEffect(()=>{
+    startCall()
+    },[user_id,timeLeft,participants,socket])
     useEffect(() => {
         if (!RemoteStream || !partnerVideo.current) return;
     
@@ -658,13 +582,15 @@ console.log('connectes',connected)
      }
     },[sharing])
     useEffect(()=>{
-        const {state}=location
+        const { state } = location || {}; // Ensure location is not undefined
+        const { id, time } = state || {};
         if (state) {
-            setCode(state); // Use the state if it exists
-          } 
+            setCode(id);  // Set the state if it exists
+            setStartingTime(time);
+
+        }
         // startLocalStream()
     },[location])
-   
     useEffect(() => {
         setMainCss('fullPageMain'); // This overrides the initial state
         setAsideCss('closeAside')
@@ -699,22 +625,23 @@ console.log('connectes',connected)
             }
         }
       }
-      const handleToggleMic =()=>{
-         if (openMic===''){
-            setOpenMic('on')
-            tunOnMic()
-            setToggleMic(true)
-         }else{
-            setOpenMic('')
-            setToggleMic(false)
-            tunOFMic()
-         }
-      }
+      const handleToggleMic = () => {
+        if (openMic === '') {
+            setOpenMic('on');
+            tunOnMic();
+            setToggleMuteMic(false); // Unmute the video
+        } else {
+            setOpenMic('');
+            tunOFMic();
+            setToggleMuteMic(true); // Mute the video
+        }
+    };
      
     const handleShareScreen=()=>{
         if(sharing===true){
             if(Usersharing===user_id){
                 StopSharing()
+                stopScreenSharing()
             }else{
                 alert(`${Usersharing} is sharing screen already`)
             }
@@ -754,6 +681,16 @@ console.log('connectes',connected)
     //     }
     // }
     }
+    useEffect(() => {
+        let interval;
+        if (timeLeft === "Event has started!") {
+            interval = setInterval(() => {
+                setCounter(prev => prev + 1);
+            }, 60000); // Update every 1 minute
+        }
+
+        return () => clearInterval(interval); // Cleanup interval
+    }, [timeLeft])
    function StartSharing(){
     if (ws && ws.readyState === WebSocket.OPEN && user_id && sharing===false){
         ws.send(JSON.stringify({ 
@@ -772,144 +709,192 @@ console.log('connectes',connected)
             type: "stop_sharing",
             sharing: false,
         }));
+        stopScreenSharing();
+        console.log('screen shariring called to stop')
+    }else{
+        console.log('websocket closed ')
     } 
    }
-  return (
-    <div className='ClassWRapper'>
-        <div className='ClassHeader'>
-         <div className='ClassHeaderWrapper'>
-            <div className='classHeaderLogowrapper'>
-                <div className='logoContainer'>
-                    <img src={pic}/>
-                </div>
-                <div className=''>
-
-                </div>
+   const handleStudent =()=>{
+    setopenStudentRegistrationform('RegisterStudentModal')
+   }
+   console.log('pati',participants,'time left',timeLeft)
+  if(participants.length < 2 && timeLeft !=='Event has started!' ){
+    return(
+        <div className='classNotStartedWrapper'>
+          <main>
+            <div className='VideoHolder'>
+            <video ref={userVideo} autoPlay playsInline muted={true} />
             </div>
-            <div className='classHeaderBtnwrapper'>
-                <ul>
-                    <li onClick={handleSubmitProject}>submit project</li>
-                    <li onClick={handleOpenChat}>chat</li>
-                </ul>
-            </div>
-            <div className='classheaderBtnActionwrapper'>
-                <div className='endclassBtnwrapper'>
-                    <button>end class</button>
-                </div>
-            </div>
-         </div>
-        </div> 
-        <div className='classContainer'>
-          <main className={mainCss}>
-            <div className='classVideoImageWrapper'>
-                    <div className={Videocard}>
-                        {Usersharing === user_id?
-                        <video ref={LocalscreenVideo} autoPlay playsInline muted />
-                        :<video ref={screenVideo} autoPlay playsInline muted />}
-                    </div>
-                    {connectedUsers>2?<div className={toggleDisplay}>
-                        <div className={card}>
-                            <div className='cardShortnameWrapper'>
-                                <p>e</p>
-                            </div>
-                        </div>
-                        <div className={card}>
-                        <div className='cardShortnameWrapper'>
-                                <p>w</p>
-                            </div>
-                        </div>
-                        <div className={card}>
-                        <div className='cardShortnameWrapper'>
-                                <p>s</p>
-                            </div>
-                        </div>
-                    </div>:<div className={toggleClassOnJoinedUser}>
-                        <div className='fistUserDivWrapper'>
-                        {/* {partnerVideo.current? (
-                            <video ref={partnerVideo} autoPlay playsInline />
-                        ) : (
-                            <div className='MainUserDetails'>
-                                <p>w</p>
-                            </div>
-                        )} */}
-                        <video ref={partnerVideo} autoPlay playsInline muted/>
-                        </div>
-                        <div className={toggleSideUser}>
-                            <div className='InnerSecondUserDivWrapper'>
-                            {cam ===true ? (
-                                <video ref={userVideo} autoPlay playsInline muted />
-                            ) : (
-                                <div className={toggleInnerSideUser}>
-                                    <p>e</p>
-                                </div>
-                            )}
-                            </div>
-                        </div>
-                    </div>}
-            </div>
-           <div className='mainClassBtnActionHolder'>
-                <ul>
-                    <li>
-                        <div>
-                            <div className={`classInconHolder ${openVidoe}`} onClick={handleToggleVideo}>
-                            <i className="fa fa-video-camera" aria-hidden="true"></i>
-                            {/* <i className="fi fi-rr-video-slash"></i> */}
-                            </div>
-                            <p>cam</p>
-                        </div>
-                    </li>
-                    <li>
-                    <div>
-                        <div className={`classInconHolder ${openMic}`} onClick={handleToggleMic}>
-                        {mic===true?<i className="fa fa-microphone" aria-hidden="true"></i>:<i className="fa fa-microphone-slash" aria-hidden="true"></i>}
-                        </div>
-                        <p>mic</p>
-                    </div>
-                    </li>
-                    <li>
-                    <div>
-                        <div onClick={handleShareScreen} className={`classInconHolder ${Usersharing &&Usersharing === user_id ?openSharing:""}`}>
-                        <i className="fa fa-desktop" aria-hidden="true"></i>
-                        </div>
-                       {sharing && Usersharing &&Usersharing ===user_id? <p>stop  share</p>: <p>share</p>}
-                    </div>
-                    </li>
-                    {/* <li>
-                    <div>
-                        <div className='classInconHolder'>
-
-                        </div>
-                        <p>record</p>
-                    </div>
-                    </li> */}
-                </ul>
-           </div>
           </main>
-          <aside className={asideCss}>
-             <div className='chatWrapper'>
-                <div className='chatContainer'>
-                    {Wschat.map((chat,i)=>{
-                        return(
-                            <ul key={i}>
-                                {chat.user===user_id?<li className='sender'><p>{chat.text}</p></li>:
-                                <li className='reciever'><p>{chat.text}</p></li>}
-                           </ul>
-                        )
-                    })}
-                   {/* <ul>
-                     <li className='sender'><p>hello</p></li>
-                     <li className='sender'><p>hello what's up am stuck here</p></li>
-                     <li  className='reciever'><p>hello</p></li>
-                   </ul> */}
+          <aside>
+          {participants.length < 2 ? (
+            <div>
+            <p>
+            Your class starts in  <span>
+                <CountdownTimer timeLeft={timeLeft} setTimeLeft={setTimeLeft} startingTime={startingTime} />
+            </span>
+            </p>
+             {counter ===15?<div className='noOtherMemberJoinedWrapper'>
+                <span>oops! the other member did not join the class</span><br/>
+                <button>end class</button>
+             </div>:''}
+            </div>
+            ) : participants.length === 2 && !peerConnected && (
+                <div>
+                    <p>Waiting for peer connection...</p>
+                     <span><i className="fa fa-spinner spinner" aria-hidden="true"></i></span>
                 </div>
-                <div className='chatInputWrapper'>
-                    <input onChange={handleChat} value={chat} placeholder='Chat...'/>
-                    <button onClick={handleSendChat}><i className="fa fa-paper-plane" aria-hidden="true"></i></button>
-                </div>
-             </div>
+            )}
           </aside>
         </div>
-       {openSubmitModal &&  <SubmitProjectModal openSubmitModal={openSubmitModal} setopenSubmitModal={setopenSubmitModal}/> }
-    </div>
-  )
+    )
+  }else if(participants.length===2 && timeLeft ==='Event has started!' && peerConnected===true){
+    return (
+        <div className='ClassWRapper'>
+            <div className='ClassHeader'>
+            <div className='ClassHeaderWrapper'>
+                <div className='classHeaderLogowrapper'>
+                    <div className='logoContainer'>
+                        <img src={pic}/>
+                    </div>
+                    <div className=''>
+
+                    </div>
+                </div>
+                <div className='classHeaderBtnwrapper'>
+                    <ul>
+                        <li onClick={handleSubmitProject}>submit project</li>
+                        <li onClick={handleStudent}>student</li>
+                        <li onClick={handleOpenChat}>chat</li>
+                    </ul>
+                </div>
+                <div className='classheaderBtnActionwrapper'>
+                    <div className='endclassBtnwrapper'>
+                        <button>end class</button>
+                    </div>
+                </div>
+            </div>
+            </div> 
+            <div className='classContainer'>
+            <main className={mainCss}>
+                <div className='classVideoImageWrapper'>
+                        <div className={Videocard}>
+                            {Usersharing === user_id?
+                            <video ref={LocalscreenVideo} autoPlay playsInline muted />
+                            :<video ref={screenVideo} autoPlay playsInline muted />}
+                        </div>
+                        {connectedUsers>2?<div className={toggleDisplay}>
+                            <div className={card}>
+                                <div className='cardShortnameWrapper'>
+                                    <p>e</p>
+                                </div>
+                            </div>
+                            <div className={card}>
+                            <div className='cardShortnameWrapper'>
+                                    <p>w</p>
+                                </div>
+                            </div>
+                            <div className={card}>
+                            <div className='cardShortnameWrapper'>
+                                    <p>s</p>
+                                </div>
+                            </div>
+                        </div>:<div className={toggleClassOnJoinedUser}>
+                            <div className='fistUserDivWrapper'>
+                            {/* {partnerVideo.current? (
+                                <video ref={partnerVideo} autoPlay playsInline />
+                            ) : (
+                                <div className='MainUserDetails'>
+                                    <p>w</p>
+                                </div>
+                            )} */}
+                            <video ref={partnerVideo} autoPlay playsInline muted/>
+                            </div>
+                            <div className={toggleSideUser}>
+                                <div className='InnerSecondUserDivWrapper'>
+                                {cam ===true ? (
+                                    <video ref={userVideo} autoPlay playsInline muted={toggleMic} />
+                                ) : (
+                                    <div className={toggleInnerSideUser}>
+                                        <p>e</p>
+                                    </div>
+                                )}
+                                </div>
+                            </div>
+                        </div>}
+                </div>
+            <div className='mainClassBtnActionHolder'>
+                    <ul>
+                        <li>
+                            <div>
+                                <div className={`classInconHolder ${openVidoe}`} onClick={handleToggleVideo}>
+                                <i className="fa fa-video-camera" aria-hidden="true"></i>
+                                {/* <i className="fi fi-rr-video-slash"></i> */}
+                                </div>
+                                <p>cam</p>
+                            </div>
+                        </li>
+                        <li>
+                        <div>
+                            <div className={`classInconHolder ${openMic}`} onClick={handleToggleMic}>
+                            {mic===true?<i className="fa fa-microphone" aria-hidden="true"></i>:<i className="fa fa-microphone-slash" aria-hidden="true"></i>}
+                            </div>
+                            <p>mic</p>
+                        </div>
+                        </li>
+                        <li>
+                        <div>
+                            <div onClick={handleShareScreen} className={`classInconHolder ${Usersharing &&Usersharing === user_id ?openSharing:""}`}>
+                            <i className="fa fa-desktop" aria-hidden="true"></i>
+                            </div>
+                        {sharing && Usersharing &&Usersharing ===user_id? <p>stop  share</p>: <p>share</p>}
+                        </div>
+                        </li>
+                        {/* <li>
+                        <div>
+                            <div className='classInconHolder'>
+
+                            </div>
+                            <p>record</p>
+                        </div>
+                        </li> */}
+                    </ul>
+            </div>
+            </main>
+            <aside className={asideCss}>
+                <div className='chatWrapper'>
+                    <div className='chatContainer'>
+                        {Wschat.map((chat,i)=>{
+                            return(
+                                <ul key={i}>
+                                    {chat.user===user_id?<li className='sender'><p>{chat.text}</p></li>:
+                                    <li className='reciever'><p>{chat.text}</p></li>}
+                            </ul>
+                            )
+                        })}
+                    {/* <ul>
+                        <li className='sender'><p>hello</p></li>
+                        <li className='sender'><p>hello what's up am stuck here</p></li>
+                        <li  className='reciever'><p>hello</p></li>
+                    </ul> */}
+                    </div>
+                    <div className='chatInputWrapper'>
+                        <input onChange={handleChat} value={chat} placeholder='Chat...'/>
+                        <button onClick={handleSendChat}><i className="fa fa-paper-plane" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            </aside>
+            </div>
+            <RegisterStudentModal openStudentRegistrationform={openStudentRegistrationform} setopenStudentRegistrationform={setopenStudentRegistrationform}/>
+        {openSubmitModal &&  <SubmitProjectModal openSubmitModal={openSubmitModal} setopenSubmitModal={setopenSubmitModal}/> }
+        </div>
+    )
+    }else{
+        return(
+            <div className='errorWrapper'>
+            <p>Loading ...</p>
+            </div>
+        )
+    }
 }

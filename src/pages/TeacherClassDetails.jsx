@@ -1,10 +1,13 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect,useContext} from 'react'
 import { useLocation,useNavigate } from 'react-router-dom'
-import pic from '../assets/student.jpg'
+import { context } from '../App'
+import pic from '../assets/codehubImage.jpeg'
 export default function TeacherClassDetails() {
     const location =useLocation()
     const navigate=useNavigate()
     const [todayClass,setTodayClass]=useState([])
+    const [token,setToken]=useState()
+    const {teacher,proPic}=useContext(context)
     useEffect(()=>{
     const {state}=location
     console.log(state)
@@ -17,8 +20,9 @@ export default function TeacherClassDetails() {
     })
    }
     },[])
-    const handleToJoinClass=(id)=>{
-        navigate(`/class/${id}`,{state:id})
+    const handleToJoinClass=(id,time)=>{
+        navigate(`/class/${id}`, { state: { id, time } });
+        console.log('time',time)
     }
     const handleNotes = ( title, notes) => {
         // e.preventDefault(); // Prevents default link or form behavior
@@ -31,16 +35,17 @@ export default function TeacherClassDetails() {
          <div className='TeacherDetailsWrapper'>
             <div className='TeacherImageWrapper'>
                 <div className='TeacherImageContainer'>
-                    <img src={pic}/>
+                    {/* <img src={pic}/> */}
+                    {proPic?<img src={`https://res.cloudinary.com/dbxsncq5r/${proPic}`}/>:<img src={pic}/>}
                 </div>
-                <div className='imageChanger'>
+                {/* <div className='imageChanger'>
                  <div className='imageChangerHolder'>
                  <i class="fa fa-camera" aria-hidden="true"></i>
                  </div>
-                </div>
+                </div> */}
             </div>
             <div className='TeacherNameWrapper'>
-                {/* {student&& <p>{student.user.first_name} {student.user.last_name} <span><i className="fa fa-pencil" aria-hidden="true"></i></span></p>} */}
+                {teacher&& <p>{teacher.user.first_name} {teacher.user.last_name}</p>}
             </div>
             <div className='TeacherEarnsWrapper'>
                 <div>
@@ -70,7 +75,7 @@ export default function TeacherClassDetails() {
                         details
                     </a>
                     </p>
-                    <button onClick={()=>handleToJoinClass(lesson.lesson.lessonId)}>join</button>
+                    <button onClick={()=>handleToJoinClass(lesson.lesson.lessonId,lesson.date_time)}>join</button>
                   </div>
                 )
                })}

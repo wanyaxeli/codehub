@@ -2,8 +2,7 @@ import React,{useState,useEffect,useContext} from 'react'
 import pic from '../assets/logoCodeHub.png'
 import { context } from '../App'
 import {useNavigate,useLocation} from 'react-router-dom'
-import pic1 from '../assets/women1.jpg'
-import pic2 from '../assets/man.jpg'
+import pic2 from '../assets/codehubImage.jpeg'
 import HeaderDetails from './HeaderDetails';
 export default function Header() {
     const [selectedValue, setSelectedValue] = useState('');
@@ -11,7 +10,7 @@ export default function Header() {
     const location = useLocation()
     console.log('location',location)
     const navigate=useNavigate()
-    const {teacher,student}=useContext(context)
+    const {teacher,student,proPic}=useContext(context)
     const {pathname}=location
     console.log('teacher',teacher)
     const handleChange = (event) => {
@@ -61,7 +60,7 @@ export default function Header() {
                     <div className='logoContainer'>
                     <img src={pic}/>
                     </div>
-                    <h4>Codehub Academy</h4>
+                    <h4>Codehub Scholar</h4>
                 </div>
                 <select value={selectedValue} onChange={handleChange}>
                 <option value="" disabled>
@@ -72,7 +71,7 @@ export default function Header() {
                 <option value="option3">scratch programming</option>
                 </select>
             </div>
-            <HeaderDetails pic2={pic2} token={token} handleToStudentDashboard={handleToStudentDashboard} handleToFreeClass={handleToFreeClass} handleToLogin={handleToLogin}  handleJoinClass={handleJoinClass} handleToDashboard={handleToDashboard} teacher={teacher} student={student}  pic1={pic1}/>
+            <HeaderDetails pic2={pic2} token={token} handleToStudentDashboard={handleToStudentDashboard} handleToFreeClass={handleToFreeClass} handleToLogin={handleToLogin}  handleJoinClass={handleJoinClass} handleToDashboard={handleToDashboard} teacher={teacher} student={student}  proPic={proPic}/>
         </div>
     </div>
   )

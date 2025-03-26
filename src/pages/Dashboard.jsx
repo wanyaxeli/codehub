@@ -17,6 +17,7 @@ export default function Dashboard() {
   '/teacher/dashboard/All%20Students','/teacher/dashboard/Add%20Teachers','/teacher/dashboard/Set%20Quiz']
   console.log('pa',pathname)
   const studentLink=['/teacher/dashboard/Student%20Profile','/teacher/dashboard/My%20students']
+  const calendarLinks=['/teacher/dashboard/Calendar','/teacher/dashboard/Teacher%20Class%20Details',]
   const handleToCalendar=()=>{
   navigate('/teacher/dashboard/Calendar')
   }
@@ -83,7 +84,7 @@ export default function Dashboard() {
         <aside>
           <ul>
             <li className={dashboardLinks.includes(pathname)?'active':""} onClick={handleToDashboard} >dashboard</li>
-            <li className={pathname==='/teacher/dashboard/Calendar'?'active':""} onClick={handleToCalendar} >calendar</li>
+            <li className={calendarLinks.includes(pathname)?'active':""} onClick={handleToCalendar} >calendar</li>
             <li className={pathname==='/teacher/dashboard/Projects'?'active':""} onClick={handleToProjects}>projects</li>
             <li className={studentLink.includes(pathname)?'active':""} onClick={handleToMystudents}>my students</li>
           </ul>

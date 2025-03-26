@@ -1,5 +1,5 @@
 import React,{useState,useEffect,useContext} from 'react'
-import pic from '../../assets/man.jpg'
+import pic from '../../assets/codehubImage.jpeg'
 import { useNavigate } from 'react-router-dom'
 import { context } from '../../App';
 import { jwtDecode } from "jwt-decode";
@@ -10,7 +10,8 @@ export default function StudentDetails() {
     const [lessons,setLesson]=useState([])
     const [todayClass,setTodayClass]=useState([])
     const [studentId,setStudentId]=useState('')
-    const {student}=useContext(context)
+    const {student,proPic,getProfilePic}=useContext(context)
+    const [profilePic,setProfilePic]=useState('')
     console.log(student)
     const handleToJoinClass =(id)=>{
     navigate(`/class/${id}`,{state:id})
@@ -45,6 +46,29 @@ export default function StudentDetails() {
     .catch(error=>console.log(error))
    }
  }
+ function UpdateProfilePic(){
+    if(token && profilePic){
+        const url = 'http://127.0.0.1:8000/profilePic/';
+        const formData = new FormData();
+        formData.append('image', profilePic);
+
+        axios.post(url,formData,{
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+        .then(response => {
+            alert(response.data.message)
+            console.log(response.data)
+            getProfilePic(token)
+        })
+        .catch(error => console.error(error));
+    }
+    }
+ const handlechange =(e)=>{
+    setProfilePic(e.target.files[0])
+}
  useEffect(()=>{
    if (lessons){
     const date= new Date()
@@ -65,8 +89,14 @@ export default function StudentDetails() {
    }
  },[lessons])
  useEffect(()=>{
+    UpdateProfilePic()
+    },[token,profilePic])
+ useEffect(()=>{
   getLessons()
  },[token,studentId])
+ useEffect(()=>{
+    getProfilePic(token)
+},[token])
 useEffect(()=>{
     if(token){
         const decoded = jwtDecode(token);
@@ -83,11 +113,14 @@ useEffect(()=>{
          <div className='TeacherDetailsWrapper'>
             <div className='TeacherImageWrapper'>
                 <div className='TeacherImageContainer'>
-                    <img src={pic}/>
+                    {proPic?<img src={`https://res.cloudinary.com/dbxsncq5r/${proPic}`}/>:<img src={pic}/>}
                 </div>
                 <div className='imageChanger'>
                  <div className='imageChangerHolder'>
-                 <i class="fa fa-camera" aria-hidden="true"></i>
+                 <label for="imageUpload">
+                 <i className="fa fa-camera" aria-hidden="true" style={{ cursor: "pointer" }}></i>
+                 </label>
+                 <input onChange={handlechange} accept="image/*"  type="file" id="imageUpload" style={{ display: "none" }} />
                  </div>
                 </div>
             </div>

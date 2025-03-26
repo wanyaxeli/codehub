@@ -1,5 +1,5 @@
 import React,{useState,useEffect,useContext} from 'react'
-import pic from '../assets/women1.jpg'
+import pic from '../assets/codehubImage.jpeg'
 import { context } from '../App'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
@@ -13,7 +13,8 @@ export default function Details() {
     const [token,setToken]=useState('')
     const [todayBooking,settodayBooking]=useState([])
     const navigate=useNavigate()
-    const {teacher} =useContext(context)
+    const {teacher,proPic,getProfilePic} =useContext(context)
+    const [profilePic,setProfilePic]=useState('')
     const handleToAllTeachers=()=>{
     navigate('/teacher/dashboard/All Teachers')
     }
@@ -36,6 +37,16 @@ export default function Details() {
     const handleSetLessons=()=>{
         navigate('/teacher/dashboard/Lessons')
     }
+    async function getToken(){
+        try{
+            const token= localStorage.getItem('token') // No need to await
+            if (token){
+                setToken(token);
+            }
+        } catch(error) {
+            console.log(error);
+  }
+}
     // Register the English locale for i18n-iso-countries
     countries.registerLocale(en);
 
@@ -43,6 +54,51 @@ export default function Details() {
     const getCountryName = (countryCode) => {
     return countries.getName(countryCode, "en") || "Unknown Country";
     };
+    const handlechange =(e)=>{
+        setProfilePic(e.target.files[0])
+    }
+    function UpdateProfilePic(){
+    if(token && profilePic){
+        const url = 'http://127.0.0.1:8000/profilePic/';
+        const formData = new FormData();
+        formData.append('image', profilePic);
+
+        axios.post(url,formData,{
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+        .then(response => {
+            alert(response.data.message)
+            console.log(response.data)
+            getProfilePic(token)
+        })
+        .catch(error => console.error(error));
+    }
+    }
+    // function getProfilePic(){
+    //     const url='http://127.0.0.1:8000/profilePic/'
+    //     axios.get(url,{
+    //         headers:{
+    //             'Authorization':`Bearer ${token}`
+    //         }
+    //     })
+    //     .then(res=>{
+    //         console.log('res',res.data)
+    //     })
+    //     .catch(error=>console.log(error))  
+    // }
+    console.log('profile',profilePic)
+    useEffect(()=>{
+    UpdateProfilePic()
+    },[token,profilePic])
+    useEffect(()=>{
+        getProfilePic(token)
+    },[token])
+    useEffect(()=>{
+    getToken()
+    },[])
     useEffect(()=>{
     if(token){
         const url ='http://127.0.0.1:8000/Teacherbooking/'
@@ -132,11 +188,14 @@ export default function Details() {
         <div className='TeacherDetailsWrapper'>
             <div className='TeacherImageWrapper'>
                 <div className='TeacherImageContainer'>
-                    <img src={pic}/>
+                    {proPic?<img src={`https://res.cloudinary.com/dbxsncq5r/${proPic}`}/>:<img src={pic}/>}
                 </div>
                 <div className='imageChanger'>
                  <div className='imageChangerHolder'>
-                 <i class="fa fa-camera" aria-hidden="true"></i>
+                 <label for="imageUpload">
+                 <i className="fa fa-camera" aria-hidden="true" style={{ cursor: "pointer" }}></i>
+                 </label>
+                 <input onChange={handlechange} accept="image/*"  type="file" id="imageUpload" style={{ display: "none" }} />
                  </div>
                 </div>
             </div>
@@ -172,10 +231,10 @@ export default function Details() {
             <div onClick={handleSetQuiz} className='actionBtnContainer quiz'>
             <p>Quiz</p>
             </div>
-            <div onClick={handleSetLessons} className='actionBtnContainer quiz'>
+            <div onClick={handleSetLessons} className='actionBtnContainer lessonsBtn'>
             <p>class</p>
             </div>
-            <div onClick={handleBookingManager} className='actionBtnContainer quiz'>
+            <div onClick={handleBookingManager} className='actionBtnContainer bookingsManagerBtn'>
             <p>Bookings</p>
             </div>
         </div>
