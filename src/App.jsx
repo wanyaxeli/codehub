@@ -11,6 +11,7 @@ function App() {
   const [grade, setGrade] = useState('')
   const [email,setEmail]=useState('')
   const [CountryCode, setCountryCode] = useState('')
+  const [CountryName, setCountryName] = useState('')
   const [student,setStudent]=useState('')
   const [teacher,setTeacher]=useState('')
   const [proPic,setProPic]=useState()
@@ -32,7 +33,7 @@ function App() {
 }  console.log('pro',proPic)
   return (
     <>
-    <context.Provider value={{value,email,setEmail,setTeacher,setStudent,teacher,student,setValue,CountryCode,setCountryCode,getProfilePic,proPic,grade,setGrade}}>
+    <context.Provider value={{value,email,setEmail,setTeacher,setStudent,teacher,student,setValue,CountryCode,setCountryCode,CountryName,setCountryName,getProfilePic,proPic,grade,setGrade}}>
     <AppRoutes/>
     </context.Provider>
     </>

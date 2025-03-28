@@ -7,6 +7,7 @@ export default function BookingsManager() {
     date:''
   }
   const [values,setValues]=useState(initialState)
+  const [res,setRes]=useState('')
   const handleChange=(e)=>{
    const {value,name}=e.target
    setValues({...values,[name]:value})
@@ -17,17 +18,24 @@ export default function BookingsManager() {
     const splitName=values.teacher.split(' ')
     const first_name=splitName[0]
     const last_name=splitName[1]
-    const data={...values,...{last_name:last_name,first_name:first_name}}
+     // Convert local date & time to UTC
+    const localDateTime = new Date(`${values.date}T${values.time}`);
+    const utcDateTime = localDateTime.toISOString();  // Convert to UTC
+    const data={...values,...{last_name:last_name,utcDateTime:utcDateTime,first_name:first_name}}
     axios.post(url,data)
-    .then(res=>console.log(res.data))
+    .then(res=>{
+      console.log(res.data)
+      alert(res.data)
+      setValues(initialState)
+    })
     .catch(error=>console.log(error))
   }
   return (
     <div className='BookingsManagerWrapper'>
         <div className='BookingsManagerContainer'>
-          <input name='teacher' onChange={handleChange} placeholder='Teacher Name' type='text'/><br/>
-          <input name='date' onChange={handleChange} type='date'/><br/>
-          <input name='time' onChange={handleChange} type='time'/><br/>
+          <input  value={values.teacher} name='teacher' onChange={handleChange} placeholder='Teacher Name' type='text'/><br/>
+          <input value={values.date} name='date' onChange={handleChange} type='date'/><br/>
+          <input value={values.time} name='time' onChange={handleChange} type='time'/><br/>
           <div>
             <button onClick={handleSubmit}>submit</button>
           </div>

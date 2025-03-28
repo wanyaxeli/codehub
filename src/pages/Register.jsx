@@ -1,13 +1,18 @@
 import React,{useState,useContext,useEffect} from 'react'
 import pic from '../assets/student.jpg'
 import { context } from '../App'
-import { isValidPhoneNumber, parsePhoneNumber } from 'react-phone-number-input';
+import { parsePhoneNumber } from 'react-phone-number-input';
+import { isValidPhoneNumber, isPossiblePhoneNumber } from "libphonenumber-js";
 import Slider from 'react-slick'
 import PhoneInput from 'react-phone-number-input'
+import { parsePhoneNumberFromString } from "libphonenumber-js";
+import countries from "i18n-iso-countries";
+import en from "i18n-iso-countries/langs/en.json"
 import {useNavigate}from 'react-router-dom'
 export default function Register() {
     const [selectedValue, setSelectedValue] = useState('');
     const [error,setErrors]=useState('')
+    countries.registerLocale(en); // Register country names in English
     const africanCountries = [
         'DZ', 'AO', 'BJ', 'BW', 'BF', 'BI', 'CM', 'CV', 'CF', 'TD', 'KM', 'CG', 'CD', 
         'DJ', 'EG', 'GQ', 'ER', 'SZ', 'ET', 'GA', 'GM', 'GH', 'GN', 'GW', 'CI', 'KE', 
@@ -15,7 +20,7 @@ export default function Register() {
         'NG', 'RW', 'RE', 'SH', 'ST', 'SN', 'SC', 'SL', 'SO', 'ZA', 'SS', 'SD', 'TZ', 
         'TG', 'TN', 'UG', 'EH', 'ZM', 'ZW'
       ];
-      const {value,setValue,email,setEmail,CountryCode,setCountryCode,grade,setGrade}=useContext(context)
+      const {value,setValue,email,setEmail,CountryCode,setCountryName,setCountryCode,grade,setGrade}=useContext(context)
       const handlePhoneChange = (phone) => {
         setErrors('')
         if (phone) {
@@ -55,9 +60,7 @@ export default function Register() {
         navigate('/teacher') 
     }
     const handleToLapTop=()=>{
-    // navigate('/laptop')
-    console.log('grade',grade)
-    console.log('number',value)
+    navigate('/laptop')
     if (isValidPhoneNumber(value)) {
         if(grade){
              if(email){
@@ -75,7 +78,17 @@ export default function Register() {
     function isValidEmail(email) {
         const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if(pattern.test(email)){
-            navigate('/laptop')
+            const parsedNumber = parsePhoneNumberFromString(value);
+            if (parsedNumber) {
+                const countryISO = parsedNumber.country; // Get ISO 3166-1 alpha-2 code (e.g., "KE")
+                const countryName = countries.getName(countryISO, "en"); // Get country name
+              //   setCountryName(countryName || "Unknown Country");
+                  const country=countryName||'Unknown'
+                //   const data ={...teacherValues,...{phone_number:phone_number},...country}
+                  console.log('teacherc',data)
+                  setCountryName(country) 
+                  navigate('/laptop')      
+           }
         }else{
              setErrors('Invalid email')
         }

@@ -33,6 +33,7 @@ import ClassNotes from '../pages/ClassNotes.jsx';
 import TeacherClassDetails from '../pages/TeacherClassDetails.jsx';
 import NotesViewer from '../pages/NotesViewer.jsx';
 import BookingsManager from '../pages/BookingsManager.jsx';
+import TrialClass from '../pages/TrialClass.jsx';
 export default function AppRoutes() {
   return (
     <Routes>
@@ -74,7 +75,8 @@ export default function AppRoutes() {
         </Route>
         <Route path='/Class booking' element={<ClassBooking/>}/>
         <Route path='/Class/:name' element={<Class/>}/>
-        <Route path="/Class/:name/:token" element={<Class />} />
+        <Route path='/Trial Class/:name' element={<TrialClass/>}/>
+        <Route path="/Trial Class/:name/:token" element={<TrialClass />} />
         <Route path='/Error' element={<Error/>}/>
     {/* <Route path="/" element={<Layout />}>
       <Route index element={<Home />} />

@@ -13,8 +13,8 @@ export default function StudentDetails() {
     const {student,proPic,getProfilePic}=useContext(context)
     const [profilePic,setProfilePic]=useState('')
     console.log(student)
-    const handleToJoinClass =(id)=>{
-    navigate(`/class/${id}`,{state:id})
+    const handleToJoinClass =(id,time)=>{
+    navigate(`/class/${id}`, { state: { id, time } });
     }
     async function getToken(){
         try{
@@ -152,7 +152,7 @@ useEffect(()=>{
                     <h4>{lesson.lesson.title}</h4>
                     <p>time:{lesson.time}</p>
                     <p><a href='#'>details</a></p>
-                    <button onClick={()=>handleToJoinClass(lesson.lesson.lessonId)}>join</button>
+                    <button onClick={()=>handleToJoinClass(lesson.lesson.lessonId,lesson.date_time)}>join</button>
                   </div>
                 )
                }):<div className='NoClassDiv'>

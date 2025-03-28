@@ -1,37 +1,37 @@
 import React,{useState,useEffect,useRef} from 'react'
-import { useLocation,useParams } from 'react-router-dom'
-import pic from '../assets/logoCodeHub.png'
-import SubmitProjectModal from '../Components/SubmitProjectModal'
+import pic from "../assets/logoCodeHub.png"
+import { useLocation,useParams ,useNavigate} from 'react-router-dom'
+import axios from 'axios';
 import Peer from "simple-peer";
-import { jwtDecode } from 'jwt-decode';
 import RegisterStudentModal from '../Components/RegisterStudentModal';
+import SubmitProjectModal from '../Components/SubmitProjectModal';
 import CountdownTimer from '../Components/CountdownTimer';
-export default function Class() {
-    const [mainCss,setMainCss]=useState('fullPageMain')
+export default function TrialClass() {
+    const { name, token } = useParams();
+    console.log('link',name,'token',token)
+    const [code,setCode]=useState('')
+    const [chat,setChat]=useState('')
     const [asideCss,setAsideCss]=useState('closeAside')
+    const [mainCss,setMainCss]=useState('fullPageMain')
     const [toggleChat,setToggleChat]=useState(false)
+    const [toggleClassOnJoinedUser,settoggleClassOnJoinedUser]=useState('LessConnctedUsersWrapper')
+    const [mic,setToggleMic]=useState(true)
+    const [openMic,setOpenMic]=useState('')
+    const [openVidoe,setOpenVideo]=useState('on')
+    const [openSubmitModal,setopenSubmitModal]=useState(false)
+    const [cam,setToggleCam]=useState(true)
+    const location =useLocation()
     const [toggleDisplay,setToggleDisplay]=useState('classDisplayer')
     const [card,setCard]=useState('classCardDisplayer')
     const [Videocard,setVideoCard]=useState('hideVideo')
-    const [toggleClassOnJoinedUser,settoggleClassOnJoinedUser]=useState('LessConnctedUsersWrapper')
-    const [mic,setToggleMic]=useState(true)
-    const [cam,setToggleCam]=useState(true)
-    const [chat,setChat]=useState('')
     const [Wschat,setWsChat]=useState([])
     const [toggleSideUser,settoggleSideUser]=useState('SecondUserDivWrapper')
     const [toggleInnerSideUser,setInnertoggleSideUser]=useState('sideUserDetails')
     const [connectedUsers,setconnectedUsers]=useState(2)
     const [openSharing,setOpenSharing]=useState('')
-    const [openMic,setOpenMic]=useState('')
-    const [openVidoe,setOpenVideo]=useState('on')
-    const [code,setCode]=useState('')
     const [timeLeft, setTimeLeft] = useState(null);
-    const [openSubmitModal,setopenSubmitModal]=useState(false)
-    const location = useLocation()
     const [isConnected, setIsConnected] = useState(false);
     const [ws, setWs] = useState(null);
-    const { name, token } = useParams();
-    const [UserToken, setToken] = useState('');
     const [startingTime, setStartingTime] = useState('');
     const [role, setRole] = useState('');
     const [socket, setSocket] = useState(null);
@@ -53,130 +53,32 @@ export default function Class() {
     const [localStream, setLocalStream] = useState(null);
     const [ice, setIce] = useState([]);
     const [toggleMic,setToggleMuteMic]=useState(true)
+    const navigate=useNavigate()
     const [participants,setparticipants]=useState([])
     const screenVideo = useRef(null); // Remote screen video element
-    const LocalscreenVideo = useRef(null); // Local screen video element
-    const handleOpenChat=()=>{
+    const LocalscreenVideo = useRef(null)
+    const handleSubmitProject = ()=>{
+        setopenSubmitModal(true)
+    }
+    const handleOpenChat =()=>{
         if(toggleChat===false){
             setToggleChat(true)
         }else{
             setToggleChat(false) 
         }
     }
-    const handleSubmitProject =()=>{
-        setopenSubmitModal(true)
-    }
-    async function getToken(){
-        try{
-            const token= localStorage.getItem('token') // No need to await
-            if (token){
-                setToken(token);
-            }
-        } catch(error) {
-            console.log(error);
-  }
-}  
-// const iceServers = [
-//     { urls: "stun:stun.l.google.com:19302" },  // Google's STUN server
-//     {
-//         urls: "turn:154.159.237.48",  // Replace with your actual public IP
-//         username: "ewany",  
-//         credential: "wany2002"
-//     }
-// ];
-useEffect(()=>{
-    getToken()
-},[])
-useEffect(() => {
-   
-    if (UserToken) {
-      try {
-        const decode = jwtDecode(UserToken);
-        const {role,user_id}=decode
-        setUser_id(user_id)
-        console.log("Decoded Token:", role);
-        setRole(role)
-      } catch (error) {
-        console.error("JWT Decode Error:", error);
-      }
-    }
-  }, [UserToken]);
-//   const fetchIceServers = async () => {
-//     try {
-//       const authToken = Buffer.from("wanyCoder:4f2b6c64-f75d-11ef-832f-0242ac150002").toString("base64");
-  
-//       const response = await fetch("https://global.xirsys.net/_turn/codehub", {
-//         method: "GET",
-//         headers: {
-//           "Authorization": "Basic " + authToken,
-//           "Content-Type": "application/json",
-//         },
-//       });
-  
-//       if (!response.ok) {
-//         throw new Error(`HTTP error! Status: ${response.status}`);
-//       }
-  
-//       const data = await response.json();
-//       return data?.v?.iceServers || [];
-//     } catch (error) {
-//       console.error("Failed to fetch ICE servers:", error);
-//       return [];
-//     }
-//   };
-  const fetchIceServers = async () => {
-    try {
-      const response = await fetch("http://127.0.0.1:8000/get-ice-servers/");
-      const data = await response.json();
-      console.log("ICE Servers data:", data.ice_servers);
-      return data.ice_servers || []
-    } catch (error) {
-      console.error("Failed to fetch ICE servers:", error);
-      return [];
-    }
-  };
-  useEffect(() => {
-    const getIceServers = async () => {
-      const iceServers = await fetchIceServers();
-      if(iceServers){
-        console.log("ICE Servers:", iceServers);
-        setIce(iceServers)
-      }
-    };
-    
-    getIceServers();
-  }, [token]);
-console.log('connectes',connected)
-    useEffect(()=>{
-    if(mainCss==='fullPageMain'){
-        setMainCss('classMainWrapper')
-    }else{
-        setMainCss('fullPageMain')
-    }
-    if(asideCss==='closeAside'){
-        setAsideCss('ClassasideWrapper')
-    }else{
-        setAsideCss('closeAside')
-    }
-    },[toggleChat])
-    function tunOnMic() {
-        if (localStream) {
-            localStream.getAudioTracks().forEach((track) => {
-                track.enabled = true; // Enable the audio track
-            });
-        } else {
-            console.log('No stream available');
+    const fetchIceServers = async () => {
+        try {
+          const response = await fetch("http://127.0.0.1:8000/get-ice-servers/");
+          const data = await response.json();
+          console.log("ICE Servers data:", data.ice_servers);
+          return data.ice_servers || []
+        } catch (error) {
+          console.error("Failed to fetch ICE servers:", error);
+          return [];
         }
-    }
-    
-    function tunOFMic() {
-        if (localStream) {
-            localStream.getAudioTracks().forEach((track) => {
-                track.enabled = false; // Disable the audio track
-            });
-        }
-    }
-     function  getMedia(){
+      };
+      function  getMedia(){
         navigator.mediaDevices
         .getUserMedia({ video: true, audio: true })
         .then((stream) => {
@@ -185,7 +87,7 @@ console.log('connectes',connected)
         })
         .catch((error) => console.error("Error accessing media devices:", error));
      }
-    useEffect(() => {
+     useEffect(() => {
         if (!code) return;
     
         const ws = new WebSocket(`ws://localhost:8000/ws/classRoom/${code}/`);
@@ -308,6 +210,7 @@ console.log('connectes',connected)
             ws.close();
         };
     },[code,user_id,ice]);
+    console.log('pati',participants)
     function startCall(){
         if(participants && participants.length===2 && timeLeft ==='Event has started!' && user_id && socket){
             const InitiatorUser = participants.find(user =>user.initiator === true);
@@ -427,7 +330,6 @@ console.log('connectes',connected)
         setPeer(responder);
         peerRef.current = responder
     };
-    console.log('remote screens ',screenVideo)
     async function startScreenShare() {
         if (participants.length > 1) {
             const InitiatorUser = participants.find(user => String(user.userId) === String(user_id));
@@ -472,10 +374,7 @@ console.log('connectes',connected)
                 console.error("Error starting screen sharing:", error);
             }
         }
-    }   
-    useEffect(()=>{
-    console.log('peer',peerRef)
-    },[peerRef])
+    }  
     function stopScreenSharing() {
         if (screenPeerRef) {
             screenPeerRef.current.destroy();
@@ -486,75 +385,198 @@ console.log('connectes',connected)
     }
     useEffect(()=>{
     startCall()
-    },[user_id,timeLeft,participants,socket])
-    useEffect(() => {
-        if (!RemoteStream || !partnerVideo.current) return;
-    
-        const videoElement = partnerVideo.current;
-    
+    },[user_id,timeLeft,participants,socket]) 
+      useEffect(() => {
+        // Send the token to the backend to verify it
+        const verifyToken = async () => {
+          if(token){
+            try {
+                const response = await fetch("http://127.0.0.1:8000/verify-class-token/", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({ token }),
+                });
         
-        RemoteStream.getTracks().forEach(track => {
-            console.log(`Track kind: ${track.kind}, enabled: ${track.enabled}, readyState: ${track.readyState}`);
-        });
-        // Check if we are assigning a new stream
-        if (videoElement.srcObject !== RemoteStream) {
-            // Stop any existing tracks before assigning a new stream
-            if (videoElement.srcObject) {
-                videoElement.srcObject.getTracks().forEach(track => track.stop());
-            }
-    
-            videoElement.srcObject = RemoteStream;
-        }
-    
-        // Wait a bit before playing to ensure stream is fully loaded
-        setTimeout(() => {
-            const playPromise = videoElement.play();
-            if (playPromise !== undefined) {
-                playPromise
-                    .then(() => console.log("Playback started successfully"))
-                    .catch(error => console.error("Playback errors:", error));
-            }
-        }, 100); // Small delay to allow stream to load
-    
-        return () => {
-            if (videoElement.srcObject) {
-                videoElement.srcObject.getTracks().forEach(track => track.stop());
-            }
-            videoElement.srcObject = null;
+                if (response.ok) {
+                  const data = await response.json();
+                  console.log("Verified email:", data.email);
+                  setCode(name)
+                  // Redirect to a form or auto-fill the email field
+                    navigate(`/Trial Class/${name}`)
+                } else {
+                  console.error("Invalid or expired token.");
+                  navigate("/error");
+                }
+              } catch (error) {
+                console.error("Error verifying token:", error);
+                navigate("/Error");
+              }
+          }
         };
     
-    }, [RemoteStream]);
-    useEffect(()=>{
-     if (sharing ===true){
-        settoggleClassOnJoinedUser('classImageDisplayer')
-        setOpenSharing('on')
-        setInnertoggleSideUser('InnersideUserDetails')
-        setVideoCard('shareVideoWrapper')
-        settoggleSideUser('fistUserDivWrapper')
-     }else{
-        settoggleClassOnJoinedUser('LessConnctedUsersWrapper')
-        setOpenSharing('of')
-        setVideoCard('hideVideo')
-        settoggleSideUser('SecondUserDivWrapper') 
-        setInnertoggleSideUser('sideUserDetails')
-     }
-    },[sharing])
-    useEffect(()=>{
-        const { state } = location || {}; // Ensure location is not undefined
-        const { id, time } = state || {};
-        if (state) {
-            setCode(id);  // Set the state if it exists
-            setStartingTime(time);
-
+        verifyToken();
+      }, [token]);
+      function tunOnMic() {
+        if (localStream) {
+            localStream.getAudioTracks().forEach((track) => {
+                track.enabled = true; // Enable the audio track
+            });
+        } else {
+            console.log('No stream available');
         }
-        // startLocalStream()
+    }
+    function formatToLocalTime(utcStr) {
+        // Combine date and time into a single UTC string
+        const utcDateTime =utcStr;
+        // Convert to a Date object (UTC)
+        const date = new Date(utcDateTime);
+    
+        // Format only the time in the user's local timezone
+        return new Intl.DateTimeFormat(undefined, {
+            hour: '2-digit',
+            minute: '2-digit',
+            // second: '2-digit',
+            hour12: false // Set to false for 24-hour format
+        }).format(date);
+    }
+    function tunOFMic() {
+        if (localStream) {
+            localStream.getAudioTracks().forEach((track) => {
+                track.enabled = false; // Disable the audio track
+            });
+        }
+    }
+    function StartSharing(){
+        if (ws && ws.readyState === WebSocket.OPEN && user_id && sharing===false){
+            ws.send(JSON.stringify({ 
+                type: "sharing",
+                sharing: true,
+                userId: user_id 
+            }));
+            // startScreenSharing()
+            // shareScreen()
+            startScreenShare()
+        } 
+       }
+       function StopSharing(){
+        if (ws && ws.readyState === WebSocket.OPEN && user_id && sharing ===true){
+            ws.send(JSON.stringify({ 
+                type: "stop_sharing",
+                sharing: false,
+            }));
+            stopScreenSharing();
+            console.log('screen shariring called to stop')
+        }else{
+            console.log('websocket closed ')
+        } 
+       }
+       const handleStudent =()=>{
+        setopenStudentRegistrationform('RegisterStudentModal')
+       }
+    useEffect(()=>{
+        if (sharing ===true){
+           settoggleClassOnJoinedUser('classImageDisplayer')
+           setOpenSharing('on')
+           setInnertoggleSideUser('InnersideUserDetails')
+           setVideoCard('shareVideoWrapper')
+           settoggleSideUser('fistUserDivWrapper')
+        }else{
+           settoggleClassOnJoinedUser('LessConnctedUsersWrapper')
+           setOpenSharing('of')
+           setVideoCard('hideVideo')
+           settoggleSideUser('SecondUserDivWrapper') 
+           setInnertoggleSideUser('sideUserDetails')
+        }
+       },[sharing])
+    useEffect(()=>{
+    fetchIceServers()
+    },[])
+    useEffect(()=>{
+        if(mainCss==='fullPageMain'){
+            setMainCss('classMainWrapper')
+        }else{
+            setMainCss('fullPageMain')
+        }
+        if(asideCss==='closeAside'){
+            setAsideCss('ClassasideWrapper')
+        }else{
+            setAsideCss('closeAside')
+        }
+    },[toggleChat])
+   useEffect(()=>{
+   if(name && token){
+     // Decode the class name
+     const decodedName = decodeURIComponent(name);
+     console.log('decoded token',decodedName)
+    setCode(decodedName)
+   }else{
+    setCode(name)
+   }
+   },[name])
+   useEffect(() => {
+    setMainCss('fullPageMain'); // This overrides the initial state
+    setAsideCss('closeAside')
+    setToggleMic(true)
+  }, [])
+   useEffect(()=>{
+    const {state}= location
+    if(state){
+        console.log('state',state)
+        setUser_id(state)
+    }else{
+        const id = Math.floor(Math.random() * 9000) + 1000;
+        setUser_id(id)
+    }
     },[location])
     useEffect(() => {
-        setMainCss('fullPageMain'); // This overrides the initial state
-        setAsideCss('closeAside')
-        setToggleMic(true)
-      }, []); // This runs on mount
-      const handleToggleVideo = () => {
+        let interval;
+        if (timeLeft === "Event has started!") {
+            interval = setInterval(() => {
+                setCounter(prev => prev + 1);
+            }, 60000); // Update every 1 minute
+        }
+
+        return () => clearInterval(interval); // Cleanup interval
+    }, [timeLeft])
+    const handleSendChat =()=>{
+        if (user_id){
+            const data= {text:chat,user:user_id}
+            console.log('user',data)
+            if(ws && ws.readyState === WebSocket.OPEN){
+                setChat('')
+                ws.send(JSON.stringify({ type: "chats", data}))
+            }
+        }
+      }
+    const handleChat =(e)=>{
+        setChat(e.target.value)
+      }
+    const handleToggleMic = () => {
+        if (openMic === '') {
+            setOpenMic('on');
+            tunOnMic();
+            setToggleMuteMic(false); // Unmute the video
+        } else {
+            setOpenMic('');
+            tunOFMic();
+            setToggleMuteMic(true); // Mute the video
+        }
+    };
+    const handleShareScreen=()=>{
+        if(sharing===true){
+            if(Usersharing===user_id){
+                // StopSharing()
+                // stopScreenSharing()
+            }else{
+                alert(`${Usersharing} is sharing screen already`)
+            }
+        }else{
+            // StartSharing()
+        }
+    }
+    const handleToggleVideo = () => {
         if (!localStream) return; 
     
         const videoTracks = localStream.getVideoTracks();
@@ -570,144 +592,159 @@ console.log('connectes',connected)
             setToggleCam(true);
         }
     };
-      const handleChat =(e)=>{
-        setChat(e.target.value)
-      }
-      const handleSendChat =()=>{
-        if (user_id){
-            const data= {text:chat,user:user_id}
-            console.log('user',data)
-            if(ws && ws.readyState === WebSocket.OPEN){
-                setChat('')
-                ws.send(JSON.stringify({ type: "chats", data}))
-            }
-        }
-      }
-      const handleToggleMic = () => {
-        if (openMic === '') {
-            setOpenMic('on');
-            tunOnMic();
-            setToggleMuteMic(false); // Unmute the video
-        } else {
-            setOpenMic('');
-            tunOFMic();
-            setToggleMuteMic(true); // Mute the video
-        }
-    };
-     
-    const handleShareScreen=()=>{
-        if(sharing===true){
-            if(Usersharing===user_id){
-                StopSharing()
-                stopScreenSharing()
-            }else{
-                alert(`${Usersharing} is sharing screen already`)
-            }
-        }else{
-            StartSharing()
-        }
-    // display if the class has more than two people don't delete !
-    // if(connectedUsers>2){
-    //     if(toggleDisplay==='classDisplayer'){
-    //         setToggleDisplay('classImageDisplayer')
-    //         setOpenSharing('on')
-    //         setVideoCard('shareVideoWrapper')
-    //      }else{
-    //         setToggleDisplay('classDisplayer')
-    //         setVideoCard('hideVideo')
-    //         setOpenSharing('')
-    //      }
-    //      if(card==='classCardDisplayer'){
-    //         setCard('classCard')
-    //      }else{
-    //         setCard('classCardDisplayer')
-    //      }
-    // }else{
-    //     if(toggleClassOnJoinedUser==='LessConnctedUsersWrapper'){
-    //         settoggleClassOnJoinedUser('classImageDisplayer')
-    //         setOpenSharing('on')
-    //         setInnertoggleSideUser('InnersideUserDetails')
-    //         setVideoCard('shareVideoWrapper')
-    //         settoggleSideUser('fistUserDivWrapper')
-            
-    //     }else {
-    //         settoggleClassOnJoinedUser('LessConnctedUsersWrapper')
-    //         setOpenSharing('of')
-    //         setVideoCard('hideVideo')
-    //         settoggleSideUser('SecondUserDivWrapper') 
-    //         setInnertoggleSideUser('sideUserDetails')
-    //     }
-    // }
+   function getTrailClass(){
+    if(code){
+        const url=`http://127.0.0.1:8000/trialClass/${code}`
+    axios.get(url)
+    .then(res=>{
+        console.log(res.data)
+        const data=res.data
+        const timeUtcZone=formatToLocalTime(data.datetime_utc)
+        console.log('starting time',timeUtcZone)
+        setStartingTime(data.datetime_utc)
+    })
+    .catch(error=>console.log(error))
     }
-    useEffect(() => {
-        let interval;
-        if (timeLeft === "Event has started!") {
-            interval = setInterval(() => {
-                setCounter(prev => prev + 1);
-            }, 60000); // Update every 1 minute
-        }
+   }
+   useEffect(()=>{
+   getTrailClass()
+   },[code])
+//   return (
+//     <div className='TrialClass'>
+//          <div className='ClassHeader'>
+//             <div className='ClassHeaderWrapper'>
+//                 <div className='classHeaderLogowrapper'>
+//                     <div className='logoContainer'>
+//                         <img src={pic}/>
+//                     </div>
+//                     <div className=''>
 
-        return () => clearInterval(interval); // Cleanup interval
-    }, [timeLeft])
-   function StartSharing(){
-    if (ws && ws.readyState === WebSocket.OPEN && user_id && sharing===false){
-        ws.send(JSON.stringify({ 
-            type: "sharing",
-            sharing: true,
-            userId: user_id 
-        }));
-        // startScreenSharing()
-        // shareScreen()
-        startScreenShare()
-    } 
-   }
-   function StopSharing(){
-    if (ws && ws.readyState === WebSocket.OPEN && user_id && sharing ===true){
-        ws.send(JSON.stringify({ 
-            type: "stop_sharing",
-            sharing: false,
-        }));
-        stopScreenSharing();
-        console.log('screen shariring called to stop')
-    }else{
-        console.log('websocket closed ')
-    } 
-   }
-   const handleStudent =()=>{
-    setopenStudentRegistrationform('RegisterStudentModal')
-   }
-   console.log('pati',participants,'time left',timeLeft)
-  if(participants.length < 2 && timeLeft !=='Event has started!' ){
-    return(
-        <div className='classNotStartedWrapper'>
-          <main>
-            <div className='VideoHolder'>
+//                     </div>
+//                 </div>
+//                 <div className='classHeaderBtnwrapper'>
+//                     <ul>
+//                         <li onClick={handleSubmitProject}>submit project</li>
+//                         <li onClick={handleStudent}>student</li>
+//                         <li onClick={handleOpenChat}>chat</li>
+//                     </ul>
+//                 </div>
+//                 <div className='classheaderBtnActionwrapper'>
+//                     <div className='endclassBtnwrapper'>
+//                         <button>end class</button>
+//                     </div>
+//                 </div>
+//             </div>
+//             </div>
+//             <div className='classContainer'>
+//                 <main main className={mainCss}>
+//                 <div className='classVideoImageWrapper'>
+                    
+//                 </div>
+//                 <div className='mainClassBtnActionHolder'>
+//                 <ul>
+//                     <li>
+//                          <div>
+//                             <div className={`classInconHolder ${openVidoe}`} onClick={handleToggleVideo}>
+//                                 <i className="fa fa-video-camera" aria-hidden="true"></i>
+//                                 {/* <i className="fi fi-rr-video-slash"></i> */}
+//                                 </div>
+//                                 <p>cam</p>
+//                             </div>
+//                         </li>
+//                         <li>
+//                         <div>
+//                             <div className={`classInconHolder ${openMic}`} onClick={handleToggleMic}>
+//                             {mic===true?<i className="fa fa-microphone" aria-hidden="true"></i>:<i className="fa fa-microphone-slash" aria-hidden="true"></i>}
+//                             </div>
+//                             <p>mic</p>
+//                         </div>
+//                         </li>
+//                         <li>
+//                         <div>
+//                             {/* <div onClick={handleShareScreen} className={`classInconHolder ${Usersharing &&Usersharing === user_id ?openSharing:""}`}> */}
+//                             <div onClick={handleShareScreen} className={`classInconHolder`}>
+//                             <i className="fa fa-desktop" aria-hidden="true"></i>
+//                             </div>
+//                         {/* {sharing && Usersharing &&Usersharing ===user_id? <p>stop  share</p>: <p>share</p>} */}
+//                         <p>share</p>
+//                         </div>
+//                         </li>
+//                         {/* <li>
+//                         <div>
+//                             <div className='classInconHolder'>
+
+//                             </div>
+//                             <p>record</p>
+//                         </div>
+//                         </li> */}
+//                     </ul>
+//                 </div>
+//                 </main>
+//             <aside className={asideCss}>
+//                 <div className='chatWrapper'>
+//                     <div className='chatContainer'>
+//                         {/* {Wschat.map((chat,i)=>{
+//                             return(
+//                                 <ul key={i}>
+//                                     {chat.user===user_id?<li className='sender'><p>{chat.text}</p></li>:
+//                                     <li className='reciever'><p>{chat.text}</p></li>}
+//                             </ul>
+//                             )
+//                         })} */}
+//                     </div>
+//                     <div className='chatInputWrapper'>
+//                         <input onChange={handleChat} value={chat} placeholder='Chat...'/>
+//                         <button onClick={handleSendChat}><i className="fa fa-paper-plane" aria-hidden="true"></i></button>
+//                     </div>
+//                 </div>
+//             </aside>
+//             </div>
+//     </div>
+//   )
+// }
+if (participants.length <= 2 && timeLeft !== 'Event has started!') {
+    return (
+      <div className='classNotStartedWrapper'>
+        <main>
+          <div className='VideoHolder'>
             <video ref={userVideo} autoPlay playsInline muted={true} />
-            </div>
-          </main>
-          <aside>
-          {participants.length < 2 ? (
+          </div>
+        </main>
+        <aside>
+          {participants.length <= 2 && timeLeft !== 'Event has started!'? (
             <div>
-            <p>
-            Your class starts in  <span>
-                <CountdownTimer timeLeft={timeLeft} setTimeLeft={setTimeLeft} startingTime={startingTime} />
-            </span>
-            </p>
-             {counter ===15?<div className='noOtherMemberJoinedWrapper'>
-                <span>oops! the other member did not join the class</span><br/>
-                <button>end class</button>
-             </div>:''}
-            </div>
-            ) : participants.length === 2 && !peerConnected && (
-                <div>
-                    <p>Waiting for peer connection...</p>
-                     <span><i className="fa fa-spinner spinner" aria-hidden="true"></i></span>
+              <p>
+                Your class starts in
+                <span>
+                  <CountdownTimer
+                    timeLeft={timeLeft}
+                    setTimeLeft={setTimeLeft}
+                    startingTime={startingTime}
+                  />
+                </span>
+              </p>
+              {counter === 15 ? (
+                <div className='noOtherMemberJoinedWrapper'>
+                  <span>Oops! The other member did not join the class</span><br />
+                  <button>end class</button>
                 </div>
-            )}
-          </aside>
-        </div>
-    )
-  }else if(participants.length===2 && timeLeft ==='Event has started!' && peerConnected===true){
+              ) : null}
+            </div>
+          ) : null}
+  
+          {participants.length === 2 && timeLeft == 'Event has started!' && !peerConnected ? (
+            <div>
+              <p>Waiting for peer connection...</p>
+              <div className='classSpinnerWrapper'>
+              <span><i className="fa fa-spinner spinner" aria-hidden="true"></i></span>
+              </div>
+            </div>
+          ) : null}
+        </aside>
+      </div>
+    );
+}
+else if(participants.length===2 && timeLeft ==='Event has started!' && peerConnected===true){
     return (
         <div className='ClassWRapper'>
             <div className='ClassHeader'>

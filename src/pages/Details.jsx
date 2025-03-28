@@ -6,11 +6,13 @@ import axios from 'axios'
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 import countries from "i18n-iso-countries";
 import en from "i18n-iso-countries/langs/en.json";
+import { jwtDecode } from 'jwt-decode'
 // countries.registerLocale(en);
 export default function Details() {
     const [booking,setBookings]=useState([])
     const [loading,setLoading]=useState(false)
     const [token,setToken]=useState('')
+    const [userId,setUser_id]=useState('')
     const [todayBooking,settodayBooking]=useState([])
     const navigate=useNavigate()
     const {teacher,proPic,getProfilePic} =useContext(context)
@@ -27,9 +29,11 @@ export default function Details() {
     const handleToAddStudent=()=>{
         navigate('/teacher/dashboard/Add Students')
     }
-    const handleJoinClass =(name)=>{
-        console.log(name)
-        navigate(`/class/${name}`,{state:name})
+    const handleJoinClass =(data)=>{
+       if(userId){
+        const name = data.BookingName
+        navigate(`/Trial Class/${name}`,{state:userId})
+       }
     }
     const handleSetQuiz=()=>{
         navigate('/teacher/dashboard/Set Quiz')
@@ -90,6 +94,20 @@ export default function Details() {
     //     .catch(error=>console.log(error))  
     // }
     console.log('profile',profilePic)
+    useEffect(() => {
+   
+        if (token) {
+          try {
+            const decode = jwtDecode(token);
+            const {role,user_id}=decode
+            setUser_id(user_id)
+            console.log("Decoded Token:", role);
+            // setRole(role)
+          } catch (error) {
+            console.error("JWT Decode Error:", error);
+          }
+        }
+      }, [token]);
     useEffect(()=>{
     UpdateProfilePic()
     },[token,profilePic])
@@ -171,9 +189,29 @@ export default function Details() {
     const fullDate = `${year}-${month}-${day}`;
 
     const todayBookings = booking.filter(item=>item.date===fullDate)
-    settodayBooking(todayBookings)
+    todayBookings.forEach(item=>{
+        console.log('bokkings',item)
+        const timeZoneTime=formatToLocalTime(item.datetime_utc)
+        settodayBooking(pre=>([...pre,{...item,...{timeZoneTime:timeZoneTime}}]))
+    })
+    // settodayBooking(todayBookings)
     }
     },[booking])
+    console.log('todaybkng',todayBooking)
+    function formatToLocalTime(utcStr) {
+        // Combine date and time into a single UTC string
+        const utcDateTime =utcStr;
+        // Convert to a Date object (UTC)
+        const date = new Date(utcDateTime);
+    
+        // Format only the time in the user's local timezone
+        return new Intl.DateTimeFormat(undefined, {
+            hour: '2-digit',
+            minute: '2-digit',
+            // second: '2-digit',
+            hour12: false // Set to false for 24-hour format
+        }).format(date);
+    }
     const handleCurriculum =()=>{
         navigate('/StudentSignup')
     }
@@ -252,15 +290,15 @@ export default function Details() {
                     </tr>
                 </thead>
                 <tbody>
-                {loading===true?<i className="fa fa-spinner spinner" aria-hidden="true"></i>:todayBooking.length>1?todayBooking.map((item) => (
+                {loading===true?<i className="fa fa-spinner spinner" aria-hidden="true"></i>:todayBooking.length>0?todayBooking.map((item) => (
                 <tr key={item.id}>
                     <td>{item.countryCode}</td>
                     <td>{item.countryName}</td>
                     <td>{item.phone_number}</td>
                     <td>{item.email}</td>
                     <td>{item.grade}</td>
-                    <td>{item.time}</td>
-                    <td><button onClick={()=>handleJoinClass(item.BookingName)}>join</button></td>
+                    <td>{item.timeZoneTime}</td>
+                    <td><button onClick={()=>handleJoinClass(item)}>join</button></td>
                 </tr>
                 )):<p>No bookings for today</p>}
                 </tbody>
