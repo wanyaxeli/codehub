@@ -1,8 +1,15 @@
-import React from 'react'
+import React,{useState} from 'react'
 import ReactDOM from 'react-dom'; // Correct import
-export default function SubmitProjectModal({openSubmitModal,setopenSubmitModal}) {
+export default function SubmitProjectModal({openSubmitModal,SubmitProeject,project,setProject,setopenSubmitModal}) {
+    // const [project,setProject]=useState('')
     const handleCloseModal=()=>{
         setopenSubmitModal(false)
+    }
+    const handleChange=(e)=>{
+        setProject(e.target.value)
+    }
+    const handleSubmit =()=>{
+        SubmitProeject()
     }
     return ReactDOM.createPortal(
       <div className="SubmitWrapper">
@@ -14,8 +21,8 @@ export default function SubmitProjectModal({openSubmitModal,setopenSubmitModal})
                     </div>
                 </div>
                 <div className='submitinputWrapper'>
-                    <input type='text' placeHolder='Link'/><br/>
-                    <button>submit</button>
+                    <input value={project} onChange={handleChange} type='text' placeHolder='Link'/><br/>
+                    <button onClick={handleSubmit}>submit</button>
                  </div>
             </div>
         </div>

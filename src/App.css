@@ -1893,8 +1893,17 @@ body{
 .shareVideoWrapper{
   flex: .73;
   height: 100%;
-  background-color: rebeccapurple;
+  background-color: #c1dfe5;
   border-radius: 10px;
+  color: #000;
+}
+.videoloadingWrapper{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 .classImageDisplayer{
   flex: .25;
@@ -2468,4 +2477,78 @@ video{
   color: #0097b2;
   padding: 10px 0;
 }
-
+.waitingForConnectionWrapper{
+width: 100%;
+height: auto;
+text-align: center;
+padding: 15px 0;
+}
+.waitingForConnectionWrapper .fa{
+  color: #0097b2;
+}
+.EndClassWrapper{
+  width: 100%;
+  height: 100vh;
+  background-color: #e8e8ee;
+}
+.EndClassWrapper{
+  width: 100%;
+  height: 100vh;
+  padding: 10px;
+}
+.EndClassContainer,.EndClassWrapper,.endClassSumbitBtn{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.EndClassContainer{
+  width: 50%;
+  height: 50%;
+  flex-direction: column;
+  overflow: hidden;
+}
+.EndClassContainer p{
+  font-size: 1.5rem;
+}
+.EndClassContainer button{
+  border: none;
+  padding: 10px 15px;
+  border-radius: 10px;
+  margin: 20px 0;
+  cursor: pointer;
+  text-transform: capitalize;
+  background-color: #0097b2;
+  color: #fff;
+}
+.EndClassContainer button:hover{
+  background-color: transparent;
+  padding: 8px 13px;
+  color: #000;
+  border: 2px solid #0097b2;
+}
+.EndClassContainer button:first-child{
+  margin-right: 20px;
+}
+.EndClassContainer  ul{
+  list-style: none;
+  margin-top: 20px;
+}
+.EndClassContainer  ul li{
+  margin-top: 15px;
+}
+.endClassSumbitBtn{
+  width:100%;
+  height: auto;
+}
+.reasonsWrapper{
+  /* width: 100%; */
+  height: auto;
+  transform: translateY(1000px);
+  transition: 2s ;
+}
+.reasonsContainer{
+  /* width: 100%; */
+  height: auto;
+  transform: translateY(0);
+  transition: 1s ;
+}

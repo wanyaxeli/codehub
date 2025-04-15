@@ -60,7 +60,7 @@ export default function Header() {
                     <div className='logoContainer'>
                     <img src={pic}/>
                     </div>
-                    <h4>Codehub Scholar</h4>
+                    <h4>CodingScholar</h4>
                 </div>
                 <select value={selectedValue} onChange={handleChange}>
                 <option value="" disabled>

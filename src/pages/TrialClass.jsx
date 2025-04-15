@@ -527,9 +527,9 @@ export default function TrialClass() {
         setUser_id(state)
     }else{
         const id = Math.floor(Math.random() * 9000) + 1000;
-        setUser_id(id)
+        setUser_id(name)
     }
-    },[location])
+    },[location,name])
     useEffect(() => {
         let interval;
         if (timeLeft === "Event has started!") {
@@ -609,6 +609,7 @@ export default function TrialClass() {
    useEffect(()=>{
    getTrailClass()
    },[code])
+   const handleEndClass=()=>{}
 //   return (
 //     <div className='TrialClass'>
 //          <div className='ClassHeader'>
@@ -702,49 +703,48 @@ export default function TrialClass() {
 //     </div>
 //   )
 // }
-if (participants.length <= 2 && timeLeft !== 'Event has started!') {
-    return (
-      <div className='classNotStartedWrapper'>
-        <main>
-          <div className='VideoHolder'>
+if(participants.length <= 2 && timeLeft !=='Event has started!' || participants.length===1 && timeLeft ==='Event has started!' && peerConnected===false){
+    return(
+        <div className='classNotStartedWrapper'>
+          <main>
+            <div className='VideoHolder'>
             <video ref={userVideo} autoPlay playsInline muted={true} />
-          </div>
-        </main>
-        <aside>
-          {participants.length <= 2 && timeLeft !== 'Event has started!'? (
+            </div>
+          </main>
+          <aside>
             <div>
-              <p>
-                Your class starts in
-                <span>
-                  <CountdownTimer
-                    timeLeft={timeLeft}
-                    setTimeLeft={setTimeLeft}
-                    startingTime={startingTime}
-                  />
-                </span>
-              </p>
-              {counter === 15 ? (
-                <div className='noOtherMemberJoinedWrapper'>
-                  <span>Oops! The other member did not join the class</span><br />
-                  <button>end class</button>
+            {timeLeft==='Event has started!'?<p>Waiting for the other member to join...</p>: <p>
+            Your class starts in  <span>
+                <CountdownTimer timeLeft={timeLeft} setTimeLeft={setTimeLeft} startingTime={startingTime} />
+            </span>
+            </p>}
+             {counter ===15?<div className='noOtherMemberJoinedWrapper'>
+                <span>oops! the other member did not join the class</span><br/>
+                <button>end class</button>
+             </div>:''}
+            </div>
+          </aside>
+        </div>
+    )
+  }
+  else if(participants.length===2 && timeLeft ==='Event has started!' && peerConnected===false || participants.length===2 && timeLeft ==='Event has started!' && peerConnected===true && !userVideo && !partnerVideo){
+    return(
+        <div className='classNotStartedWrapper'>
+            <main>
+            <div className='VideoHolder'>
+            <video ref={userVideo} autoPlay playsInline muted={true} />
+            </div>
+            </main>
+            <aside>
+                <div className='waitingForConnectionWrapper'>
+                    <p>Connecting...</p>
+                    <span><i className="fa fa-spinner spinner" aria-hidden="true"></i></span>
                 </div>
-              ) : null}
-            </div>
-          ) : null}
-  
-          {participants.length === 2 && timeLeft == 'Event has started!' && !peerConnected ? (
-            <div>
-              <p>Waiting for peer connection...</p>
-              <div className='classSpinnerWrapper'>
-              <span><i className="fa fa-spinner spinner" aria-hidden="true"></i></span>
-              </div>
-            </div>
-          ) : null}
-        </aside>
-      </div>
-    );
-}
-else if(participants.length===2 && timeLeft ==='Event has started!' && peerConnected===true){
+            </aside>
+        </div>
+    )
+  }
+  else if(participants.length===2 && timeLeft ==='Event has started!' && peerConnected===true && userVideo && partnerVideo){
     return (
         <div className='ClassWRapper'>
             <div className='ClassHeader'>
@@ -766,7 +766,7 @@ else if(participants.length===2 && timeLeft ==='Event has started!' && peerConne
                 </div>
                 <div className='classheaderBtnActionwrapper'>
                     <div className='endclassBtnwrapper'>
-                        <button>end class</button>
+                        <button onClick={handleEndClass}>end class</button>
                     </div>
                 </div>
             </div>
@@ -775,9 +775,25 @@ else if(participants.length===2 && timeLeft ==='Event has started!' && peerConne
             <main className={mainCss}>
                 <div className='classVideoImageWrapper'>
                         <div className={Videocard}>
-                            {Usersharing === user_id?
-                            <video ref={LocalscreenVideo} autoPlay playsInline muted />
-                            :<video ref={screenVideo} autoPlay playsInline muted />}
+                                                    {Usersharing === user_id ? (
+                                <video ref={LocalscreenVideo} autoPlay playsInline muted />
+                            ) : 
+                            // (
+                            //     screen===true ? (
+                            //         <video ref={screenVideo} autoPlay playsInline muted />
+                            //     ) : (
+                            //         <div className="videoloadingWrapper">
+                            //             <div>
+                            //                 <p>Loading Screen...</p>
+                            //             </div>
+                            //             <span>
+                            //                 <i className="fa fa-spinner spinner" aria-hidden="true"></i>
+                            //             </span>
+                            //         </div>
+                            //     )
+                            // )
+                            <video ref={screenVideo} autoPlay playsInline muted />
+                            }
                         </div>
                         {connectedUsers>2?<div className={toggleDisplay}>
                             <div className={card}>
@@ -807,15 +823,18 @@ else if(participants.length===2 && timeLeft ==='Event has started!' && peerConne
                             <video ref={partnerVideo} autoPlay playsInline muted/>
                             </div>
                             <div className={toggleSideUser}>
-                                <div className='InnerSecondUserDivWrapper'>
                                 {cam ===true ? (
+                                    <div className='InnerSecondUserDivWrapper'>
                                     <video ref={userVideo} autoPlay playsInline muted={toggleMic} />
+                                    </div>
                                 ) : (
+                                    <div className='InnerSecondUserDivWrapper'>
                                     <div className={toggleInnerSideUser}>
                                         <p>e</p>
                                     </div>
+                                    </div>
                                 )}
-                                </div>
+                                {/* <video ref={userVideo} autoPlay playsInline muted={toggleMic} /> */}
                             </div>
                         </div>}
                 </div>
@@ -869,7 +888,7 @@ else if(participants.length===2 && timeLeft ==='Event has started!' && peerConne
             </aside>
             </div>
             <RegisterStudentModal openStudentRegistrationform={openStudentRegistrationform} setopenStudentRegistrationform={setopenStudentRegistrationform}/>
-        {openSubmitModal &&  <SubmitProjectModal openSubmitModal={openSubmitModal} setopenSubmitModal={setopenSubmitModal}/> }
+        {openSubmitModal &&  <SubmitProjectModal setProject={setProject} SubmitProeject={SubmitProeject} project={project} openSubmitModal={openSubmitModal} setopenSubmitModal={setopenSubmitModal}/> }
         </div>
     )
     }else{

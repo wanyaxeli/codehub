@@ -17,7 +17,7 @@ export default function Dashboard() {
   '/teacher/dashboard/All%20Students','/teacher/dashboard/Add%20Teachers','/teacher/dashboard/Set%20Quiz']
   console.log('pa',pathname)
   const studentLink=['/teacher/dashboard/Student%20Profile','/teacher/dashboard/My%20students']
-  const calendarLinks=['/teacher/dashboard/Calendar','/teacher/dashboard/Teacher%20Class%20Details',]
+  const calendarLinks=['/teacher/dashboard/Notes/','/teacher/dashboard/Calendar','/teacher/dashboard/Teacher%20Class%20Details',]
   const handleToCalendar=()=>{
   navigate('/teacher/dashboard/Calendar')
   }

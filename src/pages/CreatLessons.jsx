@@ -11,6 +11,7 @@ export default function CreatLessons() {
     }
     const [inputs,setInputs]=useState(initialState)
     const [notes,setNotes]=useState([])
+    const [error,setError]=useState('')
     const [loading,setLoading]=useState(false)
     const handleChange=(e)=>{
      const {name,value,type}= e.target
@@ -45,22 +46,44 @@ export default function CreatLessons() {
         .catch(error=>console.log(error))
     }
     console.log(notes)
-    const handleCreateClass=()=>{
-        setLoading(true)
+    const handleCreateClass = () => {
+        setLoading(true);
         const uniqueId = uuidv4();
-        const classId=`${inputs.name}${uniqueId}`
-        const data= {...inputs,...{classId:classId}}
-        const url ='http://127.0.0.1:8000/classNotes/'
-        axios.post(url,data,{headers:{
+        const classId = `${inputs.classname}${uniqueId}`; // Corrected from inputs.name
+    
+        // Create FormData
+        const formData = new FormData();
+        formData.append("classId", classId);
+        formData.append("grade", inputs.grade);
+        formData.append("module", inputs.module);
+        formData.append("classname", inputs.classname);
+        formData.append("LessonNumber", inputs.LessonNumber);
         
-        }})
-        .then(res=>{
-            getNotes
-            setLoading(false)
-            console.log(res.data)
-        })
-        .catch(error=>console.log(error))
-    }
+        // Append file if available
+        if (inputs.notes) {
+            formData.append("notes", inputs.notes);
+        }else{
+          setError('Please Fill in all the inputs')
+        }
+    
+        const url = "http://127.0.0.1:8000/classNotes/";
+        
+        axios
+            .post(url, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            })
+            .then((res) => {
+                getNotes(); // Corrected missing function execution ()
+                setLoading(false);
+                console.log(res.data);
+            })
+            .catch((error) => {
+                console.log(error);
+                setLoading(false);
+            });
+    };
   useEffect(()=>{
    getNotes()
   },[])

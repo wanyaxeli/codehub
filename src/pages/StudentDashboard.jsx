@@ -13,6 +13,7 @@ export default function StudentDashboard() {
   const {setStudent}=useContext(context)
   const dashboardLinks=['/student/dashboard/Details','/student/dashboard']
   const quizLinks=['/student/dashboard/My%20%20quizzes','/student/dashboard/Quiz']
+  const lessonLikns=['/student/dashboard/StudentNotes/','/student/dashboard/My%20%20lessons']
   const handleToLessons=()=>{
   navigate('/student/dashboard/My  lessons')
   }
@@ -74,7 +75,7 @@ export default function StudentDashboard() {
         <aside>
           <ul>
             <li className={dashboardLinks.includes(pathname)?'active':""} onClick={handleToDashboard} >dashboard</li>
-            <li className={pathname==='/student/dashboard/My%20%20lessons'?'active':""} onClick={handleToLessons} >my lessons</li>
+            <li className={lessonLikns.includes(pathname)?'active':""} onClick={handleToLessons} >my lessons</li>
             <li className={pathname==='/student/dashboard/My%20%20projects'?'active':""} onClick={handleToMyProjects}>my projects</li>
             <li className={quizLinks.includes( pathname)?'active':""} onClick={handleToMyQuizzes}>my quizzes</li>
           </ul>

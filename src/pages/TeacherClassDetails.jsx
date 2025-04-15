@@ -13,6 +13,7 @@ export default function TeacherClassDetails() {
     console.log(state)
    if(state){
     state.forEach(item=>{
+        console.log('item',item)
         const now = new Date(item.date_time)
         const time = now.toLocaleTimeString();
         const newData={...item,...{time:time}}
@@ -27,7 +28,8 @@ export default function TeacherClassDetails() {
     const handleNotes = ( title, notes) => {
         // e.preventDefault(); // Prevents default link or form behavior
         console.log('notes', notes);
-        navigate(`/teacher/dashboard/Notes/${title}`, { state: notes });
+        const id = title
+        navigate(`/teacher/dashboard/Notes/`, { state: notes });
     };
     console.log('time',todayClass)
   return (

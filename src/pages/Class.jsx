@@ -1,11 +1,12 @@
 import React,{useState,useEffect,useRef} from 'react'
-import { useLocation,useParams } from 'react-router-dom'
+import { useLocation,useParams,useNavigate } from 'react-router-dom'
 import pic from '../assets/logoCodeHub.png'
 import SubmitProjectModal from '../Components/SubmitProjectModal'
 import Peer from "simple-peer";
 import { jwtDecode } from 'jwt-decode';
 import RegisterStudentModal from '../Components/RegisterStudentModal';
 import CountdownTimer from '../Components/CountdownTimer';
+import axios from 'axios';
 export default function Class() {
     const [mainCss,setMainCss]=useState('fullPageMain')
     const [asideCss,setAsideCss]=useState('closeAside')
@@ -17,6 +18,8 @@ export default function Class() {
     const [mic,setToggleMic]=useState(true)
     const [cam,setToggleCam]=useState(true)
     const [chat,setChat]=useState('')
+    const navigate=useNavigate()
+    const [project,setProject]=useState('')
     const [Wschat,setWsChat]=useState([])
     const [toggleSideUser,settoggleSideUser]=useState('SecondUserDivWrapper')
     const [toggleInnerSideUser,setInnertoggleSideUser]=useState('sideUserDetails')
@@ -44,6 +47,7 @@ export default function Class() {
     const [peerConnected, setpeerConnected] = useState(false);
     const [RemoteStream, setRemoteStream] = useState('');
     const userVideo = useRef();
+    const beforeConnectionVideo = useRef();
     const [counter, setCounter] = useState(0);
     const [openStudentRegistrationform,setopenStudentRegistrationform]=useState('CloseRegisterStudentModal')
     const [sharing,setSharing]=useState(false)
@@ -52,6 +56,7 @@ export default function Class() {
     const [videoElement, setVideoElement] = useState(null);
     const [localStream, setLocalStream] = useState(null);
     const [ice, setIce] = useState([]);
+    const [screen, setScreen] = useState(false);
     const [toggleMic,setToggleMuteMic]=useState(true)
     const [participants,setparticipants]=useState([])
     const screenVideo = useRef(null); // Remote screen video element
@@ -86,6 +91,7 @@ export default function Class() {
 // ];
 useEffect(()=>{
     getToken()
+    setToggleCam(true)
 },[])
 useEffect(() => {
    
@@ -101,29 +107,6 @@ useEffect(() => {
       }
     }
   }, [UserToken]);
-//   const fetchIceServers = async () => {
-//     try {
-//       const authToken = Buffer.from("wanyCoder:4f2b6c64-f75d-11ef-832f-0242ac150002").toString("base64");
-  
-//       const response = await fetch("https://global.xirsys.net/_turn/codehub", {
-//         method: "GET",
-//         headers: {
-//           "Authorization": "Basic " + authToken,
-//           "Content-Type": "application/json",
-//         },
-//       });
-  
-//       if (!response.ok) {
-//         throw new Error(`HTTP error! Status: ${response.status}`);
-//       }
-  
-//       const data = await response.json();
-//       return data?.v?.iceServers || [];
-//     } catch (error) {
-//       console.error("Failed to fetch ICE servers:", error);
-//       return [];
-//     }
-//   };
   const fetchIceServers = async () => {
     try {
       const response = await fetch("http://127.0.0.1:8000/get-ice-servers/");
@@ -181,7 +164,9 @@ console.log('connectes',connected)
         .getUserMedia({ video: true, audio: true })
         .then((stream) => {
         setLocalStream(stream);
-        if (userVideo.current) userVideo.current.srcObject = stream;
+        if(beforeConnectionVideo.current){
+            beforeConnectionVideo.current.srcObject = stream;
+        }
         })
         .catch((error) => console.error("Error accessing media devices:", error));
      }
@@ -190,8 +175,6 @@ console.log('connectes',connected)
     
         const ws = new WebSocket(`ws://localhost:8000/ws/classRoom/${code}/`);
         console.log('innerws',ws)
-
-
         getMedia()
         ws.onopen = () =>{
             console.log("WebSocket connected");
@@ -309,16 +292,21 @@ console.log('connectes',connected)
         };
     },[code,user_id,ice]);
     function startCall(){
-        if(participants && participants.length===2 && timeLeft ==='Event has started!' && user_id && socket){
+        console.log('call 1')
+        if(participants && participants.length===2 && timeLeft ==='Event has started!' && user_id && ws){
             const InitiatorUser = participants.find(user =>user.initiator === true);
+            console.log('call 2')
             const initiatorId=InitiatorUser.userId
             const targetUser = participants.find(user =>user.initiator ===false);
             if (InitiatorUser && String(initiatorId) === String(user_id)){
-                    initiateCall(socket, targetUser, initiatorId);
+                    initiateCall(ws, targetUser, initiatorId);
                     console.log('true initiator', InitiatorUser);
             }
         }
     }
+    useEffect(()=>{
+        startCall()
+    },[user_id,timeLeft,participants])
     function initiateCall(socket, targetUser, id) {
         if (localStream && targetUser && id && socket && socket.readyState === WebSocket.OPEN && ice) {
             const peerConfig = {iceServers:ice};
@@ -340,13 +328,19 @@ console.log('connectes',connected)
             });
     
             initiator.on("stream", (remoteStream) => {
-                if (partnerVideo.current) {
-                    partnerVideo.current.pause();
-                    partnerVideo.current.srcObject = remoteStream;
-                    partnerVideo.current.onloadedmetadata = () => {
-                        partnerVideo.current.play().catch((error) => console.log("Play error:", error));
-                    };
+                if (remoteStream) {
+                    console.log("Partner video streams:", remoteStream);
+                    setRemoteStream(remoteStream);
                 }
+                // if (partnerVideo.current) {
+                //     partnerVideo.current.pause();
+                //     partnerVideo.current.srcObject = remoteStream;
+                //     partnerVideo.current.onloadedmetadata = () => {
+                //         partnerVideo.current.play().catch((error) => console.log("Play error:", error));
+                //     };
+                // }else{
+                //     initiateCall()
+                // }
             });
     
             setPeer(initiator);
@@ -355,6 +349,11 @@ console.log('connectes',connected)
             console.log("WebSocket not connected");
         }
     }
+    useEffect(()=>{
+    if (localStream &&peerConnected &&  userVideo.current){
+        userVideo.current.srcObject = localStream;
+    }
+    },[localStream,peerConnected,userVideo])
     const handleScreenOffer =(socket, signal, targetID, senderId)=>{
         const peerConfig = { iceServers: ice };
         const screenPeer = new Peer({
@@ -384,6 +383,7 @@ console.log('connectes',connected)
         screenPeer.on("stream", (stream) => {
             if (screenVideo.current) {
                 console.log('screen stream',stream)
+                setScreen(true)
                 screenVideo.current.srcObject = stream; // Display screen share
             }
         screenPeerRef.current=screenPeer
@@ -465,16 +465,28 @@ console.log('connectes',connected)
                 // Stop sharing when the user closes the screen share
                 screenStream.getVideoTracks()[0].onended = () => {
                     console.log("Screen sharing stopped via browser UI");
-                    StopSharing()
+                    try {
+                        StopSharing();
+                    } catch (error) {
+                        console.error("Error calling StopSharing:", error);
+                    }
                    
                 };
             } catch (error) {
-                console.error("Error starting screen sharing:", error);
+                if (error.name === "NotAllowedError" || error.name === "AbortError") {
+                    console.warn("User canceled screen sharing.");
+                    // Handle UI feedback if necessary
+                    StopSharing()
+                } else {
+                    console.error("Error starting screen sharing:", error);
+                }
             }
         }
     }   
     useEffect(()=>{
-    console.log('peer',peerRef)
+     if(peerRef){
+        console.log('peer',peerRef,'partner',partnerVideo,'user',userVideo)
+     }
     },[peerRef])
     function stopScreenSharing() {
         if (screenPeerRef) {
@@ -484,10 +496,8 @@ console.log('connectes',connected)
         }
         console.log("Screen sharing stopped.");
     }
-    useEffect(()=>{
-    startCall()
-    },[user_id,timeLeft,participants,socket])
     useEffect(() => {
+       if(peerConnected){
         if (!RemoteStream || !partnerVideo.current) return;
     
         const videoElement = partnerVideo.current;
@@ -522,8 +532,9 @@ console.log('connectes',connected)
             }
             videoElement.srcObject = null;
         };
+       }
     
-    }, [RemoteStream]);
+    }, [peerConnected,RemoteStream]);
     useEffect(()=>{
      if (sharing ===true){
         settoggleClassOnJoinedUser('classImageDisplayer')
@@ -570,6 +581,9 @@ console.log('connectes',connected)
             setToggleCam(true);
         }
     };
+     const handleEndClass=()=>{
+        navigate('/End Class',{state:code})
+     }
       const handleChat =(e)=>{
         setChat(e.target.value)
       }
@@ -639,6 +653,16 @@ console.log('connectes',connected)
     //     }
     // }
     }
+    useEffect(()=>{
+        if(userVideo.current===null){
+            getMedia()
+        }
+    },[userVideo])
+    useEffect(()=>{
+        if(partnerVideo.current===null){
+           startCall()
+        }
+    },[partnerVideo])
     useEffect(() => {
         let interval;
         if (timeLeft === "Event has started!") {
@@ -661,53 +685,81 @@ console.log('connectes',connected)
         startScreenShare()
     } 
    }
+   function SubmitProeject(){
+    if(token){
+        const url ='http://127.0.0.1:8000/Project/'
+        axios.post(url,{projectLink:project},{headers:{
+            'Authorization':`Bearer ${token}`
+        }})
+        .then(res=>{
+            console.log(res.data)
+        })
+        .catch(error=>console.log(error))
+    }
+   }
    function StopSharing(){
-    if (ws && ws.readyState === WebSocket.OPEN && user_id && sharing ===true){
-        ws.send(JSON.stringify({ 
-            type: "stop_sharing",
-            sharing: false,
-        }));
-        stopScreenSharing();
-        console.log('screen shariring called to stop')
-    }else{
-        console.log('websocket closed ')
-    } 
+    try {
+        console.log("Inside StopSharing, about to send WebSocket message...");
+        if (ws && ws.readyState === WebSocket.OPEN && user_id && sharing === true) {
+            ws.send(JSON.stringify({ 
+                type: "stop_sharing",
+                sharing: false,
+            }));
+            stopScreenSharing();
+            console.log("Screen sharing stopped successfully.");
+        } else {
+            console.log("WebSocket closed or conditions not met.");
+        }
+    } catch (error) {
+        console.error("Error in StopSharing:", error);
+    }
    }
    const handleStudent =()=>{
     setopenStudentRegistrationform('RegisterStudentModal')
    }
-   console.log('pati',participants,'time left',timeLeft)
-  if(participants.length < 2 && timeLeft !=='Event has started!' ){
+   console.log('patipantsin romm',participants,'time left',timeLeft,'camy',cam)
+  if(participants.length <= 2 && timeLeft !=='Event has started!' || participants.length===1 && timeLeft ==='Event has started!' && peerConnected===false){
     return(
         <div className='classNotStartedWrapper'>
           <main>
             <div className='VideoHolder'>
-            <video ref={userVideo} autoPlay playsInline muted={true} />
+            <video ref={beforeConnectionVideo} autoPlay playsInline muted={true} />
             </div>
           </main>
           <aside>
-          {participants.length < 2 ? (
             <div>
-            <p>
+            {timeLeft==='Event has started!'?<p>Waiting for the other member to join...</p>: <p>
             Your class starts in  <span>
                 <CountdownTimer timeLeft={timeLeft} setTimeLeft={setTimeLeft} startingTime={startingTime} />
             </span>
-            </p>
+            </p>}
              {counter ===15?<div className='noOtherMemberJoinedWrapper'>
                 <span>oops! the other member did not join the class</span><br/>
                 <button>end class</button>
              </div>:''}
             </div>
-            ) : participants.length === 2 && !peerConnected && (
-                <div>
-                    <p>Waiting for peer connection...</p>
-                     <span><i className="fa fa-spinner spinner" aria-hidden="true"></i></span>
-                </div>
-            )}
           </aside>
         </div>
     )
-  }else if(participants.length===2 && timeLeft ==='Event has started!' && peerConnected===true){
+  }
+  else if(participants.length===2 && timeLeft ==='Event has started!' && peerConnected===false || participants.length===2 && timeLeft ==='Event has started!' && peerConnected===true && !userVideo && !partnerVideo){
+    return(
+        <div className='classNotStartedWrapper'>
+            <main>
+            <div className='VideoHolder'>
+            <video ref={userVideo} autoPlay playsInline muted={true} />
+            </div>
+            </main>
+            <aside>
+                <div className='waitingForConnectionWrapper'>
+                    <p>Connecting...</p>
+                    <span><i className="fa fa-spinner spinner" aria-hidden="true"></i></span>
+                </div>
+            </aside>
+        </div>
+    )
+  }
+  else if(participants.length===2 && timeLeft ==='Event has started!' && peerConnected===true && userVideo && partnerVideo){
     return (
         <div className='ClassWRapper'>
             <div className='ClassHeader'>
@@ -729,7 +781,7 @@ console.log('connectes',connected)
                 </div>
                 <div className='classheaderBtnActionwrapper'>
                     <div className='endclassBtnwrapper'>
-                        <button>end class</button>
+                        <button onClick={handleEndClass}>end class</button>
                     </div>
                 </div>
             </div>
@@ -738,9 +790,25 @@ console.log('connectes',connected)
             <main className={mainCss}>
                 <div className='classVideoImageWrapper'>
                         <div className={Videocard}>
-                            {Usersharing === user_id?
-                            <video ref={LocalscreenVideo} autoPlay playsInline muted />
-                            :<video ref={screenVideo} autoPlay playsInline muted />}
+                                                    {Usersharing === user_id ? (
+                                <video ref={LocalscreenVideo} autoPlay playsInline muted />
+                            ) : 
+                            // (
+                            //     screen===true ? (
+                            //         <video ref={screenVideo} autoPlay playsInline muted />
+                            //     ) : (
+                            //         <div className="videoloadingWrapper">
+                            //             <div>
+                            //                 <p>Loading Screen...</p>
+                            //             </div>
+                            //             <span>
+                            //                 <i className="fa fa-spinner spinner" aria-hidden="true"></i>
+                            //             </span>
+                            //         </div>
+                            //     )
+                            // )
+                            <video ref={screenVideo} autoPlay playsInline muted />
+                            }
                         </div>
                         {connectedUsers>2?<div className={toggleDisplay}>
                             <div className={card}>
@@ -770,15 +838,18 @@ console.log('connectes',connected)
                             <video ref={partnerVideo} autoPlay playsInline muted/>
                             </div>
                             <div className={toggleSideUser}>
-                                <div className='InnerSecondUserDivWrapper'>
                                 {cam ===true ? (
+                                    <div className='InnerSecondUserDivWrapper'>
                                     <video ref={userVideo} autoPlay playsInline muted={toggleMic} />
+                                    </div>
                                 ) : (
+                                    <div className='InnerSecondUserDivWrapper'>
                                     <div className={toggleInnerSideUser}>
                                         <p>e</p>
                                     </div>
+                                    </div>
                                 )}
-                                </div>
+                                {/* <video ref={userVideo} autoPlay playsInline muted={toggleMic} /> */}
                             </div>
                         </div>}
                 </div>
@@ -832,7 +903,7 @@ console.log('connectes',connected)
             </aside>
             </div>
             <RegisterStudentModal openStudentRegistrationform={openStudentRegistrationform} setopenStudentRegistrationform={setopenStudentRegistrationform}/>
-        {openSubmitModal &&  <SubmitProjectModal openSubmitModal={openSubmitModal} setopenSubmitModal={setopenSubmitModal}/> }
+        {openSubmitModal &&  <SubmitProjectModal setProject={setProject} SubmitProeject={SubmitProeject} project={project} openSubmitModal={openSubmitModal} setopenSubmitModal={setopenSubmitModal}/> }
         </div>
     )
     }else{

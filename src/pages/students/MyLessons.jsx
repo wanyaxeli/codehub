@@ -1,8 +1,10 @@
 import React ,{useState,useEffect}from 'react'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 export default function MyLessons() {
   const [token,setToken]=useState('')
   const [lessons,setLessons]=useState([])
+  const navigate=useNavigate()
   function GetMyLessons(){
     if(token){
       const url ='http://127.0.0.1:8000/studentLessons/'
@@ -36,6 +38,9 @@ export default function MyLessons() {
         console.log(error);
 }
 }
+const handleToNotes =(notes)=>{
+  navigate(`/student/dashboard/StudentNotes/`, { state: notes });
+}
 useEffect(()=>{
   GetMyLessons()
 },[token])
@@ -55,7 +60,9 @@ useEffect(()=>{
         <p>date:<span>{lesson.date}</span></p>
         <p>date:<span>{lesson.time}</span></p>
         <p>status:{lesson.is_complate===true?<span className='lessonStatus'>complete</span>:<span className='lessonStatus'>Incomplete</span>}</p>
-        <p>notes:<span>992020</span></p>
+        <div onClick={()=>handleToNotes(lesson.lesson.pdf_notes)}>
+        {lesson.is_complate===true?<p>notes: <span style={{color:'blue',textTransform:'capitalize',cursor:"pointer",fontSize:'.8rem',textDecoration:'underline'}}>{lesson.lesson.title}</span></p>:null}
+        </div>
         </div>
       </div>
         )
