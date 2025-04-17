@@ -56,14 +56,14 @@ export default function EndClass() {
   }
   const handleSubmit=()=>{
     lesson.map(item=>{
-    if(item.is_completed===false && value){
+    if(item.is_completed===false && value && item.reason===''){
       const id= classId
       const url = `http://127.0.0.1:8000/NotAttendedClass/${id}`
       axios.put(url,{data:value})
       .then(res=>{
         console.log(res.data)
         const data = res.data.message
-        if(data==='Class marked as complete'){
+        if(data==='Class marked '){
           if(role==='student'){
             navigate('/student/dashboard/Details')
           }else{
@@ -72,6 +72,12 @@ export default function EndClass() {
         }
       })
       .catch(error=>console.log(error))
+    }else{
+      if(role==='student'){
+        navigate('/student/dashboard/Details')
+      }else{
+        navigate('/teacher/dashboard/Details')
+      }
     }
   })
   }

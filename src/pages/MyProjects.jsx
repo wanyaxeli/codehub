@@ -1,6 +1,33 @@
-import React from 'react'
-
+import React,{useState,useEffect} from 'react'
+import axios from 'axios'
 export default function MyProjects() {
+  const [quiz,setQuiz]=useState()
+  const [token,setToken]=useState()
+  async function getToken(){
+    try{
+        const token= localStorage.getItem('token') // No need to await
+        if (token){
+            setToken(token);
+        }
+    } catch(error) {
+        console.log(error);
+}
+}
+function getQuiz(){
+  if(token){
+    const url = 'http://127.0.0.1:8000/AttemptQuizes/';
+    axios.get(url,{headers:{
+      'Authorization':`Bearer ${token}`
+    }})
+    .then(res=>{
+      console.log(res)
+    })
+    .catch(error=>console.log(err))
+  }
+}
+useEffect(()=>{
+ getToken()
+},[])
   return (
     <div className='MyProjectsWrapper'>
         

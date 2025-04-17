@@ -1,0 +1,44 @@
+import React from 'react'
+import logo from '../assets/logoCodeHub.png'
+export default function Footer() {
+  return (
+    <div className='footerWrapper'>
+        <div className='footerContainer'>
+            <div className='footerLogoWrapper'>
+                <div className='footerLogo'>
+                 <div className='footerLogoImage'>
+                  <img src={logo}/>
+                </div>
+                <h4>CodingScholar</h4>
+                </div>
+                <div className='footerCoourses'>
+                    <ul>
+                        <li>Courses</li>
+                        <li>python</li>
+                        <li>scratch</li>
+                        <li>html</li>
+                    </ul>
+                </div>
+                <div className='footerAboutus'>
+                  <ul>
+                    <li>about us</li>
+                    <li>why  CodingScholar</li>
+                    <li>contact us</li>
+                  </ul>
+                </div>
+            </div>
+            <div className='FooterCopyrightWrapper'>
+                 <div className='footerIconsWrapper'>
+                <i className="fa fa-facebook" aria-hidden="true"></i>
+                <i className="fa fa-twitter" aria-hidden="true"></i>
+                <i className="fa fa-linkedin-square" aria-hidden="true"></i>
+                <i className="fa fa-instagram" aria-hidden="true"></i>
+                </div>
+                <div>
+                    <p><i className="fa fa-copyright" aria-hidden="true"></i> 2025 CodingScholar. All Rights Reserved</p>
+                </div>
+            </div>
+        </div>
+    </div>
+  )
+}

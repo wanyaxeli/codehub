@@ -134,12 +134,14 @@ useEffect(()=>{
                 </p>
                 )}
             </div>
-            <div className='TeacherEarnsWrapper'>
+           {student && <div className='TeacherEarnsWrapper'>
                 <div>
-                    <p>Live earning</p>
-                    <p>ksh 20000</p>
+                    <p>Student Points</p>
+                    <p style={{color:'#0097b2'}}>{student.Marks}</p>
+                    <p>Student Token</p>
+                    <p style={{color:'#0097b2'}}>{student.tokens}</p>
                 </div>
-            </div>
+            </div>}
         </div>
         <div className='todayLessonWrapper'>
            <div className='todayLessonHeaderwrapper'>
