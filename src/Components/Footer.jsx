@@ -1,6 +1,7 @@
 import React from 'react'
 import logo from '../assets/logoCodeHub.png'
 export default function Footer() {
+  const currentYear = new Date().getFullYear();
   return (
     <div className='footerWrapper'>
         <div className='footerContainer'>
@@ -35,7 +36,7 @@ export default function Footer() {
                 <i className="fa fa-instagram" aria-hidden="true"></i>
                 </div>
                 <div>
-                    <p><i className="fa fa-copyright" aria-hidden="true"></i> 2025 CodingScholar. All Rights Reserved</p>
+                    <p><i className="fa fa-copyright" aria-hidden="true"></i> {currentYear} CodingScholar. All Rights Reserved</p>
                 </div>
             </div>
         </div>

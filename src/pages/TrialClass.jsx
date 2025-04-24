@@ -7,9 +7,8 @@ import RegisterStudentModal from '../Components/RegisterStudentModal';
 import SubmitProjectModal from '../Components/SubmitProjectModal';
 import CountdownTimer from '../Components/CountdownTimer';
 export default function TrialClass() {
-    const { name, token } = useParams();
-    console.log('link',name,'token',token)
     const [code,setCode]=useState('')
+    const [bookingId,setBookingId]=useState('')
     const [chat,setChat]=useState('')
     const [asideCss,setAsideCss]=useState('closeAside')
     const [mainCss,setMainCss]=useState('fullPageMain')
@@ -30,17 +29,15 @@ export default function TrialClass() {
     const [connectedUsers,setconnectedUsers]=useState(2)
     const [openSharing,setOpenSharing]=useState('')
     const [timeLeft, setTimeLeft] = useState(null);
-    const [isConnected, setIsConnected] = useState(false);
     const [ws, setWs] = useState(null);
     const [startingTime, setStartingTime] = useState('');
     const [role, setRole] = useState('');
-    const [socket, setSocket] = useState(null);
     const [peer, setPeer] = useState(null);
     const peerRef = useRef(null);
     const screenPeerRef = useRef(null);
     const [user_id, setUser_id] = useState('');
-    const [waiting, setWaiting] = useState(false);
-    const [connected, setConnected] = useState([]);
+    // const [waiting, setWaiting] = useState(false);
+    // const [connected, setConnected] = useState([]);
     const [peerConnected, setpeerConnected] = useState(false);
     const [RemoteStream, setRemoteStream] = useState('');
     const userVideo = useRef();
@@ -49,13 +46,14 @@ export default function TrialClass() {
     const [sharing,setSharing]=useState(false)
     const [Usersharing,setUserSharing]=useState('')
     const partnerVideo = useRef();
-    const [videoElement, setVideoElement] = useState(null);
+    // const [videoElement, setVideoElement] = useState(null);
     const [localStream, setLocalStream] = useState(null);
     const [ice, setIce] = useState([]);
     const [toggleMic,setToggleMuteMic]=useState(true)
     const navigate=useNavigate()
     const [participants,setparticipants]=useState([])
     const screenVideo = useRef(null); // Remote screen video element
+    const beforeConnectionVideo = useRef();
     const LocalscreenVideo = useRef(null)
     const handleSubmitProject = ()=>{
         setopenSubmitModal(true)
@@ -83,7 +81,7 @@ export default function TrialClass() {
         .getUserMedia({ video: true, audio: true })
         .then((stream) => {
         setLocalStream(stream);
-        if (userVideo.current) userVideo.current.srcObject = stream;
+        if (beforeConnectionVideo.current) beforeConnectionVideo.current.srcObject = stream;
         })
         .catch((error) => console.error("Error accessing media devices:", error));
      }
@@ -136,8 +134,9 @@ export default function TrialClass() {
                 //     handleOffer(ws,Recieveddata.offer,Recieveddata.sender,Recieveddata.target);
                 // }
                 if (String(Recieveddata.target) === String(user_id)) {  
+                    console.log('hello reciever',Recieveddata.offer,ws)
                     const isRenegotiation = Recieveddata.renegotiation;
-                    handleOffer(ws, Recieveddata.offer, Recieveddata.sender, Recieveddata.target, isRenegotiation);
+                    handleOffer(ws, Recieveddata.offer, Recieveddata.sender, Recieveddata.target,);
                 }
             }
             else if(Recieveddata.type === "answer"){
@@ -191,6 +190,9 @@ export default function TrialClass() {
                     handleScreenOffer(ws, Recieveddata.offer, Recieveddata.sender, Recieveddata.target,);
                 }
             }
+            // else if(Recieveddata.type === "new_initiator"){
+            //       setparticipants(Recieveddata.user_count)
+            // }
             else if(Recieveddata.type === "screen_answer"){
               
                 if (screenPeerRef.current && String(Recieveddata.target===String(user_id))) {  // Ensure peer exists and is not closed
@@ -210,16 +212,20 @@ export default function TrialClass() {
             ws.close();
         };
     },[code,user_id,ice]);
-    console.log('pati',participants)
     function startCall(){
-        if(participants && participants.length===2 && timeLeft ==='Event has started!' && user_id && socket){
+        console.log('user',user_id,'socket',ws,'users ',participants)
+        if(participants && participants.length===2 && timeLeft ==='Event has started!' && user_id && ws){
+            console.log('inner user',user_id,'socket',ws)
             const InitiatorUser = participants.find(user =>user.initiator === true);
             const initiatorId=InitiatorUser.userId
             const targetUser = participants.find(user =>user.initiator ===false);
+            console.log('false initiator', targetUser);
             if (InitiatorUser && String(initiatorId) === String(user_id)){
-                    initiateCall(socket, targetUser, initiatorId);
+                    initiateCall(ws, targetUser, initiatorId);
                     console.log('true initiator', InitiatorUser);
             }
+        }else{
+            console.log('not called class')
         }
     }
     function initiateCall(socket, targetUser, id) {
@@ -243,12 +249,9 @@ export default function TrialClass() {
             });
     
             initiator.on("stream", (remoteStream) => {
-                if (partnerVideo.current) {
-                    partnerVideo.current.pause();
-                    partnerVideo.current.srcObject = remoteStream;
-                    partnerVideo.current.onloadedmetadata = () => {
-                        partnerVideo.current.play().catch((error) => console.log("Play error:", error));
-                    };
+                if (remoteStream) {
+                    console.log("Partner video streams:", remoteStream);
+                    setRemoteStream(remoteStream);
                 }
             });
     
@@ -256,6 +259,95 @@ export default function TrialClass() {
             peerRef.current = initiator;
         } else {
             console.log("WebSocket not connected");
+        }
+    }
+    // function initiateCall(socket, targetUser, id) {
+    //     console.log('init func',socket ,'user id' ,targetUser,'id',id)
+    //     if (localStream && targetUser && id && socket && socket.readyState === WebSocket.OPEN && ice) {
+    //         const peerConfig = {iceServers:ice};
+    //         const initiator = new Peer({ initiator: true, trickle: true, stream: localStream, config: peerConfig });
+    
+    //         initiator.on("error", err => console.log("peererror", err));
+    
+    //         initiator.on("signal", (signal) => {
+    //             console.log('init signal',signal)
+    //             if (signal.candidate) {
+    //                 // const userId = targetUser.userId;
+    //                 // const numberFromId = userId.replace(/\D/g, ""); // Removes all non-digit characters
+
+    //                 // const userIdInt = parseInt(numberFromId, 10);
+    //                 socket.send(JSON.stringify({ type: "candidate", candidate: signal, sender: id, target: targetUser.userId }));
+    //             } else {
+    //                 socket.send(JSON.stringify({ type: "offer", signal, renegotiation: false  ,sender: id, target: targetUser.userId }));
+    //             }
+    //         });
+    
+    //         initiator.on("connect", () => {
+    //             console.log("Initiator: Peer connected successfully!");
+    //             setpeerConnected(true)
+    //         });
+    
+    //         initiator.on("stream", (remoteStream) => {
+    //             console.log('stream',remoteStream)
+    //             if (remoteStream) {
+    //                 console.log("Partner video streams:", remoteStream);
+    //                 setRemoteStream(remoteStream);
+    //             }
+    //             // if (partnerVideo.current) {
+    //             //     partnerVideo.current.pause();
+    //             //     partnerVideo.current.srcObject = remoteStream;
+    //             //     partnerVideo.current.onloadedmetadata = () => {
+    //             //         partnerVideo.current.play().catch((error) => console.log("Play error:", error));
+    //             //     };
+    //             // }
+    //         });
+    
+    //         setPeer(initiator);
+    //         peerRef.current = initiator;
+    //     } else {
+    //         console.log("WebSocket not connected");
+    //     }
+    // }
+    const handleOffer = (socket, signal, targetID,senderId,) => {
+        console.log('handle offer called',socket, signal, targetID,senderId)
+        if (localStream && ice){
+        console.log("I am the receiver's", signal);
+        const peerConfig = { iceServers: ice };
+        const responder = new Peer({ initiator: false, trickle: true, stream: localStream, config: peerConfig });
+    
+        responder.on("connect", () => {
+            console.log("Responder: Peer connected successfully!");
+            setpeerConnected(true)
+        });
+    
+        responder.signal(signal);
+    
+        responder.on("signal", (answerSignal) => {
+            console.log('receiver offer',answerSignal)
+            if (answerSignal.candidate) {
+                socket.send(JSON.stringify({ type: "candidate", candidate: answerSignal,sender:senderId}));
+            } else {
+                socket.send(JSON.stringify({ type: "answer", signal: answerSignal, target: targetID }));
+            }
+        });
+    
+        responder.on("stream", (remoteStream) => {
+            if (remoteStream) {
+                console.log("Partner video streams:", remoteStream);
+                setRemoteStream(remoteStream);
+            }
+        });
+    
+        responder.on("close", () => {
+            console.log("Connection with peer closed :(");
+        });
+    
+        responder.on("error", (err) => console.log("res error", err));
+    
+        setPeer(responder);
+        peerRef.current = responder
+        }else{
+            console.log('something missinf',ice ,'local',localStream)
         }
     }
     const handleScreenOffer =(socket, signal, targetID, senderId)=>{
@@ -292,44 +384,6 @@ export default function TrialClass() {
         screenPeerRef.current=screenPeer
         });
     }
-    const handleOffer = (socket, signal, targetID,senderId) => {
-        if (!localStream || !ice) return;
-    
-        console.log("I am the receiver's", signal);
-        const peerConfig = { iceServers: ice };
-        const responder = new Peer({ initiator: false, trickle: true, stream: localStream, config: peerConfig });
-    
-        responder.on("connect", () => {
-            console.log("Responder: Peer connected successfully!");
-            setpeerConnected(true)
-        });
-    
-        responder.signal(signal);
-    
-        responder.on("signal", (answerSignal) => {
-            if (answerSignal.candidate) {
-                socket.send(JSON.stringify({ type: "candidate", candidate: answerSignal,sender:senderId}));
-            } else {
-                socket.send(JSON.stringify({ type: "answer", signal: answerSignal, target: targetID }));
-            }
-        });
-    
-        responder.on("stream", (remoteStream) => {
-            if (remoteStream) {
-                console.log("Partner video streams:", remoteStream);
-                setRemoteStream(remoteStream);
-            }
-        });
-    
-        responder.on("close", () => {
-            console.log("Connection with peer closed :(");
-        });
-    
-        responder.on("error", (err) => console.log("res error", err));
-    
-        setPeer(responder);
-        peerRef.current = responder
-    };
     async function startScreenShare() {
         if (participants.length > 1) {
             const InitiatorUser = participants.find(user => String(user.userId) === String(user_id));
@@ -385,39 +439,15 @@ export default function TrialClass() {
     }
     useEffect(()=>{
     startCall()
-    },[user_id,timeLeft,participants,socket]) 
-      useEffect(() => {
-        // Send the token to the backend to verify it
-        const verifyToken = async () => {
-          if(token){
-            try {
-                const response = await fetch("http://127.0.0.1:8000/verify-class-token/", {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({ token }),
-                });
-        
-                if (response.ok) {
-                  const data = await response.json();
-                  console.log("Verified email:", data.email);
-                  setCode(name)
-                  // Redirect to a form or auto-fill the email field
-                    navigate(`/Trial Class/${name}`)
-                } else {
-                  console.error("Invalid or expired token.");
-                  navigate("/error");
-                }
-              } catch (error) {
-                console.error("Error verifying token:", error);
-                navigate("/Error");
-              }
-          }
-        };
-    
-        verifyToken();
-      }, [token]);
+    },[user_id,timeLeft,participants,ws]) 
+    useEffect(()=>{
+        console.log('peer red ',peerRef.current)
+    },[peerRef])
+    useEffect(()=>{
+        if (localStream &&peerConnected &&  userVideo.current){
+            userVideo.current.srcObject = localStream;
+        }
+        },[localStream,peerConnected,userVideo])
       function tunOnMic() {
         if (localStream) {
             localStream.getAudioTracks().forEach((track) => {
@@ -490,8 +520,59 @@ export default function TrialClass() {
            setInnertoggleSideUser('sideUserDetails')
         }
        },[sharing])
+       useEffect(() => {
+        if(peerConnected && partnerVideo.current){
+            console.log('connected',peerConnected)
+         if (!RemoteStream || !partnerVideo.current) return;
+     
+         const videoElement = partnerVideo.current;
+     
+         
+         RemoteStream.getTracks().forEach(track => {
+             console.log(`Track kind: ${track.kind}, enabled: ${track.enabled}, readyState: ${track.readyState}`);
+         });
+         // Check if we are assigning a new stream
+         if (videoElement.srcObject !== RemoteStream) {
+             // Stop any existing tracks before assigning a new stream
+             if (videoElement.srcObject) {
+                 videoElement.srcObject.getTracks().forEach(track => track.stop());
+             }
+     
+             videoElement.srcObject = RemoteStream;
+         }
+     
+         // Wait a bit before playing to ensure stream is fully loaded
+         setTimeout(() => {
+             const playPromise = videoElement.play();
+             if (playPromise !== undefined) {
+                 playPromise
+                     .then(() => console.log("Playback started successfully"))
+                     .catch(error => console.error("Playback errors:", error));
+             }
+         }, 100); // Small delay to allow stream to load
+     
+         return () => {
+             if (videoElement.srcObject) {
+                 videoElement.srcObject.getTracks().forEach(track => track.stop());
+             }
+             videoElement.srcObject = null;
+         };
+        }else{
+            console.log('not connected',peerConnected)
+        }
+     
+     }, [peerConnected,RemoteStream,partnerVideo.current]);
     useEffect(()=>{
-    fetchIceServers()
+        const getIceServers = async () => {
+            const iceServers = await fetchIceServers();
+            if(iceServers){
+              console.log("ICE Servers:", iceServers);
+              setIce(iceServers)
+            }
+          };
+          
+          getIceServers();
+    getMedia()
     },[])
     useEffect(()=>{
         if(mainCss==='fullPageMain'){
@@ -505,16 +586,6 @@ export default function TrialClass() {
             setAsideCss('closeAside')
         }
     },[toggleChat])
-   useEffect(()=>{
-   if(name && token){
-     // Decode the class name
-     const decodedName = decodeURIComponent(name);
-     console.log('decoded token',decodedName)
-    setCode(decodedName)
-   }else{
-    setCode(name)
-   }
-   },[name])
    useEffect(() => {
     setMainCss('fullPageMain'); // This overrides the initial state
     setAsideCss('closeAside')
@@ -523,13 +594,14 @@ export default function TrialClass() {
    useEffect(()=>{
     const {state}= location
     if(state){
+        const{id,role,booking_id,code}=state
         console.log('state',state)
-        setUser_id(state)
-    }else{
-        const id = Math.floor(Math.random() * 9000) + 1000;
-        setUser_id(name)
+        setUser_id(id)
+        setBookingId(booking_id)
+        setCode(code)
+        setRole(role)
     }
-    },[location,name])
+    },[location])
     useEffect(() => {
         let interval;
         if (timeLeft === "Event has started!") {
@@ -567,13 +639,13 @@ export default function TrialClass() {
     const handleShareScreen=()=>{
         if(sharing===true){
             if(Usersharing===user_id){
-                // StopSharing()
-                // stopScreenSharing()
+                StopSharing()
+                stopScreenSharing()
             }else{
                 alert(`${Usersharing} is sharing screen already`)
             }
         }else{
-            // StartSharing()
+            StartSharing()
         }
     }
     const handleToggleVideo = () => {
@@ -593,8 +665,8 @@ export default function TrialClass() {
         }
     };
    function getTrailClass(){
-    if(code){
-        const url=`http://127.0.0.1:8000/trialClass/${code}`
+    if(bookingId){
+        const url=`http://127.0.0.1:8000/trialClass/${bookingId}`
     axios.get(url)
     .then(res=>{
         console.log(res.data)
@@ -608,107 +680,19 @@ export default function TrialClass() {
    }
    useEffect(()=>{
    getTrailClass()
-   },[code])
-   const handleEndClass=()=>{}
-//   return (
-//     <div className='TrialClass'>
-//          <div className='ClassHeader'>
-//             <div className='ClassHeaderWrapper'>
-//                 <div className='classHeaderLogowrapper'>
-//                     <div className='logoContainer'>
-//                         <img src={pic}/>
-//                     </div>
-//                     <div className=''>
-
-//                     </div>
-//                 </div>
-//                 <div className='classHeaderBtnwrapper'>
-//                     <ul>
-//                         <li onClick={handleSubmitProject}>submit project</li>
-//                         <li onClick={handleStudent}>student</li>
-//                         <li onClick={handleOpenChat}>chat</li>
-//                     </ul>
-//                 </div>
-//                 <div className='classheaderBtnActionwrapper'>
-//                     <div className='endclassBtnwrapper'>
-//                         <button>end class</button>
-//                     </div>
-//                 </div>
-//             </div>
-//             </div>
-//             <div className='classContainer'>
-//                 <main main className={mainCss}>
-//                 <div className='classVideoImageWrapper'>
-                    
-//                 </div>
-//                 <div className='mainClassBtnActionHolder'>
-//                 <ul>
-//                     <li>
-//                          <div>
-//                             <div className={`classInconHolder ${openVidoe}`} onClick={handleToggleVideo}>
-//                                 <i className="fa fa-video-camera" aria-hidden="true"></i>
-//                                 {/* <i className="fi fi-rr-video-slash"></i> */}
-//                                 </div>
-//                                 <p>cam</p>
-//                             </div>
-//                         </li>
-//                         <li>
-//                         <div>
-//                             <div className={`classInconHolder ${openMic}`} onClick={handleToggleMic}>
-//                             {mic===true?<i className="fa fa-microphone" aria-hidden="true"></i>:<i className="fa fa-microphone-slash" aria-hidden="true"></i>}
-//                             </div>
-//                             <p>mic</p>
-//                         </div>
-//                         </li>
-//                         <li>
-//                         <div>
-//                             {/* <div onClick={handleShareScreen} className={`classInconHolder ${Usersharing &&Usersharing === user_id ?openSharing:""}`}> */}
-//                             <div onClick={handleShareScreen} className={`classInconHolder`}>
-//                             <i className="fa fa-desktop" aria-hidden="true"></i>
-//                             </div>
-//                         {/* {sharing && Usersharing &&Usersharing ===user_id? <p>stop  share</p>: <p>share</p>} */}
-//                         <p>share</p>
-//                         </div>
-//                         </li>
-//                         {/* <li>
-//                         <div>
-//                             <div className='classInconHolder'>
-
-//                             </div>
-//                             <p>record</p>
-//                         </div>
-//                         </li> */}
-//                     </ul>
-//                 </div>
-//                 </main>
-//             <aside className={asideCss}>
-//                 <div className='chatWrapper'>
-//                     <div className='chatContainer'>
-//                         {/* {Wschat.map((chat,i)=>{
-//                             return(
-//                                 <ul key={i}>
-//                                     {chat.user===user_id?<li className='sender'><p>{chat.text}</p></li>:
-//                                     <li className='reciever'><p>{chat.text}</p></li>}
-//                             </ul>
-//                             )
-//                         })} */}
-//                     </div>
-//                     <div className='chatInputWrapper'>
-//                         <input onChange={handleChat} value={chat} placeholder='Chat...'/>
-//                         <button onClick={handleSendChat}><i className="fa fa-paper-plane" aria-hidden="true"></i></button>
-//                     </div>
-//                 </div>
-//             </aside>
-//             </div>
-//     </div>
-//   )
-// }
+   },[bookingId])
+   const handleEndClass=()=>{
+    navigate('/End Class',{state:{code:bookingId,classTypes:'trial'}})
+   }
+   useEffect(()=>{
+    console.log('pati',participants,'time ',timeLeft,'moment',peerConnected)
+   },[peerConnected,timeLeft,participants])
 if(participants.length <= 2 && timeLeft !=='Event has started!' || participants.length===1 && timeLeft ==='Event has started!' && peerConnected===false){
     return(
         <div className='classNotStartedWrapper'>
           <main>
             <div className='VideoHolder'>
-            <video ref={userVideo} autoPlay playsInline muted={true} />
+            <video ref={beforeConnectionVideo} autoPlay playsInline muted={true} />
             </div>
           </main>
           <aside>
@@ -718,7 +702,7 @@ if(participants.length <= 2 && timeLeft !=='Event has started!' || participants.
                 <CountdownTimer timeLeft={timeLeft} setTimeLeft={setTimeLeft} startingTime={startingTime} />
             </span>
             </p>}
-             {counter ===15?<div className='noOtherMemberJoinedWrapper'>
+             {counter ===15 && role==='teacher'?<div className='noOtherMemberJoinedWrapper'>
                 <span>oops! the other member did not join the class</span><br/>
                 <button>end class</button>
              </div>:''}
@@ -765,9 +749,9 @@ if(participants.length <= 2 && timeLeft !=='Event has started!' || participants.
                     </ul>
                 </div>
                 <div className='classheaderBtnActionwrapper'>
-                    <div className='endclassBtnwrapper'>
+                    {role==='teacher' && <div className='endclassBtnwrapper'>
                         <button onClick={handleEndClass}>end class</button>
-                    </div>
+                    </div>}
                 </div>
             </div>
             </div> 
@@ -775,7 +759,7 @@ if(participants.length <= 2 && timeLeft !=='Event has started!' || participants.
             <main className={mainCss}>
                 <div className='classVideoImageWrapper'>
                         <div className={Videocard}>
-                                                    {Usersharing === user_id ? (
+                            {Usersharing === user_id ? (
                                 <video ref={LocalscreenVideo} autoPlay playsInline muted />
                             ) : 
                             // (

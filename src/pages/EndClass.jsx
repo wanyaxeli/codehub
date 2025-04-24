@@ -6,6 +6,8 @@ export default function EndClass() {
   const location = useLocation()
   const navigate = useNavigate()
   const [classId,setClassId]=useState()
+  const [bookingId,setBookingId]=useState('')
+  const [booking,setBooking]=useState([])
   const [value,setValue]=useState()
   const [token,setToken]=useState('')
   const [role,setRole]=useState('')
@@ -21,6 +23,17 @@ export default function EndClass() {
       setLesson([res.data])
     })
     .catch(error=>console.log(error))
+   }else{
+      if(bookingId){
+      const code= bookingId
+      const url=`http://127.0.0.1:8000/trialClass/${code}`
+      axios.get(url)
+      .then(res=>{
+        console.log('res',res.data)
+        setBooking([res.data])
+      })
+      .catch(error=>console.log(error))
+      }
    }
   }
   const handleValue=(e)=>{
@@ -55,15 +68,25 @@ export default function EndClass() {
    })
   }
   const handleSubmit=()=>{
-    lesson.map(item=>{
-    if(item.is_completed===false && value && item.reason===''){
-      const id= classId
-      const url = `http://127.0.0.1:8000/NotAttendedClass/${id}`
-      axios.put(url,{data:value})
-      .then(res=>{
-        console.log(res.data)
-        const data = res.data.message
-        if(data==='Class marked '){
+    if(classId){
+      lesson.map(item=>{
+        if(item.is_completed===false && value && item.reason===''){
+          const id= classId
+          const url = `http://127.0.0.1:8000/NotAttendedClass/${id}`
+          axios.put(url,{data:value})
+          .then(res=>{
+            console.log(res.data)
+            const data = res.data.message
+            if(data==='Class marked '){
+              if(role==='student'){
+                navigate('/student/dashboard/Details')
+              }else{
+                navigate('/teacher/dashboard/Details')
+              }
+            }
+          })
+          .catch(error=>console.log(error))
+        }else{
           if(role==='student'){
             navigate('/student/dashboard/Details')
           }else{
@@ -71,15 +94,33 @@ export default function EndClass() {
           }
         }
       })
-      .catch(error=>console.log(error))
     }else{
-      if(role==='student'){
-        navigate('/student/dashboard/Details')
-      }else{
-        navigate('/teacher/dashboard/Details')
-      }
+      booking.map(item=>{
+        if(item.joined===false && item.reason===''){
+          const id= bookingId
+          const url = `http://127.0.0.1:8000/NotAttendedTrailClass/${id}`
+          axios.put(url,{data:value})
+          .then(res=>{
+            console.log(res.data)
+            const data = res.data.message
+            if(data==='Class marked '){
+              if(role==='student'){
+                navigate('/student/dashboard/Details')
+              }else{
+                navigate('/teacher/dashboard/Details')
+              }
+            }
+          })
+          .catch(error=>console.log(error))
+        }else{
+          if(role==='student'){
+            navigate('/student/dashboard/Details')
+          }else{
+            navigate('/teacher/dashboard/Details')
+          }
+        }
+      })
     }
-  })
   }
   async function getToken(){
     try{
@@ -99,7 +140,7 @@ const handleCancelEndClass =()=>{
 }
 useEffect(()=>{
   getToken()
-},[])
+},[classId])
   useEffect(() => {
    
     if (token) {
@@ -117,9 +158,15 @@ useEffect(()=>{
     const { state } = location || {}; // Ensure location is not undefined
     // const { id } = state || {};\
     console.log('state ',state)
-    if (state) {
-        setClassId(state);  // Set the state if it exists
+    const {code,classTypes}=state
+    if (classTypes==='trial'){
+     setBookingId(code)
+    }else{
+      setClassId(code)
     }
+    // if (state) {
+    //     setClassId(state);  // Set the state if it exists
+    // }
     // startLocalStream()
 },[location])
 useEffect(()=>{
@@ -135,7 +182,8 @@ useEffect(()=>{
          </div>:''}
          <div className={classEnded===true||classEnded==='' ?"reasonsWrapper":'reasonsContainer'}>
          <ul>
-          {role!=='student'?<li><input type="radio"  onChange={handleValue} value="student didn't attend class"  name="reason" /> The student didn't attend class</li>: <li><input type="radio"  onChange={handleValue} value="teacher didn't attend class"  name="reason" /> The teacher didn't attend class</li>}
+          <li><input type="radio"  onChange={handleValue} value="student didn't attend class"  name="reason" /> The student didn't attend class</li> 
+          <li><input type="radio"  onChange={handleValue} value="teacher didn't attend class"  name="reason" /> The teacher didn't attend class</li>
           <li><input type="radio"  onChange={handleValue} value="network issues"  name="reason" /> Network issues</li>
         </ul>
          <div className='endClassSumbitBtn'>

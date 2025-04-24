@@ -35,6 +35,7 @@ import BookingsManager from '../pages/BookingsManager.jsx';
 import TrialClass from '../pages/TrialClass.jsx';
 import StudentNotesView from '../pages/students/StudentNotesView.jsx';
 import EndClass from '../pages/EndClass.jsx';
+import BookingLoading from '../pages/BookingLoading.jsx';
 export default function AppRoutes() {
   return (
     <Routes>
@@ -78,7 +79,7 @@ export default function AppRoutes() {
         <Route path='/End Class' element={<EndClass/>}/>
         <Route path='/Class/:name' element={<Class/>}/>
         <Route path='/Trial Class/:name' element={<TrialClass/>}/>
-        <Route path="/Trial Class/:name/:token" element={<TrialClass />} />
+        <Route path="/Trial Class/:name/:token" element={<BookingLoading />} />
         <Route path='/Error' element={<Error/>}/>
     {/* <Route path="/" element={<Layout />}>
       <Route index element={<Home />} />

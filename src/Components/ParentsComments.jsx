@@ -14,7 +14,7 @@ export default function ParentsComments() {
   return (
     <div className='parentsComments'>
         <div className='parentsCommentsHolder'>
-             <h3>Students and parents love codehub’s training program and curriculum</h3>
+             <h3>Students and parents love codingScholar’s training program and curriculum</h3>
              <div >
              <Slider {...settings} className='parentsCommentsContainer'>
              {Array(8).fill(0).map((item,i)=>{

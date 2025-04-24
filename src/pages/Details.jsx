@@ -32,7 +32,15 @@ export default function Details() {
     const handleJoinClass =(data)=>{
        if(userId){
         const name = data.BookingName
-        navigate(`/Trial Class/${name}`,{state:userId})
+        // navigate(`/Trial Class/${name}`,{state:userId})
+        // navigate(`/Trial Class/${name}`,{state:{id:userId,role:'teacher'}})
+        const decodedName = decodeURIComponent(name);
+        console.log('decoded token',decodedName)
+        const  codeName = decodedName;
+        const numberFromId = codeName.replace(/\D/g, ""); // Removes all non-digit characters
+
+        const codeNameInt = parseInt(numberFromId, 10);
+        navigate(`/Trial Class/${name}`,{state:{id:userId  ,code:codeNameInt,role:'teacher',booking_id:name}})
        }
     }
     const handleSetQuiz=()=>{

@@ -10,7 +10,7 @@ export default function AlertPOPUp({bookingMessage}) {
     <div className='AlertPOPUpWrapper'>
         <div className='AlertPOPUpContainer'>
             <div className='AlertPOPUp'>
-                <p>{bookingMessage}</p>
+                <p style={{color:'white'}}>{bookingMessage}</p>
                 <div>
                 <button onClick={handleToHome}>okay</button>
                 </div>

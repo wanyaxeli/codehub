@@ -1998,7 +1998,7 @@ body{
 .AlertPOPUp{
   width: 30%;
   height: 30%;
-  background-color: #fff;
+  background-color: #0097b2;
   border-radius: 10px;
   display: flex;
   justify-content: center;
@@ -2013,7 +2013,7 @@ body{
 }
 .AlertPOPUp button{
   padding: 10px 15px;
-  background-color: #0097b2;
+  background-color: #fff;
   border-radius: 5px;
   cursor: pointer;
   border: none;

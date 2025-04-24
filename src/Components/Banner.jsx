@@ -65,7 +65,7 @@ export default function Banner() {
         <div className='bannerDetailsWrapper'>
            <div className='sharedStyles introWrapper'>
             <span className='IConWrapper'><i className="fa fa-bolt" aria-hidden="true"></i></span>
-            <p>Welcome to codehub online coding school for kids</p>
+            <p>Welcome to codingScholar.com online coding school for kids</p>
            </div>
             <div className='Aboutcodehub'>
             <p>Let your kid start learning from <br/> the world's best coding institution</p>

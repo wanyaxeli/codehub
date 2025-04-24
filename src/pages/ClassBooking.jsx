@@ -80,6 +80,7 @@ import { useEffect } from 'react';
             })
         }else{
             setError('Please a suitable time slot for your free trial class')
+            setLoading(false)
         }
     }
     const handlePickedTime=(item)=>{

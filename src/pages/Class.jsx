@@ -332,15 +332,6 @@ console.log('connectes',connected)
                     console.log("Partner video streams:", remoteStream);
                     setRemoteStream(remoteStream);
                 }
-                // if (partnerVideo.current) {
-                //     partnerVideo.current.pause();
-                //     partnerVideo.current.srcObject = remoteStream;
-                //     partnerVideo.current.onloadedmetadata = () => {
-                //         partnerVideo.current.play().catch((error) => console.log("Play error:", error));
-                //     };
-                // }else{
-                //     initiateCall()
-                // }
             });
     
             setPeer(initiator);
@@ -582,7 +573,7 @@ console.log('connectes',connected)
         }
     };
      const handleEndClass=()=>{
-        navigate('/End Class',{state:code})
+        navigate('/End Class',{state:{code:code,classTypes:'normal'}})
      }
       const handleChat =(e)=>{
         setChat(e.target.value)
@@ -733,7 +724,7 @@ console.log('connectes',connected)
                 <CountdownTimer timeLeft={timeLeft} setTimeLeft={setTimeLeft} startingTime={startingTime} />
             </span>
             </p>}
-             {counter ===15?<div className='noOtherMemberJoinedWrapper'>
+             {counter ===15 && role ==='teacher'?<div className='noOtherMemberJoinedWrapper'>
                 <span>oops! the other member did not join the class</span><br/>
                 <button>end class</button>
              </div>:''}
@@ -780,9 +771,9 @@ console.log('connectes',connected)
                     </ul>
                 </div>
                 <div className='classheaderBtnActionwrapper'>
-                    <div className='endclassBtnwrapper'>
+                    {role==='teacher'?<div className='endclassBtnwrapper'>
                         <button onClick={handleEndClass}>end class</button>
-                    </div>
+                    </div>:''}
                 </div>
             </div>
             </div> 
