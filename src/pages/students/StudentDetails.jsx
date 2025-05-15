@@ -12,9 +12,9 @@ export default function StudentDetails() {
     const [studentId,setStudentId]=useState('')
     const {student,proPic,getProfilePic}=useContext(context)
     const [profilePic,setProfilePic]=useState('')
-    console.log(student)
-    const handleToJoinClass =(id,time)=>{
-    navigate(`/class/${id}`, { state: { id, time } });
+    console.log('student',student)
+    const handleToJoinClass =(id,time,title)=>{
+    navigate(`/class/${id}`, { state: { id,classType:'NormalClass', time,title } });
     }
     async function getToken(){
         try{
@@ -69,6 +69,13 @@ export default function StudentDetails() {
  const handlechange =(e)=>{
     setProfilePic(e.target.files[0])
 }
+useEffect(()=>{
+ if(student){
+    if(student.tokens===0||student.fees ===false){
+        navigate('/Fee Payment')
+    }
+ }
+},[student])
  useEffect(()=>{
    if (lessons){
     const date= new Date()
@@ -154,7 +161,7 @@ useEffect(()=>{
                     <h4>{lesson.lesson.title}</h4>
                     <p>time:{lesson.time}</p>
                     <p><a href='#'>details</a></p>
-                    <button onClick={()=>handleToJoinClass(lesson.lesson.lessonId,lesson.date_time)}>join</button>
+                    <button onClick={()=>handleToJoinClass(lesson.lesson.lessonId,lesson.date_time,lesson.lesson.title)}>join</button>
                   </div>
                 )
                }):<div className='NoClassDiv'>

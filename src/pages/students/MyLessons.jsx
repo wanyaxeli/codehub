@@ -7,7 +7,7 @@ export default function MyLessons() {
   const navigate=useNavigate()
   function GetMyLessons(){
     if(token){
-      const url ='http://127.0.0.1:8000/studentLessons/'
+      const url ='http://localhost:8000/studentLessons/'
       axios.get(url,{headers:{
         'Authorization':`Bearer ${token}`
       }})

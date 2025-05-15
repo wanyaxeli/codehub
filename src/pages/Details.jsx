@@ -35,12 +35,11 @@ export default function Details() {
         // navigate(`/Trial Class/${name}`,{state:userId})
         // navigate(`/Trial Class/${name}`,{state:{id:userId,role:'teacher'}})
         const decodedName = decodeURIComponent(name);
-        console.log('decoded token',decodedName)
         const  codeName = decodedName;
         const numberFromId = codeName.replace(/\D/g, ""); // Removes all non-digit characters
 
         const codeNameInt = parseInt(numberFromId, 10);
-        navigate(`/Trial Class/${name}`,{state:{id:userId  ,code:codeNameInt,role:'teacher',booking_id:name}})
+        navigate(`/class/${name}`,{state:{id:userId ,classType:'trial'  ,code:codeNameInt,role:'teacher',booking_id:name}})
        }
     }
     const handleSetQuiz=()=>{
@@ -123,11 +122,8 @@ export default function Details() {
         getProfilePic(token)
     },[token])
     useEffect(()=>{
-    getToken()
-    },[])
-    useEffect(()=>{
     if(token){
-        const url ='http://127.0.0.1:8000/Teacherbooking/'
+        const url ='http://localhost:8000/Teacherbooking/'
         setLoading(true)
         axios.get(url,{headers:{
            'Content-Type':'application/json',
@@ -229,6 +225,7 @@ export default function Details() {
     useEffect(()=>{
     getToken()
     },[])
+    console.log('teacher',teacher)
   return (
     <div className='DetailsWrapper'>
         <div className='TeacherDetailsWrapper'>
@@ -255,35 +252,37 @@ export default function Details() {
                 </div>
             </div>
         </div>
-        <div className='TeacherActionWrapper'>
-            <div onClick={handleToAllTeachers} className='actionBtnContainer allTeacher'>
-                <p>all teachers</p>
-            </div>
-            <div onClick={handleToAllStudents} className='actionBtnContainer allstudents'>
-                <p>all students</p>
-            </div>
-            <div onClick={handleToAddTeachers} className='actionBtnContainer addTeacher'>
-               <p>add teacher</p>
-            </div>
-            <div onClick={handleToAddStudent} className='actionBtnContainer addStudent'>
-              <p>add student</p>
-            </div>
-            <div onClick={handleCurriculum} className='actionBtnContainer createcurriculum'>
-            <p>curriculum</p>
-            </div>
-            <div className='actionBtnContainer uploadedvideo'>
-            <p>videos</p>
-            </div>
-            <div onClick={handleSetQuiz} className='actionBtnContainer quiz'>
-            <p>Quiz</p>
-            </div>
-            <div onClick={handleSetLessons} className='actionBtnContainer lessonsBtn'>
-            <p>class</p>
-            </div>
-            <div onClick={handleBookingManager} className='actionBtnContainer bookingsManagerBtn'>
-            <p>Bookings</p>
-            </div>
-        </div>
+        {teacher && teacher.user.is_admin!=='undefined' && teacher.user.is_admin===true?
+           <div className='TeacherActionWrapper'>
+           <div onClick={handleToAllTeachers} className='actionBtnContainer allTeacher'>
+               <p>all teachers</p>
+           </div>
+           <div onClick={handleToAllStudents} className='actionBtnContainer allstudents'>
+               <p>all students</p>
+           </div>
+           <div onClick={handleToAddTeachers} className='actionBtnContainer addTeacher'>
+              <p>add teacher</p>
+           </div>
+           <div onClick={handleToAddStudent} className='actionBtnContainer addStudent'>
+             <p>add student</p>
+           </div>
+           <div onClick={handleCurriculum} className='actionBtnContainer createcurriculum'>
+           <p>curriculum</p>
+           </div>
+           <div className='actionBtnContainer uploadedvideo'>
+           <p>videos</p>
+           </div>
+           <div onClick={handleSetQuiz} className='actionBtnContainer quiz'>
+           <p>Quiz</p>
+           </div>
+           <div onClick={handleSetLessons} className='actionBtnContainer lessonsBtn'>
+           <p>class</p>
+           </div>
+           <div onClick={handleBookingManager} className='actionBtnContainer bookingsManagerBtn'>
+           <p>Bookings</p>
+           </div>
+       </div>
+        :''}
         <div className='TodaysClasses'>
             <h3>Today Bookings</h3>
             <table>

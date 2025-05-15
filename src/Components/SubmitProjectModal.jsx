@@ -1,7 +1,19 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import ReactDOM from 'react-dom'; // Correct import
-export default function SubmitProjectModal({openSubmitModal,SubmitProeject,project,setProject,setopenSubmitModal}) {
-    // const [project,setProject]=useState('')
+import axios from 'axios';
+export default function SubmitProjectModal({openSubmitModal,bookingId,ClassName,StudentId,setopenSubmitModal}) {
+    const [project,setProject]=useState('')
+    const [token,setToken]=useState('')
+    async function getToken(){
+        try{
+            const token= localStorage.getItem('token') // No need to await
+            if (token){
+                setToken(token);
+            }
+        } catch(error) {
+            console.log(error);
+  }
+}
     const handleCloseModal=()=>{
         setopenSubmitModal(false)
     }
@@ -9,8 +21,36 @@ export default function SubmitProjectModal({openSubmitModal,SubmitProeject,proje
         setProject(e.target.value)
     }
     const handleSubmit =()=>{
-        SubmitProeject()
+        console.log('std',ClassName)
+        if(ClassName){
+            const url = `http://localhost:8000/Project/`
+            const data={project:project,className:ClassName}
+            axios.post(url,data,{headers:{
+                'Authorization':`Bearer ${token}`
+            }})
+            .then(res=>{
+                console.log(res.data)
+                setProject('')
+                setopenSubmitModal(false)
+            })
+            .catch(error=>console.log(error))
+        }else if(bookingId){
+            const url = `http://localhost:8000/TrialProject/`
+            const data={project:project,bookingId:bookingId}
+            axios.post(url,data,{headers:{
+                'Authorization':`Bearer ${token}`
+            }})
+            .then(res=>{
+                console.log(res.data)
+                setProject('')
+                setopenSubmitModal(false)
+            })
+            .catch(error=>console.log(error)) 
+        }
     }
+    useEffect(()=>{
+    getToken()
+    },[])
     return ReactDOM.createPortal(
       <div className="SubmitWrapper">
         <div className='submitInnerWrapper'>

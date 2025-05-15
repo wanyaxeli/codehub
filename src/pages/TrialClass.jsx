@@ -9,6 +9,7 @@ import CountdownTimer from '../Components/CountdownTimer';
 export default function TrialClass() {
     const [code,setCode]=useState('')
     const [bookingId,setBookingId]=useState('')
+    const [trailClass,setTrailClass]=useState([])
     const [chat,setChat]=useState('')
     const [asideCss,setAsideCss]=useState('closeAside')
     const [mainCss,setMainCss]=useState('fullPageMain')
@@ -90,8 +91,6 @@ export default function TrialClass() {
     
         const ws = new WebSocket(`ws://localhost:8000/ws/classRoom/${code}/`);
         console.log('innerws',ws)
-
-
         getMedia()
         ws.onopen = () =>{
             console.log("WebSocket connected");
@@ -104,24 +103,6 @@ export default function TrialClass() {
             if(Recieveddata.type ==='user-joined'){
                 const {users,users_count}= Recieveddata
                 setparticipants(users)
-                console.log('in class',users)
-                // if(users_count && users_count===2){
-                    
-                //     console.log('users in class',users)
-                //     setWaiting(false)
-                //     const InitiatorUser = users.find(user =>user.initiator === true);
-                //     const initiatorId=InitiatorUser.userId
-                //     const targetUser = users.find(user =>user.initiator ===false);
-                   
-                //     if (InitiatorUser && String(initiatorId) === String(user_id)){
-                //         setTimeout(() => {
-                //             initiateCall(ws, targetUser, initiatorId);
-                //             console.log('true initiator', InitiatorUser);
-                //         }, 2000);
-                //     }
-                //     }else{
-                //         setWaiting(true)
-                //     }
             }
              else if(Recieveddata.type==='chat'){
                  const {message}= Recieveddata
@@ -129,15 +110,15 @@ export default function TrialClass() {
                 setWsChat(pre=>([...pre,message]))
             } 
             else if(Recieveddata.type === "offer"){
-                // handleOffer(ws,Recieveddata.signal);
-                // if (String(Recieveddata.target) === String(user_id)) {  // Prevent duplicate handling
-                //     handleOffer(ws,Recieveddata.offer,Recieveddata.sender,Recieveddata.target);
-                // }
                 if (String(Recieveddata.target) === String(user_id)) {  
-                    console.log('hello reciever',Recieveddata.offer,ws)
                     const isRenegotiation = Recieveddata.renegotiation;
-                    handleOffer(ws, Recieveddata.offer, Recieveddata.sender, Recieveddata.target,);
+                    handleOffer(ws, Recieveddata.offer, Recieveddata.sender, Recieveddata.target, isRenegotiation);
                 }
+            }
+            else if(Recieveddata.type === "new_initiator"){
+                 console.log('user left',Recieveddata.users)
+                 setparticipants(Recieveddata.users)
+                 setpeerConnected(false)
             }
             else if(Recieveddata.type === "answer"){
               
@@ -152,14 +133,6 @@ export default function TrialClass() {
                 }
             }
             else if (Recieveddata.type === "candidate") {
-             
-                // if (peer && Recieveddata.candidate) {
-                //     try {
-                //         peer.signal(Recieveddata.candidate);  // Apply ICE candidate
-                //     } catch (error) {
-                //         console.error("Error adding ICE candidate:", error);
-                //     }
-                // }
                 if (peerRef.current && Recieveddata.candidate) {
                     peerRef.current.signal(Recieveddata.candidate);
                  }
@@ -190,9 +163,6 @@ export default function TrialClass() {
                     handleScreenOffer(ws, Recieveddata.offer, Recieveddata.sender, Recieveddata.target,);
                 }
             }
-            // else if(Recieveddata.type === "new_initiator"){
-            //       setparticipants(Recieveddata.user_count)
-            // }
             else if(Recieveddata.type === "screen_answer"){
               
                 if (screenPeerRef.current && String(Recieveddata.target===String(user_id))) {  // Ensure peer exists and is not closed
@@ -213,19 +183,14 @@ export default function TrialClass() {
         };
     },[code,user_id,ice]);
     function startCall(){
-        console.log('user',user_id,'socket',ws,'users ',participants)
         if(participants && participants.length===2 && timeLeft ==='Event has started!' && user_id && ws){
-            console.log('inner user',user_id,'socket',ws)
             const InitiatorUser = participants.find(user =>user.initiator === true);
             const initiatorId=InitiatorUser.userId
             const targetUser = participants.find(user =>user.initiator ===false);
-            console.log('false initiator', targetUser);
             if (InitiatorUser && String(initiatorId) === String(user_id)){
                     initiateCall(ws, targetUser, initiatorId);
                     console.log('true initiator', InitiatorUser);
             }
-        }else{
-            console.log('not called class')
         }
     }
     function initiateCall(socket, targetUser, id) {
@@ -250,7 +215,6 @@ export default function TrialClass() {
     
             initiator.on("stream", (remoteStream) => {
                 if (remoteStream) {
-                    console.log("Partner video streams:", remoteStream);
                     setRemoteStream(remoteStream);
                 }
             });
@@ -261,56 +225,9 @@ export default function TrialClass() {
             console.log("WebSocket not connected");
         }
     }
-    // function initiateCall(socket, targetUser, id) {
-    //     console.log('init func',socket ,'user id' ,targetUser,'id',id)
-    //     if (localStream && targetUser && id && socket && socket.readyState === WebSocket.OPEN && ice) {
-    //         const peerConfig = {iceServers:ice};
-    //         const initiator = new Peer({ initiator: true, trickle: true, stream: localStream, config: peerConfig });
+    const handleOffer = (socket, signal, targetID,senderId) => {
+        if (!localStream || !ice) return;
     
-    //         initiator.on("error", err => console.log("peererror", err));
-    
-    //         initiator.on("signal", (signal) => {
-    //             console.log('init signal',signal)
-    //             if (signal.candidate) {
-    //                 // const userId = targetUser.userId;
-    //                 // const numberFromId = userId.replace(/\D/g, ""); // Removes all non-digit characters
-
-    //                 // const userIdInt = parseInt(numberFromId, 10);
-    //                 socket.send(JSON.stringify({ type: "candidate", candidate: signal, sender: id, target: targetUser.userId }));
-    //             } else {
-    //                 socket.send(JSON.stringify({ type: "offer", signal, renegotiation: false  ,sender: id, target: targetUser.userId }));
-    //             }
-    //         });
-    
-    //         initiator.on("connect", () => {
-    //             console.log("Initiator: Peer connected successfully!");
-    //             setpeerConnected(true)
-    //         });
-    
-    //         initiator.on("stream", (remoteStream) => {
-    //             console.log('stream',remoteStream)
-    //             if (remoteStream) {
-    //                 console.log("Partner video streams:", remoteStream);
-    //                 setRemoteStream(remoteStream);
-    //             }
-    //             // if (partnerVideo.current) {
-    //             //     partnerVideo.current.pause();
-    //             //     partnerVideo.current.srcObject = remoteStream;
-    //             //     partnerVideo.current.onloadedmetadata = () => {
-    //             //         partnerVideo.current.play().catch((error) => console.log("Play error:", error));
-    //             //     };
-    //             // }
-    //         });
-    
-    //         setPeer(initiator);
-    //         peerRef.current = initiator;
-    //     } else {
-    //         console.log("WebSocket not connected");
-    //     }
-    // }
-    const handleOffer = (socket, signal, targetID,senderId,) => {
-        console.log('handle offer called',socket, signal, targetID,senderId)
-        if (localStream && ice){
         console.log("I am the receiver's", signal);
         const peerConfig = { iceServers: ice };
         const responder = new Peer({ initiator: false, trickle: true, stream: localStream, config: peerConfig });
@@ -323,7 +240,6 @@ export default function TrialClass() {
         responder.signal(signal);
     
         responder.on("signal", (answerSignal) => {
-            console.log('receiver offer',answerSignal)
             if (answerSignal.candidate) {
                 socket.send(JSON.stringify({ type: "candidate", candidate: answerSignal,sender:senderId}));
             } else {
@@ -346,10 +262,7 @@ export default function TrialClass() {
     
         setPeer(responder);
         peerRef.current = responder
-        }else{
-            console.log('something missinf',ice ,'local',localStream)
-        }
-    }
+    };
     const handleScreenOffer =(socket, signal, targetID, senderId)=>{
         const peerConfig = { iceServers: ice };
         const screenPeer = new Peer({
@@ -438,8 +351,8 @@ export default function TrialClass() {
         console.log("Screen sharing stopped.");
     }
     useEffect(()=>{
-    startCall()
-    },[user_id,timeLeft,participants,ws]) 
+        startCall()
+    },[user_id,timeLeft,participants])
     useEffect(()=>{
         console.log('peer red ',peerRef.current)
     },[peerRef])
@@ -571,9 +484,18 @@ export default function TrialClass() {
             }
           };
           
-          getIceServers();
-    getMedia()
+        getIceServers();
     },[])
+    useEffect(()=>{
+        if(userVideo.current===null){
+            getMedia()
+        }
+    },[userVideo])
+    useEffect(()=>{
+        if(partnerVideo.current===null){
+           startCall()
+        }
+    },[partnerVideo])
     useEffect(()=>{
         if(mainCss==='fullPageMain'){
             setMainCss('classMainWrapper')
@@ -595,7 +517,7 @@ export default function TrialClass() {
     const {state}= location
     if(state){
         const{id,role,booking_id,code}=state
-        console.log('state',state)
+        console.log('state data',state)
         setUser_id(id)
         setBookingId(booking_id)
         setCode(code)
@@ -669,10 +591,11 @@ export default function TrialClass() {
         const url=`http://127.0.0.1:8000/trialClass/${bookingId}`
     axios.get(url)
     .then(res=>{
-        console.log(res.data)
+        console.log('trial',res.data)
         const data=res.data
         const timeUtcZone=formatToLocalTime(data.datetime_utc)
         console.log('starting time',timeUtcZone)
+        setTrailClass([res.data])
         setStartingTime(data.datetime_utc)
     })
     .catch(error=>console.log(error))
@@ -871,8 +794,8 @@ if(participants.length <= 2 && timeLeft !=='Event has started!' || participants.
                 </div>
             </aside>
             </div>
-            <RegisterStudentModal openStudentRegistrationform={openStudentRegistrationform} setopenStudentRegistrationform={setopenStudentRegistrationform}/>
-        {openSubmitModal &&  <SubmitProjectModal setProject={setProject} SubmitProeject={SubmitProeject} project={project} openSubmitModal={openSubmitModal} setopenSubmitModal={setopenSubmitModal}/> }
+            <RegisterStudentModal trailClass={trailClass}  openStudentRegistrationform={openStudentRegistrationform} setopenStudentRegistrationform={setopenStudentRegistrationform}/>
+        {openSubmitModal &&  <SubmitProjectModal bookingId={bookingId} openSubmitModal={openSubmitModal} setopenSubmitModal={setopenSubmitModal}/> }
         </div>
     )
     }else{

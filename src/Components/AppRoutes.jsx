@@ -36,6 +36,7 @@ import TrialClass from '../pages/TrialClass.jsx';
 import StudentNotesView from '../pages/students/StudentNotesView.jsx';
 import EndClass from '../pages/EndClass.jsx';
 import BookingLoading from '../pages/BookingLoading.jsx';
+import FeesPayment from '../pages/FeesPayment.jsx';
 export default function AppRoutes() {
   return (
     <Routes>
@@ -43,6 +44,7 @@ export default function AppRoutes() {
         <Route path='/register' element={<Register/>}/>
         <Route path='/laptop' element={<Laptop/>}/>
         <Route path='/login' element={<Login/>}/>
+        <Route path='/Fee Payment' element={<FeesPayment/>}/>
         <Route path='/SignUp/:token' element={<SignUp/>}/>
         <Route path='/SignUp/' element={<SignUp/>}/>
         <Route path='/StudentSignup/:token' element={<StudentSignUp/>}/>

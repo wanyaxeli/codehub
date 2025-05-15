@@ -17,7 +17,7 @@ export default function MyQuizzes() {
 } 
 function getQuizzes(){
   if(token){
-    const url = 'http://127.0.0.1:8000/Getquizes/';
+    const url = 'http://localhost:8000/Getquizes/';
     axios.get(url,{headers:{
       'Authorization':`Bearer ${token}`
     }})

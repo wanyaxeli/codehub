@@ -28,7 +28,7 @@ export default function BookingLoading() {
                 //   setCode(codeNameInt)
                   // Redirect to a form or auto-fill the email field
                     // navigate(`/Trial Class/${name}`)
-                    navigate(`/Trial Class/${name}`,{state:{id:codeNameInt,code:codeNameInt,role:'student',booking_id:name}})
+                    navigate(`/class/${codeNameInt}`,{state:{id:codeNameInt,code:codeNameInt,classType:'trial',role:'student',booking_id:name}})
                 } else {
                   console.error("Invalid or expired token.");
                   navigate("/error");

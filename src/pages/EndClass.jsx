@@ -1,4 +1,5 @@
-import React,{useState,useEffect} from 'react'
+import React,{useState,useEffect,useContext} from 'react'
+import { context } from '../App';
 import { useNavigate,useLocation,useNavigation } from 'react-router-dom'
 import axios from 'axios'
 import { jwtDecode } from 'jwt-decode';
@@ -7,12 +8,14 @@ export default function EndClass() {
   const navigate = useNavigate()
   const [classId,setClassId]=useState()
   const [bookingId,setBookingId]=useState('')
+  const [studentId,setStudentId]=useState('')
   const [booking,setBooking]=useState([])
   const [value,setValue]=useState()
   const [token,setToken]=useState('')
   const [role,setRole]=useState('')
   const [classEnded,setClassEnded]=useState('')
   const [lesson,setLesson]=useState([])
+  const {setClassEndedfully}=useContext(context)
   function getClass(){
    if(classId){
     const id= classId
@@ -29,7 +32,6 @@ export default function EndClass() {
       const url=`http://127.0.0.1:8000/trialClass/${code}`
       axios.get(url)
       .then(res=>{
-        console.log('res',res.data)
         setBooking([res.data])
       })
       .catch(error=>console.log(error))
@@ -39,33 +41,59 @@ export default function EndClass() {
   const handleValue=(e)=>{
    setValue(e.target.value)
   }
-  console.log('value',value)
   const handleClassEndedFully=()=>{
-   lesson.map(item=>{
-    if(item.is_completed===false && item.reason===''){
-    const id= classId
-    const url = `http://127.0.0.1:8000/ClassAttendedFully/${id}`
-    axios.put(url)
-    .then(res=>{
-      console.log(res.data)
-      const data = res.data.message
-      if(data==='Class marked as complete'){
+   if(classId){
+    lesson.map(item=>{
+      if(item.is_completed===false && item.reason===''){
+      const id= classId
+      const data={studentId:studentId}
+      const url = `http://127.0.0.1:8000/ClassAttendedFully/${id}`
+      axios.put(url,data)
+      .then(res=>{
+        console.log(res.data)
+        const data = res.data.message
+        setClassEndedfully(true)
+        if(data==='Class marked as complete'){
+          if(role==='student'){
+            navigate('/student/dashboard/Details')
+          }else{
+            navigate('/teacher/dashboard/Details')
+          }
+        }
+      })
+      .catch(error=>console.log(error))
+      }else{
+        setClassEndedfully(true)
         if(role==='student'){
           navigate('/student/dashboard/Details')
         }else{
           navigate('/teacher/dashboard/Details')
         }
       }
-    })
-    .catch(error=>console.log(error))
-    }else{
-      if(role==='student'){
-        navigate('/student/dashboard/Details')
-      }else{
-        navigate('/teacher/dashboard/Details')
+     })
+   }else if(bookingId){
+    booking.map(item=>{
+      if(item.joined===false && item.reason===''){
+        const id= bookingId
+        const url = `http://127.0.0.1:8000/TrailClassAttendedFully/${id}`
+        axios.put(url)
+        .then(res=>{
+          console.log(res.data)
+          const data = res.data.message
+          if(data==='Trial Class marked as complete'){
+            if(role==='student'){
+              navigate('/student/dashboard/Details')
+            }else{
+              navigate('/teacher/dashboard/Details')
+            }
+          }
+        })
+        .catch(error=>console.log(error))
       }
-    }
-   })
+    })
+   }else{
+        console.log('error')
+   }
   }
   const handleSubmit=()=>{
     if(classId){
@@ -158,11 +186,13 @@ useEffect(()=>{
     const { state } = location || {}; // Ensure location is not undefined
     // const { id } = state || {};\
     console.log('state ',state)
-    const {code,classTypes}=state
+    const {code,StudentId,classTypes}=state
     if (classTypes==='trial'){
      setBookingId(code)
+    
     }else{
       setClassId(code)
+      setStudentId(StudentId)
     }
     // if (state) {
     //     setClassId(state);  // Set the state if it exists
@@ -171,7 +201,7 @@ useEffect(()=>{
 },[location])
 useEffect(()=>{
   getClass()
-},[classId])
+},[classId,bookingId])
   return (
     <div className='EndClassWrapper'>
       <div className='EndClassContainer'>

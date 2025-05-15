@@ -21,7 +21,8 @@ export default function Login() {
         if(values.email){
             if (emailRegex.test(values.email)) {
                 if(values.password){
-                    const url='http://127.0.0.1:8000/api/token/'
+                    // const url='http://127.0.0.1:8000/api/token/'
+                    const url='http://localhost:8000/api/token/'
                     axios.post(url,values,{headers:{
                       'Content-Type':'application/json'
                     }})
@@ -29,11 +30,11 @@ export default function Login() {
                       const data = res.data
                       const{access, refresh, role}=data
                       localStorage.setItem('token',access)
-                      console.log(access)
+                      console.log(access,role)
                       if(role ==='student'){
                           navigate('/student/dashboard/Details')
                       }else if(role==='teacher'){
-                          navigate('/teacher/dashboard/Details')
+                          navigate('/teacher/dashboard',{state:access})
                       }
                     })
                     .catch(error=>{

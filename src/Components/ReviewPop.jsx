@@ -9,7 +9,7 @@ export default function ReviewPOP({setReview,studentId,quizId}) {
     const [error,setError]=useState('')
    const handleReview=()=>{
    if(studentId && quizId && token && points){
-    const url = 'http://127.0.0.1:8000/updateStudentMarks/';
+    const url = 'http://localhost:8000/updateStudentMarks/';
     const data={studentId:studentId,points:points,quizId:quizId}
     axios.put(url,data,{headers:{
         'Authorization':`Bearer ${token}`
@@ -55,7 +55,7 @@ useEffect(()=>{
                 </div>
                  <input value={points} onChange={handleChange} type='text' placeholder='Enter points'/>
                 <div>
-                <button onClick={handleReview}>Review</button>
+                <button style={{color:'#000'}} onClick={handleReview}>Review</button>
                 </div>
             </div>
         </div>

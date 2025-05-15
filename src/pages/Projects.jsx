@@ -17,6 +17,12 @@ export default function MyProjects() {
         console.log(error);
 }
 }
+const handleViewProject =(link)=>{
+  if (!link.startsWith('http://') && !link.startsWith('https://')) {
+    link = 'https://' + link; // add https:// if missing
+  }
+  window.open(link, '_blank');
+}
 function getQuiz(){
   if(token){
     const url = 'http://127.0.0.1:8000/TeacherQuizes/';
@@ -53,8 +59,8 @@ useEffect(()=>{
             <div className='ProjectsContainerUpper'></div>
             <div  className='ProjectsHolder'>
            <p>{item.quiz.title}</p>
-           <button>View</button>
-           <button onClick={handleToReview}>Review</button>
+           <button onClick={()=>handleViewProject(item.project_link)}>View</button>
+           <button style={{marginLeft:20}} onClick={handleToReview}>Review</button>
           </div>
           </div>
             )

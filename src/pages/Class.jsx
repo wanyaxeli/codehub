@@ -1,14 +1,17 @@
-import React,{useState,useEffect,useRef} from 'react'
+import React,{useState,useEffect,useRef,useContext} from 'react'
 import { useLocation,useParams,useNavigate } from 'react-router-dom'
 import pic from '../assets/logoCodeHub.png'
 import SubmitProjectModal from '../Components/SubmitProjectModal'
 import Peer from "simple-peer";
+import { context } from '../App';
 import { jwtDecode } from 'jwt-decode';
 import RegisterStudentModal from '../Components/RegisterStudentModal';
 import CountdownTimer from '../Components/CountdownTimer';
 import axios from 'axios';
 export default function Class() {
     const [mainCss,setMainCss]=useState('fullPageMain')
+    const [bookingId,setBookingId]=useState('')
+    const [trailClass,setTrailClass]=useState([])
     const [asideCss,setAsideCss]=useState('closeAside')
     const [toggleChat,setToggleChat]=useState(false)
     const [toggleDisplay,setToggleDisplay]=useState('classDisplayer')
@@ -17,6 +20,7 @@ export default function Class() {
     const [toggleClassOnJoinedUser,settoggleClassOnJoinedUser]=useState('LessConnctedUsersWrapper')
     const [mic,setToggleMic]=useState(true)
     const [cam,setToggleCam]=useState(true)
+    const [ClassType,setClassType]=useState('')
     const [chat,setChat]=useState('')
     const navigate=useNavigate()
     const [project,setProject]=useState('')
@@ -46,6 +50,8 @@ export default function Class() {
     const [connected, setConnected] = useState([]);
     const [peerConnected, setpeerConnected] = useState(false);
     const [RemoteStream, setRemoteStream] = useState('');
+    const [StudentId, setStudentId] = useState('');
+    const [ClassName, setClassName] = useState('');
     const userVideo = useRef();
     const beforeConnectionVideo = useRef();
     const [counter, setCounter] = useState(0);
@@ -61,6 +67,7 @@ export default function Class() {
     const [participants,setparticipants]=useState([])
     const screenVideo = useRef(null); // Remote screen video element
     const LocalscreenVideo = useRef(null); // Local screen video element
+    const {classEndedfully}=useContext(context)
     const handleOpenChat=()=>{
         if(toggleChat===false){
             setToggleChat(true)
@@ -81,14 +88,6 @@ export default function Class() {
             console.log(error);
   }
 }  
-// const iceServers = [
-//     { urls: "stun:stun.l.google.com:19302" },  // Google's STUN server
-//     {
-//         urls: "turn:154.159.237.48",  // Replace with your actual public IP
-//         username: "ewany",  
-//         credential: "wany2002"
-//     }
-// ];
 useEffect(()=>{
     getToken()
     setToggleCam(true)
@@ -187,24 +186,6 @@ console.log('connectes',connected)
             if(Recieveddata.type ==='user-joined'){
                 const {users,users_count}= Recieveddata
                 setparticipants(users)
-                console.log('in class',users)
-                // if(users_count && users_count===2){
-                    
-                //     console.log('users in class',users)
-                //     setWaiting(false)
-                //     const InitiatorUser = users.find(user =>user.initiator === true);
-                //     const initiatorId=InitiatorUser.userId
-                //     const targetUser = users.find(user =>user.initiator ===false);
-                   
-                //     if (InitiatorUser && String(initiatorId) === String(user_id)){
-                //         setTimeout(() => {
-                //             initiateCall(ws, targetUser, initiatorId);
-                //             console.log('true initiator', InitiatorUser);
-                //         }, 2000);
-                //     }
-                //     }else{
-                //         setWaiting(true)
-                //     }
             }
              else if(Recieveddata.type==='chat'){
                  const {message}= Recieveddata
@@ -212,14 +193,15 @@ console.log('connectes',connected)
                 setWsChat(pre=>([...pre,message]))
             } 
             else if(Recieveddata.type === "offer"){
-                // handleOffer(ws,Recieveddata.signal);
-                // if (String(Recieveddata.target) === String(user_id)) {  // Prevent duplicate handling
-                //     handleOffer(ws,Recieveddata.offer,Recieveddata.sender,Recieveddata.target);
-                // }
                 if (String(Recieveddata.target) === String(user_id)) {  
                     const isRenegotiation = Recieveddata.renegotiation;
                     handleOffer(ws, Recieveddata.offer, Recieveddata.sender, Recieveddata.target, isRenegotiation);
                 }
+            }
+            else if(Recieveddata.type === "new_initiator"){
+                 console.log('user left',Recieveddata.users)
+                 setparticipants(Recieveddata.users)
+                 setpeerConnected(false)
             }
             else if(Recieveddata.type === "answer"){
               
@@ -234,14 +216,6 @@ console.log('connectes',connected)
                 }
             }
             else if (Recieveddata.type === "candidate") {
-             
-                // if (peer && Recieveddata.candidate) {
-                //     try {
-                //         peer.signal(Recieveddata.candidate);  // Apply ICE candidate
-                //     } catch (error) {
-                //         console.error("Error adding ICE candidate:", error);
-                //     }
-                // }
                 if (peerRef.current && Recieveddata.candidate) {
                     peerRef.current.signal(Recieveddata.candidate);
                  }
@@ -292,10 +266,8 @@ console.log('connectes',connected)
         };
     },[code,user_id,ice]);
     function startCall(){
-        console.log('call 1')
         if(participants && participants.length===2 && timeLeft ==='Event has started!' && user_id && ws){
             const InitiatorUser = participants.find(user =>user.initiator === true);
-            console.log('call 2')
             const initiatorId=InitiatorUser.userId
             const targetUser = participants.find(user =>user.initiator ===false);
             if (InitiatorUser && String(initiatorId) === String(user_id)){
@@ -329,7 +301,6 @@ console.log('connectes',connected)
     
             initiator.on("stream", (remoteStream) => {
                 if (remoteStream) {
-                    console.log("Partner video streams:", remoteStream);
                     setRemoteStream(remoteStream);
                 }
             });
@@ -373,7 +344,6 @@ console.log('connectes',connected)
 
         screenPeer.on("stream", (stream) => {
             if (screenVideo.current) {
-                console.log('screen stream',stream)
                 setScreen(true)
                 screenVideo.current.srcObject = stream; // Display screen share
             }
@@ -418,7 +388,6 @@ console.log('connectes',connected)
         setPeer(responder);
         peerRef.current = responder
     };
-    console.log('remote screens ',screenVideo)
     async function startScreenShare() {
         if (participants.length > 1) {
             const InitiatorUser = participants.find(user => String(user.userId) === String(user_id));
@@ -541,13 +510,59 @@ console.log('connectes',connected)
         setInnertoggleSideUser('sideUserDetails')
      }
     },[sharing])
+    function getTrailClass(){
+        if(bookingId){
+            const url=`http://127.0.0.1:8000/trialClass/${bookingId}`
+        axios.get(url)
+        .then(res=>{
+            console.log('trial',res.data)
+            const data=res.data
+            const timeUtcZone=formatToLocalTime(data.datetime_utc)
+            console.log('starting time',timeUtcZone)
+            setTrailClass([res.data])
+            setStartingTime(data.datetime_utc)
+        })
+        .catch(error=>console.log(error))
+        }
+       }
+       function formatToLocalTime(utcStr) {
+        // Combine date and time into a single UTC string
+        const utcDateTime =utcStr;
+        // Convert to a Date object (UTC)
+        const date = new Date(utcDateTime);
+    
+        // Format only the time in the user's local timezone
+        return new Intl.DateTimeFormat(undefined, {
+            hour: '2-digit',
+            minute: '2-digit',
+            // second: '2-digit',
+            hour12: false // Set to false for 24-hour format
+        }).format(date);
+    }
+    useEffect(()=>{
+        getTrailClass()
+    },[bookingId])
     useEffect(()=>{
         const { state } = location || {}; // Ensure location is not undefined
-        const { id, time } = state || {};
-        if (state) {
+        const { id, time ,student,title,classType} = state || {};
+        if (state && classType==='NormalClass') {
             setCode(id);  // Set the state if it exists
             setStartingTime(time);
-
+           if(student){
+            setStudentId(student)
+           }
+           setClassType('NormalClass')
+          if(title){
+            setClassName(title)
+          }
+        }else if(state && classType ==='trial'){
+            const{id,role,booking_id,code}=state
+            console.log('state data',state)
+            setUser_id(id)
+            setBookingId(booking_id)
+            setCode(code)
+            setRole(role)
+            setClassType('trial')
         }
         // startLocalStream()
     },[location])
@@ -573,7 +588,9 @@ console.log('connectes',connected)
         }
     };
      const handleEndClass=()=>{
-        navigate('/End Class',{state:{code:code,classTypes:'normal'}})
+        if(StudentId){
+            navigate('/End Class',{state:{code:code,StudentId:StudentId,classTypes:'normal'}})
+        }
      }
       const handleChat =(e)=>{
         setChat(e.target.value)
@@ -581,7 +598,6 @@ console.log('connectes',connected)
       const handleSendChat =()=>{
         if (user_id){
             const data= {text:chat,user:user_id}
-            console.log('user',data)
             if(ws && ws.readyState === WebSocket.OPEN){
                 setChat('')
                 ws.send(JSON.stringify({ type: "chats", data}))
@@ -654,6 +670,11 @@ console.log('connectes',connected)
            startCall()
         }
     },[partnerVideo])
+    useEffect(()=>{
+    if(classEndedfully && role==='student'){
+        navigate('/student/dashboard/Details')
+    }
+    },[classEndedfully])
     useEffect(() => {
         let interval;
         if (timeLeft === "Event has started!") {
@@ -765,8 +786,8 @@ console.log('connectes',connected)
                 </div>
                 <div className='classHeaderBtnwrapper'>
                     <ul>
-                        <li onClick={handleSubmitProject}>submit project</li>
-                        <li onClick={handleStudent}>student</li>
+                        {role ==='student'? <li onClick={handleSubmitProject}>submit project</li>:''}
+                        {ClassType ==='trial' && role==='teacher'?<li onClick={handleStudent}>student</li>:''}
                         <li onClick={handleOpenChat}>chat</li>
                     </ul>
                 </div>
@@ -893,8 +914,10 @@ console.log('connectes',connected)
                 </div>
             </aside>
             </div>
-            <RegisterStudentModal openStudentRegistrationform={openStudentRegistrationform} setopenStudentRegistrationform={setopenStudentRegistrationform}/>
-        {openSubmitModal &&  <SubmitProjectModal setProject={setProject} SubmitProeject={SubmitProeject} project={project} openSubmitModal={openSubmitModal} setopenSubmitModal={setopenSubmitModal}/> }
+            {trailClass &&  <RegisterStudentModal trailClass={trailClass}  openStudentRegistrationform={openStudentRegistrationform} setopenStudentRegistrationform={setopenStudentRegistrationform}/>}
+        {StudentId? openSubmitModal &&  <SubmitProjectModal StudentId={StudentId} ClassName={ClassName} setProject={setProject} SubmitProeject={SubmitProeject} project={project} openSubmitModal={openSubmitModal} setopenSubmitModal={setopenSubmitModal}/> :
+         openSubmitModal &&  <SubmitProjectModal bookingId={bookingId} openSubmitModal={openSubmitModal} setopenSubmitModal={setopenSubmitModal}/>
+        }
         </div>
     )
     }else{

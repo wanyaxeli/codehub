@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react'
 import axios from 'axios'
 export default function MyProjects() {
-  const [quiz,setQuiz]=useState()
+  const [projects,setProject]=useState([])
   const [token,setToken]=useState()
   async function getToken(){
     try{
@@ -13,31 +13,42 @@ export default function MyProjects() {
         console.log(error);
 }
 }
-function getQuiz(){
+function getProjects(){
   if(token){
-    const url = 'http://127.0.0.1:8000/AttemptQuizes/';
+    const url = 'http://127.0.0.1:8000/studentProject/';
     axios.get(url,{headers:{
       'Authorization':`Bearer ${token}`
     }})
     .then(res=>{
-      console.log(res)
+      const data=res.data
+      setProject(data)
+      console.log(res.data)
     })
-    .catch(error=>console.log(err))
+    .catch(error=>console.log(error))
   }
 }
+useEffect(()=>{
+  getProjects()
+ },[token])
+ const handleViewProject=(link)=>{
+  if (!link.startsWith('http://') && !link.startsWith('https://')) {
+    link = 'https://' + link; // add https:// if missing
+  }
+  window.open(link, '_blank');
+ }
 useEffect(()=>{
  getToken()
 },[])
   return (
     <div className='MyProjectsWrapper'>
         
-          {Array(4).fill(0).map((item,i)=>{
+          {projects.map((item,i)=>{
             return(
           <div key={i} className='MyProjectsContainer'>
             <div className='ProjectsContainerUpper'></div>
             <div  className='ProjectsHolder'>
-           <p>Introduction to html</p>
-           <button>View</button>
+           <p>{item.title}</p>
+           <button onClick={()=>handleViewProject(item.ProjectLink)}>View</button>
           </div>
           </div>
             )

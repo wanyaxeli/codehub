@@ -14,11 +14,11 @@ function App() {
   const [CountryName, setCountryName] = useState('')
   const [student,setStudent]=useState('')
   const [teacher,setTeacher]=useState('')
-  const [proPic,setProPic]=useState()
+  const [classEndedfully,setClassEndedfully]=useState(false)
+  const [proPic,setProPic]=useState('')
   function getProfilePic(token){
    if(token){
-    console.log('token www', token)
-    const url='http://127.0.0.1:8000/profilePic/'
+    const url='http://localhost:8000/profilePic/'
     axios.get(url,{
         headers:{
             'Authorization':`Bearer ${token}`
@@ -33,7 +33,7 @@ function App() {
 }  console.log('pro',proPic)
   return (
     <>
-    <context.Provider value={{value,email,setEmail,setTeacher,setStudent,teacher,student,setValue,CountryCode,setCountryCode,CountryName,setCountryName,getProfilePic,proPic,grade,setGrade}}>
+    <context.Provider value={{value,email,setEmail,classEndedfully,setClassEndedfully,setTeacher,setStudent,teacher,student,setValue,CountryCode,setCountryCode,CountryName,setCountryName,getProfilePic,proPic,grade,setGrade}}>
     <AppRoutes/>
     </context.Provider>
     </>
