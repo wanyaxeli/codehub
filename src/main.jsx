@@ -14,7 +14,7 @@ window.global = window;  // Define global to avoid ReferenceError
 window.Buffer = Buffer;  // Fix Buffer issue if needed
 createRoot(document.getElementById('root')).render(
   // <StrictMode>
-   <Router basename='/codingscholar'>
+   <Router basename='/codehub'>
     <App/>
    </Router>
   // </StrictMode>,
