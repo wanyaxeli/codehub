@@ -17,7 +17,7 @@ export default function MyQuizzes() {
 } 
 function getQuizzes(){
   if(token){
-    const url = 'http://localhost:8000/Getquizes/';
+    const url = 'http://api.codingscholar.com/Getquizes/';
     axios.get(url,{headers:{
       'Authorization':`Bearer ${token}`
     }})
@@ -39,7 +39,7 @@ useEffect(()=>{
   }
   return (
     <div className='MyQuizzes'>
-      {quiz.map(item=>{
+      {quiz? quiz.map(item=>{
         return(
           <div key={item.id} className='QuizzCard'>
               <h3>{item.title}</h3>
@@ -48,43 +48,7 @@ useEffect(()=>{
               <button onClick={()=>handleToQuiz(item)}>View</button>
           </div>
         )
-      })}
-      <div className='QuizzCard'>
-          <h3>Introduction to roblox</h3>
-          <p>Deadline: 1/22/2025</p>
-          <p>status: <span>incomplate</span></p>
-           <button>View</button>
-      </div>
-      <div className='QuizzCard'>
-          <h3>Introduction to roblox</h3>
-          <p>Deadline: 1/22/2025</p>
-          <p>status: <span>incomplate</span></p>
-           <button>View</button>
-      </div>
-      <div className='QuizzCard'>
-          <h3>Introduction to roblox</h3>
-          <p>Deadline: 1/22/2025</p>
-          <p>status: <span>incomplate</span></p>
-           <button>View</button>
-      </div>
-      <div className='QuizzCard'>
-          <h3>Introduction to roblox</h3>
-          <p>Deadline: 1/22/2025</p>
-          <p>status: <span>incomplate</span></p>
-           <button>View</button>
-      </div>
-      <div className='QuizzCard'>
-          <h3>Introduction to roblox</h3>
-          <p>Deadline: 1/22/2025</p>
-          <p>status: <span>incomplate</span></p>
-           <button>View</button>
-      </div>
-      <div className='QuizzCard'>
-          <h3>Introduction to roblox</h3>
-          <p>Deadline: 1/22/2025</p>
-          <p>status: <span>incomplate</span></p>
-           <button>View</button>
-      </div>
+      }):<p>No quizzes set yet</p>}
     </div>
   )
 }

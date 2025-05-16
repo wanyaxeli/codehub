@@ -15,7 +15,7 @@ export default function MyProjects() {
 }
 function getProjects(){
   if(token){
-    const url = 'http://127.0.0.1:8000/studentProject/';
+    const url = 'http://api.codingscholar.com/studentProject/';
     axios.get(url,{headers:{
       'Authorization':`Bearer ${token}`
     }})
@@ -42,7 +42,7 @@ useEffect(()=>{
   return (
     <div className='MyProjectsWrapper'>
         
-          {projects.map((item,i)=>{
+          {projects.length >0? projects.map((item,i)=>{
             return(
           <div key={i} className='MyProjectsContainer'>
             <div className='ProjectsContainerUpper'></div>
@@ -52,7 +52,7 @@ useEffect(()=>{
           </div>
           </div>
             )
-          })}
+          }):<p>You have no proejcts for now</p>}
     </div>
   )
 }

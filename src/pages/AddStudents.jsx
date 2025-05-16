@@ -17,7 +17,7 @@ export default function AddStudents() {
   }
  const handleAddStudent =()=>{
   const email = student.email
-  const url ='http://127.0.0.1:8000/acceptedStudent/'
+  const url ='http://api.codingscholar.com/acceptedStudent/'
   axios.post(url,{email:email},{headers:{
     'Content-Type':"Application/json"
   }})

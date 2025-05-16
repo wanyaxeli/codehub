@@ -22,7 +22,7 @@ export default function Stdent() {
   const handleActivate =()=>{
    if (studentId && fees){
       const id = studentId
-      const url=`http://127.0.0.1:8000/updateFee/${id}`
+      const url=`http://api.codingscholar.com/updateFee/${id}`
       const data={studentId:studentId,fees:fees}
       axios.put(url,data,{headers:{
         'Content-Type':'application/json'
@@ -36,7 +36,7 @@ export default function Stdent() {
   const handleAddStudentToClass =()=>{
    if(studentId){
     const id = studentId
-    const url=`http://127.0.0.1:8000/createStudentRoom/${id}`
+    const url=`http://api.codingscholar.com/createStudentRoom/${id}`
     const splitname=classManagement.teacher.split(' ')
     const first_name=splitname[0]
     const last_name=splitname[1]
@@ -55,7 +55,7 @@ export default function Stdent() {
   console.log(classLesson)
   function GetStudent(){
     const id = studentId
-    const url=`http://127.0.0.1:8000/specificStudent/${id}`
+    const url=`http://api.codingscholar.com/specificStudent/${id}`
     axios.get(url)
     .then(res=>{
       console.log(res.data)
@@ -66,7 +66,10 @@ export default function Stdent() {
   const handleSubmitLessonAttendance =()=>{
   if(studentId){
     const id = studentId
-    const url=`http://127.0.0.1:8000/StudentLesson/${id}`
+     // Convert local date & time to UTC
+    // const localDateTime = new Date(`${values.date}T${values.time}`);
+    // const utcDateTime = localDateTime.toISOString();
+    const url=`http://api.codingscholar.com/StudentLesson/${id}`
     axios.post(url,classLesson)
     .then(res=>{
       console.log(res.data)
@@ -83,6 +86,38 @@ export default function Stdent() {
    useEffect(()=>{
     GetStudent()
    },[studentId])
+   function convertToUTC(dayOfWeek, timeString) {
+    const daysMap = {
+      Sunday: 0,
+      Monday: 1,
+      Tuesday: 2,
+      Wednesday: 3,
+      Thursday: 4,
+      Friday: 5,
+      Saturday: 6,
+    };
+  
+    const now = new Date();
+    const currentDay = now.getDay();
+    const targetDay = daysMap[dayOfWeek];
+  
+    // Calculate how many days ahead the target day is
+    const dayDiff = (targetDay + 7 - currentDay) % 7;
+    now.setDate(now.getDate() + dayDiff);
+  
+    // Parse time string like "08:20 PM"
+    const [time, meridiem] = timeString.split(' ');
+    let [hours, minutes] = time.split(':').map(Number);
+  
+    if (meridiem === 'PM' && hours !== 12) hours += 12;
+    if (meridiem === 'AM' && hours === 12) hours = 0;
+  
+    // Set time
+    now.setHours(hours, minutes, 0, 0);
+  
+    // Return UTC version
+    return now.toISOString(); // Or use now.toUTCString() if you prefer
+  }
   return (
     <div className='StudentWrapper'>
         <div className='studentDetailsWrapper'>
@@ -119,7 +154,7 @@ export default function Stdent() {
         <div className="studentDetails">
           <h3>lesson attendance</h3>
            <div className='studentDetailsClassattendance'>
-           <input onChange={handleLessonAttendance} name='first_day' type='text' placeholder='Enter fist day of the class'/>
+           <input onChange={handleLessonAttendance} name='first_day' type='text' placeholder='Enter first day of the class'/>
             <input onChange={handleLessonAttendance} name='second_day' type='text' placeholder='Enter second day of the class'/>
             <input onChange={handleLessonAttendance} name='first_time' type='time'/>
             <input onChange={handleLessonAttendance} name='second_time' type='time'/>

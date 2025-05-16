@@ -9,7 +9,7 @@ export default function ReviewPOP({setReview,studentId,quizId}) {
     const [error,setError]=useState('')
    const handleReview=()=>{
    if(studentId && quizId && token && points){
-    const url = 'http://localhost:8000/updateStudentMarks/';
+    const url = 'http://api.codingscholar.com/updateStudentMarks/';
     const data={studentId:studentId,points:points,quizId:quizId}
     axios.put(url,data,{headers:{
         'Authorization':`Bearer ${token}`

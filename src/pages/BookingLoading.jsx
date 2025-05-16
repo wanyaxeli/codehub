@@ -9,7 +9,7 @@ export default function BookingLoading() {
         const verifyToken = async () => {
           if(token){
             try {
-                const response = await fetch("http://127.0.0.1:8000/verify-class-token/", {
+                const response = await fetch("http://api.codingscholar.com/verify-class-token/", {
                   method: "POST",
                   headers: {
                     "Content-Type": "application/json",

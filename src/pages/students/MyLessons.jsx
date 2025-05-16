@@ -7,7 +7,7 @@ export default function MyLessons() {
   const navigate=useNavigate()
   function GetMyLessons(){
     if(token){
-      const url ='http://localhost:8000/studentLessons/'
+      const url ='http://api.codingscholar.com/studentLessons/'
       axios.get(url,{headers:{
         'Authorization':`Bearer ${token}`
       }})
@@ -49,7 +49,7 @@ useEffect(()=>{
 },[])
   return (
     <div className='MyLessonWrapper'>
-      {lessons.map(lesson=>{
+      {lessons? lessons.map(lesson=>{
         return(
         <div key={lesson.id} className='MyLessonContainer'>
         <div className='lessonModuleWrapper'>
@@ -66,7 +66,7 @@ useEffect(()=>{
         </div>
       </div>
         )
-      })}
+      }):<p>No lesson for today</p>}
     </div>
   )
 }

@@ -23,7 +23,7 @@ export default function CreatLessons() {
     }
     console.log('ada',inputs)
     function getNotes(){
-        const url ='http://127.0.0.1:8000/classNotes/'
+        const url ='http://api.codingscholar.com/classNotes/'
         axios.get(url)
         .then(res=>{
             console.log(res.data)
@@ -66,7 +66,7 @@ export default function CreatLessons() {
           setError('Please Fill in all the inputs')
         }
     
-        const url = "http://localhost:8000/classNotes/";
+        const url = "http://api.codingscholar.com/classNotes/";
         
         axios
             .post(url, formData, {

@@ -61,7 +61,8 @@ export default function StudentSignUp() {
     }
     console.log('number',phone_number)
     function login(data){
-        const url ='http://127.0.0.1:8000/student/'
+      // const url ='http://127.0.0.1:8000/student/'
+        const url ='http://api.codingscholar.com/student/'
         axios.post(url,data,{
             headers:{
                 'Content-Type':'application/json'
@@ -108,7 +109,6 @@ export default function StudentSignUp() {
         setErrors('')
         const formattedNumber = `+${phone}`;
          setPhone_number(formattedNumber)
-        console.log('fo',formattedNumber)
       }
       const customStyle = {
         backgroundColor: "#fff",
@@ -116,13 +116,13 @@ export default function StudentSignUp() {
         paddingLeft: "10px",
         width:'100%'
       };
-      console.log('error',errors)
       useEffect(() => {
         // Send the token to the backend to verify it
         const verifyToken = async () => {
           if(token){
             try {
-                const response = await fetch("http://127.0.0.1:8000/verify-Student-token/", {
+              const response = await fetch(" http://api.codingscholar.com/verify-Student-token/",  // const response = await fetch("http://127.0.0.1:8000/verify-Student-token/", 
+              {
                   method: "POST",
                   headers: {
                     "Content-Type": "application/json",

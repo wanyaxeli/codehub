@@ -12,7 +12,13 @@ export default function HeaderDetails({proPic,student,teacher,pic2,token,handleT
             <p>Dashboard</p>
             </div>
             <div className='dashboardDetailsHolder'>
-             {teacher && teacher!='undefined' && <p style={{textTransform:'capitalize'}}>{teacher.user.first_name} {teacher.user.last_name}</p>}
+            {teacher?.user ? (
+                <p style={{ textTransform: 'capitalize' }}>
+                  {teacher.user.first_name} {teacher.user.last_name}
+                </p>
+              ) : (
+                <p>Loading ...</p>
+              )}
               <div className='Dashboardimage'>
                 {/* <img src={pic1} alt="Profile" /> */}
                 {proPic?<img src={`https://res.cloudinary.com/dbxsncq5r/${proPic}`}/>:<img src={pic2}/>}
@@ -28,7 +34,7 @@ export default function HeaderDetails({proPic,student,teacher,pic2,token,handleT
             </div>
             <div className='dashboardDetailsHolder'>
                 {student?.user && (
-                  <p style={{textTransform:'capitalize'}}>{student.user.first_name} {student.user.last_name}</p>
+                  <p style={{textTransform:'capitalize'}}>{student?.user.first_name} {student?.user.last_name}</p>
                 )}
                   <div className='Dashboardimage'>
                 {proPic?<img src={`https://res.cloudinary.com/dbxsncq5r/${proPic}`}/>:<img src={pic2}/>}

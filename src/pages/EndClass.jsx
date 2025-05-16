@@ -19,7 +19,7 @@ export default function EndClass() {
   function getClass(){
    if(classId){
     const id= classId
-    const url = `http://127.0.0.1:8000/currentClass/${id}`
+    const url = `http://api.codingscholar.com/currentClass/${id}`
     axios.get(url)
     .then(res=>{
       console.log(res.data)
@@ -29,7 +29,7 @@ export default function EndClass() {
    }else{
       if(bookingId){
       const code= bookingId
-      const url=`http://127.0.0.1:8000/trialClass/${code}`
+      const url=`http://api.codingscholar.com//trialClass/${code}`
       axios.get(url)
       .then(res=>{
         setBooking([res.data])
@@ -47,7 +47,7 @@ export default function EndClass() {
       if(item.is_completed===false && item.reason===''){
       const id= classId
       const data={studentId:studentId}
-      const url = `http://127.0.0.1:8000/ClassAttendedFully/${id}`
+      const url = `http://api.codingscholar.com/ClassAttendedFully/${id}`
       axios.put(url,data)
       .then(res=>{
         console.log(res.data)
@@ -75,7 +75,7 @@ export default function EndClass() {
     booking.map(item=>{
       if(item.joined===false && item.reason===''){
         const id= bookingId
-        const url = `http://127.0.0.1:8000/TrailClassAttendedFully/${id}`
+        const url = `http://api.codingscholar.com/TrailClassAttendedFully/${id}`
         axios.put(url)
         .then(res=>{
           console.log(res.data)
@@ -100,7 +100,7 @@ export default function EndClass() {
       lesson.map(item=>{
         if(item.is_completed===false && value && item.reason===''){
           const id= classId
-          const url = `http://127.0.0.1:8000/NotAttendedClass/${id}`
+          const url = `http://api.codingscholar.com/NotAttendedClass/${id}`
           axios.put(url,{data:value})
           .then(res=>{
             console.log(res.data)
@@ -126,7 +126,7 @@ export default function EndClass() {
       booking.map(item=>{
         if(item.joined===false && item.reason===''){
           const id= bookingId
-          const url = `http://127.0.0.1:8000/NotAttendedTrailClass/${id}`
+          const url = `http://api.codingscholar.com/NotAttendedTrailClass/${id}`
           axios.put(url,{data:value})
           .then(res=>{
             console.log(res.data)

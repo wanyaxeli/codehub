@@ -51,7 +51,6 @@ export default function SignUp() {
                         
               }
          
-            console.log('hello',parsedNumber)
         } else {
           // setError("Invalid phone number");
           console.log('errororoe')
@@ -96,7 +95,8 @@ export default function SignUp() {
     }
     console.log('number',phone_number)
     function login(data){
-        const url ='http://127.0.0.1:8000/registerTeacher/'
+        // const url ='http://127.0.0.1:8000/registerTeacher/'
+        const url ='http://api.codingscholar.com/registerTeacher/'
         axios.post(url,data,{
             headers:{
                 'Content-Type':'application/json'
@@ -158,7 +158,7 @@ export default function SignUp() {
         const verifyToken = async () => {
           if(token){
             try {
-                const response = await fetch("http://127.0.0.1:8000/verify-teacher-token/", {
+                const response = await fetch("http://api.codingscholar.com/verify-teacher-token/", {
                   method: "POST",
                   headers: {
                     "Content-Type": "application/json",

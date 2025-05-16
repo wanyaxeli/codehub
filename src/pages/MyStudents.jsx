@@ -10,7 +10,7 @@ export default function MyStudents() {
     }
     function getMyStudents(){
     if(token){
-        const url ='http://127.0.0.1:8000/TeacherStudent/'
+        const url ='http://api.codingscholar.com/TeacherStudent/'
         axios.get(url,{headers:{
             'Authorization':`Bearer ${token}`
         }})
@@ -43,9 +43,9 @@ export default function MyStudents() {
     },[token])
   return (
     <div className='AllTeachersWrapper'>
-        <h3>All Students</h3>
+        <h3>All My Students</h3>
         <div className='AllTeachersContainer'>
-            <table>
+            {students.length>0?<table>
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -55,7 +55,7 @@ export default function MyStudents() {
                         <th>payment</th>
                     </tr>
                 </thead>
-                {students.map(student=>{
+                { students.map(student=>{
                     return(
                     <tbody>
                         <tr>
@@ -69,7 +69,7 @@ export default function MyStudents() {
                     </tbody>
                     )
                 })}
-            </table>
+            </table>:<p>No Student asigned to you yet</p>}
         </div>
     </div>
   )

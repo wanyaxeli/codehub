@@ -25,7 +25,7 @@ const handleViewProject =(link)=>{
 }
 function getQuiz(){
   if(token){
-    const url = 'http://127.0.0.1:8000/TeacherQuizes/';
+    const url = 'http://api.codingscholar.com/TeacherQuizes/';
     axios.get(url,{headers:{
       'Authorization':`Bearer ${token}`
     }})
@@ -53,7 +53,7 @@ useEffect(()=>{
   return (
     <div className='MyProjectsWrapper'>
         
-          {quiz.map((item,i)=>{
+          {quiz.length >0? quiz.map((item,i)=>{
             return(
           <div key={i} className='MyProjectsContainer'>
             <div className='ProjectsContainerUpper'></div>
@@ -63,8 +63,8 @@ useEffect(()=>{
            <button style={{marginLeft:20}} onClick={handleToReview}>Review</button>
           </div>
           </div>
-            )
-          })}
+          )
+          }):<p style={{color:"#000"}}>You have no projects from your students for now</p>}
           {review && <ReviewPOP studentId={studentId} quizId={quizId} setReview={setReview}/>}
     </div>
   )

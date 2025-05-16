@@ -68,7 +68,8 @@ export default function TrialClass() {
     }
     const fetchIceServers = async () => {
         try {
-          const response = await fetch("http://127.0.0.1:8000/get-ice-servers/");
+        //   const response = await fetch("http://127.0.0.1:8000/get-ice-servers/");
+        const response = await fetch("http://api.codingscholar.com/get-ice-servers/");
           const data = await response.json();
           console.log("ICE Servers data:", data.ice_servers);
           return data.ice_servers || []
@@ -88,8 +89,8 @@ export default function TrialClass() {
      }
      useEffect(() => {
         if (!code) return;
-    
-        const ws = new WebSocket(`ws://localhost:8000/ws/classRoom/${code}/`);
+        // const ws = new WebSocket(`ws://localhost:8000/ws/classRoom/${code}/`);
+        const ws = new WebSocket(`ws://api.codingscholar.com/ws/classRoom/${code}/`);
         console.log('innerws',ws)
         getMedia()
         ws.onopen = () =>{
@@ -116,7 +117,6 @@ export default function TrialClass() {
                 }
             }
             else if(Recieveddata.type === "new_initiator"){
-                 console.log('user left',Recieveddata.users)
                  setparticipants(Recieveddata.users)
                  setpeerConnected(false)
             }
@@ -139,13 +139,6 @@ export default function TrialClass() {
             }
             else if (Recieveddata.type === "screen_candidate") {
              
-                // if (peer && Recieveddata.candidate) {
-                //     try {
-                //         peer.signal(Recieveddata.candidate);  // Apply ICE candidate
-                //     } catch (error) {
-                //         console.error("Error adding ICE candidate:", error);
-                //     }
-                // }
                 if (screenPeerRef.current && Recieveddata.candidate) {
                     screenPeerRef.current.signal(Recieveddata.candidate);
                  }
@@ -588,7 +581,8 @@ export default function TrialClass() {
     };
    function getTrailClass(){
     if(bookingId){
-        const url=`http://127.0.0.1:8000/trialClass/${bookingId}`
+        // const url=`http://127.0.0.1:8000/trialClass/${bookingId}`
+        const url=`http://api.codingscholar.com/trialClass/${bookingId}`
     axios.get(url)
     .then(res=>{
         console.log('trial',res.data)

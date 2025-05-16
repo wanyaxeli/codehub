@@ -108,7 +108,7 @@ useEffect(() => {
   }, [UserToken]);
   const fetchIceServers = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:8000/get-ice-servers/");
+      const response = await fetch("http://api.codingscholar.com/get-ice-servers/");
       const data = await response.json();
       console.log("ICE Servers data:", data.ice_servers);
       return data.ice_servers || []
@@ -512,7 +512,7 @@ console.log('connectes',connected)
     },[sharing])
     function getTrailClass(){
         if(bookingId){
-            const url=`http://127.0.0.1:8000/trialClass/${bookingId}`
+            const url=`http://api.codingscholar.com/trialClass/${bookingId}`
         axios.get(url)
         .then(res=>{
             console.log('trial',res.data)
@@ -699,7 +699,7 @@ console.log('connectes',connected)
    }
    function SubmitProeject(){
     if(token){
-        const url ='http://127.0.0.1:8000/Project/'
+        const url ='http://api.codingscholar.com/Project/'
         axios.post(url,{projectLink:project},{headers:{
             'Authorization':`Bearer ${token}`
         }})

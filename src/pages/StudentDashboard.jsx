@@ -50,7 +50,8 @@ export default function StudentDashboard() {
   }
   function Student(){
    if(token && user_id){
-    const url=`http://127.0.0.1:8000/getstudent/${user_id}`
+    // const url=`http://127.0.0.1:8000/getstudent/${user_id}`
+    const url=`http://api.codingscholar.com/getstudent/${user_id}`
     axios.get(url,{headers:{
       'Authorization':`Bearer ${token}`
     }})

@@ -33,7 +33,7 @@ const handlesubmit =()=>{
 if(quizId && link){
   if (isValidURL(link)) {
     // const url = 'http://127.0.0.1:8000/AttemptQuizes/';
-    const url = 'http://localhost:8000/AttemptQuizes/';
+    const url = 'http://api.codingscholar.com/AttemptQuizes/';
     const data={link:link,quizId:quizId}
     axios.post(url,data,{headers:{
       'Authorization':`Bearer ${token}`

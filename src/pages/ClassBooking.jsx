@@ -21,7 +21,7 @@ import { useEffect } from 'react';
     setBooking(pre=>({...pre,[name]:value}))
     }
     function GetAvailabeBookingTime(){
-        const url='http://127.0.0.1:8000/TeacherAvailability/'
+        const url='http://api.codingscholar.com/TeacherAvailability/'
         axios.get(url)
         .then(res=>{
             console.log('ress',res.data)
@@ -56,7 +56,7 @@ import { useEffect } from 'react';
         const uniqueId = uuidv4();
         const BookingName = `freeTrial${uniqueId}`
         setLoading(true)
-        const url ='http://127.0.0.1:8000/booking/'
+        const url ='http://api.codingscholar.com/booking/'
         console.log('class',BookingName)
         if(pickedTime.length>0){
             pickedTime.forEach(item=>{
