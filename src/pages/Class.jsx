@@ -108,7 +108,7 @@ useEffect(() => {
   }, [UserToken]);
   const fetchIceServers = async () => {
     try {
-      const response = await fetch("http://api.codingscholar.com/get-ice-servers/");
+      const response = await fetch("https://api.codingscholar.com/get-ice-servers/");
       const data = await response.json();
       console.log("ICE Servers data:", data.ice_servers);
       return data.ice_servers || []
@@ -172,7 +172,7 @@ console.log('connectes',connected)
     useEffect(() => {
         if (!code) return;
     
-        const ws = new WebSocket(`ws://localhost:8000/ws/classRoom/${code}/`);
+        const ws = new WebSocket(`wss://localhost:8000/ws/classRoom/${code}/`);
         console.log('innerws',ws)
         getMedia()
         ws.onopen = () =>{
@@ -512,7 +512,7 @@ console.log('connectes',connected)
     },[sharing])
     function getTrailClass(){
         if(bookingId){
-            const url=`http://api.codingscholar.com/trialClass/${bookingId}`
+            const url=`https://api.codingscholar.com/trialClass/${bookingId}`
         axios.get(url)
         .then(res=>{
             console.log('trial',res.data)
@@ -699,7 +699,7 @@ console.log('connectes',connected)
    }
    function SubmitProeject(){
     if(token){
-        const url ='http://api.codingscholar.com/Project/'
+        const url ='https://api.codingscholar.com/Project/'
         axios.post(url,{projectLink:project},{headers:{
             'Authorization':`Bearer ${token}`
         }})

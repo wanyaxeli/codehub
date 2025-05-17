@@ -29,7 +29,7 @@ export default function StudentDetails() {
  function getLessons(){
    if(studentId && token){
     const id = studentId
-    const url =`http://api.codingscholar.com/getstudentLessons/${id}`
+    const url =`https://api.codingscholar.com/getstudentLessons/${id}`
     axios.get(url)
     .then(res=>{
         const data=res.data
@@ -48,7 +48,7 @@ export default function StudentDetails() {
  }
  function UpdateProfilePic(){
     if(token && profilePic){
-        const url = 'http://api.codingscholar.com/profilePic/';
+        const url = 'https://api.codingscholar.com/profilePic/';
         const formData = new FormData();
         formData.append('image', profilePic);
 

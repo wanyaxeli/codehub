@@ -11,7 +11,7 @@ export default function AddTeachers() {
   }
   const handleAddTeacher =()=>{
     const email = values.email
-    const url ='http://api.codingscholar.com/acceptedTeacher/'
+    const url ='https://api.codingscholar.com/acceptedTeacher/'
     axios.post(url,{email:email},{headers:{
       'Content-Type':"Application/json"
     }})

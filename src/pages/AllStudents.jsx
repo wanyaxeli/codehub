@@ -5,7 +5,7 @@ export default function AllStudents() {
     const [student,setStudent]=useState([])
     const navigate=useNavigate()
     function getStudent(){
-    const url='http://api.codingscholar.com/student/'
+    const url='https://api.codingscholar.com/student/'
     axios.get(url,{headers:{
         'Authorization':'application/json'
     }})

@@ -61,8 +61,8 @@ export default function StudentSignUp() {
     }
     console.log('number',phone_number)
     function login(data){
-      // const url ='http://127.0.0.1:8000/student/'
-        const url ='http://api.codingscholar.com/student/'
+      // const url ='https://127.0.0.1:8000/student/'
+        const url ='https://api.codingscholar.com/student/'
         axios.post(url,data,{
             headers:{
                 'Content-Type':'application/json'
@@ -121,7 +121,7 @@ export default function StudentSignUp() {
         const verifyToken = async () => {
           if(token){
             try {
-              const response = await fetch(" http://api.codingscholar.com/verify-Student-token/",  // const response = await fetch("http://127.0.0.1:8000/verify-Student-token/", 
+              const response = await fetch(" https://api.codingscholar.com/verify-Student-token/",  // const response = await fetch("https://127.0.0.1:8000/verify-Student-token/", 
               {
                   method: "POST",
                   headers: {

@@ -25,7 +25,7 @@ const handleViewProject =(link)=>{
 }
 function getQuiz(){
   if(token){
-    const url = 'http://api.codingscholar.com/TeacherQuizes/';
+    const url = 'https://api.codingscholar.com/TeacherQuizes/';
     axios.get(url,{headers:{
       'Authorization':`Bearer ${token}`
     }})

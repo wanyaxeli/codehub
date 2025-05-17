@@ -58,7 +58,7 @@ console.log("Component mounted");
   function getTeacher(){
     console.log('tea',token)
     if(token && user_id && role ==='teacher'){
-     const url=`http://api.codingscholar.com/getTeacher/${user_id}`
+     const url=`https://api.codingscholar.com/getTeacher/${user_id}`
      console.log('user',role)
      axios.get(url,{headers:{
       //  'Authorization':`Bearer ${token}`

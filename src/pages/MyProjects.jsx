@@ -15,7 +15,7 @@ export default function MyProjects() {
 }
 function getProjects(){
   if(token){
-    const url = 'http://api.codingscholar.com/studentProject/';
+    const url = 'https://api.codingscholar.com/studentProject/';
     axios.get(url,{headers:{
       'Authorization':`Bearer ${token}`
     }})

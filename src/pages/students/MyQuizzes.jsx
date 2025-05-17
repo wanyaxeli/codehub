@@ -17,7 +17,7 @@ export default function MyQuizzes() {
 } 
 function getQuizzes(){
   if(token){
-    const url = 'http://api.codingscholar.com/Getquizes/';
+    const url = 'https://api.codingscholar.com/Getquizes/';
     axios.get(url,{headers:{
       'Authorization':`Bearer ${token}`
     }})

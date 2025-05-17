@@ -18,7 +18,7 @@ function App() {
   const [proPic,setProPic]=useState('')
   function getProfilePic(token){
    if(token){
-    const url='http://api.codingscholar.com/profilePic/'
+    const url='https://api.codingscholar.com/profilePic/'
     axios.get(url,{
         headers:{
             'Authorization':`Bearer ${token}`

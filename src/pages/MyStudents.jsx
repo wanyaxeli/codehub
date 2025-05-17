@@ -10,7 +10,7 @@ export default function MyStudents() {
     }
     function getMyStudents(){
     if(token){
-        const url ='http://api.codingscholar.com/TeacherStudent/'
+        const url ='https://api.codingscholar.com/TeacherStudent/'
         axios.get(url,{headers:{
             'Authorization':`Bearer ${token}`
         }})

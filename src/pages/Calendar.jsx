@@ -21,7 +21,7 @@ export default function Calendar() {
   };
   function getTeacherSchudule(){
     if(token){
-    const url =`http://api.codingscholar.com/teacherSchedule/`
+    const url =`https://api.codingscholar.com/teacherSchedule/`
     axios.get(url,{headers:{
       'Authorization':`Bearer ${token}`
     }})

@@ -23,7 +23,7 @@ export default function SubmitProjectModal({openSubmitModal,bookingId,ClassName,
     const handleSubmit =()=>{
         console.log('std',ClassName)
         if(ClassName){
-            const url = `http://api.codingscholar.com/Project/`
+            const url = `https://api.codingscholar.com/Project/`
             const data={project:project,className:ClassName}
             axios.post(url,data,{headers:{
                 'Authorization':`Bearer ${token}`
@@ -35,7 +35,7 @@ export default function SubmitProjectModal({openSubmitModal,bookingId,ClassName,
             })
             .catch(error=>console.log(error))
         }else if(bookingId){
-            const url = `http://api.codingscholar.com/TrialProject/`
+            const url = `https://api.codingscholar.com/TrialProject/`
             const data={project:project,bookingId:bookingId}
             axios.post(url,data,{headers:{
                 'Authorization':`Bearer ${token}`

@@ -7,7 +7,7 @@ export default function MyLessons() {
   const navigate=useNavigate()
   function GetMyLessons(){
     if(token){
-      const url ='http://api.codingscholar.com/studentLessons/'
+      const url ='https://api.codingscholar.com/studentLessons/'
       axios.get(url,{headers:{
         'Authorization':`Bearer ${token}`
       }})

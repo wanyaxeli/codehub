@@ -4,7 +4,7 @@ export default function AllTeachers() {
   const [teacher,setTeacher]=useState([])
   
   useEffect(()=>{
-    const url ='http://api.codingscholar.com/registerTeacher/'
+    const url ='https://api.codingscholar.com/registerTeacher/'
     axios.get(url,{headers:{
         'Authorization':'application/json'
     }})

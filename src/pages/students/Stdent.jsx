@@ -22,7 +22,7 @@ export default function Stdent() {
   const handleActivate =()=>{
    if (studentId && fees){
       const id = studentId
-      const url=`http://api.codingscholar.com/updateFee/${id}`
+      const url=`https://api.codingscholar.com/updateFee/${id}`
       const data={studentId:studentId,fees:fees}
       axios.put(url,data,{headers:{
         'Content-Type':'application/json'
@@ -36,7 +36,7 @@ export default function Stdent() {
   const handleAddStudentToClass =()=>{
    if(studentId){
     const id = studentId
-    const url=`http://api.codingscholar.com/createStudentRoom/${id}`
+    const url=`https://api.codingscholar.com/createStudentRoom/${id}`
     const splitname=classManagement.teacher.split(' ')
     const first_name=splitname[0]
     const last_name=splitname[1]
@@ -55,7 +55,7 @@ export default function Stdent() {
   console.log(classLesson)
   function GetStudent(){
     const id = studentId
-    const url=`http://api.codingscholar.com/specificStudent/${id}`
+    const url=`https://api.codingscholar.com/specificStudent/${id}`
     axios.get(url)
     .then(res=>{
       console.log(res.data)
@@ -69,7 +69,7 @@ export default function Stdent() {
      // Convert local date & time to UTC
     // const localDateTime = new Date(`${values.date}T${values.time}`);
     // const utcDateTime = localDateTime.toISOString();
-    const url=`http://api.codingscholar.com/StudentLesson/${id}`
+    const url=`https://api.codingscholar.com/StudentLesson/${id}`
     axios.post(url,classLesson)
     .then(res=>{
       console.log(res.data)

@@ -68,7 +68,7 @@ export default function RegisterStudentModal({trailClass,openStudentRegistration
       const fulldata={first_name:first_name,last_name:last_name,grade:splitGrade[1],
       country:studentValues.country,phone_number:studentValues.phone_number,password:studentValues.password,
       confirm_password:studentValues.confirm_password}
-      const url ='http://api.codingscholar.com/student/'
+      const url ='https://api.codingscholar.com/student/'
       axios.post(url,fulldata,{
           headers:{
               'Content-Type':'application/json'
