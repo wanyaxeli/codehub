@@ -77,7 +77,7 @@ export default function Header() {
           <div className='logoContainer'>
           <img src={pic}/>
           </div>
-          <div>
+          <div className='headerBars'>
           <i className="fa fa-bars" aria-hidden="true"></i>
           </div>
         </div>

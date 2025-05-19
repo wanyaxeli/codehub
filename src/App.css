@@ -2814,6 +2814,10 @@ padding: 15px 0;
   align-items: center;
   padding: 0 10px;
  }
+ .headerBars .fa{
+  color: #0097b2;
+  font-size: 2rem;
+ }
  .bannerWrapper{
   width: 100%;
   height: auto;
@@ -2838,7 +2842,7 @@ padding: 15px 0;
   background-color: #000;
   position: absolute;
   top: 0;
-  opacity: .5;
+  opacity: .6;
  }
  .BenefitWrapper,.CoursesContainer,.BenefitContainer,.parentsCommentsHolder,.footerContainer{
   width: 100%;
@@ -2857,8 +2861,8 @@ padding: 15px 0;
  .TwoDisplayerparentsCommentsHolder{
   display: block;
  }
- .BenefitDetailsWrapper p{
-  color: #000;
+ .BenefitDetailsWrapper p,.commentHolder,.PArentNameHolder p{
+  color: #000 !important;
  }
  .TwoDisplayerparentsCommentsHolder h3{
   padding: 30px 10px;
@@ -2866,6 +2870,7 @@ padding: 15px 0;
  .TwoDisplayerparentsCommentsHolder h3,.BenefitContainer h3,.CoursesContainer h3  {
   font-size: 1.5rem;
   text-align: center;
+  color: #000 !important;
  }
  .footerLogo h4{
   display: none;
@@ -2886,7 +2891,7 @@ padding: 15px 0;
     padding: 0 10px;
    }
    .BenefitDetailsWrapper p{
-    color: #000;
+    color: #000 !important;
    }
    .parentsCommentsHolder
    .OneDisplayerparentsCommentsHolder h3{
@@ -2895,6 +2900,7 @@ padding: 15px 0;
    .OneDisplayerparentsCommentsHolder h3,.BenefitContainer h3 ,.CoursesContainer h3{
     font-size: 1.1rem;
     text-align: center;
+    color: #000 !important;
    }
    .footerLogo h4{
     display: none;
