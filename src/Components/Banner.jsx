@@ -57,6 +57,7 @@ export default function Banner() {
             console.log(error);
         }
     }
+   
   useEffect(()=>{
   getToken()
   },[])
@@ -64,44 +65,44 @@ export default function Banner() {
     <div className='bannerWrapper'>
         <div className='bannerContainer'>
           <div className='bannerDetailsWrapper'>
-           <div className='sharedStyles introWrapper'>
-            <span className='IConWrapper'><i className="fa fa-bolt" aria-hidden="true"></i></span>
-            <p>Welcome to codingScholar.com online coding school for kids</p>
-           </div>
-            <div className='Aboutcodehub'>
-            <p>Let your kid start learning from <br/> the world's best coding institution</p>
+            <div className='sharedStyles introWrapper'>
+              <span className='IConWrapper'><i className="fa fa-bolt" aria-hidden="true"></i></span>
+              <p>Welcome to codingScholar.com online coding school for kids</p>
             </div>
-            <ul>
-                <li><span className='IConWrapper engage'><i className="fa fa-rss" aria-hidden="true"></i></span> Engaging live video lesson</li>
-                <li><span className='IConWrapper learn'><i className="fa fa-users" aria-hidden="true"></i></span> Learn from top-rated ,world class instructors</li>
-            </ul>
-            {error && <p className='errorText'>{error}</p>}
-            <div className='inputWrapper'>
-                {/* <div className='countCodeHolder'></div>
-                <input type="text" /> */}
-                {/* <PhoneInput
-                placeholder="Enter phone number"
-                value={value}
-                countries={africanCountries}
-                defaultCountry="KE"
-                style={customStyle}
-                onChange={handlePhoneChange}/> */}
-                <button onClick={handleTOFreeLesson} >Try Free Lesson</button>
-            </div>
-            <div className='sharedStyles kidsContainer'>
-                <span className='IConWrapper'><i className="fa fa-bolt" aria-hidden="true"></i></span>
-                <p>Join 1000+ kids who took a lesson in the last 24 hours</p>
-            </div>
-            <div className='sharedStyles numberOfStudentTaking'>
-                <span  className='IconContainer'>
-                <i className=" fa fa-graduation-cap" aria-hidden="true"></i>
-                </span>
-               <div className='acitiveStudentsWrapper'>
-                <h3>9.5k +</h3>
-                <p>Total active students taking<br/> coding courses</p>
-               </div>
-            </div>
-        </div>
+              <div className='Aboutcodehub'>
+              <p>Let your kid start learning from <br/> the world's best coding institution</p>
+              </div>
+              <ul>
+                  <li><span className='IConWrapper engage'><i className="fa fa-rss" aria-hidden="true"></i></span> Engaging live video lesson</li>
+                  <li><span className='IConWrapper learn'><i className="fa fa-users" aria-hidden="true"></i></span> Learn from top-rated ,world class instructors</li>
+              </ul>
+              {error && <p className='errorText'>{error}</p>}
+              <div className='inputWrapper'>
+                  {/* <div className='countCodeHolder'></div>
+                  <input type="text" /> */}
+                  {/* <PhoneInput
+                  placeholder="Enter phone number"
+                  value={value}
+                  countries={africanCountries}
+                  defaultCountry="KE"
+                  style={customStyle}
+                  onChange={handlePhoneChange}/> */}
+                  <button onClick={handleTOFreeLesson} >Try Free Lesson</button>
+              </div>
+              <div className='sharedStyles kidsContainer'>
+                  <span className='IConWrapper'><i className="fa fa-bolt" aria-hidden="true"></i></span>
+                  <p>Join 1000+ kids who took a lesson in the last 24 hours</p>
+              </div>
+              <div className='sharedStyles numberOfStudentTaking'>
+                  <span  className='IconContainer'>
+                  <i className=" fa fa-graduation-cap" aria-hidden="true"></i>
+                  </span>
+                <div className='acitiveStudentsWrapper'>
+                  <h3>9.5k +</h3>
+                  <p>Total active students taking<br/> coding courses</p>
+                </div>
+              </div>
+         </div>
         <div className='bannerImgWrapper'>
             <img src={pic}/>
             <div className='bannnerAnimationWrapper'>
@@ -120,7 +121,26 @@ export default function Banner() {
         <div className='smallDeviceBanner'>
         <img src={pic}/>
         <div className='smallDeviceBannerCover'>
-
+           <div className='smallDeviceBannerContainer'>
+              <div className='smallDeviceBannerContainerHolder'>
+                  <div className='smallDeviceBannerContainerHeader'>
+                    <p>Welcome to codingScholar.com online coding school for kids</p>
+                  </div>
+                  <div className='smallDeviceBannerContainerAboutcodehub'>
+                  <p>Let your kid start learning from  the world's best coding institution</p>
+                  </div>
+                  <ul>
+                    <li>Engaging live video lesson</li>
+                    <li>Learn from top-rated ,world class instructors</li>
+                </ul>
+                <div className='smallDeviceBannerContainerAboutcodehub'>
+                    <p>Join 1000+ kids who took a lesson in the last 24 hours</p>
+                </div>
+                <div className='inputWrapper smallDeviceBannerContainerBtnHolder'>
+                    <button onClick={handleTOFreeLesson} >Try Free Lesson</button>
+                </div>
+              </div>
+           </div>
         </div>
         </div>
     </div>

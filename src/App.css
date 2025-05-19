@@ -2831,10 +2831,36 @@ padding: 15px 0;
   height: 300px;
   position: relative;
  }
+ .smallDeviceBannerContainer{
+  width: 100%;
+  height: 100%;
+  padding: 15px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: #fff;
+ }
+ .smallDeviceBannerContainer p,.smallDeviceBannerContainer ul li{
+  padding-bottom: 10px;
+ }
+ .smallDeviceBannerContainer ul {
+  list-style: none;
+ }
+ .smallDeviceBannerContainerHeader p{
+  color: #fff;
+  font-size: 1.3rem;
+ }
  .smallDeviceBanner img{
   width: 100%;
   height: 100%;
   object-fit: cover;
+ }
+ .smallDeviceBannerContainerBtnHolder{
+  width: 100%;
+ }
+ .smallDeviceBannerContainerBtnHolder button{
+  width: 100%;
  }
  .smallDeviceBannerCover{
   width: 100%;
@@ -2842,7 +2868,7 @@ padding: 15px 0;
   background-color: #000;
   position: absolute;
   top: 0;
-  opacity: .6;
+  opacity: .7;
  }
  .BenefitWrapper,.CoursesContainer,.BenefitContainer,.parentsCommentsHolder,.footerContainer{
   width: 100%;
