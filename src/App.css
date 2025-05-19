@@ -96,6 +96,10 @@
 }
 .bannerWrapper{
   max-width: 1200px;
+  margin: auto;
+}
+.bannerContainer{
+  width: 100%;
   height:88vh;
   margin: auto;
   display:flex;
@@ -404,7 +408,7 @@
 }
 .courseCardContainer{
   width: 100%;
-  height: 100%;
+  height: auto;
   display: flex;
   align-items: center;
   gap: 20px;
@@ -412,7 +416,7 @@
   margin-bottom: 30px;
 }
 .courseCard{
-  flex: .41;
+  width: 32%;
   height: 250px;
   background-color: #fff;
   border-radius: 10px;
@@ -2790,4 +2794,109 @@ padding: 15px 0;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.HeaderForSmallDevices{
+  display: none;
+}
+.smallDeviceBanner,.OneDisplayerparentsCommentsHolder,.TwoDisplayerparentsCommentsHolder{
+  display:none;
+}
+/* @media (max-width: 768px) {} */
+@media (max-width: 768px) {
+ .headerContainer{
+  display: none;
+ }
+ .HeaderForSmallDevices{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+ }
+ .bannerWrapper{
+  width: 100%;
+  height: auto;
+ }
+ .bannerContainer{
+  display: none;
+ }
+ .smallDeviceBanner{
+  display: block;
+  width: 100%;
+  height: 300px;
+  position: relative;
+ }
+ .smallDeviceBanner img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+ }
+ .smallDeviceBannerCover{
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  position: absolute;
+  top: 0;
+  opacity: .5;
+ }
+ .BenefitWrapper,.CoursesContainer,.BenefitContainer,.parentsCommentsHolder,.footerContainer{
+  width: 100%;
+  height: auto;
+ }
+ .courseCardContainer,.BenefitDetailsWrapper {
+  gap: 30px;
+  padding: 0 10px;
+ }
+ .courseCard,.benefitCard {
+  width: 30%;
+ }
+ .parentsCommentsHolder{
+  display: none;
+ }
+ .TwoDisplayerparentsCommentsHolder{
+  display: block;
+ }
+ .BenefitDetailsWrapper p{
+  color: #000;
+ }
+ .TwoDisplayerparentsCommentsHolder h3{
+  padding: 30px 10px;
+ }
+ .TwoDisplayerparentsCommentsHolder h3,.BenefitContainer h3,.CoursesContainer h3  {
+  font-size: 1.5rem;
+  text-align: center;
+ }
+ .footerLogo h4{
+  display: none;
+ }
+}
+@media only screen and (max-width: 600px) {
+  .parentsCommentsHolder,.TwoDisplayerparentsCommentsHolder{
+    display: none;
+   }
+   .OneDisplayerparentsCommentsHolder{
+    display: block;
+   }
+   .courseCard,.benefitCard {
+    width: 100%;
+   }
+   .courseCardContainer,.BenefitDetailsWrapper {
+    gap: 50px;
+    padding: 0 10px;
+   }
+   .BenefitDetailsWrapper p{
+    color: #000;
+   }
+   .parentsCommentsHolder
+   .OneDisplayerparentsCommentsHolder h3{
+    padding: 30px 10px;
+   }
+   .OneDisplayerparentsCommentsHolder h3,.BenefitContainer h3 ,.CoursesContainer h3{
+    font-size: 1.1rem;
+    text-align: center;
+   }
+   .footerLogo h4{
+    display: none;
+   }
 }

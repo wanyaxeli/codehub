@@ -62,7 +62,8 @@ export default function Banner() {
   },[])
   return (
     <div className='bannerWrapper'>
-        <div className='bannerDetailsWrapper'>
+        <div className='bannerContainer'>
+          <div className='bannerDetailsWrapper'>
            <div className='sharedStyles introWrapper'>
             <span className='IConWrapper'><i className="fa fa-bolt" aria-hidden="true"></i></span>
             <p>Welcome to codingScholar.com online coding school for kids</p>
@@ -114,6 +115,13 @@ export default function Banner() {
                 </div>
                 </div>
             </div>
+        </div>
+        </div>
+        <div className='smallDeviceBanner'>
+        <img src={pic}/>
+        <div className='smallDeviceBannerCover'>
+
+        </div>
         </div>
     </div>
   )

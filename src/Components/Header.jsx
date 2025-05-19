@@ -73,6 +73,14 @@ export default function Header() {
             </div>
             <HeaderDetails pic2={pic2} token={token} handleToStudentDashboard={handleToStudentDashboard} handleToFreeClass={handleToFreeClass} handleToLogin={handleToLogin}  handleJoinClass={handleJoinClass} handleToDashboard={handleToDashboard} teacher={teacher} student={student}  proPic={proPic}/>
         </div>
+        <div className='HeaderForSmallDevices'>
+          <div className='logoContainer'>
+          <img src={pic}/>
+          </div>
+          <div>
+          <i className="fa fa-bars" aria-hidden="true"></i>
+          </div>
+        </div>
     </div>
   )
 }
