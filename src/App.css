@@ -2801,6 +2801,9 @@ padding: 15px 0;
 .smallDeviceBanner,.OneDisplayerparentsCommentsHolder,.TwoDisplayerparentsCommentsHolder{
   display:none;
 }
+.sideBarWrapper{
+  display: none;
+}
 /* @media (max-width: 768px) {} */
 @media (max-width: 768px) {
  .headerContainer{
@@ -2813,6 +2816,38 @@ padding: 15px 0;
   justify-content: space-between;
   align-items: center;
   padding: 0 10px;
+  position: sticky;
+  top: 1;
+ }
+ .sideBarWrapper{
+  width: 50%;
+  height: 100vh;
+  background-color: #fff;
+  position: absolute;
+  top: 7%;
+  right: 0;
+  display: none;
+ }
+ .sideBarWrapperOpenner{
+  width: 50%;
+  height: 100vh;
+  background-color: #fff;
+  position: absolute;
+  top: 7%;
+  right: 0;
+  display: block;
+ }
+ .sideBarContainer{
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+ }
+ .sideBarContainer ul{
+  list-style: none;
+ }
+ .sideBarContainer ul li{
+  padding-bottom: 10px;
+  color: #0097b2;
  }
  .headerBars .fa{
   color: #0097b2;
@@ -2828,13 +2863,13 @@ padding: 15px 0;
  .smallDeviceBanner{
   display: block;
   width: 100%;
-  height: 300px;
+  height: 350px;
   position: relative;
  }
  .smallDeviceBannerContainer{
   width: 100%;
   height: 100%;
-  padding: 15px 10px;
+  padding: 20px 10px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2842,7 +2877,7 @@ padding: 15px 0;
   color: #fff;
  }
  .smallDeviceBannerContainer p,.smallDeviceBannerContainer ul li{
-  padding-bottom: 10px;
+  padding-bottom: 15px;
  }
  .smallDeviceBannerContainer ul {
   list-style: none;

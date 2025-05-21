@@ -4,9 +4,12 @@ import { context } from '../App'
 import {useNavigate,useLocation} from 'react-router-dom'
 import pic2 from '../assets/codehubImage.jpeg'
 import HeaderDetails from './HeaderDetails';
+import Sidebar from './sideBar'
 export default function Header() {
     const [selectedValue, setSelectedValue] = useState('');
     const [token,setToken]=useState('')
+    const [toggleSideBarClass,setToggleSideBarClass]=useState('sideBarWrapper')
+    const [toggleSideBar,setToggleSideBar]=useState(false)
     const location = useLocation()
     console.log('location',location)
     const navigate=useNavigate()
@@ -48,6 +51,23 @@ export default function Header() {
           console.log(error);
       }
   }
+  const handleToggleSideBar =()=>{
+   if(toggleSideBar===false){
+    setToggleSideBar(true)
+   }else{
+    setToggleSideBar(false)
+   }
+  }
+  useEffect(()=>{
+  if(toggleSideBarClass==='sideBarWrapper'){
+    setToggleSideBarClass('sideBarWrapperOpenner')
+  }else{
+    setToggleSideBarClass('sideBarWrapper')
+  }
+  },[toggleSideBar])
+  useEffect(()=>{
+    setToggleSideBarClass('sideBarWrapper')
+  },[])
   useEffect(()=>{
   getToken()
   },[])
@@ -78,8 +98,11 @@ export default function Header() {
           <img src={pic}/>
           </div>
           <div className='headerBars'>
-          <i className="fa fa-bars" aria-hidden="true"></i>
+          {toggleSideBar===false?<i onClick={handleToggleSideBar} className="fa fa-bars" aria-hidden="true"></i>:
+          <i onClick={handleToggleSideBar} className="fa fa-times" aria-hidden="true"></i>
+          }
           </div>
+          <Sidebar toggleSideBarClass={toggleSideBarClass}/>
         </div>
     </div>
   )
