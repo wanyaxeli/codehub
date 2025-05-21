@@ -11,7 +11,7 @@ export default function SetQuiz() {
   }
   const handleSubmit =()=>{
     if(values.module && values.name && values.quiz && values.title){
-      const url = 'http://api.codingscholar.com/Quizes/';
+      const url = 'https://api.codingscholar.com/Quizes/';
       axios.post(url,values,{headers:{
         'Authorization':`Bearer ${token}`
       }})

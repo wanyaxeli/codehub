@@ -70,7 +70,7 @@ export default function Details() {
     }
     function UpdateProfilePic(){
     if(token && profilePic){
-        const url = 'http://api.codingscholar.com/profilePic/';
+        const url = 'https://api.codingscholar.com/profilePic/';
         const formData = new FormData();
         formData.append('image', profilePic);
 
@@ -123,7 +123,7 @@ export default function Details() {
     },[token])
     useEffect(()=>{
     if(token){
-        const url ='http://api.codingscholar.com/Teacherbooking/'
+        const url ='https://api.codingscholar.com/Teacherbooking/'
         setLoading(true)
         axios.get(url,{headers:{
            'Content-Type':'application/json',
