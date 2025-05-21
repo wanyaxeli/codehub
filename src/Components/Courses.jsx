@@ -1,6 +1,10 @@
 import React from 'react'
-
+import { useNavigate } from 'react-router-dom'
 export default function Courses() {
+  const navigate=useNavigate()
+  const handleToBookings =()=>{
+    navigate('/register')
+  }
   return (
     <div className='CoursesWrapper'>
         <div className='CoursesContainer'>
@@ -13,7 +17,7 @@ export default function Courses() {
                      </div>
                      <div className='bodyForCourse'>
                        <div className='contentCourseDiv'>
-                          <p>Outcome</p>
+                          <p style={{color:'#000'}}>Outcome</p>
                           <ul>
                             <li>Build a robot to perform basic tasks</li>
                             <li>Build a robot to perform basic tasks</li>
@@ -21,7 +25,7 @@ export default function Courses() {
                           </ul>
                        </div>
                        <div className='courseActionBtn'>
-                        <button>Buy this course</button>
+                        <button onClick={handleToBookings}>Buy this course</button>
                        </div>
                      </div>
                     </div>
@@ -32,7 +36,7 @@ export default function Courses() {
                      </div>
                      <div className='bodyForCourse'>
                        <div className='contentCourseDiv'>
-                          <p>Outcome</p>
+                          <p style={{color:'#000'}}>Outcome</p>
                           <ul>
                             <li>Build a robot to perform basic tasks</li>
                             <li>Build a robot to perform basic tasks</li>
@@ -40,7 +44,7 @@ export default function Courses() {
                           </ul>
                        </div>
                        <div className='courseActionBtn'>
-                        <button>Buy this course</button>
+                        <button onClick={handleToBookings}>Buy this course</button>
                        </div>
                      </div>
                     </div>
@@ -51,7 +55,7 @@ export default function Courses() {
                      </div>
                      <div className='bodyForCourse'>
                        <div className='contentCourseDiv'>
-                          <p>Outcome</p>
+                          <p style={{color:'#000'}}>Outcome</p>
                           <ul>
                             <li>Build a robot to perform basic tasks</li>
                             <li>Build a robot to perform basic tasks</li>
@@ -59,7 +63,7 @@ export default function Courses() {
                           </ul>
                        </div>
                        <div className='courseActionBtn'>
-                        <button>Buy this course</button>
+                        <button onClick={handleToBookings}>Buy this course</button>
                        </div>
                      </div>
                     </div>
