@@ -29,6 +29,8 @@ export default function Stdent() {
       }})
       .then(res=>{
         console.log(res.data)
+        setFees('')
+        alert("Student class activated successfully!")
       })
       .catch(error=>console.log(error))
    }
@@ -44,6 +46,8 @@ export default function Stdent() {
     axios.post(url,data)
     .then(res=>{
       console.log(res.data)
+      SetClassManagement(initialState)
+      alert('Student placed in the class successfully')
     })
     .catch(error=>console.log(error))
    }
@@ -73,6 +77,8 @@ export default function Stdent() {
     axios.post(url,classLesson)
     .then(res=>{
       console.log(res.data)
+      SetClassLesson(initialStateforLessonAttendace)
+      alert('Class attendance time picked successfully ')
     })
     .catch(error=>console.log(error))  
   }

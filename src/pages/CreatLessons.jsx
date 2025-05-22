@@ -77,6 +77,7 @@ export default function CreatLessons() {
             .then((res) => {
                 getNotes(); // Corrected missing function execution ()
                 setLoading(false);
+                setInputs(initialState)
                 console.log(res.data);
             })
             .catch((error) => {
