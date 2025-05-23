@@ -2851,6 +2851,9 @@ padding: 15px 0;
  .InnerLoginWrapper{
   padding:0;
  }
+ input{
+  background-color: #fff;
+ }
 input::placeholder,input{
   color: #000;
  }

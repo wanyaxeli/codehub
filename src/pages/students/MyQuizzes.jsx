@@ -22,12 +22,15 @@ function getQuizzes(){
       'Authorization':`Bearer ${token}`
     }})
     .then(res=>{
-      console.log(res.data)
-      SetQuiz(res.data)
+      console.log('res',res.data)
+      if (!res.data.error) {
+        SetQuiz(res.data);
+      }
     })
     .catch(error=>console.log(error))
   }
 }
+console.log('quix',quiz)
 useEffect(()=>{
 getQuizzes()
 },[token])
@@ -39,7 +42,7 @@ useEffect(()=>{
   }
   return (
     <div className='MyQuizzes'>
-      {quiz? quiz.map(item=>{
+      {quiz && quiz.length > 0? quiz.map(item=>{
         return(
           <div key={item.id} className='QuizzCard'>
               <h3>{item.title}</h3>

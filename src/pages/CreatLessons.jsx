@@ -10,13 +10,18 @@ export default function CreatLessons() {
         LessonNumber:''
     }
     const [inputs,setInputs]=useState(initialState)
+    console.log('input',inputs)
     const [notes,setNotes]=useState([])
     const [error,setError]=useState('')
     const [loading,setLoading]=useState(false)
     const handleChange=(e)=>{
-     const {name,value,type}= e.target
-     if(type==='files'){
+     const { name, value, type, files } = e.target;
+     if(type==='file'){
         setInputs({...inputs,[name]:e.target.files[0] })
+        // setInputs((prev) => ({
+        //     ...prev,
+        //     [name]: files[0] // ✅ This stores the actual File object
+        //   }));
      }else{
         setInputs({...inputs,[name]:value})
      }
@@ -52,38 +57,48 @@ export default function CreatLessons() {
         const classId = `${inputs.classname}${uniqueId}`; // Corrected from inputs.name
     
         // Create FormData
-        const formData = new FormData();
-        formData.append("classId", classId);
-        formData.append("grade", inputs.grade);
-        formData.append("module", inputs.module);
-        formData.append("classname", inputs.classname);
-        formData.append("LessonNumber", inputs.LessonNumber);
+        if(classId && inputs.grade && inputs.notes &&inputs.module && inputs.classname &&  inputs.LessonNumber){
+            const formData = new FormData();
+            formData.append("classId", classId);
+            formData.append("grade", inputs.grade);
+            formData.append("module", inputs.module);
+            formData.append("classname", inputs.classname);
+            formData.append("LessonNumber", inputs.LessonNumber);
+            formData.append("notes", inputs.notes)
+            // Append file if available
+            // if (inputs.notes) {
+            //     formData.append("notes", inputs.notes);
+            // }else{
+            //   setError('Please Fill in all the inputs')
+            // }
         
-        // Append file if available
-        if (inputs.notes) {
-            formData.append("notes", inputs.notes);
+            const url = "https://api.codingscholar.com/classNotes/";
+            for (let [key, value] of formData.entries()) {
+                console.log('form',`${key}:`, value);
+              }
+            if(formData){
+                axios
+                .post(url, formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                })
+                .then((res) => {
+                    getNotes(); // Corrected missing function execution ()
+                    setLoading(false);
+                    setInputs(initialState)
+                    alert('Lessons created successfully')
+                    console.log('res ',res);
+                })
+                .catch((error) => {
+                    console.log(error);
+                    setLoading(false);
+                });
+            }
         }else{
-          setError('Please Fill in all the inputs')
+            setError('Please Fill In Inputs')
         }
-    
-        const url = "https://api.codingscholar.com/classNotes/";
         
-        axios
-            .post(url, formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            })
-            .then((res) => {
-                getNotes(); // Corrected missing function execution ()
-                setLoading(false);
-                setInputs(initialState)
-                console.log(res.data);
-            })
-            .catch((error) => {
-                console.log(error);
-                setLoading(false);
-            });
     };
   useEffect(()=>{
    getNotes()
@@ -97,7 +112,8 @@ export default function CreatLessons() {
             <input name='classname' onChange={handleChange} type='text' placeholder='Lesson Name'/><br/>
             <input name='LessonNumber' onChange={handleChange} type='text' placeholder='Lesson Number'/><br/>
             <label for="file-upload" class="custom-file-upload">
-             {inputs.notes?inputs.notes:'Upload Notes'}
+             {/* {inputs.notes?inputs.notes:'Upload Notes'} */}
+             {inputs.notes?<p>Selected file: {inputs.notes.name}</p>:'Upload Notes'}
             </label>
             <input name='notes' accept='.pdf'  onChange={handleChange} id="file-upload" type="file" />
             <div className='classBtnContainer'>
