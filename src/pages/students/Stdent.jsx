@@ -36,16 +36,17 @@ export default function Stdent() {
    }
   }
   const handleAddStudentToClass =()=>{
-   if(studentId){
+   if(studentId && classManagement.grade && classManagement.module && classManagement.teacher){
     const id = studentId
     const url=`https://api.codingscholar.com/createStudentRoom/${id}`
-    const splitname=classManagement.teacher.split(' ')
+    const splitname = classManagement.teacher.trim().split(/\s+/);
     const first_name=splitname[0]
     const last_name=splitname[1]
     const data={...classManagement,...{first_name:first_name,last_name:last_name}}
+    console.log(data)
     axios.post(url,data)
     .then(res=>{
-      console.log(res.data)
+      console.log('student res',res)
       SetClassManagement(initialState)
       alert('Student placed in the class successfully')
     })
@@ -149,9 +150,9 @@ export default function Stdent() {
            <div className='studentDetailsClassattendance ActivateStudentWrapper'>
               <p>Place student into class</p>
               <p>allocate teacher to student</p>
-              <input name='grade' onChange={handleClassManagementInput} type='text' placeholder='Grade'/>
-              <input name='module' onChange={handleClassManagementInput} type='text' placeholder='Module'/>
-              <input name='teacher' onChange={handleClassManagementInput} type='text' placeholder='Teacher'/>
+              <input value={classManagement.grade} name='grade' onChange={handleClassManagementInput} type='text' placeholder='Grade'/>
+              <input value={classManagement.module} name='module' onChange={handleClassManagementInput} type='text' placeholder='Module'/>
+              <input value={classManagement.teacher} name='teacher' onChange={handleClassManagementInput} type='text' placeholder='Teacher'/>
            </div>
            <div className='StdBtnWrapper'>
               <button onClick={handleAddStudentToClass}>submit</button>
@@ -160,10 +161,10 @@ export default function Stdent() {
         <div className="studentDetails">
           <h3>lesson attendance</h3>
            <div className='studentDetailsClassattendance'>
-           <input onChange={handleLessonAttendance} name='first_day' type='text' placeholder='Enter first day of the class'/>
-            <input onChange={handleLessonAttendance} name='second_day' type='text' placeholder='Enter second day of the class'/>
-            <input onChange={handleLessonAttendance} name='first_time' type='time'/>
-            <input onChange={handleLessonAttendance} name='second_time' type='time'/>
+           <input  value={classLesson.first_day} onChange={handleLessonAttendance} name='first_day' type='text' placeholder='Enter first day of the class'/>
+            <input value={classLesson.second_day} onChange={handleLessonAttendance} name='second_day' type='text' placeholder='Enter second day of the class'/>
+            <input value={classLesson.first_time} onChange={handleLessonAttendance} name='first_time' type='time'/>
+            <input value={classLesson.second_time} onChange={handleLessonAttendance} name='second_time' type='time'/>
            </div>
            <div className='StdBtnWrapper'>
               <button onClick={handleSubmitLessonAttendance}>submit</button>
