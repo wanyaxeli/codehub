@@ -2061,10 +2061,15 @@ body{
   flex-direction: column;
   padding: 20px 0;
 }
-.studentDetailsWrapper img{
-  width: 100px;
-  height: 100px;
+.studentDetailsImgWrapper{
+  width: 80px;
+  height: 80px;
+}
+.studentDetailsImgWrapper img{
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
+  object-fit: cover;
 }
 .studentDetailsWrapper p{
   margin-top: 10px;

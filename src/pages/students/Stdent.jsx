@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react'
-import pic from '../../assets/student.jpg'
+import pic from '../../assets/hubImage.png'
 import { useLocation } from 'react-router-dom'
 import axios from 'axios'
 export default function Stdent() {
@@ -128,7 +128,9 @@ export default function Stdent() {
   return (
     <div className='StudentWrapper'>
         <div className='studentDetailsWrapper'>
-            <img src={pic}/>
+           <div className='studentDetailsImgWrapper'>
+           <img src={pic}/>
+           </div>
            {student? <div>
                 <p>{student.user.first_name} {student.user.last_name}</p>
                 <p>Recent fee Paid:<span>{student.paymentMade}</span></p>
