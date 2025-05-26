@@ -172,7 +172,9 @@ console.log('connectes',connected)
     useEffect(() => {
         if (!code) return;
     
-        const ws = new WebSocket(`wss://localhost:8000/ws/classRoom/${code}/`);
+        // const ws = new WebSocket(`wss://localhost:8000/ws/classRoom/${code}/`);
+        // const ws = new WebSocket(`wss://api.codingscholar.com/ws/classRoom/${code}/`);
+        const ws = new WebSocket(`wss://api.codingscholar.com/ws/classRoom/${code}/`);
         console.log('innerws',ws)
         getMedia()
         ws.onopen = () =>{
