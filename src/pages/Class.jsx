@@ -169,12 +169,20 @@ console.log('connectes',connected)
         })
         .catch((error) => console.error("Error accessing media devices:", error));
      }
+     function slugify(code) {
+        return code
+          .toString()
+          .toLowerCase()
+          .trim()
+          .replace(/[\s\W-]+/g, '-') // Replace spaces and non-word characters with dashes
+          .replace(/^-+|-+$/g, '');  // Remove leading/trailing dashes
+    }
     useEffect(() => {
         if (!code) return;
-    
+        const slug=slugify(code)
         // const ws = new WebSocket(`wss://localhost:8000/ws/classRoom/${code}/`);
         // const ws = new WebSocket(`wss://api.codingscholar.com/ws/classRoom/${code}/`);
-        const ws = new WebSocket(`wss://api.codingscholar.com/ws/classRoom/${code}/`);
+        const ws = new WebSocket(`wss://api.codingscholar.com/ws/classRoom/${slug}/`);
         console.log('innerws',ws)
         getMedia()
         ws.onopen = () =>{
