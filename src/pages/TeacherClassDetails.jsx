@@ -23,7 +23,7 @@ export default function TeacherClassDetails() {
     },[])
     const handleToJoinClass=(student,id,time)=>{
         navigate(`/class/${id}`, { state: { id,classType:'NormalClass', time,student} });
-        // console.log('time',student)
+        // console.log('time',time)
     }
     const handleNotes = ( title, notes) => {
         // e.preventDefault(); // Prevents default link or form behavior
@@ -77,7 +77,7 @@ export default function TeacherClassDetails() {
                         details
                     </a>
                     </p>
-                    <button onClick={()=>handleToJoinClass(lesson.student.id,lesson.lesson.lessonId,lesson.lesson.lessonId,lesson.date_time)}>join</button>
+                    <button onClick={()=>handleToJoinClass(lesson.student.id,lesson.lesson.lessonId,lesson.date_time)}>join</button>
                   </div>
                 )
                })}
