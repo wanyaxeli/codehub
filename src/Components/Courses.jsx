@@ -19,9 +19,9 @@ export default function Courses() {
                        <div className='contentCourseDiv'>
                           <p style={{color:'#000'}}>Outcome</p>
                           <ul>
-                            <li>Build a robot to perform basic tasks</li>
-                            <li>Build a robot to perform basic tasks</li>
-                            <li>Build a robot to perform basic tasks</li>
+                            <li>Kids take their first steps into coding</li>
+                            <li>Learn through stories, games, and animations</li>
+                            <li>Ideal for  first-time coders</li>
                           </ul>
                        </div>
                        <div className='courseActionBtn'>
@@ -31,16 +31,16 @@ export default function Courses() {
                     </div>
                     <div  className='courseCard secondCourseCard'>
                      <div className='headerforCourse'>
-                        <h2>Coding Explorer</h2>
-                        <p>Building Blocks of Technology</p>
+                        <h2>Coding Innovator</h2>
+                        <p>From Curiosity to Creation</p>
                      </div>
                      <div className='bodyForCourse'>
                        <div className='contentCourseDiv'>
                           <p style={{color:'#000'}}>Outcome</p>
                           <ul>
-                            <li>Build a robot to perform basic tasks</li>
-                            <li>Build a robot to perform basic tasks</li>
-                            <li>Build a robot to perform basic tasks</li>
+                            <li>Students level up their coding journey</li>
+                            <li>Build real apps and design websites</li>
+                            <li>Ideal for those with basic coding skills</li>
                           </ul>
                        </div>
                        <div className='courseActionBtn'>
@@ -50,16 +50,16 @@ export default function Courses() {
                     </div>
                     <div  className='courseCard thirdCourseCard'>
                      <div className='headerforCourse'>
-                        <h2>Coding Explorer</h2>
-                        <p>Building Blocks of Technology</p>
+                        <h2>Coding Specialist</h2>
+                        <p>Where Young Minds Master Big Tech</p>
                      </div>
                      <div className='bodyForCourse'>
                        <div className='contentCourseDiv'>
                           <p style={{color:'#000'}}>Outcome</p>
                           <ul>
-                            <li>Build a robot to perform basic tasks</li>
-                            <li>Build a robot to perform basic tasks</li>
-                            <li>Build a robot to perform basic tasks</li>
+                            <li>Dive into Python, JavaScript development</li>
+                            <li>Work on advanced, real-world projects</li>
+                            <li>Ideal for advanced learners</li>
                           </ul>
                        </div>
                        <div className='courseActionBtn'>

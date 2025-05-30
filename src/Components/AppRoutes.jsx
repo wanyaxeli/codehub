@@ -80,8 +80,8 @@ export default function AppRoutes() {
         <Route path='/Class booking' element={<ClassBooking/>}/>
         <Route path='/End Class' element={<EndClass/>}/>
         <Route path='/Class/:name' element={<Class/>}/>
-        <Route path='/Trial Class/:name' element={<TrialClass/>}/>
-        <Route path="/Trial Class/:name/:token" element={<BookingLoading />} />
+        <Route path='/TrialClass/:name' element={<TrialClass/>}/>
+        <Route path="/TrialClass/:name/:token" element={<BookingLoading />} />
         <Route path='/Error' element={<Error/>}/>
     {/* <Route path="/" element={<Layout />}>
       <Route index element={<Home />} />

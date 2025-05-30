@@ -318,6 +318,27 @@
   background-color: #fff;
   border-radius: 15px;
   padding: 15px;
+  color:#fff;
+}
+.benefitListWrapper{
+  width: 90%;
+  height: auto;
+  margin: auto;
+}
+.benefitListWrapper ul{
+  list-style: none;
+}
+.benefitListWrapper ul li {
+  font-size: .9rem;
+  padding: 8px 0;
+}
+.benefitCard h4{
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.benefitListWrapper ul li span .fa{
+  color: #0097b2;
 }
 .benefitFirstCard{
   background-color: #735DA5;
@@ -545,10 +566,21 @@
   padding-bottom: 5px;
 }
 .PArentimageHolder{
-   height: 100%;
-   width: 15%;
-   background-color: #0097b2;
-   border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  background-color: #0097b2;
+  border-radius: 50%;
+}
+/* .PArentimageContainer{
+  background-color: #0097b2;
+  width: 40px;
+  height: 40px;
+} */
+.PArentimageHolder img{
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
 }
 .commentHolder{
   padding: 10px 0;
@@ -1413,9 +1445,6 @@ body{
   flex:.75;
   height: 100%;
 }
-/* .classContainer aside{
- 
-} */
 .closeAside{
   height: 100%;
   flex:0;
@@ -2061,6 +2090,7 @@ body{
   flex-direction: column;
   padding: 20px 0;
 }
+
 .studentDetailsImgWrapper{
   width: 80px;
   height: 80px;

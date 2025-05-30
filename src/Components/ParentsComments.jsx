@@ -1,6 +1,34 @@
 import React from 'react'
 import Slider from 'react-slick'
+import parent1 from '../assets/parent1.jpg'
+import parent2 from '../assets/parent2.jpg'
+import parent3 from '../assets/parent3.jpg'
+import parent4 from '../assets/parent4.jpg'
+import parent5 from '../assets/parent5.jpg'
+import parent6 from '../assets/parent6.jpg'
 export default function ParentsComments() {
+   const comments=[{
+      name:"Wanjiku Mwangi",
+      comment:"I am amazed at how much my son has learned.codingScholar makes coding fun and relatable. He's even teaching his cousins what he learns online!",
+      img:parent2,
+      country:'Kenya'},
+      {name:"Chinedu Okafor",
+      comment:"My daughter used to be shy, but since she joined Fraic, she's full of ideas and confidence. She talks about loops and logic like a little engineer!",
+      img:parent1,
+      country:'Nigeria'},
+      {name:"Lerato Mokoena",
+      comment:"Coding always seemed too advanced for kids, but codingScholar made it easy and fun for my son. He now dreams of building apps that solve real problems.",
+      img:parent4,
+      country:'South Africa'},
+      {name:"James Atwooki",
+      comment:"codingScholar has opened a whole new world for my children. They’re learning skills that I wish I had learned at their age. Thank you for this opportunity!",
+      img:parent5,
+      country:'Uganda'},
+      {name:" Akosua Mensah",
+      comment:"I’m truly impressed by the progress my daughter has made. codingScholar’s approach is practical, interactive, and encourages creativity. She’s even teaching her friends now!",
+      img:parent6,
+      country:'Ghana',
+   }]
     var settings = {
         dots: false,
         infinite: true,
@@ -37,23 +65,25 @@ export default function ParentsComments() {
              <h3>Students and parents love codingScholar’s training program and curriculum</h3>
              <div >
              <Slider {...settings} className='parentsCommentsContainer'>
-             {Array(8).fill(0).map((item,i)=>{
+             {comments.map((item,i)=>{
                 return(
                     <div key={i} className='parentsCommentsCard'>
                    <div className='parentDetailsHolder'>
-                     <div className='PArentimageHolder'></div>
+                     <div className='PArentimageHolder'>
+                     <img src={item.img} alt='parent'/>
+                     </div>
                      <div className='PArentNameHolder'>
-                        <h4>Elias wanyama</h4>
-                        <p>Codehub Parent</p>
+                        <h4>{item.name}</h4>
+                        <p>codingSChalar Parent</p>
                      </div>
                    </div>
                    <div className='commentHolder'>
-                   <h4>Elias wanyama</h4>
-                    <p>This platform is amazing for kids to learn coding in such young age. The staff is so cooperative and the instructor knows how to make kids learn in more interesting way. Codehub you are doing Amazing work!</p>
+                   <h4>{item.name}</h4>
+                    <p>{item.comment}</p>
                    </div>
                    <div className='ParantsLocationHolder'>
                    <i class="fa fa-map-marker" aria-hidden="true"></i>
-                   <p>kenya</p>
+                   <p>{item.country}</p>
                    </div>
                 </div>
                 )
@@ -65,23 +95,25 @@ export default function ParentsComments() {
              <h3>Students and parents love codingScholar’s training program and curriculum</h3>
              <div >
              <Slider {...TwoDisplayersettings} className='parentsCommentsContainer'>
-             {Array(8).fill(0).map((item,i)=>{
+             {comments.map((item,i)=>{
                 return(
                     <div key={i} className='parentsCommentsCard'>
                    <div className='parentDetailsHolder'>
-                     <div className='PArentimageHolder'></div>
+                     <div className='PArentimageHolder'>
+                     <img src={item.img} alt='parent'/>
+                     </div>
                      <div className='PArentNameHolder'>
-                        <h4>Elias wanyama</h4>
-                        <p>Codehub Parent</p>
+                        <h4>{item.name}</h4>
+                        <p>codingSChalar Parent</p>
                      </div>
                    </div>
                    <div className='commentHolder'>
-                   <h4>Elias wanyama</h4>
-                    <p>This platform is amazing for kids to learn coding in such young age. The staff is so cooperative and the instructor knows how to make kids learn in more interesting way. Codehub you are doing Amazing work!</p>
+                   <h4>{item.name}</h4>
+                    <p>{item.comment}</p>
                    </div>
                    <div className='ParantsLocationHolder'>
                    <i class="fa fa-map-marker" aria-hidden="true"></i>
-                   <p>kenya</p>
+                   <p>{item.country}</p>
                    </div>
                 </div>
                 )
@@ -93,23 +125,25 @@ export default function ParentsComments() {
              <h3>Students and parents love codingScholar’s training program and curriculum</h3>
              <div >
              <Slider {...OneDisplayersettings} className='parentsCommentsContainer'>
-             {Array(8).fill(0).map((item,i)=>{
+             {comments.map((item,i)=>{
                 return(
                     <div key={i} className='parentsCommentsCard'>
                    <div className='parentDetailsHolder'>
-                     <div className='PArentimageHolder'></div>
+                     <div className='PArentimageHolder'>
+                       <img src={item.img} alt='parent'/>
+                     </div>
                      <div className='PArentNameHolder'>
-                        <h4>Elias wanyama</h4>
-                        <p>Codehub Parent</p>
+                        <h4>{item.name}</h4>
+                        <p>codingScholar Parent</p>
                      </div>
                    </div>
                    <div className='commentHolder'>
-                   <h4>Elias wanyama</h4>
-                    <p>This platform is amazing for kids to learn coding in such young age. The staff is so cooperative and the instructor knows how to make kids learn in more interesting way. Codehub you are doing Amazing work!</p>
+                   <h4>{item.name}</h4>
+                    <p>{item.comment}</p>
                    </div>
                    <div className='ParantsLocationHolder'>
                    <i class="fa fa-map-marker" aria-hidden="true"></i>
-                   <p>kenya</p>
+                   <p>{item.country}</p>
                    </div>
                 </div>
                 )
