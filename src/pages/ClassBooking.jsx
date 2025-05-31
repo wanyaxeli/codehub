@@ -24,11 +24,12 @@ import { useEffect } from 'react';
         const url='https://api.codingscholar.com/TeacherAvailability/'
         axios.get(url)
         .then(res=>{
-            console.log('ress',res.data)
             setfetchloading(false)
             const data=res.data
             const today = new Date().toISOString().split('T')[0]
-            const todayAvailability = data.filter(item => item.date === today);
+            const time = new Date().toTimeString().split(' ')[0]
+            const todayAvailability = data.filter(item => item.date === today && item.time >=time)
+            console.log('today',time,todayAvailability)
             todayAvailability.forEach(item=>{
              const timeZoneTime=formatToLocalTime(item.datetime_utc)
              setAvailability(pre=>([...pre,{...item,...{timeZoneTime:timeZoneTime}}]))
@@ -51,20 +52,17 @@ import { useEffect } from 'react';
             hour12: false // Set to false for 24-hour format
         }).format(date);
     }
-    console.log('tz ',availability)
     const handleBook=()=>{
         const uniqueId = uuidv4();
         const BookingName = `freeTrial${uniqueId}`
         setLoading(true)
         const url ='https://api.codingscholar.com/booking/'
-        console.log('class',BookingName)
         if(pickedTime.length>0){
             pickedTime.forEach(item=>{
                 // console.log('as',item)
                 const {teacher,time,date,datetime_utc}=item
                 const first_name=teacher.user.first_name
                 const last_name=teacher.user.last_name
-                console.log(first_name)
                 const data={phone_number:value,email:email,
                     first_name:first_name,last_name:last_name,datetime_utc:datetime_utc,time:time,date:date,grade:grade,BookingName:BookingName,countryCode:CountryCode,country:CountryName}
                     axios.post(url,data)
@@ -84,7 +82,6 @@ import { useEffect } from 'react';
         }
     }
     const handlePickedTime=(item)=>{
-     console.log('piced',item)
      setPickedTime([item])
     }
     useEffect(()=>{
@@ -101,7 +98,7 @@ import { useEffect } from 'react';
                             <p></p>
                         </div>
                         <div className='studentQuote'> 
-                            <p>My teacher at Codehub was the best guide I could've asked for as they really customized the classes to match my learning style.</p>
+                            <p>The teacher I had at CodingScholar truly understood me and adjusted the lessons to match how I learn.</p>
                         </div>
                         <div className='studentPicholder'>
                             <div className='studentPic'>
@@ -110,7 +107,7 @@ import { useEffect } from 'react';
                         </div>
                     </div>
                     <div className='copywrightHolder'>
-                        <p><span><i className="fa fa-copyright" aria-hidden="true"></i></span> 2025 CodeHub.</p>
+                        <p><span><i className="fa fa-copyright" aria-hidden="true"></i></span> 2025 codingScholar.com.</p>
                     </div>
                 </div>
             </aside>
@@ -134,7 +131,7 @@ import { useEffect } from 'react';
                     <div className='bookingDateWrapper'>
                         <ul>
                             <li className='activeDay'>today</li>
-                            <li>tomorrow</li>
+                            {/* <li>tomorrow</li> */}
                         </ul>
                     </div>
                     <p>Select a time </p>
