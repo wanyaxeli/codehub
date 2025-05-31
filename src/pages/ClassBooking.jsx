@@ -117,7 +117,7 @@ import { useEffect } from 'react';
                 <div className='rightSideLogoRight'>
                     <ul>
                         {/* <li>Are you are teacher </li> */}
-                        <li><i className="fa fa-envelope-open" aria-hidden="true"></i>  support:support@codehub.com</li>
+                        <li><i className="fa fa-envelope-open" aria-hidden="true"></i>  support:support@codingScholar.com</li>
                     </ul>
                 </div>
             </div>

@@ -16,6 +16,19 @@ function App() {
   const [teacher,setTeacher]=useState('')
   const [classEndedfully,setClassEndedfully]=useState(false)
   const [proPic,setProPic]=useState('')
+  async function getToken(){
+    try{
+        const token= JSON.parse(localStorage.getItem('token')) // No need to await
+        if (token){
+          localStorage.setItem('token',token)
+        }
+    } catch(error) {
+        console.log(error);
+    }
+}
+useState(()=>{
+getToken()
+},[])
   function getProfilePic(token){
    if(token){
     const url='https://api.codingscholar.com/profilePic/'
@@ -30,7 +43,7 @@ function App() {
     })
     .catch(error=>console.log(error)) 
    } 
-}  console.log('pro',proPic)
+} 
   return (
     <>
     <context.Provider value={{value,email,setEmail,classEndedfully,setClassEndedfully,setTeacher,setStudent,teacher,student,setValue,CountryCode,setCountryCode,CountryName,setCountryName,getProfilePic,proPic,grade,setGrade}}>

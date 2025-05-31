@@ -58,9 +58,9 @@ export default function Banner() {
         }
     }
    
-  useEffect(()=>{
-  getToken()
-  },[])
+  // useEffect(()=>{
+  // getToken()
+  // },[])
   return (
     <div className='bannerWrapper'>
         <div className='bannerContainer'>

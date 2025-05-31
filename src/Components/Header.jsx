@@ -5,17 +5,16 @@ import {useNavigate,useLocation} from 'react-router-dom'
 import pic2 from '../assets/codehubImage.jpeg'
 import HeaderDetails from './HeaderDetails';
 import Sidebar from './sideBar'
+import { jwtDecode } from 'jwt-decode'
 export default function Header() {
     const [selectedValue, setSelectedValue] = useState('');
     const [token,setToken]=useState('')
     const [toggleSideBarClass,setToggleSideBarClass]=useState('sideBarWrapper')
     const [toggleSideBar,setToggleSideBar]=useState(false)
     const location = useLocation()
-    console.log('location',location)
     const navigate=useNavigate()
     const {teacher,student,proPic}=useContext(context)
     const {pathname}=location
-    console.log('teacher',teacher)
     const handleChange = (event) => {
         setSelectedValue(event.target.value);
       };
@@ -23,6 +22,17 @@ export default function Header() {
     navigate('/register')
     }
     const handleToLogin=()=>{
+      // console.log('token',token)
+      // if(token){
+      //   try {
+      //     const decode = jwtDecode(token);
+      //     const {role,user_id}=decode
+      //     console.log("Decoded Token:", decode);
+      //     // setRole(role)
+      //   } catch (error) {
+      //     console.error("JWT Decode Error:", error);
+      //   }
+      // }
       navigate('/Login')
     }
     const handleHome =()=>{
@@ -45,12 +55,13 @@ export default function Header() {
       try{
           const token= JSON.parse(localStorage.getItem('token')) // No need to await
           if (token){
-              setToken(JSON.parse(token));
+              setToken(token);
           }
       } catch(error) {
           console.log(error);
       }
   }
+  console.log('toke',token)
   const handleToggleSideBar =()=>{
    if(toggleSideBar===false){
     setToggleSideBar(true)

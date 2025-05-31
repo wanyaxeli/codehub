@@ -874,7 +874,7 @@ console.log('connectes',connected)
                                     <p>w</p>
                                 </div>
                             )} */}
-                            <video ref={partnerVideo} autoPlay playsInline muted/>
+                            <video ref={partnerVideo} autoPlay playsInline muted={false}/>
                             </div>
                             <div className={toggleSideUser}>
                                 {cam ===true ? (
