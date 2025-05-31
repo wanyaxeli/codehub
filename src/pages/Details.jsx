@@ -39,7 +39,7 @@ export default function Details() {
         const numberFromId = codeName.replace(/\D/g, ""); // Removes all non-digit characters
 
         const codeNameInt = parseInt(numberFromId, 10);
-        navigate(`/class/${name}`,{state:{id:userId ,classType:'trial'  ,code:codeNameInt,role:'teacher',booking_id:name}})
+        navigate(`/class/${codeNameInt}`,{state:{id:userId ,classType:'trial'  ,code:codeNameInt,role:'teacher',booking_id:name}})
        }
     }
     const handleSetQuiz=()=>{
