@@ -63,6 +63,7 @@ export default function Class() {
     const [localStream, setLocalStream] = useState(null);
     const [ice, setIce] = useState([]);
     const [screen, setScreen] = useState(false);
+    const [trails, setTrails] = useState(false);
     const [toggleMic,setToggleMuteMic]=useState(true)
     const [participants,setparticipants]=useState([])
     const screenVideo = useRef(null); // Remote screen video element
@@ -94,7 +95,7 @@ useEffect(()=>{
 },[])
 useEffect(() => {
    
-    if (UserToken) {
+    if (UserToken && trails ===false) {
       try {
         const decode = jwtDecode(UserToken);
         const {role,user_id}=decode
@@ -571,6 +572,7 @@ console.log('connectes',connected)
             setUser_id(id)
             setBookingId(booking_id)
             setCode(code)
+            setTrails(true)
             setRole(role)
             setClassType('trial')
         }
