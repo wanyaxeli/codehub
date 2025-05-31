@@ -2845,17 +2845,42 @@ padding: 15px 0;
 .smallDeviceBanner,.OneDisplayerparentsCommentsHolder,.TwoDisplayerparentsCommentsHolder{
   display:none;
 }
-.sideBarWrapper{
+.sideBarWrapper,.VideoHolderCover{
   display: none;
 }
 /* @media (max-width: 768px) {} */
 @media (max-width: 768px) {
- .headerContainer{
+ .headerContainer,  .RegisterContainer aside, .classNotStartedWrapper aside{
   display: none;
  }
- .RegisterContainer aside{
-  display: none;
+ .VideoHolder{
+  position: relative;
  }
+ .classNotStartedWrapper main{
+  flex: 1;
+}
+ .VideoHolderCover{
+  display: block;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+.VideoHolderCoverContainer{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ClassTimerWRapper{
+  width: 100%;
+  height: auto;
+  padding: 0 10px;
+  background-color: #000;
+  opacity: .5;
+  color: #fff;
+}
  .HeaderForSmallDevices{
   width: 100%;
   height: 100%;

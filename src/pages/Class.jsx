@@ -746,6 +746,21 @@ console.log('connectes',connected)
           <main>
             <div className='VideoHolder'>
             <video ref={beforeConnectionVideo} autoPlay playsInline muted={true} />
+            <div className='VideoHolderCover'>
+               <div  className='VideoHolderCoverContainer'>
+                    <div className='ClassTimerWRapper'>
+                        {timeLeft==='Event has started!'?<p>Waiting for the other member to join...</p>: <p>
+                        Your class starts in  <span>
+                            <CountdownTimer timeLeft={timeLeft} setTimeLeft={setTimeLeft} startingTime={startingTime} />
+                        </span>
+                        </p>}
+                        {counter ===15 && role ==='teacher'?<div className='noOtherMemberJoinedWrapper'>
+                            <span>oops! the other member did not join the class</span><br/>
+                            <button>end class</button>
+                        </div>:''}
+                    </div>
+               </div>
+            </div>
             </div>
           </main>
           <aside>
