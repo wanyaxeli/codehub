@@ -2877,8 +2877,7 @@ padding: 15px 0;
   width: 100%;
   height: auto;
   padding: 0 10px;
-  background-color: #000;
-  opacity: .5;
+  text-align: center;
   color: #fff;
 }
  .HeaderForSmallDevices{
