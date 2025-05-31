@@ -111,7 +111,7 @@ export default function Register() {
                             <p></p>
                         </div>
                         <div className='studentQuote'> 
-                            <p>My teacher at Codehub was the best guide I could've asked for as they really customized the classes to match my learning style.</p>
+                            <p>The teacher I had at CodingScholar truly understood me and adjusted the lessons to match how I learn.</p>
                         </div>
                         <div className='studentPicholder'>
                             <div className='studentPic'>

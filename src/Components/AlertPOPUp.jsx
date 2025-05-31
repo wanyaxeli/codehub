@@ -11,6 +11,7 @@ export default function AlertPOPUp({bookingMessage}) {
         <div className='AlertPOPUpContainer'>
             <div className='AlertPOPUp'>
                 <p style={{color:'white'}}>{bookingMessage}</p>
+                <p style={{color:'white'}}>Link sent to your email</p>
                 <div>
                 <button onClick={handleToHome}>okay</button>
                 </div>
