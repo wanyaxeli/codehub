@@ -2850,14 +2850,21 @@ padding: 15px 0;
 }
 /* @media (max-width: 768px) {} */
 @media (max-width: 768px) {
- .headerContainer,  .RegisterContainer aside, .classNotStartedWrapper aside{
+ .headerContainer,.shareScreenHolder,.classHeaderBtnwrapper , .RegisterContainer aside, .classNotStartedWrapper aside{
   display: none;
  }
  .VideoHolder{
   position: relative;
  }
+ .ClassHeaderWrapper{
+  justify-content: flex-start;
+ }
  .classNotStartedWrapper main{
   flex: 1;
+}
+.ClassHeader,.ClassWRapper,.ClassHeaderWrapper,.ClassHeaderWrapper {
+  width: 100%;
+  height: 100%;
 }
  .VideoHolderCover{
   display: block;

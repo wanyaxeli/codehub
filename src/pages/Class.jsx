@@ -911,7 +911,7 @@ console.log('connectes',connected)
                             <p>mic</p>
                         </div>
                         </li>
-                        <li>
+                        <li className='shareScreenHolder'>
                         <div>
                             <div onClick={handleShareScreen} className={`classInconHolder ${Usersharing &&Usersharing === user_id ?openSharing:""}`}>
                             <i className="fa fa-desktop" aria-hidden="true"></i>
