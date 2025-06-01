@@ -2856,6 +2856,9 @@ padding: 15px 0;
  .VideoHolder{
   position: relative;
  }
+ .ClassHeader{
+  padding: 0 10px;
+ }
  .ClassHeaderWrapper{
   justify-content: flex-start;
  }
