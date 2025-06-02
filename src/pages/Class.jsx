@@ -320,6 +320,7 @@ useEffect(() => {
         userVideo.current.srcObject = localStream;
     }
     },[localStream,peerConnected,userVideo])
+    console.log('connected',peerConnected)
     const handleScreenOffer =(socket, signal, targetID, senderId)=>{
         const peerConfig = { iceServers: ice };
         const screenPeer = new Peer({
@@ -427,14 +428,27 @@ useEffect(() => {
                 });
                 screenPeerRef.current = screenPeer;
                 // Stop sharing when the user closes the screen share
+                // const track = screenStream.getVideoTracks()[0];
+                //     track.addEventListener("ended", () => {
+                //     console.log("Track ended via browser stop sharing UI");
+                //     // StopSharing();
+                //     });
                 screenStream.getVideoTracks()[0].onended = () => {
                     console.log("Screen sharing stopped via browser UI");
-                    try {
-                        StopSharing();
-                    } catch (error) {
-                        console.error("Error calling StopSharing:", error);
-                    }
-                   
+                    // try {
+                    //     StopSharing();
+                    // } catch (error) {
+                    //     console.error("Error calling StopSharing:", error);
+                    // }
+                        console.log('stopped',user_id,sharing)
+                        ws.send(JSON.stringify({ 
+                            type: "stop_sharing",
+                            sharing: false,
+                        }));
+                        if (LocalscreenVideo.current?.srcObject) {
+                            LocalscreenVideo.current.srcObject.getTracks().forEach(track => track.stop());
+                            LocalscreenVideo.current.srcObject = null;
+                        }
                 };
                 screenStream.oninactive = () => {
                     console.log(" Screen sharing stream is now inactive");
@@ -448,6 +462,10 @@ useEffect(() => {
                 if (error.name === "NotAllowedError" || error.name === "AbortError") {
                     console.warn("User canceled screen sharing.");
                     // Handle UI feedback if necessary
+                    ws.send(JSON.stringify({ 
+                        type: "stop_sharing",
+                        sharing: false,
+                    }));
                     StopSharing()
                 } else {
                     console.error("Error starting screen sharing:", error);
