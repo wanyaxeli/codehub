@@ -436,6 +436,14 @@ useEffect(() => {
                     }
                    
                 };
+                screenStream.oninactive = () => {
+                    console.log(" Screen sharing stream is now inactive");
+                    try {
+                      StopSharing();
+                    } catch (error) {
+                      console.error("Error calling StopSharing:", error);
+                    }
+                  };
             } catch (error) {
                 if (error.name === "NotAllowedError" || error.name === "AbortError") {
                     console.warn("User canceled screen sharing.");
@@ -728,6 +736,10 @@ useEffect(() => {
                 type: "stop_sharing",
                 sharing: false,
             }));
+            if (LocalscreenVideo.current?.srcObject) {
+                LocalscreenVideo.current.srcObject.getTracks().forEach(track => track.stop());
+                LocalscreenVideo.current.srcObject = null;
+            }
             stopScreenSharing();
             console.log("Screen sharing stopped successfully.");
         } else {
