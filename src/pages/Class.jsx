@@ -50,6 +50,7 @@ export default function Class() {
     const [connected, setConnected] = useState([]);
     const [peerConnected, setpeerConnected] = useState(false);
     const [RemoteStream, setRemoteStream] = useState('');
+    const [RemoteScreenStream, setRemoteScreenStream] = useState('');
     const [StudentId, setStudentId] = useState('');
     const [ClassName, setClassName] = useState('');
     const userVideo = useRef();
@@ -100,7 +101,6 @@ useEffect(() => {
         const decode = jwtDecode(UserToken);
         const {role,user_id}=decode
         setUser_id(user_id)
-        console.log("Decoded Token:", role);
         setRole(role)
       } catch (error) {
         console.error("JWT Decode Error:", error);
@@ -111,7 +111,6 @@ useEffect(() => {
     try {
       const response = await fetch("https://api.codingscholar.com/get-ice-servers/");
       const data = await response.json();
-      console.log("ICE Servers data:", data.ice_servers);
       return data.ice_servers || []
     } catch (error) {
       console.error("Failed to fetch ICE servers:", error);
@@ -122,14 +121,12 @@ useEffect(() => {
     const getIceServers = async () => {
       const iceServers = await fetchIceServers();
       if(iceServers){
-        console.log("ICE Servers:", iceServers);
         setIce(iceServers)
       }
     };
     
     getIceServers();
   }, [token]);
-console.log('connectes',connected)
     useEffect(()=>{
     if(mainCss==='fullPageMain'){
         setMainCss('classMainWrapper')
@@ -184,10 +181,8 @@ console.log('connectes',connected)
         // const ws = new WebSocket(`wss://localhost:8000/ws/classRoom/${code}/`);
         // const ws = new WebSocket(`wss://api.codingscholar.com/ws/classRoom/${code}/`);
         const ws = new WebSocket(`wss://api.codingscholar.com/ws/classRoom/${slug}/`);
-        console.log('innerws',ws)
         getMedia()
         ws.onopen = () =>{
-            console.log("WebSocket connected");
             ws.send(JSON.stringify({type:"id",user_id}));
             setWs(ws)
         }
@@ -210,7 +205,6 @@ console.log('connectes',connected)
                 }
             }
             else if(Recieveddata.type === "new_initiator"){
-                 console.log('user left',Recieveddata.users)
                  setparticipants(Recieveddata.users)
                  setpeerConnected(false)
             }
@@ -306,7 +300,6 @@ console.log('connectes',connected)
             });
     
             initiator.on("connect", () => {
-                console.log("Initiator: Peer connected successfully!");
                 setpeerConnected(true)
             });
     
@@ -354,9 +347,9 @@ console.log('connectes',connected)
         });
 
         screenPeer.on("stream", (stream) => {
-            if (screenVideo.current) {
+            if(stream){
+                setRemoteScreenStream(stream)
                 setScreen(true)
-                screenVideo.current.srcObject = stream; // Display screen share
             }
         screenPeerRef.current=screenPeer
         });
@@ -454,6 +447,12 @@ console.log('connectes',connected)
             }
         }
     }   
+    useEffect(()=>{
+        if (screenVideo.current) {
+            console.log('screen',RemoteScreenStream)
+            screenVideo.current.srcObject = RemoteScreenStream; // Display screen share
+        }
+    },[RemoteScreenStream])
     useEffect(()=>{
      if(peerRef){
         console.log('peer',peerRef,'partner',partnerVideo,'user',userVideo)
@@ -829,7 +828,7 @@ console.log('connectes',connected)
             <main className={mainCss}>
                 <div className='classVideoImageWrapper'>
                         <div className={Videocard}>
-                                                    {Usersharing === user_id ? (
+                            {Usersharing === user_id ? (
                                 <video ref={LocalscreenVideo} autoPlay playsInline muted />
                             ) : 
                             // (
