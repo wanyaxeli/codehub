@@ -536,10 +536,12 @@ useEffect(() => {
     
     }, [peerConnected,RemoteStream]);
     useEffect(()=>{
-        ws.send(JSON.stringify({ 
-            type: "stop_sharing",
-            sharing: false,
-        }));
+        if (ws && ws.readyState === WebSocket.OPEN && user_id && sharing===false && closeSharing===true){
+            ws.send(JSON.stringify({ 
+                type: "stop_sharing",
+                sharing: false,
+            }));
+        }
     },[closeSharing])
     useEffect(()=>{
      if (sharing ===true){
