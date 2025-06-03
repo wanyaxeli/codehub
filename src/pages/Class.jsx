@@ -712,7 +712,7 @@ useEffect(() => {
     useEffect(() => {
         const timeout = setTimeout(() => {
             console.log('peer',peerRef)
-          if (peerRef.current && timeLeft==='Event has started!' && peerConnected===false && participants.length ===2 && userVideo && partnerVideo) {
+          if (timeLeft==='Event has started!' && peerConnected===false && participants.length ===2 && userVideo && partnerVideo) {
             console.log("Fallback: Peer is connected (checked manually).");
             setpeerConnected(true);
           } else {
@@ -722,7 +722,7 @@ useEffect(() => {
         }, 1000); // wait 10s
       
         return () => clearTimeout(timeout);
-      }, []);
+      }, [timeLeft,peerConnected,participants,userVideo,partnerVideo]);
     useEffect(()=>{
         if(userVideo.current===null){
             getMedia()
