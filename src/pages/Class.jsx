@@ -710,7 +710,7 @@ useEffect(() => {
     // }
     }
     useEffect(() => {
-        const timeout = setTimeout(() => {
+        // const timeout = setTimeout(() => {
             console.log('peer',peerRef)
           if (timeLeft==='Event has started!' && peerConnected===false && participants.length ===2 && userVideo && partnerVideo) {
             console.log("Fallback: Peer is connected (checked manually).");
@@ -719,7 +719,7 @@ useEffect(() => {
             console.warn("Fallback: Peer is NOT connected.");
             setpeerConnected(false);
           }
-        }, 1000); // wait 10s
+        // }, 1000); // wait 10s
       
         return () => clearTimeout(timeout);
       }, [timeLeft,peerConnected,participants,userVideo,partnerVideo]);
