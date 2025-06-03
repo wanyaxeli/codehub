@@ -709,6 +709,19 @@ useEffect(() => {
     //     }
     // }
     }
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+          if (peerRef.current && peerRef.current.connected && peerConnected===false) {
+            console.log("Fallback: Peer is connected (checked manually).");
+            setpeerConnected(true);
+          } else {
+            console.warn("Fallback: Peer is NOT connected.");
+            setpeerConnected(false);
+          }
+        }, 20000); // wait 10s
+      
+        return () => clearTimeout(timeout);
+      }, []);
     useEffect(()=>{
         if(userVideo.current===null){
             getMedia()
