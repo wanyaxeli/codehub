@@ -66,6 +66,7 @@ export default function Class() {
     const [screen, setScreen] = useState(false);
     const [trails, setTrails] = useState(false);
     const [toggleMic,setToggleMuteMic]=useState(true)
+    const [closeSharing,setCloseSharing]=useState(false)
     const [participants,setparticipants]=useState([])
     const screenVideo = useRef(null); // Remote screen video element
     const LocalscreenVideo = useRef(null); // Local screen video element
@@ -440,6 +441,7 @@ useEffect(() => {
                     // } catch (error) {
                     //     console.error("Error calling StopSharing:", error);
                     // }
+                        setCloseSharing(true)
                         console.log('stopped',user_id,sharing)
                         ws.send(JSON.stringify({ 
                             type: "stop_sharing",
@@ -452,6 +454,7 @@ useEffect(() => {
                 };
                 screenStream.oninactive = () => {
                     console.log(" Screen sharing stream is now inactive");
+                    setCloseSharing(true)
                     try {
                       StopSharing();
                     } catch (error) {
@@ -462,6 +465,7 @@ useEffect(() => {
                 if (error.name === "NotAllowedError" || error.name === "AbortError") {
                     console.warn("User canceled screen sharing.");
                     // Handle UI feedback if necessary
+                    setCloseSharing(true)
                     ws.send(JSON.stringify({ 
                         type: "stop_sharing",
                         sharing: false,
@@ -531,6 +535,12 @@ useEffect(() => {
        }
     
     }, [peerConnected,RemoteStream]);
+    useEffect(()=>{
+        ws.send(JSON.stringify({ 
+            type: "stop_sharing",
+            sharing: false,
+        }));
+    },[closeSharing])
     useEffect(()=>{
      if (sharing ===true){
         settoggleClassOnJoinedUser('classImageDisplayer')
