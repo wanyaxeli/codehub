@@ -719,7 +719,7 @@ useEffect(() => {
             console.warn("Fallback: Peer is NOT connected.");
             setpeerConnected(false);
           }
-        }, 20000); // wait 10s
+        }, 1000); // wait 10s
       
         return () => clearTimeout(timeout);
       }, []);
