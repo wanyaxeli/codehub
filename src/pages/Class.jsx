@@ -304,7 +304,7 @@ useEffect(() => {
               console.error("Error accessing media devices:", error)
             );
         }
-    }, [beforeConnectionVideo]);
+    }, [beforeConnectionVideo,participants]);
     function initiateCall(socket, targetUser, id) {
         if (localStream && targetUser && id && socket && socket.readyState === WebSocket.OPEN && ice) {
             const peerConfig = {iceServers:ice};
