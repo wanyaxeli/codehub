@@ -122,6 +122,7 @@ useEffect(() => {
     const getIceServers = async () => {
       const iceServers = await fetchIceServers();
       if(iceServers){
+        console.log('ice ',iceServers)
         setIce(iceServers)
       }
     };
@@ -272,7 +273,7 @@ useEffect(() => {
         };
     },[code,user_id,ice]);
     function startCall(){
-        if(participants && participants.length===2 && timeLeft ==='Event has started!' && user_id && ws){
+        if(participants && participants.length===2 && timeLeft ==='Event has started!' && user_id && ws &&  ice.length > 0){
             const InitiatorUser = participants.find(user =>user.initiator === true);
             const initiatorId=InitiatorUser.userId
             const targetUser = participants.find(user =>user.initiator ===false);
@@ -280,11 +281,30 @@ useEffect(() => {
                     initiateCall(ws, targetUser, initiatorId);
                     console.log('true initiator', InitiatorUser);
             }
+        }else{
+            console.log("start up error",ice)
         }
     }
     useEffect(()=>{
         startCall()
-    },[user_id,timeLeft,participants])
+    },[user_id,timeLeft,participants,ice])
+    useEffect(() => {
+        if (
+          beforeConnectionVideo.current && 
+          !beforeConnectionVideo.current.srcObject
+        ) {
+          navigator.mediaDevices
+            .getUserMedia({ video: true, audio: true })
+            .then((stream) => {
+              if (beforeConnectionVideo.current) {
+                beforeConnectionVideo.current.srcObject = stream;
+              }
+            })
+            .catch((error) =>
+              console.error("Error accessing media devices:", error)
+            );
+        }
+    }, [beforeConnectionVideo]);
     function initiateCall(socket, targetUser, id) {
         if (localStream && targetUser && id && socket && socket.readyState === WebSocket.OPEN && ice) {
             const peerConfig = {iceServers:ice};
@@ -395,7 +415,7 @@ useEffect(() => {
         peerRef.current = responder
     };
     async function startScreenShare() {
-        if (participants.length > 1) {
+        if (participants.length > 1 && ice.length >0) {
             const InitiatorUser = participants.find(user => String(user.userId) === String(user_id));
             const NonInitiatorUser = participants.find(user => String(user.userId) !== String(user_id));
             const peerConfig = { iceServers: ice };
@@ -475,6 +495,8 @@ useEffect(() => {
                     console.error("Error starting screen sharing:", error);
                 }
             }
+        }else{
+            console.log("screen share error",ice)
         }
     }   
     useEffect(()=>{
@@ -709,20 +731,20 @@ useEffect(() => {
     //     }
     // }
     }
-    useEffect(() => {
-        // const timeout = setTimeout(() => {
-            console.log('peer',peerRef)
-          if (timeLeft==='Event has started!' && peerConnected===false && participants.length ===2 && userVideo && partnerVideo) {
-            console.log("Fallback: Peer is connected (checked manually).");
-            setpeerConnected(true);
-          } else {
-            console.warn("Fallback: Peer is NOT connected.");
-            setpeerConnected(false);
-          }
-        // }, 1000); // wait 10s
+    // useEffect(() => {
+    //     const timeout = setTimeout(() => {
+    //         console.log('peer',peerRef)
+    //       if (timeLeft==='Event has started!' && peerConnected===false && participants.length ===2 && userVideo && partnerVideo) {
+    //         console.log("Fallback: Peer is connected (checked manually).");
+    //         setpeerConnected(true);
+    //       } else {
+    //         console.warn("Fallback: Peer is NOT connected.");
+    //         setpeerConnected(false);
+    //       }
+    //     }, 1000); // wait 10s
       
-        return () => clearTimeout(timeout);
-      }, [timeLeft,peerConnected,participants,userVideo,partnerVideo]);
+    //     return () => clearTimeout(timeout);
+    //   }, [timeLeft,peerConnected,participants,userVideo,partnerVideo]);
     useEffect(()=>{
         if(userVideo.current===null){
             getMedia()
