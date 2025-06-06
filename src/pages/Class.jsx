@@ -118,15 +118,14 @@ useEffect(() => {
       return [];
     }
   };
+  const getIceServers = async () => {
+    const iceServers = await fetchIceServers();
+    if(iceServers){
+      console.log('ice ',iceServers)
+      setIce(iceServers)
+    }
+  };
   useEffect(() => {
-    const getIceServers = async () => {
-      const iceServers = await fetchIceServers();
-      if(iceServers){
-        console.log('ice ',iceServers)
-        setIce(iceServers)
-      }
-    };
-    
     getIceServers();
   }, [token]);
     useEffect(()=>{
@@ -415,6 +414,7 @@ useEffect(() => {
         peerRef.current = responder
     };
     async function startScreenShare() {
+        getIceServers();
         if (participants.length > 1 && ice.length >0) {
             const InitiatorUser = participants.find(user => String(user.userId) === String(user_id));
             const NonInitiatorUser = participants.find(user => String(user.userId) !== String(user_id));
