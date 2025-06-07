@@ -9,6 +9,7 @@ import { parsePhoneNumberFromString } from "libphonenumber-js";
 import countries from "i18n-iso-countries";
 import en from "i18n-iso-countries/langs/en.json"
 import {useNavigate}from 'react-router-dom'
+import { Helmet } from 'react-helmet-async';
 export default function Register() {
     const [selectedValue, setSelectedValue] = useState('');
     const [error,setErrors]=useState('')
@@ -101,6 +102,13 @@ export default function Register() {
     setGrade(selectedValue)
     },[selectedValue])
   return (
+    <>
+    <Helmet>
+        <title>Home - codingscholar</title>
+        <meta name="description" content="Welcome to codingscholar -Let your kid learn coding with experts!" />
+        <meta name="keywords" content="coding,coding for kids, education, online classes,online classes for kids, programming for kids, programming" />
+        <link rel="canonical" href="https://www.codingscholar.com/" />
+      </Helmet>
     <div className='RegisterWRapper'>
         <div className='RegisterContainer'>
             <aside>
@@ -180,5 +188,6 @@ export default function Register() {
             </main>
         </div>
     </div>
+    </>
   )
 }

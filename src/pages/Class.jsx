@@ -112,7 +112,7 @@ useEffect(() => {
     try {
       const response = await fetch("https://api.codingscholar.com/get-ice-servers/");
       const data = await response.json();
-      return data.ice_servers || []
+      return data.iceServers || []
     } catch (error) {
       console.error("Failed to fetch ICE servers:", error);
       return [];

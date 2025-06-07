@@ -3,7 +3,7 @@ import Header from '../Components/Header'
 import { useNavigate } from 'react-router-dom'
 import pic from '../assets/student.jpg'
 import axios from 'axios'
-
+import { Helmet } from 'react-helmet-async';
 export default function Login() {
     const navigate =useNavigate()
     const initialState={
@@ -76,6 +76,13 @@ export default function Login() {
         
     }
   return (
+    <>
+    <Helmet>
+        <title>Login - codingscholar</title>
+        <meta name="description" content="Welcome to codingscholar -Let your kid learn coding with experts!" />
+        <meta name="keywords" content="coding,coding for kids, education, online classes,online classes for kids, programming for kids, programming" />
+        <link rel="canonical" href="https://www.codingscholar.com/login" />
+      </Helmet>
     <div className='RegisterWRapper'>
     <div className='RegisterContainer'>
         <aside>
@@ -127,5 +134,6 @@ export default function Login() {
         </main>
     </div>
 </div>
+</>
   )
 }
