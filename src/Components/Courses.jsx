@@ -17,7 +17,7 @@ export default function Courses() {
                      </div>
                      <div className='bodyForCourse'>
                        <div className='contentCourseDiv'>
-                          <p style={{color:'#000'}}>Outcome</p>
+                          <p style={{color:'#000',paddingBottom:10}}>Outcome</p>
                           <ul>
                             <li><span><i className="fa fa-star" aria-hidden="true"></i> </span> Kids take their first steps into coding</li>
                             <li><span><i className="fa fa-star" aria-hidden="true"></i> </span> Learn through stories, games, and animations</li>
@@ -36,7 +36,7 @@ export default function Courses() {
                      </div>
                      <div className='bodyForCourse'>
                        <div className='contentCourseDiv'>
-                          <p style={{color:'#000'}}>Outcome</p>
+                          <p style={{color:'#000',paddingBottom:10}}>Outcome</p>
                           <ul>
                             <li><span><i className="fa fa-star" aria-hidden="true"></i> </span> Students level up their coding journey</li>
                             <li><span><i className="fa fa-star" aria-hidden="true"></i> </span> Build real apps and design websites</li>
@@ -55,7 +55,7 @@ export default function Courses() {
                      </div>
                      <div className='bodyForCourse'>
                        <div className='contentCourseDiv'>
-                          <p style={{color:'#000'}}>Outcome</p>
+                          <p style={{color:'#000',paddingBottom:10}}>Outcome</p>
                           <ul>
                             <li><span><i className="fa fa-star" aria-hidden="true"></i> </span> Dive into Python, JavaScript development</li>
                             <li><span><i className="fa fa-star" aria-hidden="true"></i> </span> Work on advanced, real-world projects</li>
