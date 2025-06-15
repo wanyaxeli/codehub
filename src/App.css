@@ -2933,6 +2933,11 @@ padding: 15px 0;
  }
  .RegisterFormWrapper{
   height: 100%;
+  padding: 0 10px;
+  box-sizing: border-box;
+ }
+ .BenefitWrapper{
+  padding-bottom: 35px;
  }
  .InnerLoginWrapper{
   padding:0;
@@ -3065,6 +3070,15 @@ input::placeholder,input{
   text-align: center;
   color: #000 !important;
  }
+ .footerWrapper{
+  width: 100%;
+ }
+ .footerWrapper{
+  padding: 10px 20px;
+ }
+ /* .footerWrapper ul li:first-child{
+  color: #fff;
+ } */
  .footerLogo h4{
   display: none;
  }
@@ -3076,8 +3090,12 @@ input::placeholder,input{
   .parentsCommentsHolder,.classHeaderBtnwrapper,.TwoDisplayerparentsCommentsHolder{
     display: none;
    }
+  .OneDisplayerparentsCommentsHolder h3{
+    padding-bottom: 25px;
+  }
    .OneDisplayerparentsCommentsHolder{
     display: block;
+    padding: 25px 10px 35px;
    }
    .SecondUserDivWrapper {
     bottom: 18%;
