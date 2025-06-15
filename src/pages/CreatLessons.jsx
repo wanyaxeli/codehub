@@ -1,5 +1,6 @@
 import React ,{useState,useEffect}from 'react'
 import { v4 as uuidv4 } from "uuid";
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 export default function CreatLessons() {
     const initialState={
@@ -9,6 +10,7 @@ export default function CreatLessons() {
         notes:'',
         LessonNumber:''
     }
+    const navigate= useNavigate()
     const [inputs,setInputs]=useState(initialState)
     console.log('input',inputs)
     const [notes,setNotes]=useState([])
@@ -33,19 +35,20 @@ export default function CreatLessons() {
         .then(res=>{
             console.log('res',res.data)
             const data= res.data
-            data.forEach(item=>{
-                console.log('ada',item)
-                const {notes}= item
-                const splitNotes=notes.split('\\')[2]
-                // const data={notesOnly:splitNotes}
-                console.log('sfs',splitNotes)
-                // setNotes([{...item,...{notesOnly:splitNotes}}])
-                setNotes(prev => {
-                    const exists = prev.some(existingItem => existingItem.id === item.id);
-                    return exists ? prev : [...prev, { ...item, ...{notesOnly:splitNotes} }];
-                });
+            setNotes(data)
+            // data.forEach(item=>{
+            //     console.log('ada',item)
+            //     const {notes}= item
+            //     const splitNotes=notes.split('\\')[2]
+            //     // const data={notesOnly:splitNotes}
+            //     console.log('sfs',splitNotes)
+            //     // setNotes([{...item,...{notesOnly:splitNotes}}])
+            //     setNotes(prev => {
+            //         const exists = prev.some(existingItem => existingItem.id === item.id);
+            //         return exists ? prev : [...prev, { ...item, ...{notesOnly:splitNotes} }];
+            //     });
 
-            })
+            // })
             // setNotes(data)
         })
         .catch(error=>console.log(error))
@@ -100,6 +103,10 @@ export default function CreatLessons() {
         }
         
     };
+    const handleToNotes =(url)=>{
+        console.log(url)
+        navigate(`/teacher/dashboard/Notes/`, { state: url});
+    }
   useEffect(()=>{
    getNotes()
   },[])
@@ -119,32 +126,54 @@ export default function CreatLessons() {
             <div className='classBtnContainer'>
                 <button onClick={handleCreateClass}>{loading===true?<i className="fa fa-spinner spinner" aria-hidden="true"></i>:"Create  class"} </button>
             </div>
-         <div className='classesShowWrapper'>
-            <table>
+            {notes.map((gradeItem) => (
+        <div className='classesShowWrapper' key={gradeItem.id}>
+          <div className='classesShowHeaderWrapper'>
+            <h3>Grade {gradeItem.grade}</h3>
+          </div>
+
+          {gradeItem.modules.map((module, index) => (
+            <div className='classesShowModuleWrapper' key={index}>
+              <h4>Module {module.module_number}</h4>
+
+              <table>
                 <thead>
-                       <tr>
-                        <th>Name</th>
-                       <th>module</th>
-                       <th>time</th>
-                       <th>pdf</th>
-                       </tr>
+                  <tr>
+                    <th>Name</th>
+                    <th>Class Number</th>
+                    {/* <th>Time</th> */}
+                    <th>PDF</th>
+                    <th>Action</th>
+                  </tr>
                 </thead>
                 <tbody>
-                    {notes.map(note=>{
-                        return(
-                        <tr key={note.id}>
-                        <td>{note.classname}</td>
-                        <td>{note.module}</td>
-                        <td>{note.time}</td>
-                        <td>{note.notesOnly}</td>
-                        <td><button>add student</button></td>
-                        {/* <td><button>add teacher</button></td> */}
-                        </tr>
-                        )
-                    })}
+                  {module.lessons.map((lesson, i) => (
+                    <tr key={lesson.lessonId || i}>
+                      <td>{lesson.title}</td>
+                      <td>{lesson.lesson_number}</td>
+                      {/* <td>{lesson.time || 'N/A'}</td> */}
+                      <td className='link' onClick={()=>handleToNotes(lesson.pdf_notes)}>
+                        {/* <a 
+                          href='#'
+                          target='_blank'
+                          rel='noreferrer'
+                        >
+                          View PDF
+                        </a> */}
+                         View PDF
+                      </td>
+                      <td>
+                        <button>add student</button>
+                      </td>
+                      {/* <td><button>add teacher</button></td> */}
+                    </tr>
+                  ))}
                 </tbody>
-            </table>
-         </div>
+              </table>
+            </div>
+          ))}
+        </div>
+      ))}
         </div>
     </div>
   )

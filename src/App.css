@@ -2257,6 +2257,51 @@ body{
  border-radius: 10px;
  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
+.classesShowWrapper{
+  height: auto;
+  width: 100%;
+  margin-top: 20px;
+  background-color: #fff;
+  border-radius:10px ;
+}
+.classesShowHeaderWrapper{
+  background-color: #0097b2;
+  height: 50px;
+  padding: 10px;
+  border-top-left-radius:10px ;
+  border-top-right-radius:10px ;
+}
+.classesShowModuleWrapper{
+  padding: 10px;
+}
+.classesShowHeaderWrapper h3{
+  text-align: left;
+  color: #fff;
+}
+.classesShowWrapper table th{
+  text-transform: capitalize;
+  padding-bottom: 15px;
+}
+.classesShowWrapper table td button{
+  border: none;
+  outline: none;
+  padding: 5px 8px;
+  background-color: #0097b2;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 5px;
+  text-transform: capitalize;
+}
+.link{
+  cursor: pointer;
+  color: blue;
+}
+.link:hover{
+  text-decoration: underline;
+}
+.classesShowWrapper table td button:hover{
+  transform: scale(1.1);
+}
 .InnerSecondUserDivWrapper{
   width: 100%;
   height: 100%;
@@ -2331,23 +2376,7 @@ input[type="file"] {
   text-align: left;
   margin-top: 20px;
 }
-.classesShowWrapper table th{
-  text-transform: capitalize;
-  padding-bottom: 15px;
-}
-.classesShowWrapper table td button{
-  border: none;
-  outline: none;
-  padding: 5px 8px;
-  background-color: #0097b2;
-  color: #fff;
-  cursor: pointer;
-  border-radius: 5px;
-  text-transform: capitalize;
-}
-.classesShowWrapper table td button:hover{
-  transform: scale(1.1);
-}
+
 .studentDetails{
   width: 100%;
   height: auto;
