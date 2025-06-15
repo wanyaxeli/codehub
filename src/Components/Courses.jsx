@@ -10,7 +10,7 @@ export default function Courses() {
         <div className='CoursesContainer'>
           <h3>Choose a coding course that excites your child</h3>
           <div className='courseCardContainer'>
-                    <div  className='courseCard firstCourseCard'>
+                    <div  className='courseCard'>
                      <div className='headerforCourse'>
                         <h2>Coding Explorer</h2>
                         <p>Building Blocks of Technology</p>
@@ -19,9 +19,9 @@ export default function Courses() {
                        <div className='contentCourseDiv'>
                           <p style={{color:'#000'}}>Outcome</p>
                           <ul>
-                            <li>Kids take their first steps into coding</li>
-                            <li>Learn through stories, games, and animations</li>
-                            <li>Ideal for  first-time coders</li>
+                            <li><span><i className="fa fa-star" aria-hidden="true"></i> </span> Kids take their first steps into coding</li>
+                            <li><span><i className="fa fa-star" aria-hidden="true"></i> </span> Learn through stories, games, and animations</li>
+                            <li><span><i className="fa fa-star" aria-hidden="true"></i> </span> Ideal for  first-time coders</li>
                           </ul>
                        </div>
                        <div className='courseActionBtn'>
@@ -29,7 +29,7 @@ export default function Courses() {
                        </div>
                      </div>
                     </div>
-                    <div  className='courseCard secondCourseCard'>
+                    <div  className='courseCard '>
                      <div className='headerforCourse'>
                         <h2>Coding Innovator</h2>
                         <p>From Curiosity to Creation</p>
@@ -38,9 +38,9 @@ export default function Courses() {
                        <div className='contentCourseDiv'>
                           <p style={{color:'#000'}}>Outcome</p>
                           <ul>
-                            <li>Students level up their coding journey</li>
-                            <li>Build real apps and design websites</li>
-                            <li>Ideal for those with basic coding skills</li>
+                            <li><span><i className="fa fa-star" aria-hidden="true"></i> </span> Students level up their coding journey</li>
+                            <li><span><i className="fa fa-star" aria-hidden="true"></i> </span> Build real apps and design websites</li>
+                            <li><span><i className="fa fa-star" aria-hidden="true"></i> </span> Ideal for those with basic coding skills</li>
                           </ul>
                        </div>
                        <div className='courseActionBtn'>
@@ -48,7 +48,7 @@ export default function Courses() {
                        </div>
                      </div>
                     </div>
-                    <div  className='courseCard thirdCourseCard'>
+                    <div  className='courseCard '>
                      <div className='headerforCourse'>
                         <h2>Coding Specialist</h2>
                         <p>Where Young Minds Master Big Tech</p>
@@ -57,9 +57,9 @@ export default function Courses() {
                        <div className='contentCourseDiv'>
                           <p style={{color:'#000'}}>Outcome</p>
                           <ul>
-                            <li>Dive into Python, JavaScript development</li>
-                            <li>Work on advanced, real-world projects</li>
-                            <li>Ideal for advanced learners</li>
+                            <li><span><i className="fa fa-star" aria-hidden="true"></i> </span> Dive into Python, JavaScript development</li>
+                            <li><span><i className="fa fa-star" aria-hidden="true"></i> </span> Work on advanced, real-world projects</li>
+                            <li><span><i className="fa fa-star" aria-hidden="true"></i> </span> Ideal for advanced learners</li>
                           </ul>
                        </div>
                        <div className='courseActionBtn'>

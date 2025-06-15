@@ -74,7 +74,7 @@ export default function ParentsComments() {
                      </div>
                      <div className='PArentNameHolder'>
                         <h4>{item.name}</h4>
-                        <p>codingSChalar Parent</p>
+                        <p>codingscholar Parent</p>
                      </div>
                    </div>
                    <div className='commentHolder'>
@@ -83,7 +83,7 @@ export default function ParentsComments() {
                    </div>
                    <div className='ParantsLocationHolder'>
                    <i class="fa fa-map-marker" aria-hidden="true"></i>
-                   <p>{item.country}</p>
+                   <p style={{color:'#0097b2'}}>{item.country}</p>
                    </div>
                 </div>
                 )
