@@ -2873,6 +2873,10 @@ padding: 15px 0;
  .VideoHolder{
   position: relative;
  }
+ select{
+  background-color: #fff;
+  color: #000;
+ }
  .ClassHeader{
   padding: 0 10px;
  }
