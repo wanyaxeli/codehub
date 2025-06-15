@@ -119,6 +119,7 @@ useEffect(() => {
     }
   };
   const getIceServers = async () => {
+    // const iceServers =fetchIceServers()
     const iceServers =[
         {
           urls: ['turn:api.codingscholar.com:3478'],
