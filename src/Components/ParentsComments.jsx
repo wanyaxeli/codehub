@@ -34,6 +34,7 @@ export default function ParentsComments() {
         infinite: true,
         speed: 800,
         slidesToShow: 3,
+        arrows: false,
         slidesToScroll: 3,
         autoplay: true,
         autoplaySpeed: 3500,
@@ -43,6 +44,7 @@ export default function ParentsComments() {
         dots: false,
         infinite: true,
         speed: 800,
+        arrows: false,
         slidesToShow: 2,
         slidesToScroll: 2,
         autoplay: true,
@@ -52,6 +54,7 @@ export default function ParentsComments() {
       var OneDisplayersettings = {
         dots: false,
         infinite: true,
+        arrows: false,
         speed: 800,
         slidesToShow: 1,
         slidesToScroll: 1,
