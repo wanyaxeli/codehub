@@ -36,7 +36,7 @@ export default function Footer() {
                 <i className="fa fa-instagram" aria-hidden="true"></i>
                 </div>
                 <div>
-                    <p><i className="fa fa-copyright" aria-hidden="true"></i> {currentYear} CodingScholar. All Rights Reserved</p>
+                    <p><i className="fa fa-copyright" aria-hidden="true"></i> {currentYear} codingscholar. All Rights Reserved</p>
                 </div>
             </div>
         </div>
