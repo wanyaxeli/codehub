@@ -57,9 +57,9 @@ export default function Register() {
         
     }
     const navigate=useNavigate()
-    const handleToTeacherLogin=()=>{
-        navigate('/teacher') 
-    }
+    // const handleToTeacherLogin=()=>{
+    //     navigate('/teacher') 
+    // }
     const handleToLapTop=()=>{
     navigate('/laptop')
     if (isValidPhoneNumber(value)) {
@@ -119,7 +119,7 @@ export default function Register() {
                             <p></p>
                         </div>
                         <div className='studentQuote'> 
-                            <p>The teacher I had at CodingScholar truly understood me and adjusted the lessons to match how I learn.</p>
+                        <p>I’m still on my learning journey with <strong>codingscholar</strong>, but I can already see how much I’ve grown thanks to the structure, clarity, and dedication my teacher brings to every session.</p>
                         </div>
                         <div className='studentPicholder'>
                             <div className='studentPic'>
@@ -128,7 +128,7 @@ export default function Register() {
                         </div>
                     </div>
                     <div className='copywrightHolder'>
-                        <p><span><i className="fa fa-copyright" aria-hidden="true"></i></span> 2025 CodeHub.</p>
+                        <p><span><i className="fa fa-copyright" aria-hidden="true"></i></span> {new Date().getFullYear()} codingscholor.com</p>
                     </div>
                 </div>
             </aside>
@@ -137,7 +137,7 @@ export default function Register() {
                 <div className='rightSideLogoLeft'></div>
                 <div className='rightSideLogoRight'>
                     <ul>
-                        <li onClick={handleToTeacherLogin}>Are you are teacher </li>
+                        {/* <li onClick={handleToTeacherLogin}>Are you are teacher </li> */}
                         <li><i className="fa fa-envelope-open" aria-hidden="true"></i>  support:support@codehub.com</li>
                     </ul>
                 </div>
