@@ -138,7 +138,13 @@ export default function Register() {
                 <div className='rightSideLogoRight'>
                     <ul>
                         {/* <li onClick={handleToTeacherLogin}>Are you are teacher </li> */}
-                        <li><i className="fa fa-envelope-open" aria-hidden="true"></i>  support:support@codehub.com</li>
+                      <li>
+                        <i className="fa fa-envelope-open" aria-hidden="true"></i>
+                        &nbsp;
+                        <a href="mailto:info@codingscholar.com" style={{ textDecoration: 'none', color: 'inherit' }}>
+                            support: info@codingscholar.com
+                        </a>
+                      </li>
                     </ul>
                 </div>
             </div>
