@@ -72,9 +72,6 @@ export default function Login() {
             setError("Please Enter Email")
         }
     }
-    const handleSupport =()=>{
-        
-    }
   return (
     <>
     <Helmet>
@@ -93,7 +90,7 @@ export default function Login() {
                         <p></p>
                     </div>
                     <div className='studentQuote'> 
-                        <p>My teacher at Codehub was the best guide I could've asked for as they really customized the classes to match my learning style.</p>
+                    <p>I’m still on my learning journey with <strong>codingscholar</strong>, but I can already see how much I’ve grown thanks to the structure, clarity, and dedication my teacher brings to every session.</p>
                     </div>
                     <div className='studentPicholder'>
                         <div className='studentPic'>
@@ -102,7 +99,7 @@ export default function Login() {
                     </div>
                 </div>
                 <div className='copywrightHolder'>
-                    <p><span><i className="fa fa-copyright" aria-hidden="true"></i></span> 2025 CodeHub.</p>
+                    <p><span><i className="fa fa-copyright" aria-hidden="true"></i></span> {new Date().getFullYear()} codingscholor.com</p>
                 </div>
             </div>
         </aside>
@@ -111,7 +108,13 @@ export default function Login() {
             <div className='rightSideLogoLeft'></div>
             <div className='rightSideLogoRight'>
                 <ul>
-                    <li  onClick={handleSupport}><i className="fa fa-envelope-open" aria-hidden="true"></i>  support:support@codehub.com</li>
+                <li>
+                <i className="fa fa-envelope-open" aria-hidden="true"></i>
+                &nbsp;
+                <a href="mailto:info@codingscholar.com" style={{ textDecoration: 'none', color: 'inherit' }}>
+                    support: info@codingscholar.com
+                </a>
+                </li>
                 </ul>
             </div>
         </div>

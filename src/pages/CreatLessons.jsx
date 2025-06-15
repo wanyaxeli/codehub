@@ -31,7 +31,7 @@ export default function CreatLessons() {
         const url ='https://api.codingscholar.com/classNotes/'
         axios.get(url)
         .then(res=>{
-            console.log(res.data)
+            console.log('res',res.data)
             const data= res.data
             data.forEach(item=>{
                 console.log('ada',item)

@@ -6,7 +6,7 @@ export default function Benefit() {
         <div className='BenefitContainer'>
             <h3>What Will Your Child Gain with CodingScholar?</h3>
             <div className='BenefitDetailsWrapper'>
-             <div className='benefitCard benefitFirstCard'>
+             <div className='benefitCard '>
               <h4>Learn Skills That Schools Don’t Teach</h4>
                <div className='benefitListWrapper'>
                  <ul>
@@ -17,7 +17,7 @@ export default function Benefit() {
                  </ul>
                </div>
              </div>
-             <div className='benefitCard benefitSecondCard'>
+             <div className='benefitCard'>
                <h4>Built for Brainpower</h4>
                <div className='benefitListWrapper'>
                  <ul>
@@ -28,7 +28,7 @@ export default function Benefit() {
                  </ul>
                </div>
              </div>
-             <div className='benefitCard benefitThirdCard'>
+             <div className='benefitCard '>
              <h4>Personalized 1:1 Guidance</h4>
                <div className='benefitListWrapper'>
                  <ul>

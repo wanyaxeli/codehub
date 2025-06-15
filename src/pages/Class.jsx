@@ -119,7 +119,16 @@ useEffect(() => {
     }
   };
   const getIceServers = async () => {
-    const iceServers = await fetchIceServers();
+    const iceServers =[
+        {
+          urls: ['turn:api.codingscholar.com:3478'],
+          username: 'codingscholar',
+          credential: 'codingscholar254',
+        },
+        {
+          urls: ['stun:stun.l.google.com:19302'],
+        }
+      ]
     if(iceServers){
       console.log('ice ',iceServers)
       setIce(iceServers)
@@ -307,6 +316,18 @@ useEffect(() => {
     function initiateCall(socket, targetUser, id) {
         if (localStream && targetUser && id && socket && socket.readyState === WebSocket.OPEN && ice) {
             const peerConfig = {iceServers:ice};
+            // const peerConfig = {
+            //     iceServers: [
+            //       {
+            //         urls: ['turn:api.codingscholar.com:3478'],
+            //         username: '1749900000', // future timestamp (good)
+            //         credential: 'W9StrTF+5uWbTej1m0EaEDHF7S0=', // HMAC with correct secret (good)
+            //       },
+            //       {
+            //         urls: ['stun:stun.l.google.com:19302'],
+            //       }
+            //     ]
+            //   };
             const initiator = new Peer({ initiator: true, trickle: true, stream: localStream, config: peerConfig });
     
             initiator.on("error", err => console.log("peererror", err));
@@ -414,7 +435,6 @@ useEffect(() => {
         peerRef.current = responder
     };
     async function startScreenShare() {
-        getIceServers();
         if (participants.length > 1 && ice.length >0) {
             const InitiatorUser = participants.find(user => String(user.userId) === String(user_id));
             const NonInitiatorUser = participants.find(user => String(user.userId) !== String(user_id));
@@ -863,7 +883,8 @@ useEffect(() => {
         <div className='classNotStartedWrapper'>
             <main>
             <div className='VideoHolder'>
-            <video ref={userVideo} autoPlay playsInline muted={true} />
+            {/* <video ref={userVideo} autoPlay playsInline muted={true} /> */}
+            <video ref={beforeConnectionVideo} autoPlay playsInline muted={true} />
             </div>
             </main>
             <aside>
