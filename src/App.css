@@ -3079,6 +3079,15 @@ input::placeholder,input{
  /* .footerWrapper ul li:first-child{
   color: #fff;
  } */
+ .ParantsLocationHolder p{
+  color: #0097b2;
+ }
+ .footerAboutus ul li:first-child{
+  color: #ffff;
+ }
+ .PArentNameHolder h4{
+  color: #000;
+ }
  .footerLogo h4{
   display: none;
  }
