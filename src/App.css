@@ -2906,8 +2906,9 @@ padding: 15px 0;
     background-color: #fff;
     color: #0097b2;
     cursor: pointer;
+    outline: none;
   }
-  .sharedStyles p{
+  .sharedStyles p, .MyProjectsWrapper p{
     color: #fff;
   }
   .gradeSelectorHolder select{
