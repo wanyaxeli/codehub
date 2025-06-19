@@ -240,7 +240,7 @@
   margin-left: -2px;
 }
 .inputWrapper{
-  width: 64%;
+  width: 77.5%;
   height: auto;
   display: flex;
   align-items: center;
@@ -2894,6 +2894,49 @@ padding: 15px 0;
 .sideBarWrapper,.VideoHolderCover{
   display: none;
 }
+.rightHeader  button:first-child{
+  color: #0097b2;
+}
+.rightHeader  button:first-child:hover{
+  text-decoration: underline;
+}
+@media (prefers-color-scheme: dark) {
+  .leftHeader select {
+    background-color: #fff;
+    color: #0097b2;
+    cursor: pointer;
+  }
+  .sharedStyles p{
+    color: #fff;
+  }
+  .gradeSelectorHolder select{
+    background-color: #fff;
+    color: gray;
+  }
+  .introWrapper p,.studentQuote p,.copywrightHolder p,.bannerAnimationDetailsWRapper p,.bannerAnimationDetailsWRapper h3{
+    color: #000;
+  }
+  .leftHeader .logoWRapper h4,.PArentNameHolder,.BenefitContainer h3,.parentsCommentsHolder h3,.CoursesContainer h3,.OneDisplayerparentsCommentsHolder h3,.TwoDisplayerparentsCommentsHolder h3{
+    color: #000;
+  }
+  .footerCoourses ul li:first-child,.footerAboutus ul li:first-child{
+    color: #0097b2;
+  }
+  .commentHolder{
+    color: #000;
+  }
+  input{
+    color: #000;
+  }
+  .formBtnwrapper button:hover{
+    color: #fff;
+  }
+  .loginInputWrapper input{
+    background-color: #fff;
+    color: #000;
+  }
+}
+@media screen and (max-width: 1280px) { /* for smaller laptop screens */ }
 /* @media (max-width: 768px) {} */
 @media (max-width: 768px) {
  .headerContainer,.shareScreenHolder,.classHeaderBtnwrapper , .RegisterContainer aside, .classNotStartedWrapper aside{
@@ -2906,6 +2949,9 @@ padding: 15px 0;
   background-color: #fff;
   color: #000;
  }
+ .gradeSelectorHolder select{
+  color: gray;
+}
  .ClassHeader{
   padding: 0 10px;
  }

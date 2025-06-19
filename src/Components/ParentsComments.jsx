@@ -65,7 +65,7 @@ export default function ParentsComments() {
   return (
     <div className='parentsComments'>
         <div className='parentsCommentsHolder'>
-             <h3>Students and parents love codingScholar’s training program and curriculum</h3>
+             <h3>Students and parents love codingscholar’s training program and curriculum</h3>
              <div >
              <Slider {...settings} className='parentsCommentsContainer'>
              {comments.map((item,i)=>{
@@ -95,7 +95,7 @@ export default function ParentsComments() {
              </div>
         </div>
         <div className='TwoDisplayerparentsCommentsHolder'>
-             <h3>Students and parents love codingScholar’s training program and curriculum</h3>
+             <h3>Students and parents love codingscholar’s training program and curriculum</h3>
              <div >
              <Slider {...TwoDisplayersettings} className='parentsCommentsContainer'>
              {comments.map((item,i)=>{
@@ -107,7 +107,7 @@ export default function ParentsComments() {
                      </div>
                      <div className='PArentNameHolder'>
                         <h4>{item.name}</h4>
-                        <p>codingSChalar Parent</p>
+                        <p>codingscholar Parent</p>
                      </div>
                    </div>
                    <div className='commentHolder'>
@@ -125,7 +125,7 @@ export default function ParentsComments() {
              </div>
         </div>
         <div className='OneDisplayerparentsCommentsHolder'>
-             <h3>Students and parents love codingScholar’s training program and curriculum</h3>
+             <h3>Students and parents love codingscholar’s training program and curriculum</h3>
              <div >
              <Slider {...OneDisplayersettings} className='parentsCommentsContainer'>
              {comments.map((item,i)=>{
@@ -137,7 +137,7 @@ export default function ParentsComments() {
                      </div>
                      <div className='PArentNameHolder'>
                         <h4>{item.name}</h4>
-                        <p>codingScholar Parent</p>
+                        <p>codingscholar Parent</p>
                      </div>
                    </div>
                    <div className='commentHolder'>

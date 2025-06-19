@@ -4,7 +4,7 @@ export default function Benefit() {
   return (
     <div className='BenefitWrapper'>
         <div className='BenefitContainer'>
-            <h3>What Will Your Child Gain with CodingScholar?</h3>
+            <h3>What Will Your Child Gain with codingscholar?</h3>
             <div className='BenefitDetailsWrapper'>
              <div className='benefitCard '>
               <h4>Learn Skills That Schools Don’t Teach</h4>

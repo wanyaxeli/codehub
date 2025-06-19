@@ -1,5 +1,5 @@
 import React,{useState,useContext} from 'react'
-import pic from '../assets/student.jpg'
+import pic from '../assets/teacher.jpg'
 import { context } from '../App'
 import { v4 as uuidv4 } from "uuid";
 import axios from 'axios'
@@ -98,7 +98,7 @@ import { useEffect } from 'react';
                             <p></p>
                         </div>
                         <div className='studentQuote'> 
-                            <p>The teacher I had at CodingScholar truly understood me and adjusted the lessons to match how I learn.</p>
+                            <p>Helping students discover how they learn best is what teaching is all about.Am So glad to help many kids start their journey</p>
                         </div>
                         <div className='studentPicholder'>
                             <div className='studentPic'>
@@ -107,7 +107,7 @@ import { useEffect } from 'react';
                         </div>
                     </div>
                     <div className='copywrightHolder'>
-                        <p><span><i className="fa fa-copyright" aria-hidden="true"></i></span> 2025 codingScholar.com.</p>
+                        <p><span><i className="fa fa-copyright" aria-hidden="true"></i></span> {new Date().getFullYear()} codingscholor.com</p>
                     </div>
                 </div>
             </aside>
@@ -117,7 +117,13 @@ import { useEffect } from 'react';
                 <div className='rightSideLogoRight'>
                     <ul>
                         {/* <li>Are you are teacher </li> */}
-                        <li><i className="fa fa-envelope-open" aria-hidden="true"></i>  support:support@codingScholar.com</li>
+                        <li>
+                        <i className="fa fa-envelope-open" aria-hidden="true"></i>
+                        &nbsp;
+                        <a href="mailto:info@codingscholar.com" style={{ textDecoration: 'none', color: 'inherit' }}>
+                            support: info@codingscholar.com
+                        </a>
+                      </li>
                     </ul>
                 </div>
             </div>
