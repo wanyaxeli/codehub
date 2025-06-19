@@ -2900,7 +2900,7 @@ padding: 15px 0;
 .rightHeader  button:first-child:hover{
   text-decoration: underline;
 }
-.parentsCommentsCard{}
+
 @media (prefers-color-scheme: dark) {
   .leftHeader select {
     background-color: #fff;
@@ -2911,33 +2911,43 @@ padding: 15px 0;
     color: #fff;
   }
   .gradeSelectorHolder select{
-    background-color: #fff;
     color: gray;
   }
-  .introWrapper p,.studentQuote p,.copywrightHolder p,.bannerAnimationDetailsWRapper p,.bannerAnimationDetailsWRapper h3{
+  .gradeSelectorHolder select,.CreatLessonsContainer input,.quizContainer input,.quizContainer textarea{
+    background-color: #fff;
+  }
+  .introWrapper p,.quizContainer textarea,.CreatLessonsContainer  input,.quizContainer input,.studentQuote p,.copywrightHolder p,.bannerAnimationDetailsWRapper p,.bannerAnimationDetailsWRapper h3{
     color: #000;
   }
-  .leftHeader .logoWRapper h4,.PArentNameHolder,.BenefitContainer h3,.parentsCommentsHolder h3,.CoursesContainer h3,.OneDisplayerparentsCommentsHolder h3,.TwoDisplayerparentsCommentsHolder h3{
+  .leftHeader .logoWRapper h4,.TeacherNameWrapper p,.TeacherEarnsWrapper p,.TodaysClasses p,.dashBoardContainer aside ul li,.PArentNameHolder,.BenefitContainer h3,.parentsCommentsHolder h3,.CoursesContainer h3,.OneDisplayerparentsCommentsHolder h3,.TwoDisplayerparentsCommentsHolder h3{
     color: #000;
   }
   .footerCoourses ul li:first-child,.footerAboutus ul li:first-child{
     color: #0097b2;
   }
-  .commentHolder{
+  .commentHolder,.classesShowModuleWrapper h4,.classesShowModuleWrapper table{
     color: #000;
   }
   input{
     color: #000;
   }
-  .formBtnwrapper button:hover{
+  .formBtnwrapper button:hover,.classBtnContainer button:hover,.QuizBtnWrapper button:hover{
     color: #fff;
   }
   .loginInputWrapper input{
     background-color: #fff;
     color: #000;
   }
+  .LoginBtnWrapper button:hover{
+    color: #fff;
+  }
 }
-@media screen and (max-width: 1280px) { /* for smaller laptop screens */ }
+@media screen and (min-width:  1281px) { /* for smaller laptop screens */ 
+  .headerContainer,.bannerWrapper ,.CoursesContainer,.BenefitContainer,.parentsCommentsHolder,.footerContainer {
+    max-width: 1400px
+  }
+
+}
 /* @media (max-width: 768px) {} */
 @media (max-width: 768px) {
  .headerContainer,.shareScreenHolder,.classHeaderBtnwrapper , .RegisterContainer aside, .classNotStartedWrapper aside{
