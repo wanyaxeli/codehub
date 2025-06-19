@@ -568,11 +568,11 @@
 }
 .parentsCommentsCard{
   width: 370px !important; /* Ensure width is applied */
-  height: 350px;
+  height: auto;
   background-color: #f3f4f7;
-  border-radius: 15px;
+  border-radius: 20px;
   box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
- padding: 10px 20px; 
+  padding: 25px 20px; 
 }
 .parentDetailsHolder{
   display: flex;
@@ -2900,6 +2900,7 @@ padding: 15px 0;
 .rightHeader  button:first-child:hover{
   text-decoration: underline;
 }
+.parentsCommentsCard{}
 @media (prefers-color-scheme: dark) {
   .leftHeader select {
     background-color: #fff;

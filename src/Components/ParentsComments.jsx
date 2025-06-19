@@ -70,7 +70,7 @@ export default function ParentsComments() {
              <Slider {...settings} className='parentsCommentsContainer'>
              {comments.map((item,i)=>{
                 return(
-                    <div key={i} className='parentsCommentsCard'>
+               <div key={i} className='parentsCommentsCard'>
                    <div className='parentDetailsHolder'>
                      <div className='PArentimageHolder'>
                      <img src={item.img} alt='parent'/>
