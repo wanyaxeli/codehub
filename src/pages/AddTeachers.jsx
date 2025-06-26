@@ -9,7 +9,12 @@ export default function AddTeachers() {
   const handleChange=(e)=>{
     const {name,value}=e.target
     setError('')
-    setValues({...values,[name]:value})
+    if(name==='first_name'||name==='last_name'){
+      setValues({...values,[name]:value.toUpperCase() })
+    }else{
+      setValues({...values,[name]:value })
+    }
+    
   }
   const handleAddTeacher =()=>{
     const email = values.email

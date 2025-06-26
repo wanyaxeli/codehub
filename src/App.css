@@ -2911,6 +2911,9 @@ padding: 15px 0;
   .sharedStyles p, .MyProjectsWrapper p{
     color: #fff;
   }
+  .dashboardDetailsHolder p,.TodayClassContainer p ,.TodayClassContainer h4,.AllTeachersContainer table tbody tr:nth-child(odd) td,.studentDetailsWrapper p{
+    color: #000;
+  }
   .gradeSelectorHolder select{
     color: gray;
   }

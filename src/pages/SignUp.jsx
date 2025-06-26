@@ -187,6 +187,9 @@ export default function SignUp() {
       const handleChange=(e)=>{
         setErrors('')
         const {value,name}=e.target
+        if(name==='first_name' || name==='last_name'){
+          setTeacherValues({...teacherValues,[name]:value.toUpperCase()})
+        }
         setTeacherValues({...teacherValues,[name]:value})
       }
       useEffect(()=>{

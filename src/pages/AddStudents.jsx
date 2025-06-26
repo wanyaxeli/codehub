@@ -14,8 +14,12 @@ export default function AddStudents() {
   const [student,setStudent]=useState(initialState)
   const [error,setError]=useState('')
   const handleChange=(e)=>{
-   const {name,value}=e.target
-   setStudent({...student,[name]:value})
+    const {name,value}=e.target
+    if(name==='first_name'||name==='last_name'){
+      setStudent({ ...student, [name]: value.toUpperCase() });
+    }else{
+      setStudent({...student,[name]:value})
+    }
   }
  const handleAddStudent =()=>{
   const email = student.email

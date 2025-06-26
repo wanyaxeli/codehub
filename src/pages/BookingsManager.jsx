@@ -10,7 +10,11 @@ export default function BookingsManager() {
   const [res,setRes]=useState('')
   const handleChange=(e)=>{
    const {value,name}=e.target
-   setValues({...values,[name]:value})
+   if(name==='teacher'){
+    setValues({...values,[name]:value.toUpperCase()})
+   }else{
+    setValues({...values,[name]:value})
+   }
   }
   console.log('valu',values)
   const handleSubmit=()=>{
