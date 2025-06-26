@@ -17,10 +17,11 @@ export default function Stdent() {
   }
   const handleClassManagementInput =(e)=>{
    const {name,value}=e.target
-   if(name='teacher'){
-    SetClassManagement({...classManagement,[name]:value.toUpperCase()})
-   }
-   SetClassManagement({...classManagement,[name]:value})
+   if (name === 'teacher') {
+    SetClassManagement({ ...classManagement, [name]: value.toUpperCase() });
+  } else {
+    SetClassManagement({ ...classManagement, [name]: value });
+  }
   }
   const handleActivate =()=>{
    if (studentId && fees){
