@@ -4,16 +4,18 @@ import { useLocation } from 'react-router-dom'
 import axios from 'axios'
 export default function Stdent() {
   const initialState={grade:'',teacher:'',module:""}
+  const FeesinitialState={amount:'',amountPerClass:''}
   const initialStateforLessonAttendace={first_day:'',second_day:'',
   first_time:'',second_time:''}
-  const [fees,setFees]=useState('')
+  const [fees,setFees]=useState(FeesinitialState)
   const [studentId,setStudentId]=useState('')
   const [student,setStudent]=useState('')
   const location = useLocation()
   const [classManagement,SetClassManagement]=useState(initialState)
   const [classLesson,SetClassLesson]=useState(initialStateforLessonAttendace)
   const handleFees =(e)=>{
-  setFees(e.target.value)
+    const {name,value}=e.target
+  setFees({ ...fees, [name]: value })
   }
   const handleClassManagementInput =(e)=>{
    const {name,value}=e.target
@@ -24,10 +26,10 @@ export default function Stdent() {
   }
   }
   const handleActivate =()=>{
-   if (studentId && fees){
+   if (studentId && fees.amount && fees.amountPerClass){
       const id = studentId
       const url=`https://api.codingscholar.com/updateFee/${id}`
-      const data={studentId:studentId,fees:fees}
+      const data={studentId:studentId,fees:fees.amount,feesPerClass:fees.amountPerClass}
       axios.put(url,data,{headers:{
         'Content-Type':'application/json'
       }})
@@ -37,22 +39,25 @@ export default function Stdent() {
         alert("Student class activated successfully!")
       })
       .catch(error=>console.log(error))
+   }else{
+    alert ("Inputs empty")
    }
   }
   const handleAddStudentToClass =()=>{
    if(studentId && classManagement.grade && classManagement.module && classManagement.teacher){
+    console.log('hello class',studentId,classManagement.teacher)
     const id = studentId
     const url=`https://api.codingscholar.com/createStudentRoom/${id}`
     const splitname = classManagement.teacher.trim().split(/\s+/);
     const first_name=splitname[0]
     const last_name=splitname[1]
     const data={...classManagement,...{first_name:first_name,last_name:last_name}}
-    console.log(data)
+    console.log('data std',data)
     axios.post(url,data)
     .then(res=>{
-      console.log('student res',res)
+      console.log('student res',res.data)
       SetClassManagement(initialState)
-      alert('Student placed in the class successfully')
+      alert(res.data)
     })
     .catch(error=>console.log(error))
    }
@@ -91,7 +96,7 @@ export default function Stdent() {
   }
    useEffect(()=>{  
    const {state}=location
-   console.log(state)
+   console.log('student id',state)
    setStudentId(state)
    },[ ])
    useEffect(()=>{
@@ -146,9 +151,10 @@ export default function Stdent() {
            <div className='studentDetailsClassattendance ActivateStudentWrapper'>
             <p>Enter Amount Paid</p>
             <p>Activate Student Class</p>
-            <input onChange={handleFees} type='text' placeholder='Amount'/>
-            {/* <input type='time'/> */}
+            <input onChange={handleFees} name='amount' type='text' placeholder='Amount'/>
             <button onClick={handleActivate}>Activate</button>
+            <input onChange={handleFees} name='amountPerClass' type='text' placeholder='Amount Per Class'/>
+            {/* <input type='time'/> */}
            </div>
         </div>
         <div className="studentDetails">

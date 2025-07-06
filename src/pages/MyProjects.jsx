@@ -21,7 +21,12 @@ function getProjects(){
     }})
     .then(res=>{
       const data=res.data
-      setProject(data)
+      console.log('res',data)
+      if(Array.isArray(data) && data.length > 0){
+        setProject(data)
+      }else{
+        setProject([])
+      }
       console.log(res.data)
     })
     .catch(error=>console.log(error))
@@ -42,7 +47,7 @@ useEffect(()=>{
   return (
     <div className='MyProjectsWrapper'>
         
-          {projects.length >0? projects.map((item,i)=>{
+          {projects && projects.length >0? projects.map((item,i)=>{
             return(
           <div key={i} className='MyProjectsContainer'>
             <div className='ProjectsContainerUpper'></div>
@@ -52,7 +57,7 @@ useEffect(()=>{
           </div>
           </div>
             )
-          }):<p>You have no proejcts for now</p>}
+          }):<p>You have no projects for now</p>}
     </div>
   )
 }

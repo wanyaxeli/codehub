@@ -3,11 +3,13 @@ import { useLocation,useParams,useNavigate } from 'react-router-dom'
 import pic from '../assets/logoCodeHub.png'
 import SubmitProjectModal from '../Components/SubmitProjectModal'
 import Peer from "simple-peer";
+import WherebyClass from './WherebyClass';
 import { context } from '../App';
 import { jwtDecode } from 'jwt-decode';
 import RegisterStudentModal from '../Components/RegisterStudentModal';
 import CountdownTimer from '../Components/CountdownTimer';
 import axios from 'axios';
+import { WherebyProvider } from "@whereby.com/browser-sdk/react";
 export default function Class() {
     const [mainCss,setMainCss]=useState('fullPageMain')
     const [bookingId,setBookingId]=useState('')
@@ -64,6 +66,7 @@ export default function Class() {
     const [localStream, setLocalStream] = useState(null);
     const [ice, setIce] = useState([]);
     const [screen, setScreen] = useState(false);
+    const [slug, setSlug] = useState('');
     const [trails, setTrails] = useState(false);
     const [toggleMic,setToggleMuteMic]=useState(true)
     const [closeSharing,setCloseSharing]=useState(false)
@@ -135,9 +138,9 @@ useEffect(() => {
       setIce(iceServers)
     }
   };
-  useEffect(() => {
-    getIceServers();
-  }, [token]);
+//   useEffect(() => {
+//     getIceServers();
+//   }, [token]);
     useEffect(()=>{
     if(mainCss==='fullPageMain'){
         setMainCss('classMainWrapper')
@@ -189,6 +192,7 @@ useEffect(() => {
     useEffect(() => {
         if (!code) return;
         const slug=slugify(code)
+        setSlug(slug)
         // const ws = new WebSocket(`wss://localhost:8000/ws/classRoom/${code}/`);
         // const ws = new WebSocket(`wss://api.codingscholar.com/ws/classRoom/${code}/`);
         const ws = new WebSocket(`wss://api.codingscholar.com/ws/classRoom/${slug}/`);
@@ -294,9 +298,9 @@ useEffect(() => {
             console.log("start up error",ice)
         }
     }
-    useEffect(()=>{
-        startCall()
-    },[user_id,timeLeft,participants,ice])
+    // useEffect(()=>{
+    //     startCall()
+    // },[user_id,timeLeft,participants,ice])
     useEffect(() => {
         if (
           beforeConnectionVideo.current && 
@@ -840,7 +844,7 @@ useEffect(() => {
     setopenStudentRegistrationform('RegisterStudentModal')
    }
    console.log('patipantsin romm',participants,'time left',timeLeft,'camy',cam)
-  if(participants.length <= 2 && timeLeft !=='Event has started!' || participants.length===1 && timeLeft ==='Event has started!' && peerConnected===false){
+  if(participants.length <= 2 && timeLeft !=='Event has started!' || participants.length===1 && timeLeft ==='Event has started!'){
     return(
         <div className='classNotStartedWrapper'>
           <main>
@@ -879,172 +883,156 @@ useEffect(() => {
         </div>
     )
   }
-  else if(participants.length===2 && timeLeft ==='Event has started!' && peerConnected===false || participants.length===2 && timeLeft ==='Event has started!' && peerConnected===true && !userVideo && !partnerVideo){
-    return(
-        <div className='classNotStartedWrapper'>
-            <main>
-            <div className='VideoHolder'>
-            {/* <video ref={userVideo} autoPlay playsInline muted={true} /> */}
-            <video ref={beforeConnectionVideo} autoPlay playsInline muted={true} />
-            </div>
-            </main>
-            <aside>
-                <div className='waitingForConnectionWrapper'>
-                    <p>Connecting...</p>
-                    <span><i className="fa fa-spinner spinner" aria-hidden="true"></i></span>
-                </div>
-            </aside>
-        </div>
-    )
-  }
-  else if(participants.length===2 && timeLeft ==='Event has started!' && peerConnected===true && userVideo && partnerVideo){
+//   else if(participants.length===2 && timeLeft ==='Event has started!' || participants.length===2 && timeLeft ==='Event has started!' && peerConnected===true && !userVideo && !partnerVideo){
+//     return(
+//         <div className='classNotStartedWrapper'>
+//             <main>
+//             <div className='VideoHolder'>
+//             {/* <video ref={userVideo} autoPlay playsInline muted={true} /> */}
+//             <video ref={beforeConnectionVideo} autoPlay playsInline muted={true} />
+//             </div>
+//             </main>
+//             <aside>
+//                 <div className='waitingForConnectionWrapper'>
+//                     <p>Connecting...</p>
+//                     <span><i className="fa fa-spinner spinner" aria-hidden="true"></i></span>
+//                 </div>
+//             </aside>
+//         </div>
+//     )
+//   }
+  else if(participants.length===2 && timeLeft ==='Event has started!'){
     return (
-        <div className='ClassWRapper'>
-            <div className='ClassHeader'>
-            <div className='ClassHeaderWrapper'>
-                <div className='classHeaderLogowrapper'>
-                    <div className='logoContainer'>
-                        <img src={pic}/>
-                    </div>
-                    <div className=''>
+        <>
+          <WherebyProvider>
+          <WherebyClass code={slug}/>
+          </WherebyProvider>
+        </>
+        // <div className='ClassWRapper'>
+        //     <div className='ClassHeader'>
+        //     <div className='ClassHeaderWrapper'>
+        //         <div className='classHeaderLogowrapper'>
+        //             <div className='logoContainer'>
+        //                 <img src={pic}/>
+        //             </div>
+        //             <div className=''>
 
-                    </div>
-                </div>
-                <div className='classHeaderBtnwrapper'>
-                    <ul>
-                        {role ==='student'? <li onClick={handleSubmitProject}>submit project</li>:''}
-                        {ClassType ==='trial' && role==='teacher'?<li onClick={handleStudent}>student</li>:''}
-                        <li onClick={handleOpenChat}>chat</li>
-                    </ul>
-                </div>
-                <div className='classheaderBtnActionwrapper'>
-                    {role==='teacher'?<div className='endclassBtnwrapper'>
-                        <button onClick={handleEndClass}>end class</button>
-                    </div>:''}
-                </div>
-            </div>
-            </div> 
-            <div className='classContainer'>
-            <main className={mainCss}>
-                <div className='classVideoImageWrapper'>
-                        <div className={Videocard}>
-                            {Usersharing === user_id ? (
-                                <video ref={LocalscreenVideo} autoPlay playsInline muted />
-                            ) : 
-                            // (
-                            //     screen===true ? (
-                            //         <video ref={screenVideo} autoPlay playsInline muted />
-                            //     ) : (
-                            //         <div className="videoloadingWrapper">
-                            //             <div>
-                            //                 <p>Loading Screen...</p>
-                            //             </div>
-                            //             <span>
-                            //                 <i className="fa fa-spinner spinner" aria-hidden="true"></i>
-                            //             </span>
-                            //         </div>
-                            //     )
-                            // )
-                            <video ref={screenVideo} autoPlay playsInline muted />
-                            }
-                        </div>
-                        {connectedUsers>2?<div className={toggleDisplay}>
-                            <div className={card}>
-                                <div className='cardShortnameWrapper'>
-                                    <p>e</p>
-                                </div>
-                            </div>
-                            <div className={card}>
-                            <div className='cardShortnameWrapper'>
-                                    <p>w</p>
-                                </div>
-                            </div>
-                            <div className={card}>
-                            <div className='cardShortnameWrapper'>
-                                    <p>s</p>
-                                </div>
-                            </div>
-                        </div>:<div className={toggleClassOnJoinedUser}>
-                            <div className='fistUserDivWrapper'>
-                            {/* {partnerVideo.current? (
-                                <video ref={partnerVideo} autoPlay playsInline />
-                            ) : (
-                                <div className='MainUserDetails'>
-                                    <p>w</p>
-                                </div>
-                            )} */}
-                            <video ref={partnerVideo} autoPlay playsInline muted={false}/>
-                            </div>
-                            <div className={toggleSideUser}>
-                                {cam ===true ? (
-                                    <div className='InnerSecondUserDivWrapper'>
-                                    <video ref={userVideo} autoPlay playsInline muted={toggleMic} />
-                                    </div>
-                                ) : (
-                                    <div className='InnerSecondUserDivWrapper'>
-                                    <div className={toggleInnerSideUser}>
-                                        <p>e</p>
-                                    </div>
-                                    </div>
-                                )}
-                                {/* <video ref={userVideo} autoPlay playsInline muted={toggleMic} /> */}
-                            </div>
-                        </div>}
-                </div>
-            <div className='mainClassBtnActionHolder'>
-                    <ul>
-                        <li>
-                            <div>
-                                <div className={`classInconHolder ${openVidoe}`} onClick={handleToggleVideo}>
-                                <i className="fa fa-video-camera" aria-hidden="true"></i>
-                                {/* <i className="fi fi-rr-video-slash"></i> */}
-                                </div>
-                                <p>cam</p>
-                            </div>
-                        </li>
-                        <li>
-                        <div>
-                            <div className={`classInconHolder ${openMic}`} onClick={handleToggleMic}>
-                            {mic===true?<i className="fa fa-microphone" aria-hidden="true"></i>:<i className="fa fa-microphone-slash" aria-hidden="true"></i>}
-                            </div>
-                            <p>mic</p>
-                        </div>
-                        </li>
-                        <li className='shareScreenHolder'>
-                        <div>
-                            <div onClick={handleShareScreen} className={`classInconHolder ${Usersharing &&Usersharing === user_id ?openSharing:""}`}>
-                            <i className="fa fa-desktop" aria-hidden="true"></i>
-                            </div>
-                        {sharing && Usersharing &&Usersharing ===user_id? <p>stop  share</p>: <p>share</p>}
-                        </div>
-                        </li>
-                    </ul>
-            </div>
-            </main>
-            <aside className={asideCss}>
-                <div className='chatWrapper'>
-                    <div className='chatContainer'>
-                        {Wschat.map((chat,i)=>{
-                            return(
-                                <ul key={i}>
-                                    {chat.user===user_id?<li className='sender'><p>{chat.text}</p></li>:
-                                    <li className='reciever'><p>{chat.text}</p></li>}
-                            </ul>
-                            )
-                        })}
-                    </div>
-                    <div className='chatInputWrapper'>
-                        <input onChange={handleChat} value={chat} placeholder='Chat...'/>
-                        <button onClick={handleSendChat}><i className="fa fa-paper-plane" aria-hidden="true"></i></button>
-                    </div>
-                </div>
-            </aside>
-            </div>
-            {trailClass &&  <RegisterStudentModal trailClass={trailClass}  openStudentRegistrationform={openStudentRegistrationform} setopenStudentRegistrationform={setopenStudentRegistrationform}/>}
-        {StudentId? openSubmitModal &&  <SubmitProjectModal StudentId={StudentId} ClassName={ClassName} setProject={setProject} SubmitProeject={SubmitProeject} project={project} openSubmitModal={openSubmitModal} setopenSubmitModal={setopenSubmitModal}/> :
-         openSubmitModal &&  <SubmitProjectModal bookingId={bookingId} openSubmitModal={openSubmitModal} setopenSubmitModal={setopenSubmitModal}/>
-        }
-        </div>
+        //             </div>
+        //         </div>
+        //         <div className='classHeaderBtnwrapper'>
+        //             <ul>
+        //                 {role ==='student'? <li onClick={handleSubmitProject}>submit project</li>:''}
+        //                 {ClassType ==='trial' && role==='teacher'?<li onClick={handleStudent}>student</li>:''}
+        //                 <li onClick={handleOpenChat}>chat</li>
+        //             </ul>
+        //         </div>
+        //         <div className='classheaderBtnActionwrapper'>
+        //             {role==='teacher'?<div className='endclassBtnwrapper'>
+        //                 <button onClick={handleEndClass}>end class</button>
+        //             </div>:''}
+        //         </div>
+        //     </div>
+        //     </div> 
+        //     <div className='classContainer'>
+        //     <main className={mainCss}>
+        //         <div className='classVideoImageWrapper'>
+        //                 <div className={Videocard}>
+        //                     {Usersharing === user_id ? (
+        //                         <video ref={LocalscreenVideo} autoPlay playsInline muted />
+        //                     ) : 
+        //                     <video ref={screenVideo} autoPlay playsInline muted />
+        //                     }
+        //                 </div>
+        //                 {connectedUsers>2?<div className={toggleDisplay}>
+        //                     <div className={card}>
+        //                         <div className='cardShortnameWrapper'>
+        //                             <p>e</p>
+        //                         </div>
+        //                     </div>
+        //                     <div className={card}>
+        //                     <div className='cardShortnameWrapper'>
+        //                             <p>w</p>
+        //                         </div>
+        //                     </div>
+        //                     <div className={card}>
+        //                     <div className='cardShortnameWrapper'>
+        //                             <p>s</p>
+        //                         </div>
+        //                     </div>
+        //                 </div>:<div className={toggleClassOnJoinedUser}>
+        //                     <div className='fistUserDivWrapper'>
+        //                     <video ref={partnerVideo} autoPlay playsInline muted={false}/>
+        //                     </div>
+        //                     <div className={toggleSideUser}>
+        //                         {cam ===true ? (
+        //                             <div className='InnerSecondUserDivWrapper'>
+        //                             <video ref={userVideo} autoPlay playsInline muted={toggleMic} />
+        //                             </div>
+        //                         ) : (
+        //                             <div className='InnerSecondUserDivWrapper'>
+        //                             <div className={toggleInnerSideUser}>
+        //                                 <p>e</p>
+        //                             </div>
+        //                             </div>
+        //                         )}
+        //                         {/* <video ref={userVideo} autoPlay playsInline muted={toggleMic} /> */}
+        //                     </div>
+        //                 </div>}
+        //         </div>
+        //     <div className='mainClassBtnActionHolder'>
+        //             <ul>
+        //                 <li>
+        //                     <div>
+        //                         <div className={`classInconHolder ${openVidoe}`} onClick={handleToggleVideo}>
+        //                         <i className="fa fa-video-camera" aria-hidden="true"></i>
+        //                         {/* <i className="fi fi-rr-video-slash"></i> */}
+        //                         </div>
+        //                         <p>cam</p>
+        //                     </div>
+        //                 </li>
+        //                 <li>
+        //                 <div>
+        //                     <div className={`classInconHolder ${openMic}`} onClick={handleToggleMic}>
+        //                     {mic===true?<i className="fa fa-microphone" aria-hidden="true"></i>:<i className="fa fa-microphone-slash" aria-hidden="true"></i>}
+        //                     </div>
+        //                     <p>mic</p>
+        //                 </div>
+        //                 </li>
+        //                 <li className='shareScreenHolder'>
+        //                 <div>
+        //                     <div onClick={handleShareScreen} className={`classInconHolder ${Usersharing &&Usersharing === user_id ?openSharing:""}`}>
+        //                     <i className="fa fa-desktop" aria-hidden="true"></i>
+        //                     </div>
+        //                 {sharing && Usersharing &&Usersharing ===user_id? <p>stop  share</p>: <p>share</p>}
+        //                 </div>
+        //                 </li>
+        //             </ul>
+        //     </div>
+        //     </main>
+        //     <aside className={asideCss}>
+        //         <div className='chatWrapper'>
+        //             <div className='chatContainer'>
+        //                 {Wschat.map((chat,i)=>{
+        //                     return(
+        //                         <ul key={i}>
+        //                             {chat.user===user_id?<li className='sender'><p>{chat.text}</p></li>:
+        //                             <li className='reciever'><p>{chat.text}</p></li>}
+        //                     </ul>
+        //                     )
+        //                 })}
+        //             </div>
+        //             <div className='chatInputWrapper'>
+        //                 <input onChange={handleChat} value={chat} placeholder='Chat...'/>
+        //                 <button onClick={handleSendChat}><i className="fa fa-paper-plane" aria-hidden="true"></i></button>
+        //             </div>
+        //         </div>
+        //     </aside>
+        //     </div>
+        //     {trailClass &&  <RegisterStudentModal trailClass={trailClass}  openStudentRegistrationform={openStudentRegistrationform} setopenStudentRegistrationform={setopenStudentRegistrationform}/>}
+        // {StudentId? openSubmitModal &&  <SubmitProjectModal StudentId={StudentId} ClassName={ClassName} setProject={setProject} SubmitProeject={SubmitProeject} project={project} openSubmitModal={openSubmitModal} setopenSubmitModal={setopenSubmitModal}/> :
+        //  openSubmitModal &&  <SubmitProjectModal bookingId={bookingId} openSubmitModal={openSubmitModal} setopenSubmitModal={setopenSubmitModal}/>
+        // }
+        // </div>
     )
     }else{
         return(

@@ -2,7 +2,7 @@ import React from 'react'
 import {useNavigate,useLocation} from 'react-router-dom'
 export default function HeaderDetails({proPic,student,teacher,pic2,token,handleToFreeClass,handleToStudentDashboard,handleToLogin,handleJoinClass,handleToDashboard}) {
     const location = useLocation()
-    console.log('location',proPic)
+    console.log('location',student)
     const navigate=useNavigate()
     const {pathname}=location
     if (pathname.includes('/teacher')){
@@ -34,7 +34,7 @@ export default function HeaderDetails({proPic,student,teacher,pic2,token,handleT
             </div>
             <div className='dashboardDetailsHolder'>
                 {student?.user && (
-                  <p style={{textTransform:'capitalize'}}>{student?.user.first_name} {student?.user.last_name}</p>
+                  <p style={{textTransform:'capitalize'}}>{student?.user.first_name}asdadas {student?.user.last_name}</p>
                 )}
                   <div className='Dashboardimage'>
                 {proPic?<img src={`https://res.cloudinary.com/dbxsncq5r/${proPic}`}/>:<img src={pic2}/>}
