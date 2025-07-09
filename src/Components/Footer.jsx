@@ -32,7 +32,7 @@ export default function Footer() {
                  <div className='footerIconsWrapper'>
                 <i className="fa fa-facebook" aria-hidden="true"></i>
                 <i className="fa fa-twitter" aria-hidden="true"></i>
-                <i className="fa fa-linkedin-square" aria-hidden="true"></i>
+                 <a href='https://www.linkedin.com/company/codingscholar'><i className="fa fa-linkedin-square" aria-hidden="true"></i></a>
                 <i className="fa fa-instagram" aria-hidden="true"></i>
                 </div>
                 <div>
