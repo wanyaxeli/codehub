@@ -2918,6 +2918,9 @@ padding: 15px 0;
   .dashboardDetailsHolder p,.laptop p,.bookingTimeWrapper span,.studentDetails h3,.dashboardDisplayer p,.NoClassDiv p,.TodayClassContainer p ,.TodayClassContainer h4,.AllTeachersContainer table tbody tr:nth-child(odd) td,.studentDetailsWrapper p{
     color: #000;
   }
+  .bookBtnWrapper button:hover{
+    color: #fff;
+  }
   .gradeSelectorHolder select{
     color: gray;
   }
