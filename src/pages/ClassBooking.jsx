@@ -133,14 +133,14 @@ import { useEffect } from 'react';
                  <h3>Book a free lesson to enter the wonderful world of coding</h3>
                  <p className='timezone'>This will in recorded in your country's time zone</p>
                  <div className='timeSeletorWrapper'>
-                    <p>Select a date</p>
+                    <p>Select date</p>
                     <div className='bookingDateWrapper'>
                         <ul>
                             <li className='activeDay'>today</li>
                             {/* <li>tomorrow</li> */}
                         </ul>
                     </div>
-                    <p>Select a time </p>
+                    <p>Select  time </p>
                     <div className='bookingTimeWrapper'>
                         {/* <span className='selectedTime'>10:10pm</span> */}
                        {fetchloading===true?<i className="fa fa-spinner spinner" aria-hidden="true"></i> :availability.length>0? availability.map(item=>{
