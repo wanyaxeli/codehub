@@ -2912,10 +2912,10 @@ padding: 15px 0;
     padding: 15px;
     height: auto;
   }
-  .sharedStyles p,.laptop p,.bookingTimeWrapper span, .MyProjectsWrapper p,.noLessons p{
+  .sharedStyles p, .MyProjectsWrapper p,.noLessons p{
     color: #fff;
   }
-  .dashboardDetailsHolder p,.studentDetails h3,.dashboardDisplayer p,.NoClassDiv p,.TodayClassContainer p ,.TodayClassContainer h4,.AllTeachersContainer table tbody tr:nth-child(odd) td,.studentDetailsWrapper p{
+  .dashboardDetailsHolder p,.laptop p,.bookingTimeWrapper span,.studentDetails h3,.dashboardDisplayer p,.NoClassDiv p,.TodayClassContainer p ,.TodayClassContainer h4,.AllTeachersContainer table tbody tr:nth-child(odd) td,.studentDetailsWrapper p{
     color: #000;
   }
   .gradeSelectorHolder select{
