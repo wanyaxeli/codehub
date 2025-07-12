@@ -8,7 +8,7 @@ import Sidebar from './sideBar'
 import { jwtDecode } from 'jwt-decode'
 export default function Header() {
     const [selectedValue, setSelectedValue] = useState('');
-    const [token,setToken]=useState('')
+    // const [token,setToken]=useState('')
     const [toggleSideBarClass,setToggleSideBarClass]=useState('sideBarWrapper')
     const [toggleSideBar,setToggleSideBar]=useState(false)
     const location = useLocation()
@@ -33,7 +33,25 @@ export default function Header() {
       //     console.error("JWT Decode Error:", error);
       //   }
       // }
+      const token=localStorage.getItem('token')
+      if (token){
+         console.log('adad',token)
+           try {
+          const decode = jwtDecode(token);
+          const {role,user_id}=decode
+          console.log("Decoded Token:", decode,role);
+          if(role ==='student'){
+            navigate('/student/dashboard/Details')
+          }else if(role==='teacher'){
+              navigate('/teacher/dashboard',{state:token})
+          }
+            // setRole(role)
+        } catch (error) {
+          console.error("JWT Decode Error:", error);
+        }
+    }else{
       navigate('/Login')
+    }
     }
     const handleHome =()=>{
       navigate('/')
@@ -42,8 +60,21 @@ export default function Header() {
       navigate('/student/dashboard/Details')
     }
     const handleJoinClass=()=>{
+      const token= localStorage.getItem('token')
       if(token){
-        navigate('/student/dashboard')
+        try {
+          const decode = jwtDecode(token);
+          const {role,user_id}=decode
+          console.log("Decoded Token:", decode,role);
+          if(role ==='student'){
+            navigate('/student/dashboard/Details')
+          }else if(role==='teacher'){
+              navigate('/teacher/dashboard',{state:token})
+          }
+            // setRole(role)
+        } catch (error) {
+          console.error("JWT Decode Error:", error);
+        }
       }else{
         navigate('/Login')
       }
@@ -55,13 +86,12 @@ export default function Header() {
       try{
           const token= JSON.parse(localStorage.getItem('token')) // No need to await
           if (token){
-              setToken(token);
+              // setToken(token);
           }
       } catch(error) {
           console.log(error);
       }
   }
-  console.log('toke',token)
   const handleToggleSideBar =()=>{
    if(toggleSideBar===false){
     setToggleSideBar(true)
@@ -79,9 +109,9 @@ export default function Header() {
   useEffect(()=>{
     setToggleSideBarClass('sideBarWrapper')
   },[])
-  useEffect(()=>{
-  getToken()
-  },[])
+  // useEffect(()=>{
+  // getToken()
+  // },[])
   return (
     <div className='headerWrapper'>
         <div className='headerContainer'>
@@ -102,7 +132,7 @@ export default function Header() {
                 <option value="option3">scratch programming</option>
                 </select>
             </div>
-            <HeaderDetails pic2={pic2} token={token} handleToStudentDashboard={handleToStudentDashboard} handleToFreeClass={handleToFreeClass} handleToLogin={handleToLogin}  handleJoinClass={handleJoinClass} handleToDashboard={handleToDashboard} teacher={teacher} student={student}  proPic={proPic}/>
+            <HeaderDetails pic2={pic2}  handleToStudentDashboard={handleToStudentDashboard} handleToFreeClass={handleToFreeClass} handleToLogin={handleToLogin}  handleJoinClass={handleJoinClass} handleToDashboard={handleToDashboard} teacher={teacher} student={student}  proPic={proPic}/>
         </div>
         <div className='HeaderForSmallDevices'>
           <div className='logoContainer'>

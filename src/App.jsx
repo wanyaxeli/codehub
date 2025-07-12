@@ -5,9 +5,11 @@ import './App.css'
 import Home from './pages/Home.jsx'
 import AppRoutes from './Components/AppRoutes'
 import axios from 'axios'
+import { jwtDecode } from 'jwt-decode'
 export const context = createContext()
 function App() {
   const [value, setValue] = useState('')
+  // const [token, setToken] = useState('')
   const [grade, setGrade] = useState('')
   const [email,setEmail]=useState('')
   const [CountryCode, setCountryCode] = useState('')
@@ -18,9 +20,24 @@ function App() {
   const [proPic,setProPic]=useState('')
   async function getToken(){
     try{
-        const token= JSON.parse(localStorage.getItem('token')) // No need to await
+        const token= localStorage.getItem('token') // No need to await
         if (token){
-          localStorage.setItem('token',token)
+          try {
+            const decode = jwtDecode(token);
+            const { exp, role, user_id } = decode;
+            const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
+            if (exp > currentTime) {
+              console.log("Token is valid");
+              console.log("Decoded Token:", decode);
+              localStorage.setItem('token', token);
+              // Optionally: setRole(role)
+            } else {
+              console.warn("Token has expired, not storing.");
+              localStorage.removeItem('token',token)
+            }
+          } catch (error) {
+            console.error("JWT Decode Error:", error);
+          }
         }
     } catch(error) {
         console.log(error);

@@ -1,6 +1,6 @@
 import React from 'react'
 import {useNavigate,useLocation} from 'react-router-dom'
-export default function HeaderDetails({proPic,student,teacher,pic2,token,handleToFreeClass,handleToStudentDashboard,handleToLogin,handleJoinClass,handleToDashboard}) {
+export default function HeaderDetails({proPic,student,teacher,pic2,handleToFreeClass,handleToStudentDashboard,handleToLogin,handleJoinClass,handleToDashboard}) {
     const location = useLocation()
     console.log('location',student)
     const navigate=useNavigate()
