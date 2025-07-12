@@ -41,7 +41,7 @@ import SpecialClasses from '../pages/students/SpecialClasses.jsx';
 import ClassGroups from '../pages/students/ClassGroups.jsx';
 import GroupClass from '../pages/GroupClass.jsx';
 import Math from '../pages/Math.jsx';
-import TeacherGroupClass from '../pages/teacherGroupClass.jsx';
+import TeacherGroupClass from '../pages/TeacherGroupClass.jsx';
 export default function AppRoutes() {
   return (
     <Routes>
