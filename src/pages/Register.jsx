@@ -62,7 +62,8 @@ export default function Register() {
     // }
     const handleToLapTop=()=>{
     // navigate('/laptop')
-    if (isValidPhoneNumber(value)) {
+    if(grade && value && email){
+      if (isValidPhoneNumber(value)) {
         if(grade){
              if(email){
                 isValidEmail(email)
@@ -75,6 +76,9 @@ export default function Register() {
       } else {
         setErrors('Invalid phone number');
       }
+    }else{
+      setErrors('Plase all fields are requered')
+    }
     }
     function isValidEmail(email) {
         const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -86,7 +90,6 @@ export default function Register() {
               //   setCountryName(countryName || "Unknown Country");
                   const country=countryName||'Unknown'
                 //   const data ={...teacherValues,...{phone_number:phone_number},...country}
-                  // console.log('teacherc',data)
                   setCountryName(country) 
                   navigate('/laptop')      
            }
