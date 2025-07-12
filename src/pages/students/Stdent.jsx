@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react'
 import pic from '../../assets/hubImage.png'
-import { useLocation } from 'react-router-dom'
+import { useLocation,useNavigate } from 'react-router-dom'
 import axios from 'axios'
 export default function Stdent() {
   const initialState={grade:'',teacher:'',module:""}
@@ -11,6 +11,7 @@ export default function Stdent() {
   const [studentId,setStudentId]=useState('')
   const [student,setStudent]=useState('')
   const location = useLocation()
+  const navigate = useNavigate()
   const [classManagement,SetClassManagement]=useState(initialState)
   const [classLesson,SetClassLesson]=useState(initialStateforLessonAttendace)
   const handleFees =(e)=>{
@@ -42,6 +43,20 @@ export default function Stdent() {
    }else{
     alert ("Inputs empty")
    }
+  }
+  const handleToMath=()=>{
+    if(student){
+      navigate("/teacher/dashboard/Special Class",{state:student})
+    }else{
+      alert('Error No Student Found')
+    }
+  }
+  const handleToClassGroup=()=>{
+    if(student){
+      navigate('/teacher/dashboard/Special Groups',{state:student})
+    }else{
+      alert('Error No Student Found')
+    }
   }
   const handleAddStudentToClass =()=>{
    if(studentId && classManagement.grade && classManagement.module && classManagement.teacher){
@@ -181,6 +196,14 @@ export default function Stdent() {
            <div className='StdBtnWrapper'>
               <button onClick={handleSubmitLessonAttendance}>submit</button>
             </div>
+        </div>
+        <div className="studentDetails">
+          <h3>Special Classes</h3>
+           <div className='SpecialClassesWrapper'>
+             <div className='SpecialClasses' onClick={handleToMath}>math</div>
+             <div className='SpecialClasses' onClick={handleToClassGroup}>class group</div>
+             <div className='SpecialClasses'>math</div>
+           </div>
         </div>
     </div>
   )

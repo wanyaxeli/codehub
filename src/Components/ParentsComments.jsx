@@ -85,7 +85,7 @@ export default function ParentsComments() {
                     <p>{item.comment}</p>
                    </div>
                    <div className='ParantsLocationHolder'>
-                   <i class="fa fa-map-marker" aria-hidden="true"></i>
+                   <i className="fa fa-map-marker" aria-hidden="true"></i>
                    <p style={{color:'#0097b2'}}>{item.country}</p>
                    </div>
                 </div>
@@ -115,7 +115,7 @@ export default function ParentsComments() {
                     <p>{item.comment}</p>
                    </div>
                    <div className='ParantsLocationHolder'>
-                   <i class="fa fa-map-marker" aria-hidden="true"></i>
+                   <i className="fa fa-map-marker" aria-hidden="true"></i>
                    <p>{item.country}</p>
                    </div>
                 </div>
@@ -145,7 +145,7 @@ export default function ParentsComments() {
                     <p>{item.comment}</p>
                    </div>
                    <div className='ParantsLocationHolder'>
-                   <i class="fa fa-map-marker" aria-hidden="true"></i>
+                   <i className="fa fa-map-marker" aria-hidden="true"></i>
                    <p>{item.country}</p>
                    </div>
                 </div>

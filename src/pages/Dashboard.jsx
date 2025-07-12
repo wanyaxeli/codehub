@@ -13,7 +13,7 @@ export default function Dashboard() {
   const {setTeacher}= useContext(context)
   // const [teacher,setTeacher]=useState('')
   const {pathname}=location
-  const dashboardLinks=['/teacher/dashboard/Details','/teacher/dashboard/student/:id','/teacher/dashboard/Lessons','/teacher/dashboard','/teacher/dashboard/Add%Students','/teacher/dashboard/All%20Teachers',
+  const dashboardLinks=['/teacher/dashboard/Teacher%20Group%20Class','/teacher/dashboard/Group%20Class','/teacher/dashboard/Details','/teacher/dashboard/Special%20Groups','/teacher/dashboard/Special%20Class','/teacher/dashboard/student/:id','/teacher/dashboard/Lessons','/teacher/dashboard','/teacher/dashboard/Add%Students','/teacher/dashboard/All%20Teachers',
   '/teacher/dashboard/All%20Students','/teacher/dashboard/Add%20Teachers','/teacher/dashboard/Set%20Quiz']
   const studentLink=['/teacher/dashboard/Student%20Profile','/teacher/dashboard/My%20students']
   const calendarLinks=['/teacher/dashboard/Notes/','/teacher/dashboard/Calendar','/teacher/dashboard/Teacher%20Class%20Details',]

@@ -219,6 +219,12 @@ export default function Details() {
     const handleCurriculum =()=>{
         navigate('/StudentSignup')
     }
+    const handleToMath =()=>{
+      navigate('/teacher/dashboard/Math')
+    }
+    const handleGroupClass =()=>{
+      navigate('/teacher/dashboard/Group Class')
+    }
     const handleBookingManager=()=>{
         navigate('/teacher/dashboard/Booking Manager')
     }
@@ -276,10 +282,16 @@ export default function Details() {
       <p>add student</p>
     </div>
     <div onClick={handleCurriculum} className='actionBtnContainer createcurriculum'>
-      <p>curriculum</p>
+      <p>videos</p>
+    </div>
+    <div onClick={handleToMath} className='actionBtnContainer uploadedvideo'>
+      <p>math</p>
     </div>
     <div className='actionBtnContainer uploadedvideo'>
-      <p>videos</p>
+      <p>Slots</p>
+    </div>
+    <div onClick={handleGroupClass} className='actionBtnContainer uploadedvideo'>
+      <p>Group Class</p>
     </div>
     <div onClick={handleSetQuiz} className='actionBtnContainer quiz'>
       <p>Quiz</p>

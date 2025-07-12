@@ -61,7 +61,7 @@ export default function Register() {
     //     navigate('/teacher') 
     // }
     const handleToLapTop=()=>{
-    navigate('/laptop')
+    // navigate('/laptop')
     if (isValidPhoneNumber(value)) {
         if(grade){
              if(email){
@@ -86,7 +86,7 @@ export default function Register() {
               //   setCountryName(countryName || "Unknown Country");
                   const country=countryName||'Unknown'
                 //   const data ={...teacherValues,...{phone_number:phone_number},...country}
-                  console.log('teacherc',data)
+                  // console.log('teacherc',data)
                   setCountryName(country) 
                   navigate('/laptop')      
            }
@@ -128,7 +128,7 @@ export default function Register() {
                         </div>
                     </div>
                     <div className='copywrightHolder'>
-                        <p><span><i className="fa fa-copyright" aria-hidden="true"></i></span> {new Date().getFullYear()} codingscholor.com</p>
+                        <p><span><i className="fa fa-copyright" aria-hidden="true"></i></span> {new Date().getFullYear()} codingscholar.com</p>
                     </div>
                 </div>
             </aside>

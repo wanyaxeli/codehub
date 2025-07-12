@@ -1128,13 +1128,13 @@
 .TeacherActionWrapper{
   padding: 20px 10px;
   width: 100%;
-  height: 275px;
+  height: 300px;
   background-color: #fff;
   border-radius: 10px;
   margin-bottom: 20px;
   display: flex;
   align-items: center;
-  gap: 25px;
+  gap: 20px;
   flex-wrap: wrap;
   overflow-x: auto;
 }
@@ -1222,6 +1222,127 @@
 .lessonsBtn{
   background-color: brown;
   color: #fff;
+}
+.SpecialClassesWrapper{
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.SpecialClasses{
+  width: auto;
+  padding:15px 25px ;
+  height:auto;
+  text-transform: capitalize;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #0097b2;
+}
+.specialWrapper {
+  width: 100%;
+  height: 88vh;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ClassGroupsWrapper{
+  width: 100%;
+  height: auto;
+  padding: 10px;
+}
+.ClassGroupsWrapper table{
+  width: 100%;
+  height: auto;
+}
+.ClassGroupsWrapper table tr th{
+  border-bottom: 1px solid #000;
+  padding-bottom: 10px;
+}
+.ClassGroupsWrapper table td{
+  text-transform: capitalize;
+  padding: 10px;
+  text-align: center;
+}
+.ClassGroupsWrapper table td button{
+  border: none;
+  outline: none;
+  background-color: #0097b2;
+  cursor: pointer;
+  padding: 10px 15px;
+  text-transform: capitalize;
+  color: #fff;
+  border-radius: 10px;
+}
+.ClassGroupsWrapper table td button:hover{
+  background-color: #c1dfe5;
+  color: #000;
+}
+.ClassGroupsWrapper table td:first-child{
+  border-bottom-left-radius:10px;
+  border-top-left-radius:10px;
+}
+.ClassGroupsWrapper table td:last-child{
+  border-bottom-right-radius:10px;
+  border-top-right-radius:10px;
+}
+.ClassGroupsWrapper table tr:nth-child(even) td{
+  background-color: #fff;
+  /* border-radius: 10px; */
+}
+.specialContainer{
+  width: 70%;
+  height: auto;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 10px;
+}
+.specialContainer span{
+  display: inline-block;
+  width: 100%;
+  background-color: #0097b2;
+  padding: 10px 5px;
+  border-radius: 10px;
+  color: #fff;
+}
+.specialContainer input{
+  width: 100%;
+  height: 40px;
+  margin: 15px 0;
+  border-radius: 10px;
+  padding: 0 10px;
+  outline: none;
+  border: none;
+  background-color: #e8e8ee;
+}
+.specialButton{
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.specialButton button{
+  padding: 15px 25px;
+  outline: none;
+  border: none;
+  background-color: #0097b2;
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+}
+.specialButton button:hover{
+  background-color: #c1dfe5;
+  color: #000;
+}
+.SpecialClasses:hover{
+  background-color: #c1dfe5;
+  color: #000;
 }
 .bookingsManagerBtn{
   background-color: rgb(77, 42, 165);
@@ -2900,6 +3021,82 @@ padding: 15px 0;
 .rightHeader  button:first-child:hover{
   text-decoration: underline;
 }
+.GroupClassWrapper,.teacherGroupClassWrapper{
+  width: 100%;
+  height: auto;
+  padding: 10px;
+}
+.teacherGroupClassWrapper h3{
+  text-decoration: underline;
+  padding: 10px;
+  text-transform: capitalize;
+}
+.teacherGroupClassWrapper ol li{
+  padding: 10px 0;
+  text-transform: capitalize;
+}
+.teacherGroupClassWrapper ol li span{
+  background-color: #0097b2;
+  cursor: pointer;
+  padding: 5px 10px ;
+  border-radius: 10px;
+  color: #fff;
+}
+.teacherGroupClassWrapper{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.createGroupClassWrapper h3{
+  padding: 10px 10px 0 10px;
+}
+.showGroupClass,.showGroupClass table{
+  width: 100%;
+  height: auto;
+}
+.showGroupClass table tr th{
+  border-bottom: 1px solid #000;
+  text-transform: capitalize;
+  padding-bottom: 10px;
+}
+.showGroupClass table tr td{
+  text-align: center;
+  text-transform: capitalize;
+  padding: 10px 0;
+}
+.showGroupClass table tr:nth-child(even) td{
+  background-color: #fff;
+}
+.showGroupClass table tr td:first-child{
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+}
+.showGroupClass table tr td:last-child{
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.showGroupClass table tr td button{
+  background-color: #0097b2;
+  color: #fff;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 10px 15px;
+  text-transform: capitalize;
+  border-radius: 10px;
+}
+.showGroupClass table tr td button:hover,.teacherGroupClassWrapper ol li span:hover{
+  background-color: #c1dfe5;
+  color: #000;
+}
+.createGroupClassWrapper,.createGroupClassWrapper .specialContainer{
+  width: 100%;
+  height: auto;
+  background-color: #fff;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
 
 @media (prefers-color-scheme: dark) {
   .leftHeader select {
@@ -2907,6 +3104,12 @@ padding: 15px 0;
     color: #0097b2;
     cursor: pointer;
     outline: none;
+  }
+  .ClassGroupsWrapper table tr th,.showGroupClass  table tr th{
+    border-bottom: 1px solid #fff;
+  }
+  .ClassGroupsWrapper table tr:nth-child(even) td,.showGroupClass table tr:nth-child(even) td{
+    color: #000;
   }
   .MyLessonWrapper{
     padding: 15px;

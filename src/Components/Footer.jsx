@@ -24,7 +24,7 @@ export default function Footer() {
                   <ul>
                     <li>about us</li>
                     <li>why  CodingScholar</li>
-                    <li>contact us</li>
+                    <li><a href="mailto:info@codingscholar.com" style={{ textDecoration: 'none', color: 'inherit' }}>contact us</a></li>
                   </ul>
                 </div>
             </div>
