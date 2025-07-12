@@ -144,7 +144,10 @@ export default function Register() {
                       <li>
                         <i className="fa fa-envelope-open" aria-hidden="true"></i>
                         &nbsp;
-                        <a href="mailto:info@codingscholar.com" style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <a
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href="mailto:info@codingscholar.com" style={{ textDecoration: 'none', color: 'inherit' }}>
                             support: info@codingscholar.com
                         </a>
                       </li>
