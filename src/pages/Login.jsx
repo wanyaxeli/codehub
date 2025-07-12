@@ -99,7 +99,7 @@ export default function Login() {
                     </div>
                 </div>
                 <div className='copywrightHolder'>
-                    <p><span><i className="fa fa-copyright" aria-hidden="true"></i></span> {new Date().getFullYear()} codingscholor.com</p>
+                    <p><span><i className="fa fa-copyright" aria-hidden="true"></i></span> {new Date().getFullYear()} codingscholar.com</p>
                 </div>
             </div>
         </aside>
@@ -111,8 +111,13 @@ export default function Login() {
                 <li>
                 <i className="fa fa-envelope-open" aria-hidden="true"></i>
                 &nbsp;
-                <a href="mailto:info@codingscholar.com" style={{ textDecoration: 'none', color: 'inherit' }}>
-                    support: info@codingscholar.com
+                <a 
+                // href="mailto:info@codingscholar.com" 
+                href="https://mail.google.com/mail/?view=cm&to=info@codingscholar.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ textDecoration: 'none', color: 'inherit' }}>
+                support: info@codingscholar.com
                 </a>
                 </li>
                 </ul>
