@@ -145,9 +145,10 @@ export default function Register() {
                         <i className="fa fa-envelope-open" aria-hidden="true"></i>
                         &nbsp;
                         <a
+                        href="https://mail.google.com/mail/?view=cm&to=info@codingscholar.com"
                         target="_blank"
                         rel="noopener noreferrer"
-                        href="mailto:info@codingscholar.com" style={{ textDecoration: 'none', color: 'inherit' }}>
+                        style={{ textDecoration: 'none', color: 'inherit' }}>
                             support: info@codingscholar.com
                         </a>
                       </li>

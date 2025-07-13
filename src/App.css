@@ -3097,7 +3097,52 @@ padding: 15px 0;
   border-radius: 10px;
   margin-bottom: 20px;
 }
-
+.logoutWrapper .fa{
+ color: #0097b2;
+ cursor: pointer;
+ position: relative;
+}
+.logoutWrapper .fa::after{
+  position: absolute;
+  content: '';
+  top: -5px;
+  left: -10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #e8e8ee;
+  z-index: -1;
+}
+.logoutWrapper span{
+  color: #000;
+  font-size: .7rem;
+  position: absolute;
+  bottom: -15px;
+  right: 25px;
+  background-color: #000;
+  display: inline-block;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 10px;
+  display: none;
+  /* left: 10px; */
+  /* margin-left:-25px ;
+  margin-top:-100px ; */
+}
+/* Add the top triangle tip */
+.logoutWrapper span::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  right: 25px; /* adjust to position the tip horizontally */
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid #000; /* same as background color */
+}
+.logoutWrapper:hover span,
+.logoutWrapper .fa:hover + span {
+  display: inline-block;
+}
 @media (prefers-color-scheme: dark) {
   .leftHeader select {
     background-color: #fff;

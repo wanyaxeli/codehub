@@ -4,6 +4,7 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import Home from './pages/Home.jsx'
 import AppRoutes from './Components/AppRoutes'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { jwtDecode } from 'jwt-decode'
 export const context = createContext()
@@ -18,6 +19,7 @@ function App() {
   const [teacher,setTeacher]=useState('')
   const [classEndedfully,setClassEndedfully]=useState(false)
   const [proPic,setProPic]=useState('')
+  const navigate=useNavigate()
   async function getToken(){
     try{
         const token= localStorage.getItem('token') // No need to await
@@ -34,6 +36,7 @@ function App() {
             } else {
               console.warn("Token has expired, not storing.");
               localStorage.removeItem('token',token)
+              navigate('/Login')
             }
           } catch (error) {
             console.error("JWT Decode Error:", error);

@@ -21,6 +21,7 @@ export default function Header() {
     const handleToFreeClass =()=>{
     navigate('/register')
     }
+    console.log('path',pathname)
     const handleToLogin=()=>{
       // console.log('token',token)
       // if(token){
@@ -109,6 +110,10 @@ export default function Header() {
   useEffect(()=>{
     setToggleSideBarClass('sideBarWrapper')
   },[])
+  const handleLogout =()=>{
+    localStorage.removeItem('token')
+    navigate('/')
+  }
   // useEffect(()=>{
   // getToken()
   // },[])
@@ -133,6 +138,11 @@ export default function Header() {
                 </select>
             </div>
             <HeaderDetails pic2={pic2}  handleToStudentDashboard={handleToStudentDashboard} handleToFreeClass={handleToFreeClass} handleToLogin={handleToLogin}  handleJoinClass={handleJoinClass} handleToDashboard={handleToDashboard} teacher={teacher} student={student}  proPic={proPic}/>
+            {pathname==='/'?'':
+            <div className='logoutWrapper' onClick={handleLogout}>
+            <i  className="fa fa-sign-out" aria-hidden="true"></i>
+            <span>Logout</span>
+          </div>}
         </div>
         <div className='HeaderForSmallDevices'>
           <div className='logoContainer'>
