@@ -3125,9 +3125,6 @@ padding: 15px 0;
   padding: 5px 10px;
   border-radius: 10px;
   display: none;
-  /* left: 10px; */
-  /* margin-left:-25px ;
-  margin-top:-100px ; */
 }
 /* Add the top triangle tip */
 .logoutWrapper span::before {
@@ -3143,6 +3140,83 @@ padding: 15px 0;
 .logoutWrapper .fa:hover + span {
   display: inline-block;
 }
+.slotWrapper{
+  width: 100%;
+  height: auto;
+  padding: 10px;
+}
+.slotContainer{
+  width: 100%;
+  height: 200px;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+.slotDisplayer{
+  width: 100%;
+  height: auto;
+  background-color: #fff;
+  border-radius: 10px;
+  margin-bottom: 30px;
+}
+.slotDisplayer span{
+  display: inline-block;
+  height: 40px;
+  width: 100%;
+  background-color: #0097b2;
+  border-top-left-radius:10px ;
+  border-top-right-radius:10px ;
+  padding: 5px 0 5px 10px;
+}
+.slotContainer h3{
+  color: #000;
+  text-transform: capitalize;
+  padding: 10px 0;
+}
+.slotInputWrapper{
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0 20px 0;
+}
+.slotBtnWRapper {
+  width:100%;
+text-align: center;
+height: auto;
+}
+.slotBtnWRapper button{
+  background-color: #0097b2;
+  border: none;
+  outline: none;
+  padding: 10px 20px;
+  text-transform: capitalize;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+.slotBtnWRapper button:hover{
+  border: 2px solid #0097b2;
+  background-color: transparent;
+  cursor: pointer;
+}
+.slotInputWrapper input{
+  width: 48%;
+  height: 40px;
+  background-color: #e8e8ee;
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  padding: 0 10px;
+}
+.slotDisplayer ul{
+  padding: 10px;
+  list-style: none;
+}
+.slotDisplayer ul li{
+  padding: 10px 0;
+}
 @media (prefers-color-scheme: dark) {
   .leftHeader select {
     background-color: #fff;
@@ -3153,7 +3227,7 @@ padding: 15px 0;
   .ClassGroupsWrapper table tr th,.showGroupClass  table tr th{
     border-bottom: 1px solid #fff;
   }
-  .ClassGroupsWrapper table tr:nth-child(even) td,.showGroupClass table tr:nth-child(even) td{
+  .ClassGroupsWrapper table tr:nth-child(even) td,.slotDisplayer ul li,.slotBtnWRapper button:hover,.showGroupClass table tr:nth-child(even) td{
     color: #000;
   }
   .MyLessonWrapper{

@@ -68,6 +68,9 @@ export default function Details() {
     const handlechange =(e)=>{
         setProfilePic(e.target.files[0])
     }
+    const handleSlots =()=>{
+      navigate('/teacher/dashboard/Slots')
+    }
     function UpdateProfilePic(){
     if(token && profilePic){
         const url = 'https://api.codingscholar.com/profilePic/';
@@ -287,7 +290,7 @@ export default function Details() {
     <div onClick={handleToMath} className='actionBtnContainer uploadedvideo'>
       <p>math</p>
     </div>
-    <div className='actionBtnContainer uploadedvideo'>
+    <div className='actionBtnContainer uploadedvideo' onClick={handleSlots}>
       <p>Slots</p>
     </div>
     <div onClick={handleGroupClass} className='actionBtnContainer uploadedvideo'>

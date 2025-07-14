@@ -42,6 +42,7 @@ import ClassGroups from '../pages/students/ClassGroups.jsx';
 import GroupClass from '../pages/GroupClass.jsx';
 import Math from '../pages/Math.jsx';
 import TeacherGroupClass from '../pages/TeacherGroupClass.jsx';
+import Slots from '../pages/Slots.jsx';
 export default function AppRoutes() {
   return (
     <Routes>
@@ -75,6 +76,7 @@ export default function AppRoutes() {
           <Route path='/teacher/dashboard/Special Groups' element={<ClassGroups/>}/>
           <Route path='/teacher/dashboard/Math' element={<Math/>}/>
           <Route path='/teacher/dashboard/Group Class' element={<GroupClass/>}/>
+          <Route path='/teacher/dashboard/Slots' element={<Slots/>}/>
           <Route path='/teacher/dashboard/Teacher Group Class' element={<TeacherGroupClass/>}/>
           <Route path='/teacher/dashboard/student/:id' element={<Stdent/>}/>
         </Route>
