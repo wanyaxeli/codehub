@@ -3153,12 +3153,26 @@ padding: 15px 0;
   padding: 10px;
   margin-bottom: 20px;
 }
-.slotDisplayer{
+.slotDisplayer,.nonadminWrapper{
   width: 100%;
   height: auto;
   background-color: #fff;
+}
+.slotDisplayer{
   border-radius: 10px;
   margin-bottom: 30px;
+}
+.nonadminWrapper{
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.slotholder{
+  background-color: #0097b2;
+  color: #fff;
 }
 .slotDisplayer span{
   display: inline-block;
@@ -3227,7 +3241,7 @@ height: auto;
   .ClassGroupsWrapper table tr th,.showGroupClass  table tr th{
     border-bottom: 1px solid #fff;
   }
-  .ClassGroupsWrapper table tr:nth-child(even) td,.slotDisplayer ul li,.slotBtnWRapper button:hover,.showGroupClass table tr:nth-child(even) td{
+  .ClassGroupsWrapper table tr:nth-child(even) td,.bookingDateWrapper ul li,.TodaysClasses  table tr th,.TodaysClasses  table tr  td ,.slotDisplayer ul li,.slotBtnWRapper button:hover,.showGroupClass table tr:nth-child(even) td{
     color: #000;
   }
   .MyLessonWrapper{

@@ -5,6 +5,7 @@ export default function quiz() {
   const [token,setToken]=useState()
   const [quizId,setQuizid]=useState('')
   const [quiz,setQuiz]=useState('')
+  const [quizTitle,setQuizTitle]=useState('')
   const [link,setLink]=useState('')
   const [error,setError]=useState('')
   const location = useLocation()
@@ -53,8 +54,9 @@ if(quizId && link){
 }
 useEffect(()=>{
 const state=location.state
-const {id,quiz}=state
-console.log(quiz)
+const {id,title,quiz}=state
+console.log('q',state)
+setQuizTitle(title)
 setQuiz(quiz)
 setQuizid(id)
 
@@ -65,7 +67,7 @@ useEffect(()=>{
   return (
     <div className='QuizWrapper'>
       {error && <p style={{color:'red',textAlign:'center'}}>{error}</p>}
-        <h3>Introduction to roblox</h3>
+        <h3>{quizTitle}</h3>
         <div className='quizContainer'>
             <p>{quiz}</p>
             <div className='quizInputWrapper'>

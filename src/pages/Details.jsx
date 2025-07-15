@@ -270,7 +270,7 @@ export default function Details() {
                 </div>
             </div>
         </div>
-        {teacher?.user?.is_admin ? (
+  {teacher?.user?.is_admin ? (
   <div className='TeacherActionWrapper'>
     <div onClick={handleToAllTeachers} className='actionBtnContainer allTeacher'>
       <p>all teachers</p>
@@ -290,7 +290,7 @@ export default function Details() {
     <div onClick={handleToMath} className='actionBtnContainer uploadedvideo'>
       <p>math</p>
     </div>
-    <div className='actionBtnContainer uploadedvideo' onClick={handleSlots}>
+    <div className='actionBtnContainer slotholder' onClick={handleSlots}>
       <p>Slots</p>
     </div>
     <div onClick={handleGroupClass} className='actionBtnContainer uploadedvideo'>
@@ -306,8 +306,14 @@ export default function Details() {
       <p>Bookings</p>
     </div>
   </div>
-) : ''}
-        <div className='TodaysClasses'>
+) :(
+  <div className='nonadminWrapper'>
+  <div className='actionBtnContainer slotholder' onClick={handleSlots}>
+     <p>Slots</p>
+   </div>
+ </div>
+)}
+  <div className='TodaysClasses'>
             <h3>Today Bookings</h3>
             <table>
                 <thead>

@@ -78,6 +78,7 @@ export default function Slots() {
         .catch(error=>console.log(error))
       }
     }
+    console.log('slots',groupedSlots)
     function groupSlotsByDate(slots) {
       return slots.reduce((grouped, slot) => {
         if (!grouped[slot.date]) {
@@ -115,7 +116,7 @@ export default function Slots() {
             </div>
         </div>
 
-      {Object.entries(groupedSlots).map(([date, slots]) => (
+      {groupedSlots? Object.entries(groupedSlots).map(([date, slots]) => (
         <div key={date} className="slotDisplayer">
           <span><h3>{new Date(date).toLocaleDateString()}</h3></span>
           <ul>
@@ -124,7 +125,7 @@ export default function Slots() {
             ))}
           </ul>
         </div>
-      ))}
+      )):<p>No slots placed for now!</p>}
     </div>
   )
 }

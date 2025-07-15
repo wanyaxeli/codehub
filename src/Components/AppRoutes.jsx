@@ -43,6 +43,7 @@ import GroupClass from '../pages/GroupClass.jsx';
 import Math from '../pages/Math.jsx';
 import TeacherGroupClass from '../pages/TeacherGroupClass.jsx';
 import Slots from '../pages/Slots.jsx';
+import ProtectedLayout from './ProtectedRoute.jsx';
 export default function AppRoutes() {
   return (
     <Routes>
@@ -55,46 +56,49 @@ export default function AppRoutes() {
         <Route path='/SignUp/' element={<SignUp/>}/>
         <Route path='/StudentSignup/:token' element={<StudentSignUp/>}/>
         <Route path='/StudentSignup' element={<StudentSignUp/>}/>
-        <Route path='/teacher' element={<Teacher/>}/>
-        <Route path='/teacher/dashboard' element={<Dashboard/>}>
-          <Route index element={<Details/>}/>
-          <Route path='/teacher/dashboard/Details' element={<Details/>}/>
-          <Route path='/teacher/dashboard/Booking Manager' element={<BookingsManager/>}/>
-          <Route path='/teacher/dashboard/Calendar' element={<Calendar/>}/>
-          <Route path='/teacher/dashboard/My students' element={<MyStudents/>}/>
-          <Route path='/teacher/dashboard/Projects' element={<Projects/>}/>
-          <Route path='/teacher/dashboard/All Teachers' element={<AllTeachers/>}/>
-          <Route path='/teacher/dashboard/All Students' element={<AllStudents/>}/>
-          <Route path='/teacher/dashboard/Add Teachers' element={<AddTeachers/>}/>
-          <Route path='/teacher/dashboard/Add Students' element={<AddStudents/>}/>
-          <Route path='/teacher/dashboard/Set Quiz' element={<SetQuiz/>}/>
-          <Route path='/teacher/dashboard/Teacher Class Details' element={<TeacherClassDetails/>}/>
-          <Route path='/teacher/dashboard/Lessons' element={<CreatLessons/>}/>
-          <Route path='/teacher/dashboard/Notes/' element={<NotesViewer/>}/>
-          <Route path='/teacher/dashboard/Student Profile' element={<StudentProfile/>}/>
-          <Route path='/teacher/dashboard/Special Class' element={<SpecialClasses/>}/>
-          <Route path='/teacher/dashboard/Special Groups' element={<ClassGroups/>}/>
-          <Route path='/teacher/dashboard/Math' element={<Math/>}/>
-          <Route path='/teacher/dashboard/Group Class' element={<GroupClass/>}/>
-          <Route path='/teacher/dashboard/Slots' element={<Slots/>}/>
-          <Route path='/teacher/dashboard/Teacher Group Class' element={<TeacherGroupClass/>}/>
-          <Route path='/teacher/dashboard/student/:id' element={<Stdent/>}/>
-        </Route>
-        <Route path='/student/dashboard' element={<StudentDashboard/>}>
-          <Route index element={<StudentDetails/>}/>
-          <Route path='/student/dashboard/Details' element={<StudentDetails/>}/>
-          <Route path='/student/dashboard/My  lessons' element={<MyLessons/>}/>
-          <Route path='/student/dashboard/My  projects' element={<MyProjects/>}/>
-          <Route path='/student/dashboard/My  quizzes' element={<MyQuizzes/>}/>
-          <Route path='/student/dashboard/StudentNotes/' element={<StudentNotesView/>}/>
-          <Route path='/student/dashboard/Quiz' element={<Quiz/>}/>
-        </Route>
-        <Route path='/Class booking' element={<ClassBooking/>}/>
-        <Route path='/End Class' element={<EndClass/>}/>
-        <Route path='/Class/:name' element={<Class/>}/>
-        <Route path='/TrialClass/:name' element={<TrialClass/>}/>
-        <Route path="/TrialClass/:name/:token" element={<BookingLoading />} />
-        <Route path='/Error' element={<Error/>}/>
+        
+        <Route element={<ProtectedLayout />}>
+            <Route path='/teacher' element={<Teacher/>}/>
+            <Route path='/teacher/dashboard' element={<Dashboard/>}>
+              <Route index element={<Details/>}/>
+              <Route path='/teacher/dashboard/Details' element={<Details/>}/>
+              <Route path='/teacher/dashboard/Booking Manager' element={<BookingsManager/>}/>
+              <Route path='/teacher/dashboard/Calendar' element={<Calendar/>}/>
+              <Route path='/teacher/dashboard/My students' element={<MyStudents/>}/>
+              <Route path='/teacher/dashboard/Projects' element={<Projects/>}/>
+              <Route path='/teacher/dashboard/All Teachers' element={<AllTeachers/>}/>
+              <Route path='/teacher/dashboard/All Students' element={<AllStudents/>}/>
+              <Route path='/teacher/dashboard/Add Teachers' element={<AddTeachers/>}/>
+              <Route path='/teacher/dashboard/Add Students' element={<AddStudents/>}/>
+              <Route path='/teacher/dashboard/Set Quiz' element={<SetQuiz/>}/>
+              <Route path='/teacher/dashboard/Teacher Class Details' element={<TeacherClassDetails/>}/>
+              <Route path='/teacher/dashboard/Lessons' element={<CreatLessons/>}/>
+              <Route path='/teacher/dashboard/Notes/' element={<NotesViewer/>}/>
+              <Route path='/teacher/dashboard/Student Profile' element={<StudentProfile/>}/>
+              <Route path='/teacher/dashboard/Special Class' element={<SpecialClasses/>}/>
+              <Route path='/teacher/dashboard/Special Groups' element={<ClassGroups/>}/>
+              <Route path='/teacher/dashboard/Math' element={<Math/>}/>
+              <Route path='/teacher/dashboard/Group Class' element={<GroupClass/>}/>
+              <Route path='/teacher/dashboard/Slots' element={<Slots/>}/>
+              <Route path='/teacher/dashboard/Teacher Group Class' element={<TeacherGroupClass/>}/>
+              <Route path='/teacher/dashboard/student/:id' element={<Stdent/>}/>
+            </Route>
+            <Route path='/student/dashboard' element={<StudentDashboard/>}>
+              <Route index element={<StudentDetails/>}/>
+              <Route path='/student/dashboard/Details' element={<StudentDetails/>}/>
+              <Route path='/student/dashboard/My  lessons' element={<MyLessons/>}/>
+              <Route path='/student/dashboard/My  projects' element={<MyProjects/>}/>
+              <Route path='/student/dashboard/My  quizzes' element={<MyQuizzes/>}/>
+              <Route path='/student/dashboard/StudentNotes/' element={<StudentNotesView/>}/>
+              <Route path='/student/dashboard/Quiz' element={<Quiz/>}/>
+            </Route>
+          </Route>
+            <Route path='/End Class' element={<EndClass/>}/>
+            <Route path='/Class booking' element={<ClassBooking/>}/>
+            <Route path='/Class/:name' element={<Class/>}/>
+            <Route path='/TrialClass/:name' element={<TrialClass/>}/>
+            <Route path="/TrialClass/:name/:token" element={<BookingLoading />} />
+            <Route path='/Error' element={<Error/>}/>
     {/* <Route path="/" element={<Layout />}>
       <Route index element={<Home />} />
       <Route path="blogs" element={<Blogs />} />

@@ -12,6 +12,11 @@ import { useEffect } from 'react';
     const [booking,setBooking]=useState(initialState)
     const [loading,setLoading]=useState(false)
     const [error,setError]=useState('')
+    const [data,setData]=useState([])
+    const [active,setActive]=useState({id:1})
+    const [todayActive,setTodayActive]=useState('')
+    const [tomorrowActive,settomorrowActive]=useState('')
+    const [otherdayActive,setotherdayActive]=useState('')
     const [fetchloading,setfetchloading]=useState(true)
     const [availability,setAvailability]=useState([])
     const [pickedTime,setPickedTime]=useState([])
@@ -26,6 +31,7 @@ import { useEffect } from 'react';
         .then(res=>{
             setfetchloading(false)
             const data=res.data
+            setData(data)
             const today = new Date().toISOString().split('T')[0]
             const time = new Date().toTimeString().split(' ')[0]
             const todayAvailability = data.filter(item => item.date === today && item.time >=time)
@@ -52,6 +58,63 @@ import { useEffect } from 'react';
             hour12: false // Set to false for 24-hour format
         }).format(date);
     }
+    const today = new Date();
+
+    const tomorrow = new Date();
+    tomorrow.setDate(today.getDate() + 1);
+  
+    const dayAfterTomorrow = new Date();
+    dayAfterTomorrow.setDate(today.getDate() + 2);
+  
+    // Format as readable string (e.g., "Wednesday, July 16, 2025")
+    const formatDate = (date) => {
+      return date.toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      });
+    };
+    const formatDateString = (date) => date.toISOString().split('T')[0];
+    const tomorrowStr = formatDateString(tomorrow);
+    const dayAfterStr = formatDateString(dayAfterTomorrow);
+    const handleShowBookingforTomorrow=(id)=>{
+        setActive({id:id})
+        setAvailability([])
+        console.log(data)
+        const filtered = data.filter(item => item.date === tomorrowStr);
+
+        console.log("Tomorrow's bookings:", filtered);
+        filtered.forEach(item=>{
+        const timeZoneTime=formatToLocalTime(item.datetime_utc)
+        setAvailability(pre=>([...pre,{...item,...{timeZoneTime:timeZoneTime}}]))
+        })
+        // const tommrrow = new Date().toISOString().split('T')[0] + 1
+        // const time = new Date().toTimeString().split(' ')[0]  
+    }
+    const handleToBooking=(id)=>{
+        setActive({id:id})
+        setAvailability([])
+        const today = new Date().toISOString().split('T')[0]
+        const time = new Date().toTimeString().split(' ')[0]
+        const todayAvailability = data.filter(item => item.date === today && item.time >=time)
+        console.log('today',time,todayAvailability)
+        todayAvailability.forEach(item=>{
+        const timeZoneTime=formatToLocalTime(item.datetime_utc)
+        setAvailability(pre=>([...pre,{...item,...{timeZoneTime:timeZoneTime}}]))
+        })
+    }
+    const handleShowBookingforOtherDay=(id)=>{
+        setActive({id:id})
+        setAvailability([])
+        const filtered = data.filter(item => item.date === dayAfterStr);
+        console.log("Day-after-tomorrow's bookings:", filtered);
+        filtered.forEach(item=>{
+        const timeZoneTime=formatToLocalTime(item.datetime_utc)
+        setAvailability(pre=>([...pre,{...item,...{timeZoneTime:timeZoneTime}}]))
+        
+        })
+    }
     const handleBook=()=>{
         const uniqueId = uuidv4();
         const BookingName = `freeTrial${uniqueId}`
@@ -69,7 +132,8 @@ import { useEffect } from 'react';
                     .then(res=>{
                         console.log(res.data)
                         const {message}=res.data
-                        setBookingMessage(message)
+                        // setBookingMessage(message)
+                        alert(message)
                         setLoading(false)
                     })
                     .catch(error=>{
@@ -87,6 +151,23 @@ import { useEffect } from 'react';
     useEffect(()=>{
     GetAvailabeBookingTime()
     },[])
+    useEffect(()=>{
+    if(active.id===1){
+        setTodayActive('activeDay')
+        settomorrowActive('')
+        setotherdayActive('')
+    }
+    else if(active.id===2){
+        settomorrowActive('activeDay')
+        setTodayActive('')
+        setotherdayActive('')
+    }
+    else if(active.id===3){
+        settomorrowActive('')
+        setTodayActive('')
+        setotherdayActive('activeDay')
+    }
+    },[active])
   return (
     <div className='RegisterWRapper'>
         <div className='RegisterContainer'>
@@ -107,7 +188,7 @@ import { useEffect } from 'react';
                         </div>
                     </div>
                     <div className='copywrightHolder'>
-                        <p><span><i className="fa fa-copyright" aria-hidden="true"></i></span> {new Date().getFullYear()} codingscholor.com</p>
+                        <p><span><i className="fa fa-copyright" aria-hidden="true"></i></span> {new Date().getFullYear()} codingscholar.com</p>
                     </div>
                 </div>
             </aside>
@@ -120,7 +201,12 @@ import { useEffect } from 'react';
                         <li>
                         <i className="fa fa-envelope-open" aria-hidden="true"></i>
                         &nbsp;
-                        <a href="mailto:info@codingscholar.com" style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <a
+                        //  href="mailto:info@codingscholar.com" 
+                        href="https://mail.google.com/mail/?view=cm&to=info@codingscholar.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ textDecoration: 'none', color: 'inherit' }}>
                             support: info@codingscholar.com
                         </a>
                       </li>
@@ -131,13 +217,14 @@ import { useEffect } from 'react';
                <div className='InnerBookingWrapper'>
                 {error && <p style={{color:'red'}}>{error}</p>}
                  <h3>Book a free lesson to enter the wonderful world of coding</h3>
-                 <p className='timezone'>This will in recorded in your country's time zone</p>
+                 <p className='timezone'>This will be recorded in your country's time zone</p>
                  <div className='timeSeletorWrapper'>
                     <p>Select date</p>
                     <div className='bookingDateWrapper'>
                         <ul>
-                            <li className='activeDay'>today</li>
-                            {/* <li>tomorrow</li> */}
+                            <li onClick={()=>handleToBooking(1)} className={todayActive}>today</li>
+                            <li className={tomorrowActive} onClick={()=>handleShowBookingforTomorrow(2)}>{formatDate(tomorrow)}</li>
+                            <li className={otherdayActive} onClick={()=>handleShowBookingforOtherDay(3)}>{formatDate(dayAfterTomorrow)}</li>
                         </ul>
                     </div>
                     <p>Select  time </p>

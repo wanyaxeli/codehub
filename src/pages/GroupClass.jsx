@@ -18,6 +18,7 @@ export default function GroupClass() {
        
         const data= {...values,...{first_name:first_name,last_name:last_name}}
         console.log(data)
+        const url=`https://api.codingscholar.com/teacherClassRoom/`
     }else{
         alert('Error fill in all inputs')
     }
