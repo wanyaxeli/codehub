@@ -5,6 +5,7 @@ import { useRoomConnection } from "@whereby.com/browser-sdk/react";
 // import { WherebyRoom } from '@whereby.com/browser-sdk/react';
 // import WherebyRoom from '@whereby.com/browser-sdk/react';
 import axios from "axios";
+import Whereby from '../Components/WhereBy';
 // export default function WherebyClass({code}) {
 //   const [roomUrl, setRoomUrl] = useState(null);
 //   // const [connection, setConnection] = useState(null);
@@ -136,7 +137,7 @@ export default function WherebyClass({ code }) {
   // }
   if (roomUrl !=='' && roomUrl!=='undefined' && roomUrl!==null){
     console.log('room ',roomUrl)
-    return <WherebyRoom roomUrl={roomUrl} />;
+    // return <Whereby roomUrl={roomUrl} />;
   } 
    else{
     return <p>Loading room...</p>;

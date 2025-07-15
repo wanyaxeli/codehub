@@ -22,7 +22,7 @@ export default function Footer() {
                 </div>
                 <div className='footerAboutus'>
                   <ul>
-                    <li>about us</li>
+                    <li><a href='/about us'> about us</a></li>
                     <li>why  CodingScholar</li>
                     <li>
                     <a

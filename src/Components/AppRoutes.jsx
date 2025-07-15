@@ -44,6 +44,7 @@ import Math from '../pages/Math.jsx';
 import TeacherGroupClass from '../pages/TeacherGroupClass.jsx';
 import Slots from '../pages/Slots.jsx';
 import ProtectedLayout from './ProtectedRoute.jsx';
+import About from '../pages/About.jsx';
 export default function AppRoutes() {
   return (
     <Routes>
@@ -51,6 +52,7 @@ export default function AppRoutes() {
         <Route path='/register' element={<Register/>}/>
         <Route path='/laptop' element={<Laptop/>}/>
         <Route path='/login' element={<Login/>}/>
+        <Route path='/about us' element={<About/>}/>
         <Route path='/Fee Payment' element={<FeesPayment/>}/>
         <Route path='/SignUp/:token' element={<SignUp/>}/>
         <Route path='/SignUp/' element={<SignUp/>}/>
