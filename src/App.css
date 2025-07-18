@@ -1503,6 +1503,10 @@ body{
 .classHeaderBtnwrapper{
   height: 100%;
   flex: .3;
+  display: flex;
+   justify-content: flex-end;
+   gap: 30px; 
+   align-items: center;
 }
 
 .classheaderBtnActionwrapper{
@@ -3325,6 +3329,9 @@ height: auto;
 }
 .smallDiviceAboutPage{
   display: none;
+}
+.classHeaderBtnwrapper{
+
 }
 @media (prefers-color-scheme: dark) {
   .leftHeader select {

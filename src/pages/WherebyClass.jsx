@@ -102,18 +102,18 @@ import Whereby from '../Components/WhereBy';
 //   </div>
 //   )
 // }
-export default function WherebyClass({ code }) {
+export default function WherebyClass({ code,role }) {
   // const [roomUrl, setRoomUrl] = useState(null);
   const [roomUrl, setRoomUrl] = useState('');
   const [shouldConnect, setShouldConnect] = useState(false);
-
   useEffect(() => {
     console.log('code outer',code)
-    if (code) {
+    if (code && role) {
       console.log('code',code)
       axios
         .post('https://api.codingscholar.com/create_whereby_room/', {
           class_name: code,
+          role: role, 
         })
         .then((res) => {
           console.log('url',res.data)
@@ -122,7 +122,7 @@ export default function WherebyClass({ code }) {
         })
         .catch((err) => console.error('Room creation failed:', err));
     }
-  }, [code]);
+  }, [code,role]);
 
   // 🟨 Default values for hook output (to avoid using it until ready)
   // const connection = shouldConnect && roomUrl
@@ -136,8 +136,7 @@ export default function WherebyClass({ code }) {
   //   return <p>Loading room...</p>;
   // }
   if (roomUrl !=='' && roomUrl!=='undefined' && roomUrl!==null){
-    console.log('room ',roomUrl)
-    // return <Whereby roomUrl={roomUrl} />;
+    return <Whereby roomUrl={roomUrl} />;
   } 
    else{
     return <p>Loading room...</p>;
