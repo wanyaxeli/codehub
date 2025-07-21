@@ -161,7 +161,8 @@ useEffect(()=>{
                 return(
                     <div key={lesson.id} className='TodayClassContainer'>
                     <h4>{lesson.lesson.title}</h4>
-                    <p>time:{lesson.time}</p>
+                    {/* <p>time:{lesson.time}</p> */}
+                    <p>Time: {lesson.time?.replace(/:\d{2}(?= )/, '')}</p>
                     <p><a href='#'>details</a></p>
                     <button onClick={()=>handleToJoinClass(lesson.lesson.lessonId,lesson.date_time,lesson.lesson.title)}>join</button>
                   </div>
