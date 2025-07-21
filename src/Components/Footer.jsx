@@ -36,7 +36,7 @@ export default function Footer() {
             </div>
             <div className='FooterCopyrightWrapper'>
                  <div className='footerIconsWrapper'>
-                <i className="fa fa-facebook" aria-hidden="true"></i>
+                <a href='https://web.facebook.com/profile.php?id=61578298134834&_rdc=1&_rdr#'><i   className="fa fa-facebook" aria-hidden="true"></i></a> 
                 <i className="fa fa-twitter" aria-hidden="true"></i>
                  <a href='https://www.linkedin.com/company/codingscholar'><i className="fa fa-linkedin-square" aria-hidden="true"></i></a>
                 <i className="fa fa-instagram" aria-hidden="true"></i>
