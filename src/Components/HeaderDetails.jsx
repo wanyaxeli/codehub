@@ -34,7 +34,7 @@ export default function HeaderDetails({proPic,student,teacher,pic2,handleToFreeC
             </div>
             <div className='dashboardDetailsHolder'>
                 {student?.user && (
-                  <p style={{textTransform:'capitalize'}}>{student?.user.first_name}{student?.user?.last_name && student?.user?.last_name !== student?.user?.first_name
+                  <p style={{textTransform:'capitalize'}}>{student?.user.first_name} {student?.user?.last_name && student?.user?.last_name !== student?.user?.first_name
                     ? student.user.last_name
                   : ''}</p>
                 )}
