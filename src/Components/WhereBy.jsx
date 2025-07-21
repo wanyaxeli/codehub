@@ -3,15 +3,14 @@ export default function WherebyIframe({ roomUrl }) {
    const formattedUrl = roomUrl.includes('?')
    ? `${roomUrl}&showLogo=false`
    : `${roomUrl}?showLogo=false`;
-   console.log(formattedUrl)
   return (
     <div>
-      {/* <iframe
+      <iframe
         src={formattedUrl}
         allow="camera; microphone; fullscreen; speaker; display-capture"
         style={{ width: '100%', height: '90vh', border: '0', borderRadius: '12px' }}
         title="Codingschalor Meeting"
-      /> */}
+      />
     </div>
   );
 }
