@@ -3330,8 +3330,12 @@ height: auto;
 .smallDiviceAboutPage{
   display: none;
 }
-.classHeaderBtnwrapper{
-
+.wherebyWrapper{
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center
 }
 @media (prefers-color-scheme: dark) {
   .leftHeader select {

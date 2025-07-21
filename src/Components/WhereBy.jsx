@@ -4,11 +4,11 @@ export default function WherebyIframe({ roomUrl }) {
    ? `${roomUrl}&showLogo=false`
    : `${roomUrl}?showLogo=false`;
   return (
-    <div>
+    <div className="wherebyWrapper">
       <iframe
         src={formattedUrl}
         allow="camera; microphone; fullscreen; speaker; display-capture"
-        style={{ width: '100%', height: '90vh', border: '0', borderRadius: '12px' }}
+        style={{ width: '97%', height: '87vh',marginTop:'8px', border: '0', borderRadius: '12px' }}
         title="Codingschalor Meeting"
       />
     </div>
