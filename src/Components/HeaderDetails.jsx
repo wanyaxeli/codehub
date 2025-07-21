@@ -34,7 +34,9 @@ export default function HeaderDetails({proPic,student,teacher,pic2,handleToFreeC
             </div>
             <div className='dashboardDetailsHolder'>
                 {student?.user && (
-                  <p style={{textTransform:'capitalize'}}>{student?.user.first_name} {student?.user.last_name}</p>
+                  <p style={{textTransform:'capitalize'}}>{student?.user.first_name}{student?.user?.last_name && student?.user?.last_name !== student?.user?.first_name
+                    ? student.user.last_name
+                  : ''}</p>
                 )}
                   <div className='Dashboardimage'>
                 {proPic?<img src={`https://res.cloudinary.com/dbxsncq5r/${proPic}`}/>:<img src={pic2}/>}

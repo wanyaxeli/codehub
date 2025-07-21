@@ -5,7 +5,7 @@ export default function AddStudents() {
     first_name:'',
     last_name:'',
     email:"",
-    country:"",
+    countryName:"",
     phone_number:"",
     grade:'',
     password:"",
@@ -31,14 +31,12 @@ export default function AddStudents() {
   //   console.log(res.data)
   // })
   // .catch(error=>console.log(error))
-  if(email && student.confirm_password && student.first_name && student.last_name && student.password && student.country){
+  if(email && student.confirm_password && student.first_name && student.last_name && student.password && student.countryName){
     isValidEmail(student)
   }
  }
  function isValidEmail(data) {
-  console.log('askladlasksld',data)
   const email=data.email
-  console.log('mea',email)
   const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   if(pattern.test(email)){
       login(data)
@@ -88,7 +86,7 @@ function login(data){
                 <input value={student.first_name} name='first_name' onChange={handleChange} placeholder='First name' className='signUpInput ' type='text'/><br/>
                 <input value={student.last_name} name='last_name' onChange={handleChange} placeholder='Last name' className='signUpInput upper' type='text'/><br/>
                 <input value={student.email} name='email' onChange={handleChange} type='email' placeholder='Email'/><br/>
-                <input value={student.country} name='country' onChange={handleChange} type='text' placeholder='Country'/><br/>
+                <input value={student.countryName} name='countryName' onChange={handleChange} type='text' placeholder='Country'/><br/>
                 <input value={student.phone_number} name='phone_number' onChange={handleChange} type='text' placeholder='Phone Number'/><br/>
                 <input value={student.grade} name='grade' onChange={handleChange} type='text' placeholder='Grade'/><br/>
                 <input value={student.password} name='password' onChange={handleChange} type='password' placeholder='Password'/><br/>

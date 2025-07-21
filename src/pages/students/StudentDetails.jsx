@@ -134,10 +134,12 @@ useEffect(()=>{
             <div className='TeacherNameWrapper'>
             {student?.user && (
                 <p>
-                    {student.user.first_name} {student.user.last_name}
-                    <span>
+                    {student.user.first_name} {student?.user?.last_name && student?.user?.last_name !== student?.user?.first_name
+                    ? student.user.last_name
+                    : ''}
+                    {/* <span>
                     <i className="fa fa-pencil" aria-hidden="true"></i>
-                    </span>
+                    </span> */}
                 </p>
                 )}
             </div>
