@@ -45,6 +45,9 @@ import TeacherGroupClass from '../pages/TeacherGroupClass.jsx';
 import Slots from '../pages/Slots.jsx';
 import ProtectedLayout from './ProtectedRoute.jsx';
 import About from '../pages/About.jsx';
+import TeacherDetails from '../pages/TeacherDetails.jsx';
+import VideoPlayer from '../pages/VideoPlayer.jsx';
+import UploadVids from '../pages/UploadVids.jsx';
 export default function AppRoutes() {
   return (
     <Routes>
@@ -82,8 +85,11 @@ export default function AppRoutes() {
               <Route path='/teacher/dashboard/Math' element={<Math/>}/>
               <Route path='/teacher/dashboard/Group Class' element={<GroupClass/>}/>
               <Route path='/teacher/dashboard/Slots' element={<Slots/>}/>
+              <Route path='/teacher/dashboard/teacher details' element={<TeacherDetails/>}/>
               <Route path='/teacher/dashboard/Teacher Group Class' element={<TeacherGroupClass/>}/>
               <Route path='/teacher/dashboard/student/:id' element={<Stdent/>}/>
+              <Route path='/teacher/dashboard/videos' element={<VideoPlayer/>}/>
+              <Route path='/teacher/dashboard/upload video' element={<UploadVids/>}/>
             </Route>
             <Route path='/student/dashboard' element={<StudentDashboard/>}>
               <Route index element={<StudentDetails/>}/>

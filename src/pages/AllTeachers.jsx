@@ -1,8 +1,9 @@
 import React,{useState,useEffect} from 'react'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 export default function AllTeachers() {
   const [teacher,setTeacher]=useState([])
-  
+   const navigate=useNavigate()
   useEffect(()=>{
     const url ='https://api.codingscholar.com/registerTeacher/'
     axios.get(url,{headers:{
@@ -17,6 +18,9 @@ export default function AllTeachers() {
         console.log(error)
     })
   },[])
+  const handleToTeacher =(teacher)=>{
+     navigate('/teacher/dashboard/teacher details',{state:teacher})
+  }
   return (
     <div className='AllTeachersWrapper'>
         <h3>All Teachers</h3>
@@ -40,7 +44,7 @@ export default function AllTeachers() {
                         <td>{item.user.phone_number}</td>
                         <td>{item.country}</td>
                         <td>{item.salary}</td>
-                        <td><button>fire</button></td>
+                        <td><button onClick={()=>handleToTeacher(item)}>view</button></td>
                     </tr>
                     )
                    })}

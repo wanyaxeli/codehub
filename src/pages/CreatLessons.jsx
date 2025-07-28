@@ -8,7 +8,8 @@ export default function CreatLessons() {
         classname:'',
         module:'',
         notes:'',
-        LessonNumber:''
+        LessonNumber:'',
+        classtype:''
     }
     const navigate= useNavigate()
     const [inputs,setInputs]=useState(initialState)
@@ -68,6 +69,7 @@ export default function CreatLessons() {
             formData.append("classname", inputs.classname);
             formData.append("LessonNumber", inputs.LessonNumber);
             formData.append("notes", inputs.notes)
+            formData.append("classtype", inputs.classtype)
             // Append file if available
             // if (inputs.notes) {
             //     formData.append("notes", inputs.notes);
@@ -114,15 +116,16 @@ export default function CreatLessons() {
     <div className='CreatLessonsWrapper'>
         <h3>create classes</h3>
         <div className='CreatLessonsContainer'>
-            <input name='grade' onChange={handleChange} type='text' placeholder='Grade'/><br/>
-            <input name='module' onChange={handleChange} type='text' placeholder='Module'/><br/>
-            <input name='classname' onChange={handleChange} type='text' placeholder='Lesson Name'/><br/>
-            <input name='LessonNumber' onChange={handleChange} type='text' placeholder='Lesson Number'/><br/>
+            <input value={inputs.classtype} name='classtype' onChange={handleChange} type='text' placeholder='Class type coding.../math...'/><br/>
+            <input value={inputs.grade} name='grade' onChange={handleChange} type='text' placeholder='Grade'/><br/>
+            <input value={inputs.module} name='module' onChange={handleChange} type='text' placeholder='Module'/><br/>
+            <input value={inputs.classname} name='classname' onChange={handleChange} type='text' placeholder='Lesson Name'/><br/>
+            <input value={inputs.LessonNumber} name='LessonNumber' onChange={handleChange} type='text' placeholder='Lesson Number'/><br/>
             <label for="file-upload" class="custom-file-upload">
              {/* {inputs.notes?inputs.notes:'Upload Notes'} */}
              {inputs.notes?<p>Selected file: {inputs.notes.name}</p>:'Upload Notes'}
             </label>
-            <input name='notes' accept='.pdf'  onChange={handleChange} id="file-upload" type="file" />
+            <input value={inputs.notes} name='notes' accept='.pdf'  onChange={handleChange} id="file-upload" type="file" />
             <div className='classBtnContainer'>
                 <button onClick={handleCreateClass}>{loading===true?<i className="fa fa-spinner spinner" aria-hidden="true"></i>:"Create  class"} </button>
             </div>

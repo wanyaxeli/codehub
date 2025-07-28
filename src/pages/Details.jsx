@@ -103,7 +103,6 @@ export default function Details() {
     //     })
     //     .catch(error=>console.log(error))  
     // }
-    console.log('profile',profilePic)
     useEffect(() => {
    
         if (token) {
@@ -133,12 +132,10 @@ export default function Details() {
            'Authorization':`Bearer ${token}`
         }})
         .then(res=>{
-           console.log("data",res.data)
            const data=res.data
            setLoading(false)
            if (data){ 
            data.forEach(item=>{
-               console.log('item',item)
                const {countryCode,BookingName,phone_number,grade,time,joined,id,email,date} =item
                console.log('countrycode',countryCode)
                // const countryName = getCountryName(countryCode);
@@ -197,14 +194,12 @@ export default function Details() {
 
     const todayBookings = booking.filter(item=>item.date===fullDate)
     todayBookings.forEach(item=>{
-        console.log('bokkings',item)
         const timeZoneTime=formatToLocalTime(item.datetime_utc)
         settodayBooking(pre=>([...pre,{...item,...{timeZoneTime:timeZoneTime}}]))
     })
     // settodayBooking(todayBookings)
     }
     },[booking])
-    console.log('todaybkng',todayBooking)
     function formatToLocalTime(utcStr) {
         // Combine date and time into a single UTC string
         const utcDateTime =utcStr;
@@ -231,6 +226,9 @@ export default function Details() {
     const handleBookingManager=()=>{
         navigate('/teacher/dashboard/Booking Manager')
     }
+    const handleUploadVids=()=>{
+      navigate('/teacher/dashboard/upload video')
+    }
     useEffect(()=>{
     getToken()
     },[])
@@ -244,7 +242,7 @@ export default function Details() {
                 </div>
                 <div className='imageChanger'>
                  <div className='imageChangerHolder'>
-                 <label for="imageUpload">
+                 <label  htmlFor="imageUpload">
                  <i className="fa fa-camera" aria-hidden="true" style={{ cursor: "pointer" }}></i>
                  </label>
                  <input onChange={handlechange} accept="image/*"  type="file" id="imageUpload" style={{ display: "none" }} />
@@ -311,6 +309,9 @@ export default function Details() {
   <div className='actionBtnContainer slotholder' onClick={handleSlots}>
      <p>Slots</p>
    </div>
+   <div className='actionBtnContainer slotholder' onClick={handleUploadVids}>
+     <p>videos</p>
+   </div>
  </div>
 )}
   <div className='TodaysClasses'>
@@ -327,18 +328,34 @@ export default function Details() {
                     </tr>
                 </thead>
                 <tbody>
-                {loading===true?<i className="fa fa-spinner spinner" aria-hidden="true"></i>:todayBooking.length>0?todayBooking.map((item) => (
-                <tr key={item.id}>
-                    <td>{item.countryCode}</td>
-                    <td>{item.countryName}</td>
-                    <td>{item.phone_number}</td>
-                    <td>{item.email}</td>
-                    <td>{item.grade}</td>
-                    <td>{item.timeZoneTime}</td>
-                    <td><button onClick={()=>handleJoinClass(item)}>join</button></td>
-                </tr>
-                )):<p>No bookings for today</p>}
-                </tbody>
+                {loading === true ? (
+                  <tr>
+                    <td colSpan="7" style={{ textAlign: 'center' }}>
+                      <i className="fa fa-spinner spinner" aria-hidden="true"></i>
+                    </td>
+                  </tr>
+                ) : todayBooking.length > 0 ? (
+                  todayBooking.map((item) => (
+                    <tr key={item.id}>
+                      <td>{item.countryCode}</td>
+                      <td>{item.countryName}</td>
+                      <td>{item.phone_number}</td>
+                      <td>{item.email}</td>
+                      <td>{item.grade}</td>
+                      <td>{item.timeZoneTime}</td>
+                      <td>
+                        <button onClick={() => handleJoinClass(item)}>join</button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="7" style={{ textAlign: 'center' }}>
+                      No bookings for today
+                    </td>
+                  </tr>
+                )}
+            </tbody>
             </table>
         </div>
     </div>

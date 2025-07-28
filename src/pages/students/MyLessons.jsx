@@ -3,7 +3,11 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 export default function MyLessons() {
   const [token,setToken]=useState('')
+  const [data,setData]=useState([])
   const [lessons,setLessons]=useState([])
+  const [activelesson,setActiveLesson]=useState('')
+  const [mathlessonactive,setMathLessonActive]=useState(false)
+  const [codinglessonactive,setCodingLessonActive]=useState(true)
   const navigate=useNavigate()
   function GetMyLessons(){
     if(token){
@@ -16,6 +20,7 @@ export default function MyLessons() {
         console.log('res',res.data)
         // setLessons(data)
         if(Array.isArray(data) && data.length > 0){
+          setData(data)
           data.forEach(lessons=>{
             const now = new Date(lessons.date_time)
             const time = now.toLocaleTimeString();
@@ -45,6 +50,17 @@ export default function MyLessons() {
 const handleToNotes =(notes)=>{
   navigate(`/student/dashboard/StudentNotes/`, { state: notes });
 }
+function codingLessons(){
+ 
+}
+const handlecodingLessons =()=>{
+  setCodingLessonActive(true)
+  setMathLessonActive(false)
+}
+const handleMathLessons=()=>{
+  setCodingLessonActive(false)
+  setMathLessonActive(true)
+}
 useEffect(()=>{
   GetMyLessons()
 },[token])
@@ -53,6 +69,12 @@ useEffect(()=>{
 },[])
   return (
     <div className='MyLessonWrapper'>
+     <div className='classtypenavWrapper'>
+     <ul>
+          <li onClick={handlecodingLessons} className={codinglessonactive===true?'activelesson':''}>coding</li>
+          <li onClick={handleMathLessons} className={mathlessonactive===true?'activelesson':''}>mathematics</li>
+      </ul>
+     </div>
       {lessons && lessons.length >0? lessons.map(lesson=>{
         return(
         <div key={lesson.id} className='MyLessonContainer'>

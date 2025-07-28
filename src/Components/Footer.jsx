@@ -10,7 +10,7 @@ export default function Footer() {
                  <div className='footerLogoImage'>
                   <img src={logo}/>
                 </div>
-                <h4>CodingScholar</h4>
+                <h4>Codingscholar</h4>
                 </div>
                 <div className='footerCoourses'>
                     <ul>
@@ -23,7 +23,7 @@ export default function Footer() {
                 <div className='footerAboutus'>
                   <ul>
                     <li><a href='/about us'> about us</a></li>
-                    <li>why  CodingScholar</li>
+                    <li>why  codingscholar</li>
                     <li>
                     <a
                      href="https://mail.google.com/mail/?view=cm&to=info@codingscholar.com"

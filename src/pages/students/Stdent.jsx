@@ -52,8 +52,8 @@ export default function Stdent() {
     }
   }
   const handleToClassGroup=()=>{
-    if(student){
-      navigate('/teacher/dashboard/Special Groups',{state:student})
+    if(studentId){
+      navigate('/teacher/dashboard/Special Groups',{state:studentId})
     }else{
       alert('Error No Student Found')
     }
@@ -66,7 +66,7 @@ export default function Stdent() {
     const splitname = classManagement.teacher.trim().split(/\s+/);
     const first_name=splitname[0]
     const last_name=splitname[1]
-    const data={...classManagement,...{first_name:first_name,last_name:last_name}}
+    const data={...classManagement,...{first_name:first_name,roomType:'coding',last_name:last_name}}
     console.log('data std',data)
     axios.post(url,data)
     .then(res=>{
@@ -99,7 +99,8 @@ export default function Stdent() {
     // const localDateTime = new Date(`${values.date}T${values.time}`);
     // const utcDateTime = localDateTime.toISOString();
     const url=`https://api.codingscholar.com/StudentLesson/${id}`
-    axios.post(url,classLesson)
+    const data ={...classLesson,...{roomType:'coding'}}
+    axios.post(url,data)
     .then(res=>{
       console.log(res.data)
       SetClassLesson(initialStateforLessonAttendace)
