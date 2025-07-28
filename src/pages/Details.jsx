@@ -282,7 +282,7 @@ export default function Details() {
     <div onClick={handleToAddStudent} className='actionBtnContainer addStudent'>
       <p>add student</p>
     </div>
-    <div onClick={handleCurriculum} className='actionBtnContainer createcurriculum'>
+    <div onClick={handleUploadVids} className='actionBtnContainer createcurriculum'>
       <p>videos</p>
     </div>
     <div onClick={handleToMath} className='actionBtnContainer uploadedvideo'>
