@@ -125,7 +125,7 @@ export default function CreatLessons() {
              {/* {inputs.notes?inputs.notes:'Upload Notes'} */}
              {inputs.notes?<p>Selected file: {inputs.notes.name}</p>:'Upload Notes'}
             </label>
-            <input value={inputs.notes} name='notes' accept='.pdf'  onChange={handleChange} id="file-upload" type="file" />
+            <input  name='notes' accept='.pdf'  onChange={handleChange} id="file-upload" type="file" />
             <div className='classBtnContainer'>
                 <button onClick={handleCreateClass}>{loading===true?<i className="fa fa-spinner spinner" aria-hidden="true"></i>:"Create  class"} </button>
             </div>
