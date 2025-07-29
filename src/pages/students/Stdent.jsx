@@ -45,8 +45,8 @@ export default function Stdent() {
    }
   }
   const handleToMath=()=>{
-    if(student){
-      navigate("/teacher/dashboard/Special Class",{state:student})
+    if(studentId){
+      navigate("/teacher/dashboard/Special Class",{state:studentId})
     }else{
       alert('Error No Student Found')
     }
@@ -83,7 +83,8 @@ export default function Stdent() {
   }
   console.log(classLesson)
   function GetStudent(){
-    const id = studentId
+    if(studentId){
+      const id = studentId
     const url=`https://api.codingscholar.com/specificStudent/${id}`
     axios.get(url)
     .then(res=>{
@@ -91,6 +92,7 @@ export default function Stdent() {
       const {student} = res.data
       setStudent(student)
     })
+    }
   }
   const handleSubmitLessonAttendance =()=>{
   if(studentId){

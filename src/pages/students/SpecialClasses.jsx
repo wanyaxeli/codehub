@@ -11,10 +11,6 @@ export default function SpecialClasses() {
    const [classManagement,SetClassManagement]=useState(initialState)
    const [classLesson,SetClassLesson]=useState(initialStateforLessonAttendace)
    const location =useLocation()
-   const handleChange=(e)=>{
-   const {value,name}=e.target
-   setValues({...values,[name]:value})
-   }
    const handleClassManagementInput =(e)=>{
     const {name,value}=e.target
     if (name === 'teacher') {
@@ -25,21 +21,20 @@ export default function SpecialClasses() {
    }
    const handleAddStudentToClass =()=>{
     if(studentId && classManagement.grade && classManagement.module && classManagement.teacher){
-     console.log('hello class',studentId,classManagement.teacher)
      const id = studentId
      const url=`https://api.codingscholar.com/createStudentRoom/${id}`
      const splitname = classManagement.teacher.trim().split(/\s+/);
      const first_name=splitname[0]
      const last_name=splitname[1]
      const data={...classManagement,...{first_name:first_name,roomType:'maths',last_name:last_name}}
-     console.log('data std',data)
      axios.post(url,data)
      .then(res=>{
-       console.log('student res',res.data)
        SetClassManagement(initialState)
        alert(res.data)
      })
      .catch(error=>console.log(error))
+    }else{
+      alert('Invalid Inputs')
     }
    }
    const handleSubmitLessonAttendance =()=>{

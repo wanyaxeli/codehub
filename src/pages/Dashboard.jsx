@@ -41,9 +41,7 @@ export default function Dashboard() {
     }
   }
   useEffect(() => {
-    console.log('location usestate')
     if (location.state) {
-      console.log('State:', location.state);
       setToken(location.state); // Assuming you passed a token as state
     } else {
       console.log('No state found in location');
