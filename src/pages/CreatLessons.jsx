@@ -29,7 +29,6 @@ export default function CreatLessons() {
         setInputs({...inputs,[name]:value})
      }
     }
-    console.log('ada',inputs)
     function getNotes(){
         const url ='https://api.codingscholar.com/classNotes/'
         axios.get(url)
