@@ -273,7 +273,7 @@ export default function Details() {
             <div className='TeacherEarnsWrapper'>
                 <div>
                     <p>Live earning</p>
-                    {teacher && <p>ksh {seeEarning===true?teacher.salary:""} <span style={{color:'#0097b2'}} onClick={handleToSeeEarning}>{seeEarning===false?<i className="fa fa-eye" aria-hidden="true"></i>:<i className="fa fa-eye-slash" aria-hidden="true"></i>}</span> </p>}
+                    {teacher && <p>ksh {seeEarning===true?teacher.salary:""} <span style={{color:'#0097b2',cursor:'pointer'}} onClick={handleToSeeEarning}>{seeEarning===false?<i className="fa fa-eye" aria-hidden="true"></i>:<i className="fa fa-eye-slash" aria-hidden="true"></i>}</span> </p>}
                 </div>
             </div>
         </div>
