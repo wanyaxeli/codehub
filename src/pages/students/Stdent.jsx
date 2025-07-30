@@ -70,7 +70,6 @@ export default function Stdent() {
     console.log('data std',data)
     axios.post(url,data)
     .then(res=>{
-      console.log('student res',res.data)
       SetClassManagement(initialState)
       alert(res.data)
     })

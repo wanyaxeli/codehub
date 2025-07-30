@@ -15,7 +15,7 @@ export default function Details() {
     const [userId,setUser_id]=useState('')
     const [todayBooking,settodayBooking]=useState([])
     const navigate=useNavigate()
-    const {teacher,proPic,getProfilePic} =useContext(context)
+    const {teacher,proPic,getProfilePic,seeEarning,setEarning} =useContext(context)
     const [profilePic,setProfilePic]=useState('')
     const handleToAllTeachers=()=>{
     navigate('/teacher/dashboard/All Teachers')
@@ -232,6 +232,15 @@ export default function Details() {
     useEffect(()=>{
     getToken()
     },[])
+    const handleToSeeEarning =()=>{
+      if(seeEarning===true){
+        setEarning(false)
+        localStorage.setItem('earning', seeEarning);
+      }else{
+        setEarning(true)
+        localStorage.setItem('earning', seeEarning);
+      }
+    }
     console.log('teacher',teacher)
   return (
     <div className='DetailsWrapper'>
@@ -264,7 +273,7 @@ export default function Details() {
             <div className='TeacherEarnsWrapper'>
                 <div>
                     <p>Live earning</p>
-                    {teacher && <p>ksh {teacher.salary}</p>}
+                    {teacher && <p>ksh {seeEarning===true?teacher.salary:""} <span style={{color:'#0097b2'}} onClick={handleToSeeEarning}>{seeEarning===false?<i className="fa fa-eye" aria-hidden="true"></i>:<i className="fa fa-eye-slash" aria-hidden="true"></i>}</span> </p>}
                 </div>
             </div>
         </div>

@@ -19,6 +19,7 @@ function App() {
   const [teacher,setTeacher]=useState('')
   const [classEndedfully,setClassEndedfully]=useState(false)
   const [proPic,setProPic]=useState('')
+  const [seeEarning,setEarning]=useState(true)
   const navigate=useNavigate()
   async function getToken(){
     try{
@@ -46,7 +47,12 @@ function App() {
         console.log(error);
     }
 }
+function UpdateSeeEarning(){
+  const earning= localStorage.getItem('earning');
+  setEarning(earning)
+}
 useState(()=>{
+UpdateSeeEarning()
 getToken()
 },[])
   function getProfilePic(token){
@@ -66,7 +72,7 @@ getToken()
 } 
   return (
     <>
-    <context.Provider value={{value,email,setEmail,classEndedfully,setClassEndedfully,setTeacher,setStudent,teacher,student,setValue,CountryCode,setCountryCode,CountryName,setCountryName,getProfilePic,proPic,grade,setGrade}}>
+    <context.Provider value={{value,seeEarning,setEarning,email,setEmail,classEndedfully,setClassEndedfully,setTeacher,setStudent,teacher,student,setValue,CountryCode,setCountryCode,CountryName,setCountryName,getProfilePic,proPic,grade,setGrade}}>
     <AppRoutes/>
     </context.Provider>
     </>
