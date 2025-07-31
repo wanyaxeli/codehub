@@ -3526,6 +3526,9 @@ height: auto;
   .footerAboutus ul li:first-child a{
     color: #0097b2;
   }
+  .lessonsDetailsWrapper,.TodayClassContainer{
+    color: #000;
+  }
   .ClassGroupsWrapper table tr th,.showGroupClass  table tr th{
     border-bottom: 1px solid #fff;
   }
