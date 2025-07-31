@@ -104,7 +104,7 @@ export default function Banner() {
               </div>
          </div>
         <div className='bannerImgWrapper'>
-            <img src={pic}/>
+            <img src={pic} alt="codingscholar"/>
             <div className='bannnerAnimationWrapper'>
                 <div className='InnerbannnerAnimationWrapper'>
                 <div className='bannerAnimationIcon'>
@@ -119,7 +119,7 @@ export default function Banner() {
         </div>
         </div>
         <div className='smallDeviceBanner'>
-        <img src={pic}/>
+        <img src={pic} alt="codingscholar"/>
         <div className='smallDeviceBannerCover'>
            <div className='smallDeviceBannerContainer'>
               <div className='smallDeviceBannerContainerHolder'>

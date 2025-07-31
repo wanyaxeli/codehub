@@ -73,7 +73,7 @@ export default function ParentsComments() {
                <div key={i} className='parentsCommentsCard'>
                    <div className='parentDetailsHolder'>
                      <div className='PArentimageHolder'>
-                     <img src={item.img} alt='parent'/>
+                     <img src={item.img} alt='Kids learning coding online in Kenya'/>
                      </div>
                      <div className='PArentNameHolder'>
                         <h4>{item.name}</h4>
@@ -103,7 +103,7 @@ export default function ParentsComments() {
                     <div key={i} className='parentsCommentsCard'>
                    <div className='parentDetailsHolder'>
                      <div className='PArentimageHolder'>
-                     <img src={item.img} alt='parent'/>
+                     <img src={item.img} alt='Kids learning coding online in Kenya"'/>
                      </div>
                      <div className='PArentNameHolder'>
                         <h4>{item.name}</h4>
@@ -133,7 +133,7 @@ export default function ParentsComments() {
                     <div key={i} className='parentsCommentsCard'>
                    <div className='parentDetailsHolder'>
                      <div className='PArentimageHolder'>
-                       <img src={item.img} alt='parent'/>
+                       <img src={item.img} alt='Kids learning coding online in Kenya'/>
                      </div>
                      <div className='PArentNameHolder'>
                         <h4>{item.name}</h4>

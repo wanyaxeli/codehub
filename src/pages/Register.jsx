@@ -126,7 +126,7 @@ export default function Register() {
                         </div>
                         <div className='studentPicholder'>
                             <div className='studentPic'>
-                                <img  src={pic}/>
+                                <img  src={pic} alt="Kids learning coding online in Kenya"/>
                             </div>
                         </div>
                     </div>

@@ -77,7 +77,7 @@ export default function Login() {
     <Helmet>
         <title>Login - codingscholar</title>
         <meta name="description" content="Welcome to codingscholar -Let your kid learn coding with experts!" />
-        <meta name="keywords" content="coding,coding for kids, education, online classes,online classes for kids, programming for kids, programming" />
+        <meta name="keywords" content="coding,codingscholar,coding for kids, education, online classes,online classes for kids, programming for kids, programming" />
         <link rel="canonical" href="https://www.codingscholar.com/login" />
       </Helmet>
     <div className='RegisterWRapper'>
@@ -94,7 +94,7 @@ export default function Login() {
                     </div>
                     <div className='studentPicholder'>
                         <div className='studentPic'>
-                            <img  src={pic}/>
+                            <img  src={pic} alt="Kids learning coding online in Kenya"/>
                         </div>
                     </div>
                 </div>

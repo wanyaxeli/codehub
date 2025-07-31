@@ -8,7 +8,7 @@ export default function Footer() {
             <div className='footerLogoWrapper'>
                 <div className='footerLogo'>
                  <div className='footerLogoImage'>
-                  <img src={logo}/>
+                  <img src={logo} alt="Kids learning coding online in Kenya"/>
                 </div>
                 <h4>Codingscholar</h4>
                 </div>
