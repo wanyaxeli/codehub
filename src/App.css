@@ -1793,6 +1793,8 @@ body{
   width: 100%;
   height: auto;
   background-color: #e8e8ee;
+  display: flex;
+  gap: 20px;
 }
 .TodayClassContainer{
   width: 35%;
