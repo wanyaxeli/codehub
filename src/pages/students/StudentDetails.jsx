@@ -13,8 +13,10 @@ export default function StudentDetails() {
     const {student,proPic,getProfilePic}=useContext(context)
     const [profilePic,setProfilePic]=useState('')
     console.log('student',student)
-    const handleToJoinClass =(id,time,title)=>{
-    navigate(`/class/${id}`, { state: { id,classType:'NormalClass', time,title } });
+    const handleToJoinClass =(les,id,time,title)=>{
+    const navID=`${les.student.id}${id}`
+    console.log('les',navID)
+    navigate(`/class/${navID}`, { state: { id,classType:'NormalClass', time,title } });
     }
     async function getToken(){
         try{
@@ -164,7 +166,7 @@ useEffect(()=>{
                     {/* <p>time:{lesson.time}</p> */}
                     <p>Time: {lesson.time?.replace(/:\d{2}(?= )/, '')}</p>
                     {/* <p><a href='#'>details</a></p> */}
-                    <button onClick={()=>handleToJoinClass(lesson.lesson.lessonId,lesson.date_time,lesson.lesson.title)}>join</button>
+                    <button onClick={()=>handleToJoinClass(lesson,lesson.lesson.lessonId,lesson.date_time,lesson.lesson.title)}>join</button>
                   </div>
                 )
                }):<div className='NoClassDiv'>

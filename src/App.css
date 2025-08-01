@@ -1796,7 +1796,7 @@ body{
 }
 .TodayClassContainer{
   width: 35%;
-  height: 155px;
+  height: auto;
   background-color: #fff;
   border-radius: 10px;
   padding: 10px;

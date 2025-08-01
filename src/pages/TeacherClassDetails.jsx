@@ -21,13 +21,13 @@ export default function TeacherClassDetails() {
     })
    }
     },[])
-    const handleToJoinClass=(student,id,time)=>{
-        navigate(`/class/${id}`, { state: { id,classType:'NormalClass', time,student} });
-        // console.log('time',time)
+    const handleToJoinClass=(les,student,id,time)=>{
+        const navID=`${les.student.id}${id}`
+        navigate(`/class/${navID}`, { state: { id,classType:'NormalClass', time,student} });
     }
-    const handleNotes = ( title, notes) => {
+    const handleNotes = ( title,les, notes) => {
         // e.preventDefault(); // Prevents default link or form behavior
-        console.log('notes', notes);
+        console.log('notes', les);
         const id = title
         navigate(`/teacher/dashboard/Notes/`, { state: notes });
     };
@@ -77,7 +77,7 @@ export default function TeacherClassDetails() {
                         details
                     </a>
                     </p>
-                    <button onClick={()=>handleToJoinClass(lesson.student.id,lesson.lesson.lessonId,lesson.date_time)}>join</button>
+                    <button onClick={()=>handleToJoinClass(lesson,lesson.student.id,lesson.lesson.lessonId,lesson.date_time)}>join</button>
                   </div>
                 )
                })}
