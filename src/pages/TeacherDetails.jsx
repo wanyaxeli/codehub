@@ -67,7 +67,6 @@ export default function TeacherDetails() {
      const {state}=location
      if(state){
       const {id,salary}=state
-      console.log('jello',id)
       setTeacherId(id)
       setEarning(salary)
      }

@@ -15,7 +15,7 @@ export default function StudentDetails() {
     console.log('student',student)
     const handleToJoinClass =(les,id,time,title)=>{
     const navID=`${les.student.id}${id}`
-    console.log('les',navID)
+    // console.log('les',navID)
     navigate(`/class/${navID}`, { state: { id,classType:'NormalClass', time,title } });
     }
     async function getToken(){
@@ -126,7 +126,7 @@ useEffect(()=>{
                 </div>
                 <div className='imageChanger'>
                  <div className='imageChangerHolder'>
-                 <label for="imageUpload">
+                 <label htmlFor="imageUpload">
                  <i className="fa fa-camera" aria-hidden="true" style={{ cursor: "pointer" }}></i>
                  </label>
                  <input onChange={handlechange} accept="image/*"  type="file" id="imageUpload" style={{ display: "none" }} />
