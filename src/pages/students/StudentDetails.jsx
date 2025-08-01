@@ -16,12 +16,12 @@ export default function StudentDetails() {
     const handleToJoinClass =(les,id,time,title)=>{
         const lessonTime = new Date(les.date_time);       // Converts ISO string to Date object
         const now = new Date();  
-        if (lessonTime > now) {
+        // if (lessonTime > now) {
             const navID=`${les.student.id}${id}`
             navigate(`/class/${navID}`, { state: { id,classType:'NormalClass', time,title } });
-        } else{
-            alert('Your class is yet to start')
-        }
+        // } else{
+        //     alert('The time ')
+        // }
     }
     async function getToken(){
         try{
