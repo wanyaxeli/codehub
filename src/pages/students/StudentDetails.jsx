@@ -14,9 +14,14 @@ export default function StudentDetails() {
     const [profilePic,setProfilePic]=useState('')
     console.log('student',student)
     const handleToJoinClass =(les,id,time,title)=>{
-    const navID=`${les.student.id}${id}`
-    // console.log('les',navID)
-    navigate(`/class/${navID}`, { state: { id,classType:'NormalClass', time,title } });
+        const lessonTime = new Date(les.date_time);       // Converts ISO string to Date object
+        const now = new Date();  
+        if (lessonTime > now) {
+            const navID=`${les.student.id}${id}`
+            navigate(`/class/${navID}`, { state: { id,classType:'NormalClass', time,title } });
+        } else{
+            alert('Your class is yet to start')
+        }
     }
     async function getToken(){
         try{

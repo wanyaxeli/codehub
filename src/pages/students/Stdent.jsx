@@ -10,6 +10,8 @@ export default function Stdent() {
   const [fees,setFees]=useState(FeesinitialState)
   const [studentId,setStudentId]=useState('')
   const [student,setStudent]=useState('')
+  const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday","Sunday"];
+  const [selectedTimes, setSelectedTimes] = useState({});
   const location = useLocation()
   const navigate = useNavigate()
   const [classManagement,SetClassManagement]=useState(initialState)
@@ -26,6 +28,9 @@ export default function Stdent() {
     SetClassManagement({ ...classManagement, [name]: value });
   }
   }
+  const handleTimeChange = (day, time) => {
+    setSelectedTimes(prev => ({ ...prev, [day]: time }));
+  };
   const handleActivate =()=>{
    if (studentId && fees.amount && fees.amountPerClass){
       const id = studentId
@@ -119,6 +124,7 @@ export default function Stdent() {
    useEffect(()=>{
     GetStudent()
    },[studentId])
+   console.log('time',selectedTimes)
    function convertToUTC(dayOfWeek, timeString) {
     const daysMap = {
       Sunday: 0,
@@ -198,6 +204,24 @@ export default function Stdent() {
            <div className='StdBtnWrapper'>
               <button onClick={handleSubmitLessonAttendance}>submit</button>
             </div>
+        </div>
+        <div className="studentDetails">
+        <h3>lesson attendance</h3>
+       <div className='dayspickedWrapper'>
+       {daysOfWeek.map(day => (
+        <div className='dayspicked' key={day}>
+          <label>{day}</label><br/>
+          <input
+            type="time"
+            value={selectedTimes[day] || ""}
+            onChange={e => handleTimeChange(day, e.target.value)}
+          />
+        </div>
+      ))}
+       </div>
+        <div className='StdBtnWrapper'>
+              <button >submit</button>
+        </div>
         </div>
         <div className="studentDetails">
           <h3>Special Classes</h3>
