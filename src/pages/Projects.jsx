@@ -56,11 +56,11 @@ useEffect(()=>{
           {quiz.length >0? quiz.map((item,i)=>{
             return(
           <div key={i} className='MyProjectsContainer'>
-            <div className='ProjectsContainerUpper'></div>
-            <div  className='ProjectsHolder'>
-           <p>{item.quiz.title}</p>
-           <button onClick={()=>handleViewProject(item.project_link)}>View</button>
-           <button style={{marginLeft:20}} onClick={handleToReview}>Review</button>
+          <div className='ProjectsContainerUpper'></div>
+          <div  className='ProjectsHolder'>
+            <p>{item.quiz.title}</p>
+            <button onClick={()=>handleViewProject(item.project_link)}>View</button>
+            <button style={{marginLeft:20}} onClick={handleToReview}>Review</button>
           </div>
           </div>
           )

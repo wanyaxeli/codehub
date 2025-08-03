@@ -7,10 +7,15 @@ export default function SpecialClasses() {
    const initialStateforLessonAttendace={first_day:'',second_day:'',
    first_time:'',second_time:''}
    const [studentId,setStudentId]=useState('')
+   const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday","Sunday"];
    const [student,setStudent]=useState('')
    const [classManagement,SetClassManagement]=useState(initialState)
    const [classLesson,SetClassLesson]=useState(initialStateforLessonAttendace)
    const location =useLocation()
+   const [selectedTimes, setSelectedTimes] = useState({});
+   const handleTimeChange = (day, time) => {
+    setSelectedTimes(prev => ({ ...prev, [day]: time }));
+  };
    const handleClassManagementInput =(e)=>{
     const {name,value}=e.target
     if (name === 'teacher') {
@@ -44,7 +49,11 @@ export default function SpecialClasses() {
       // const localDateTime = new Date(`${values.date}T${values.time}`);
       // const utcDateTime = localDateTime.toISOString();
       const url=`https://api.codingscholar.com/StudentLesson/${id}`
-      const data ={...classLesson,...{roomType:'maths'}}
+      // const data ={...classLesson,...{roomType:'maths'}}
+      const data = {
+        lesson_schedule: selectedTimes,
+        roomType: 'math'
+      };
       axios.post(url,data)
       .then(res=>{
         console.log(res.data)
@@ -81,7 +90,7 @@ export default function SpecialClasses() {
               <button onClick={handleAddStudentToClass}>submit</button>
            </div>
         </div>
-        <div className="studentDetails">
+        {/* <div className="studentDetails">
           <h3>lesson attendance</h3>
            <div className='studentDetailsClassattendance'>
            <input  value={classLesson.first_day} onChange={handleLessonAttendance} name='first_day' type='text' placeholder='Enter first day of the class'/>
@@ -92,6 +101,24 @@ export default function SpecialClasses() {
            <div className='StdBtnWrapper'>
               <button onClick={handleSubmitLessonAttendance}>submit</button>
             </div>
+        </div> */}
+        <div className="studentDetails">
+          <h3>lesson attendance</h3>
+          <div className='dayspickedWrapper'>
+              {daysOfWeek.map(day => (
+                <div className='dayspicked' key={day}>
+                  <label>{day}</label><br/>
+                  <input
+                    type="time"
+                    value={selectedTimes[day] || ""}
+                    onChange={e => handleTimeChange(day, e.target.value)}
+                  />
+                </div>
+              ))}
+          </div>
+          <div className='StdBtnWrapper'>
+                  <button onClick={handleSubmitLessonAttendance}>submit</button>
+          </div>
         </div>
       {/* <div className='specialContainer'>
         <span>Teacher's Name</span><br/>

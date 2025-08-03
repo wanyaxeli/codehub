@@ -843,6 +843,35 @@ useEffect(() => {
    const handleStudent =()=>{
     setopenStudentRegistrationform('RegisterStudentModal')
    }
+   if(timeLeft !=='Event has started!'){
+    return (
+        <div className='classNotStartedWrapper'>
+                   <main>
+                     <div className='VideoHolder'>
+                     <video ref={beforeConnectionVideo} autoPlay playsInline muted={true} />
+                     <div className='VideoHolderCover'>
+                        <div  className='VideoHolderCoverContainer'>
+                             <div className='ClassTimerWRapper'>
+                                <p>Your class starts in  <span>
+                                <CountdownTimer timeLeft={timeLeft} setTimeLeft={setTimeLeft} startingTime={startingTime} />
+                                </span>
+                                </p>
+                             </div>
+                        </div>
+                     </div>
+                     </div>
+                   </main>
+                   <aside>
+                    <div>
+                     <p>Your class starts in  <span>
+                         <CountdownTimer timeLeft={timeLeft} setTimeLeft={setTimeLeft} startingTime={startingTime} />
+                        </span>
+                     </p>
+                    </div>
+                 </aside>
+        </div>
+    )
+   }else
    return (
         <>
         <div className='ClassWRapper'>

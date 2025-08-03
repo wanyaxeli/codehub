@@ -17,7 +17,7 @@ export default function StudentDetails() {
         const lessonTime = new Date(les.date_time);       // Converts ISO string to Date object
         const now = new Date();  
         // if (lessonTime > now) {
-         const navID=`${les.student.id}${id}`
+        const navID=`${les.student.id}${id}`
         navigate(`/class/${navID}`, { state: { id,classType:'NormalClass', time,title } });
         // } else{
         //     alert('The time ')

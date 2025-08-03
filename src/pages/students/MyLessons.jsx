@@ -17,19 +17,20 @@ export default function MyLessons() {
       }})
       .then(res=>{
         const data =res.data
-        console.log('res',res.data)
+        console.log('res hello',res.data)
         // setLessons(data)
         if(Array.isArray(data) && data.length > 0){
           setData(data)
-          data.forEach(lessons=>{
-            const now = new Date(lessons.date_time)
-            const time = now.toLocaleTimeString();
-            const date=now.toLocaleDateString()
-            // const{lesson}=lessons
-            const newData={...lessons,...{time:time},...{date:date}}
-            setLessons(pre=>([...pre,newData]))
-            console.log('newdarsa',newData)
-          })
+          getcodingLessons()
+          // data.forEach(lessons=>{
+          //   const now = new Date(lessons.date_time)
+          //   const time = now.toLocaleTimeString();
+          //   const date=now.toLocaleDateString()
+          //   // const{lesson}=lessons
+          //   const newData={...lessons,...{time:time},...{date:date}}
+          //   setLessons(pre=>([...pre,newData]))
+          //   console.log('newdarsa',newData)
+          // })
         }else{
           setLessons(pre=>[])
         }
@@ -50,31 +51,65 @@ export default function MyLessons() {
 const handleToNotes =(notes)=>{
   navigate(`/student/dashboard/StudentNotes/`, { state: notes });
 }
-function codingLessons(){
- 
+function getcodingLessons(){
+  setLessons([])
+  if(data){
+    const codingLessons=data.filter(lesson=>lesson.lessonType==='coding')
+     codingLessons .forEach(lessons=>{
+      const now = new Date(lessons.date_time)
+      const time = now.toLocaleTimeString();
+      const date=now.toLocaleDateString()
+      // const{lesson}=lessons
+      const newData={...lessons,...{time:time},...{date:date}}
+      setLessons(pre=>([...pre,newData]))
+      console.log('newdarsa',newData)
+    })
+  }
 }
 const handlecodingLessons =()=>{
   setCodingLessonActive(true)
   setMathLessonActive(false)
+  getcodingLessons()
 }
 const handleMathLessons=()=>{
   setCodingLessonActive(false)
   setMathLessonActive(true)
+  getMathsLessons()
+}
+function getMathsLessons(){
+  setLessons([])
+  if(data){
+    const mathsLessons=data.filter(lesson=>lesson.lessonType==='math')
+     mathsLessons .forEach(lessons=>{
+      const now = new Date(lessons.date_time)
+      const time = now.toLocaleTimeString();
+      const date=now.toLocaleDateString()
+      // const{lesson}=lessons
+      const newData={...lessons,...{time:time},...{date:date}}
+      setLessons(pre=>([...pre,newData]))
+      console.log('newdarsa',newData)
+    })
+  }
 }
 useEffect(()=>{
   GetMyLessons()
 },[token])
+useEffect(()=>{
+  getcodingLessons()
+},[data])
 useEffect(()=>{
   getToken()
 },[])
   return (
     <div className='MyLessonWrapper'>
      <div className='classtypenavWrapper'>
-     <ul>
-          <li onClick={handlecodingLessons} className={codinglessonactive===true?'activelesson':''}>coding</li>
-          <li onClick={handleMathLessons} className={mathlessonactive===true?'activelesson':''}>mathematics</li>
+      {data && data.some(item => item.lessonType === 'coding') && data.some(item => item.lessonType === 'math') && (
+      <ul>
+        <li onClick={handlecodingLessons} className={codinglessonactive ? 'activelesson' : ''}>coding</li>
+        <li onClick={handleMathLessons} className={mathlessonactive ? 'activelesson' : ''}>mathematics</li>
       </ul>
-     </div>
+        )}
+      </div>
       {lessons && lessons.length >0? lessons.map(lesson=>{
         return(
         <div key={lesson.id} className='MyLessonContainer'>

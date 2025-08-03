@@ -105,7 +105,10 @@ export default function Stdent() {
     // const localDateTime = new Date(`${values.date}T${values.time}`);
     // const utcDateTime = localDateTime.toISOString();
     const url=`https://api.codingscholar.com/StudentLesson/${id}`
-    const data ={...classLesson,...{roomType:'coding'}}
+    const data = {
+      lesson_schedule: selectedTimes,
+      roomType: 'coding'
+    };
     axios.post(url,data)
     .then(res=>{
       console.log(res.data)
@@ -193,7 +196,7 @@ export default function Stdent() {
               <button onClick={handleAddStudentToClass}>submit</button>
            </div>
         </div>
-        <div className="studentDetails">
+        {/* <div className="studentDetails">
           <h3>lesson attendance</h3>
            <div className='studentDetailsClassattendance'>
            <input  value={classLesson.first_day} onChange={handleLessonAttendance} name='first_day' type='text' placeholder='Enter first day of the class'/>
@@ -204,7 +207,7 @@ export default function Stdent() {
            <div className='StdBtnWrapper'>
               <button onClick={handleSubmitLessonAttendance}>submit</button>
             </div>
-        </div>
+        </div> */}
         <div className="studentDetails">
         <h3>lesson attendance</h3>
        <div className='dayspickedWrapper'>
@@ -220,7 +223,7 @@ export default function Stdent() {
       ))}
        </div>
         <div className='StdBtnWrapper'>
-              <button >submit</button>
+              <button onClick={handleSubmitLessonAttendance}>submit</button>
         </div>
         </div>
         <div className="studentDetails">
