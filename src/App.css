@@ -3597,6 +3597,16 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     color: #fff;
   }
 }
+@media (min-width: 1536px) {
+  .headerContainer,.bannerWrapper ,.CoursesContainer,.BenefitContainer,.parentsCommentsHolder,.footerContainer {
+    max-width: 1500px
+  }
+}
+@media (min-width: 1920px) {
+  .headerContainer,.bannerWrapper ,.CoursesContainer,.BenefitContainer,.parentsCommentsHolder,.footerContainer {
+    max-width: 1800px
+  }
+}
 @media screen and (min-width:  1281px) { /* for smaller laptop screens */ 
   .headerContainer,.bannerWrapper ,.CoursesContainer,.BenefitContainer,.parentsCommentsHolder,.footerContainer {
     max-width: 1400px
