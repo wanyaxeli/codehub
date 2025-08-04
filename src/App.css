@@ -3518,6 +3518,24 @@ height: auto;
   border: 2px solid #0097b2;
   color: #000;
 }
+.showpassword{
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  gap: 10px;
+}
+.showpassword input{
+  margin-top: 5px;
+  cursor: pointer;
+  font-size: 1.8rem;
+  outline: none;
+  border: 1px solid #0097b2;
+}
+.showpassword span{
+  color: #0097b2;
+  text-transform: capitalize;
+}
 @media (prefers-color-scheme: dark) {
   .leftHeader select {
     background-color: #fff;

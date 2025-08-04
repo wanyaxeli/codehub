@@ -12,6 +12,7 @@ export default function Login() {
     }
     const [values,setValues]=useState(initialState)
     const [error,setError]=useState('')
+    const [showpassword,setShowPassword]=useState(false)
     const handleChange =(e)=>{
     const {value,name}=e.target
     setValues({...values,[name]:value})
@@ -71,6 +72,10 @@ export default function Login() {
         }else{
             setError("Please Enter Email")
         }
+    }
+
+    const handleChecked =(e)=>{
+    setShowPassword(e.target.checked)
     }
   return (
     <>
@@ -132,7 +137,11 @@ export default function Login() {
                 {/* <div className='loginCountryCode'></div> */}
                 <input name='email' onChange={handleChange} placeholder='Enter email' type='email'/>
             </div>
-            <input name='password' onChange={handleChange} placeholder='Enter Password' className='passwordInput' type='password'/>
+            <input name='password' onChange={handleChange} placeholder='Enter Password' className='passwordInput' type={showpassword?'text':'password'}/>
+           </div>
+           <div className='showpassword'>
+             <input type='checkbox' onChange={handleChecked}   checked={showpassword}/> 
+             <span>show password</span>
            </div>
            <div className='LoginBtnWrapper'>
             <button onClick={handleToSignUp}>Login</button>
