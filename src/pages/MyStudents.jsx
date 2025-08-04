@@ -19,7 +19,7 @@ export default function MyStudents() {
             const data = res.data
             data.forEach(item=>{
                 console.log('stde',item)
-                setStudent([item.student])
+                setStudent(pre=>([...pre,item.student]))
             })
         })
         .catch(error=>console.log(error))
@@ -44,7 +44,7 @@ export default function MyStudents() {
   return (
     <div className='AllTeachersWrapper'>
         <h3>All My Students</h3>
-        <div className='AllTeachersContainer'>
+        <div className='AllTeachersContainer myStudentWrapper'>
             {students.length>0?<table>
                 <thead>
                     <tr>

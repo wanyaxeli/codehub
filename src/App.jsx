@@ -5,6 +5,7 @@ import './App.css'
 import Home from './pages/Home.jsx'
 import AppRoutes from './Components/AppRoutes'
 import { useNavigate } from 'react-router-dom'
+import CookieConsent from "react-cookie-consent";
 import axios from 'axios'
 import { jwtDecode } from 'jwt-decode'
 export const context = createContext()

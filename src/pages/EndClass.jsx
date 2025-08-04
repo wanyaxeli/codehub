@@ -18,11 +18,12 @@ export default function EndClass() {
   const {setClassEndedfully}=useContext(context)
   function getClass(){
    if(classId){
-    const id= classId
-    const url = `https://api.codingscholar.com/currentClass/${id}`
+    const code= classId
+    console.log('id',classId)
+    const url = `https://api.codingscholar.com/currentClass/${encodeURIComponent(code)}`
     axios.get(url)
     .then(res=>{
-      console.log(res.data)
+      console.log('res data',res.data)
       setLesson([res.data])
     })
     .catch(error=>console.log(error))
@@ -105,21 +106,24 @@ export default function EndClass() {
           .then(res=>{
             console.log(res.data)
             const data = res.data.message
-            if(data==='Class marked '){
-              if(role==='student'){
-                navigate('/student/dashboard/Details')
-              }else{
-                navigate('/teacher/dashboard/Details')
-              }
-            }
+            alert(data)
+            // if(data==='Class marked '){
+              
+            //   if(role==='student'){
+            //     navigate('/student/dashboard/Details')
+            //   }else{
+            //     navigate('/teacher/dashboard/Details')
+            //   }
+            // }
           })
           .catch(error=>console.log(error))
         }else{
-          if(role==='student'){
-            navigate('/student/dashboard/Details')
-          }else{
-            navigate('/teacher/dashboard/Details')
-          }
+          alert('This Class is already marked')
+          // if(role==='student'){
+          //   navigate('/student/dashboard/Details')
+          // }else{
+          //   navigate('/teacher/dashboard/Details')
+          // }
         }
       })
     }else{

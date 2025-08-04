@@ -894,7 +894,7 @@ useEffect(() => {
                     <ul>
                         {role ==='student'? <li onClick={handleSubmitProject}>submit project</li>:''}
                         {ClassType==='trial' && role==='teacher'?<li onClick={handleStudent}>student</li>:''}
-                        {ClassType==='NormalClass' && role==='teacher'?<li onClick={handleEndClass}>mark class</li>:''}
+                        {ClassType==='NormalClass' && role==='teacher'?<li className='markClass' onClick={handleEndClass}>mark class</li>:''}
                         {/* <li onClick={handleOpenChat}>chat</li> */}
                     </ul>
                 </div>

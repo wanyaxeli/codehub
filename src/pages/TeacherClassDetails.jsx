@@ -7,7 +7,7 @@ export default function TeacherClassDetails() {
     const navigate=useNavigate()
     const [todayClass,setTodayClass]=useState([])
     const [token,setToken]=useState()
-    const {teacher,proPic}=useContext(context)
+    const {teacher,proPic,seeEarning,setEarning}=useContext(context)
     useEffect(()=>{
     const {state}=location
     console.log(state)
@@ -21,6 +21,15 @@ export default function TeacherClassDetails() {
     })
    }
     },[])
+    const handleToSeeEarning =()=>{
+        if(seeEarning===true){
+          setEarning(false)
+          localStorage.setItem('earning', seeEarning);
+        }else{
+          setEarning(true)
+          localStorage.setItem('earning', seeEarning);
+        }
+      }
     const handleToJoinClass=(les,student,id,time)=>{
         const navID=`${les.student.id}${id}`
         navigate(`/class/${navID}`, { state: { id,classType:'NormalClass', time,student} });
@@ -52,7 +61,7 @@ export default function TeacherClassDetails() {
             <div className='TeacherEarnsWrapper'>
                 <div>
                     <p>Live earning</p>
-                    <p>ksh 20000</p>
+                    {teacher && <p>ksh {seeEarning===true?teacher.salary:""} <span style={{color:'#0097b2',cursor:'pointer'}} onClick={handleToSeeEarning}>{seeEarning===false?<i className="fa fa-eye" aria-hidden="true"></i>:<i className="fa fa-eye-slash" aria-hidden="true"></i>}</span> </p>}
                 </div>
             </div>
         </div>
