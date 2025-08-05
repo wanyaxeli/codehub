@@ -3,6 +3,7 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { DateTime } from "luxon";
 export default function Calendar() {
   const [data,setData]=useState([])
   const [token,setToken]=useState()
@@ -10,12 +11,19 @@ export default function Calendar() {
   const navigate=useNavigate()
   const handleEventClick = (clickInfo) => {
     // alert(`Event: ${clickInfo.event.title}\nStart: ${clickInfo.event.start}`);
-
-    const lesson=data.filter(item=>item.lesson.title===clickInfo.event.title)
+    const eventStart = clickInfo.event.start.toISOString().split('.')[0] + 'Z';
+    const eventTitle = clickInfo.event.title;
+    // const lesson=data.filter(item=>item.lesson.title===clickInfo.event.title)
+    const lesson = data.filter(item =>
+      item.lesson.title === eventTitle &&
+      item.date_time === eventStart
+    );
     if(lesson){
       navigate('/teacher/dashboard/Teacher Class Details',{state:lesson})
     }
-    console.log('fiste',lesson)
+    // console.log('fiste',eventStart)
+    // console.log('fisterdd',eventTitle)
+    // console.log('event',lesson)
     // Example: Navigate to event details page
     // window.location.href = `/event/${clickInfo.event.id}`;
   };
@@ -26,13 +34,17 @@ export default function Calendar() {
       'Authorization':`Bearer ${token}`
     }})
     .then(res=>{
-      console.log('teacher',res.data)
+      // console.log('teacher',res.data)
       const data=res.data
       setData(data)
       data.forEach(item=>{
-        console.log('item',item)
+        // console.log('item',item)
+        const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         const {title}=item.lesson
-        const newdata={id:item.id,title:title,start:item.date_time}
+        const localTime = DateTime.fromISO(item.date_time, { zone: 'utc' })
+                             .setZone(userTimeZone) // or Intl.DateTimeFormat().resolvedOptions().timeZone
+                             .toISO();
+        const newdata={id:item.id,title:title,start:localTime}
         setCalendarEvent(pre=>([...pre,newdata]))
         // console.log('title',newdata)
       })
@@ -62,7 +74,7 @@ getToken()
       plugins={[dayGridPlugin]}
       initialView="dayGridMonth"
       events={calendarEvent}
-      timeZone="UTC"
+      timeZone="local"
       eventClick={handleEventClick} // Event click handler
       eventDidMount={(info) => {
         info.el.style.cursor = "pointer"; // Apply pointer cursor only on events

@@ -77,13 +77,13 @@ export default function TeacherClassDetails() {
                     <p>time:{lesson.time?.replace(/:\d{2}(?= )/, '')}</p>
                     <p>
                     <a 
-                    href="#" 
-                    onClick={(e) => {
-                    e.preventDefault();  // Prevents the default anchor link behavior
-                    handleNotes(lesson.lesson.title, lesson.lesson.pdf_notes);
+                        href="#" 
+                        onClick={(e) => {
+                        e.preventDefault();  // Prevents the default anchor link behavior
+                        handleNotes(lesson.lesson.title, lesson.lesson.pdf_notes);
                     }}
                     >
-                    details
+                        details
                     </a>
                     </p>
                     <button onClick={()=>handleToJoinClass(lesson,lesson.student.id,lesson.lesson.lessonId,lesson.date_time)}>join</button>
