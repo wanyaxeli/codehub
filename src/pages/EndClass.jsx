@@ -44,7 +44,7 @@ export default function EndClass() {
    setValue(e.target.value)
   }
   const handleClassEndedFully=()=>{
-   if(classId && studentId){
+   if(classId && studentId && lesson){
     lesson.map(item=>{
       if(item.is_completed===false && item.reason===''){
       const code= classId
@@ -53,28 +53,29 @@ export default function EndClass() {
       axios.put(url,data)
       console.log(data)
       .then(res=>{
-        console.log(res.data)
+        console.log('class',res.data)
         const data = res.data.message
         setClassEndedfully(true)
-        if(data==='Class marked as complete'){
-          if(role==='student'){
-            navigate('/student/dashboard/Details')
-          }else{
-            navigate('/teacher/dashboard/Details')
-          }
-        }
+        alert(data)
+        // if(data==='Class marked as complete'){
+        //   if(role==='student'){
+        //     navigate('/student/dashboard/Details')
+        //   }else{
+        //     navigate('/teacher/dashboard/Details')
+        //   }
+        // }
       })
       .catch(error=>console.log(error))
       }else{
         setClassEndedfully(true)
-        if(role==='student'){
-          navigate('/student/dashboard/Details')
-        }else{
-          navigate('/teacher/dashboard/Details')
-        }
+        // if(role==='student'){
+        //   navigate('/student/dashboard/Details')
+        // }else{
+        //   navigate('/teacher/dashboard/Details')
+        // }
       }
      })
-   }else if(bookingId && teacherId){
+   }else if(bookingId && teacherId && booking){
     booking.map(item=>{
       if(item.joined===false && item.reason===''){
         const code= bookingId
@@ -83,13 +84,14 @@ export default function EndClass() {
         .then(res=>{
           console.log(res.data)
           const data = res.data.message
-          if(data==='Trial Class marked as complete'){
-            if(role==='student'){
-              navigate('/student/dashboard/Details')
-            }else{
-              navigate('/teacher/dashboard/Details')
-            }
-          }
+          alert(data)
+          // if(data==='Trial Class marked as complete'){
+          //   if(role==='student'){
+          //     navigate('/student/dashboard/Details')
+          //   }else{
+          //     navigate('/teacher/dashboard/Details')
+          //   }
+          // }
         })
         .catch(error=>console.log(error))
       }
@@ -190,7 +192,7 @@ useEffect(()=>{
         console.error("JWT Decode Error:", error);
       }
     }
-  }, [token]);
+  },[token]);
   useEffect(()=>{
     const { state } = location || {}; // Ensure location is not undefined
     // const { id } = state || {};\

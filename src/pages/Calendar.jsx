@@ -62,6 +62,7 @@ getToken()
       plugins={[dayGridPlugin]}
       initialView="dayGridMonth"
       events={calendarEvent}
+      timeZone="UTC"
       eventClick={handleEventClick} // Event click handler
       eventDidMount={(info) => {
         info.el.style.cursor = "pointer"; // Apply pointer cursor only on events
