@@ -74,7 +74,7 @@ export default function TeacherClassDetails() {
                 return(
                     <div key={lesson.id} className='TodayClassContainer'>
                     <h4>{lesson.lesson.title}</h4>
-                    <p>time:{lesson.time}</p>
+                    <p>time:{lesson.time?.replace(/:\d{2}(?= )/, '')}</p>
                     <p>
                     <a 
                         href="#" 

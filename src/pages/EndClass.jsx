@@ -9,6 +9,7 @@ export default function EndClass() {
   const [classId,setClassId]=useState()
   const [bookingId,setBookingId]=useState('')
   const [studentId,setStudentId]=useState('')
+  const [teacherId,setTeacherId]=useState('')
   const [booking,setBooking]=useState([])
   const [value,setValue]=useState()
   const [token,setToken]=useState('')
@@ -17,10 +18,10 @@ export default function EndClass() {
   const [lesson,setLesson]=useState([])
   const {setClassEndedfully}=useContext(context)
   function getClass(){
-   if(classId){
+   if(classId && studentId){
     const code= classId
-    console.log('id',classId)
-    const url = `https://api.codingscholar.com/currentClass/${encodeURIComponent(code)}`
+    console.log('id',studentId)
+    const url = `https://api.codingscholar.com/currentClass/${(code)}/${studentId}`
     axios.get(url)
     .then(res=>{
       console.log('res data',res.data)
@@ -28,9 +29,9 @@ export default function EndClass() {
     })
     .catch(error=>console.log(error))
    }else{
-      if(bookingId){
+      if(bookingId && teacherId){
       const code= bookingId
-      const url=`https://api.codingscholar.com//trialClass/${code}`
+      const url=`https://api.codingscholar.com/trialClass/${code}/${teacherId}`
       axios.get(url)
       .then(res=>{
         setBooking([res.data])
@@ -43,13 +44,14 @@ export default function EndClass() {
    setValue(e.target.value)
   }
   const handleClassEndedFully=()=>{
-   if(classId){
+   if(classId && studentId){
     lesson.map(item=>{
       if(item.is_completed===false && item.reason===''){
-      const id= classId
+      const code= classId
       const data={studentId:studentId}
-      const url = `https://api.codingscholar.com/ClassAttendedFully/${id}`
+      const url = `https://api.codingscholar.com/ClassAttendedFully/${encodeURIComponent(code)}`
       axios.put(url,data)
+      console.log(data)
       .then(res=>{
         console.log(res.data)
         const data = res.data.message
@@ -72,11 +74,11 @@ export default function EndClass() {
         }
       }
      })
-   }else if(bookingId){
+   }else if(bookingId && teacherId){
     booking.map(item=>{
       if(item.joined===false && item.reason===''){
-        const id= bookingId
-        const url = `https://api.codingscholar.com/TrailClassAttendedFully/${id}`
+        const code= bookingId
+        const url = `https://api.codingscholar.com/TrailClassAttendedFully/${code}/${teacherId}}`
         axios.put(url)
         .then(res=>{
           console.log(res.data)
@@ -97,11 +99,11 @@ export default function EndClass() {
    }
   }
   const handleSubmit=()=>{
-    if(classId){
+    if(classId && studentId){
       lesson.map(item=>{
         if(item.is_completed===false && value && item.reason===''){
-          const id= classId
-          const url = `https://api.codingscholar.com/NotAttendedClass/${id}`
+          const code= classId
+          const url = `https://api.codingscholar.com/NotAttendedClass/${encodeURIComponent(code)}/${studentId}}`
           axios.put(url,{data:value})
           .then(res=>{
             console.log(res.data)
@@ -129,27 +131,29 @@ export default function EndClass() {
     }else{
       booking.map(item=>{
         if(item.joined===false && item.reason===''){
-          const id= bookingId
-          const url = `https://api.codingscholar.com/NotAttendedTrailClass/${id}`
+          const code= bookingId
+          const url = `https://api.codingscholar.com/NotAttendedTrailClass/${code}/${teacherId}`
           axios.put(url,{data:value})
           .then(res=>{
             console.log(res.data)
             const data = res.data.message
-            if(data==='Class marked '){
-              if(role==='student'){
-                navigate('/student/dashboard/Details')
-              }else{
-                navigate('/teacher/dashboard/Details')
-              }
-            }
+            alert(res.data.message)
+            // if(data==='Class marked '){
+            //   if(role==='student'){
+            //     navigate('/student/dashboard/Details')
+            //   }else{
+            //     navigate('/teacher/dashboard/Details')
+            //   }
+            // }
           })
           .catch(error=>console.log(error))
         }else{
-          if(role==='student'){
-            navigate('/student/dashboard/Details')
-          }else{
-            navigate('/teacher/dashboard/Details')
-          }
+          alert("already marked")
+          // if(role==='student'){
+          //   navigate('/student/dashboard/Details')
+          // }else{
+          //   navigate('/teacher/dashboard/Details')
+          // }
         }
       })
     }
@@ -180,6 +184,7 @@ useEffect(()=>{
         const decode = jwtDecode(token);
         const {role,user_id}=decode
         console.log("Decoded Token:", role);
+        setTeacherId(user_id)
         setRole(role)
       } catch (error) {
         console.error("JWT Decode Error:", error);
@@ -205,7 +210,7 @@ useEffect(()=>{
 },[location])
 useEffect(()=>{
   getClass()
-},[classId,bookingId])
+},[classId,bookingId,studentId])
   return (
     <div className='EndClassWrapper'>
       <div className='EndClassContainer'>
