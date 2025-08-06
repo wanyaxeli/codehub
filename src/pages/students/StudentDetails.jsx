@@ -85,21 +85,44 @@ useEffect(()=>{
 },[student])
  useEffect(()=>{
    if (lessons){
-    const date= new Date()
-    const today= date.getDate()
-    const month=date.getMonth() + 1
-    const year= date.getFullYear()
-    const fullDate=`${month}/${today}/${year}`
-    const todaylesson=lessons.filter(lesson=>lesson.date===fullDate)
-    if(todaylesson){
-        setTodayClass(todaylesson)
-    }
-    else{
-        setTodayClass([])
-    }
-    console.log('lesson',todaylesson)
-    console.log('alllessons',lessons)
-    console.log('fuul',fullDate)
+    // const date= new Date()
+    // const today= date.getDate()
+    // const month=date.getMonth() + 1
+    // const year= date.getFullYear()
+    // const fullDate=`${month}/${today}/${year}`
+    // const todaylesson=lessons.filter(lesson=>lesson.date===fullDate)
+    // if(todaylesson){
+    //     setTodayClass(todaylesson)
+    // }
+    // else{
+    //     setTodayClass([])
+    // }
+    // console.log('lesson',todaylesson)
+    // console.log('alllessons',lessons)
+    // console.log('fuul',fullDate)
+    const now = new Date();
+
+    // Format today's date in user's local timezone
+    const formatter = new Intl.DateTimeFormat("en-US", {
+      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
+    });
+
+    const todayFormatted = formatter.format(now); // e.g., "8/6/2025"
+
+    // Filter lessons matching today in user's timezone
+    const todayLessons = lessons.filter((lesson) => {
+      const lessonDate = new Date(lesson.date_time);
+      const formattedLessonDate = formatter.format(lessonDate);
+      return formattedLessonDate === todayFormatted;
+    });
+
+    setTodayClass(todayLessons.length > 0 ? todayLessons : []);
+
+    console.log("Today for:", todayFormatted);
+    console.log("Matched lessons:", todayLessons);
    }
  },[lessons])
  useEffect(()=>{

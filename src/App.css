@@ -3539,6 +3539,15 @@ height: auto;
 .myStudentWrapper table tr:nth-child(even) td{
   background-color: red;
 } 
+.cookie-wrapper{
+  width: 50%;
+  height:auto;
+  background-color: #0097b2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+}
 @media (prefers-color-scheme: dark) {
   .leftHeader select {
     background-color: #fff;

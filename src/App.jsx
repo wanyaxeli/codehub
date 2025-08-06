@@ -5,7 +5,7 @@ import './App.css'
 import Home from './pages/Home.jsx'
 import AppRoutes from './Components/AppRoutes'
 import { useNavigate } from 'react-router-dom'
-import CookieConsent from "react-cookie-consent";
+import CookieConsentComponent from './Components/CookieConsent'
 import axios from 'axios'
 import { jwtDecode } from 'jwt-decode'
 export const context = createContext()
@@ -75,6 +75,7 @@ getToken()
     <>
     <context.Provider value={{value,seeEarning,setEarning,email,setEmail,classEndedfully,setClassEndedfully,setTeacher,setStudent,teacher,student,setValue,CountryCode,setCountryCode,CountryName,setCountryName,getProfilePic,proPic,grade,setGrade}}>
     <AppRoutes/>
+    {/* <CookieConsentComponent/> */}
     </context.Provider>
     </>
   )

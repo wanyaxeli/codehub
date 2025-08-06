@@ -24,6 +24,9 @@ export default function Footer() {
                   <ul>
                     <li><a href='/about us'> about us</a></li>
                     <li>why  codingscholar</li>
+                    <li>terms and condtion</li>
+                    <li>privacy policy</li>
+                    <li>content policy</li>
                     <li>
                     <a
                      href="https://mail.google.com/mail/?view=cm&to=info@codingscholar.com"
@@ -37,9 +40,9 @@ export default function Footer() {
             <div className='FooterCopyrightWrapper'>
                  <div className='footerIconsWrapper'>
                 <a href='https://web.facebook.com/profile.php?id=61578298134834&_rdc=1&_rdr#'><i   className="fa fa-facebook" aria-hidden="true"></i></a> 
-                <i className="fa fa-twitter" aria-hidden="true"></i>
-                 <a href='https://www.linkedin.com/company/codingscholar'><i className="fa fa-linkedin-square" aria-hidden="true"></i></a>
-                <i className="fa fa-instagram" aria-hidden="true"></i>
+                <a href='https://x.com/codingscho63098'> <i className="fa fa-twitter" aria-hidden="true"></i></a>
+                <a href='https://www.linkedin.com/company/codingscholar'><i className="fa fa-linkedin-square" aria-hidden="true"></i></a>
+                <a href='https://www.instagram.com/codingscholarkids/'><i className="fa fa-instagram" aria-hidden="true"></i></a>
                 </div>
                 <div>
                     <p><i className="fa fa-copyright" aria-hidden="true"></i> {currentYear} codingscholar.com All Rights Reserved</p>
