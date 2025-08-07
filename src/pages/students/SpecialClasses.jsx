@@ -31,7 +31,7 @@ export default function SpecialClasses() {
      const splitname = classManagement.teacher.trim().split(/\s+/);
      const first_name=splitname[0]
      const last_name=splitname[1]
-     const data={...classManagement,...{first_name:first_name,roomType:'maths',last_name:last_name}}
+     const data={...classManagement,...{first_name:first_name,roomType:'math',last_name:last_name}}
      axios.post(url,data)
      .then(res=>{
        SetClassManagement(initialState)
