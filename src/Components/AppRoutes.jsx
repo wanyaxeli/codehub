@@ -48,6 +48,7 @@ import About from '../pages/About.jsx';
 import TeacherDetails from '../pages/TeacherDetails.jsx';
 import VideoPlayer from '../pages/VideoPlayer.jsx';
 import UploadVids from '../pages/UploadVids.jsx';
+import WhyUs from '../pages/WhyUs.jsx';
 export default function AppRoutes() {
   return (
     <Routes>
@@ -61,7 +62,7 @@ export default function AppRoutes() {
         <Route path='/SignUp/' element={<SignUp/>}/>
         <Route path='/StudentSignup/:token' element={<StudentSignUp/>}/>
         <Route path='/StudentSignup' element={<StudentSignUp/>}/>
-        
+        <Route path='/Why Us' element={<WhyUs/>}/>
         <Route element={<ProtectedLayout />}>
             <Route path='/teacher' element={<Teacher/>}/>
             <Route path='/teacher/dashboard' element={<Dashboard/>}>

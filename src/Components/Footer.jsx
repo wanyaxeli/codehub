@@ -22,8 +22,8 @@ export default function Footer() {
                 </div>
                 <div className='footerAboutus'>
                   <ul>
-                    <li><a href='/about us'> about us</a></li>
-                    <li>why  codingscholar</li>
+                    <li> about us</li>
+                    <li><a href='/Why Us'> why  codingscholar</a></li>
                     <li>terms and condtion</li>
                     <li>privacy policy</li>
                     <li>content policy</li>

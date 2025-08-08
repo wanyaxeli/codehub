@@ -3261,6 +3261,7 @@ height: auto;
 .AboutContainer{
   max-width: 1200px;
   height: 100%;
+  width: 94%;
   margin: auto;
   padding: 10px 0;
 }
@@ -3558,6 +3559,233 @@ height: auto;
   justify-content: center;
   padding: 15px;
 }
+.WhyUsWrapper{
+  width: 100%;
+  height: auto;
+  padding: 20px 0;
+}
+.AboutCodingScholarWrapper{
+  max-width: 1200px;
+  width: 94%;
+  height: auto;
+  background: linear-gradient(to right, grey, skyblue);
+  border-radius: 10px;
+  margin: auto;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.AboutCodingScholarHolder{
+  width: 100%;
+  height: auto;
+  padding-bottom: 25px;
+}
+.AboutCodingScholarImgWrapper,.AboutCodingScholarContent{
+  flex: .48;
+  height: 100%;
+}
+.OurOfferingWrapper{
+  width: 100%;
+  height: auto;
+  padding: 50px 0 15px 0;
+}
+.ourOfferingCard h3{
+  text-align: center;
+  font-size: 1.2rem;
+  padding-bottom:10px;
+}
+.OurOfferingContainer,.whyChooseUsContainer,.WhyUsTrialBtnContainer{
+   max-width: 1200px;
+   width: 94%;
+  height: auto;
+  margin: auto;
+}
+.OurOfferingContainer h2,.whyChooseUsContainer h2{
+  text-align: center;
+  text-transform: capitalize;
+  font-size: 1.8rem;
+}
+.ourOfferingCardWrapper{
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  padding: 30px 0 ;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.AboutCodingScholarImg{
+  width: 100%;
+  height: 50%;
+}
+.AboutCodingScholarImg img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.ourOfferingCard{
+  width: 32.2%;
+  height: auto;
+ border: 1px solid #0097b2;
+ border-radius: 10px;
+ padding: 20px;
+}
+.ourOfferingCardImageWrapper{
+  width: 100%;
+  height: 100px;
+}
+.ourOfferingCardImageWrapper img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 50px;
+}
+.WhyUsTrialBtnWrapper{
+  width: 100%;
+  height: auto;
+}
+.AboutCodingScholarContent h2{
+  text-align: center;
+  font-size: 1.8rem;
+  padding-bottom: 20px;
+}
+.ourOfferingCard p{
+  padding-top: 10px;
+}
+.AboutCodingScholarContent p{
+  font-size: 1.3rem;
+  padding-bottom: 20px;
+}
+.whyChooseUsWrapper{
+  width: 100%;
+  height: auto;
+  padding: 20px 0 25px 0;
+}
+.whyChooseUsContainer h2{
+ padding-bottom: 15px;
+}
+.whyChooseUsContentContainer{
+  width: 100%;
+  height: auto;
+}
+.timeline {
+  position: relative;
+  max-width: 900px;
+  margin: auto;
+}
+
+.timeline::after {
+  content: '';
+  position: absolute;
+  width: 4px;
+  background-color: #0097b2;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  margin-left: -2px;
+}
+
+.timeline-item {
+  padding: 20px 30px;
+  position: relative;
+  width: 50%;
+}
+
+.timeline-item.left {
+  left: 0;
+}
+
+.timeline-item.right {
+  left: 50%;
+}
+
+.timeline-item .content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.timeline-item.left .content {
+  margin-right: auto;
+}
+
+.timeline-item.right .content {
+  margin-left: auto;
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  top: 20px;
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  border: 4px solid #0097b2;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.timeline-item.left::before {
+  right: -10px;
+}
+
+.timeline-item.right::before {
+  left: -10px;
+}
+.WhyUsTrialBtnContainer{
+  padding: 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.WhyUsTrialBtnContainerImgWrapper,.WhyUsTrialBtnContainerContentWrapper{
+  flex: .45;
+  height: auto;
+}
+.WhyUsTrialBtnContainerContentWrapper h2{
+  text-align: center;
+}
+.WhyUsTrialBtnContainerBtnWrapper{
+  text-align: center;
+  padding: 20px 0;
+}
+.WhyUsTrialBtnContainerBtnWrapper button{
+  background-color: #0097b2;
+  color: #fff;
+  border-radius: 10px;
+  width: 100%;
+  height: 50px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+.WhyUsTrialBtnWrapper,.OurOfferingWrapper {
+  background-color: #fff;
+}
+.WhyUsTrialBtnContainerImgWrapper{
+  width: 100%;
+  height: 90%;
+}
+.WhyUsTrialBtnContainerImgWrapper img{
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+a{
+  text-decoration: none;
+  color: #000;
+}
+a:hover{
+  color: #0097b2;
+}
+.WhyUsTrialBtnContainerBtnWrapper button:hover{
+  background-color: transparent;
+  color: #000;
+  border: 2px solid #0097b2;
+}
 @media (prefers-color-scheme: dark) {
   .leftHeader select {
     background-color: #fff;
@@ -3589,11 +3817,6 @@ height: auto;
     background-color: #e8e8ee;
 
   }
-  .bannerWrapper
-/* input[type="date"],
-input[type="time"] {
-  color-scheme: light;
-} */
 input[type="date"]::-webkit-calendar-picker-indicator {
   background-color: red;
 }
@@ -3663,6 +3886,24 @@ input[type="date"]::-webkit-calendar-picker-indicator {
  .headerContainer,.AboutContainer,.shareScreenHolder,.classHeaderBtnwrapper , .RegisterContainer aside, .classNotStartedWrapper aside{
   display: none;
  }
+ .timeline::after {
+  left: 20px;
+}
+
+.timeline-item {
+  width: 100%;
+  padding-left: 50px;
+  padding-right: 20px;
+}
+
+.timeline-item.right {
+  left: 0;
+}
+
+.timeline-item.left::before,
+.timeline-item.right::before {
+  left: 15px;
+}
  .VideoHolder{
   position: relative;
  }
