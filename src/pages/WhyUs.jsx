@@ -58,6 +58,35 @@ export default function WhyUs() {
                    </div>
                </div>
             </div>
+            <div className='SmallDeviceourOfferingCardWrapper'>
+                <div className='ourOfferingCard'>
+                  <h3>Immersive Learning</h3>
+                  <div className='ourOfferingCardImageWrapper'>
+                     <img src={ pic3} alt='image'/>
+                  </div>
+                  <div>
+                     <p>Placing learners at the heart of an engaging experience that sparks curiosity and sharpens skills through thought-provoking questions, captivating stories, fun quizzes, and rich multimedia—making education both enjoyable and memorable.</p>
+                  </div>
+                </div>
+                <div className='ourOfferingCard'>
+                  <h3>Digital Personalized Learning</h3>
+                  <div className='ourOfferingCardImageWrapper'>
+                  <img src={ pic1} alt='image'/>
+                  </div>
+                  <div>
+                     <p>Helping students reach their full potential through tailored learning paths that use data-driven insights to identify strengths and areas for improvement, ending with detailed progress reports that showcase growth and accomplishments.</p>
+                  </div>
+                </div>
+                <div className='ourOfferingCard'>
+                   <h3>Play-Powered Learning Adventures</h3>
+                   <div className='ourOfferingCardImageWrapper'>
+                   <img src={ pic2} alt='image'/>
+                   </div>
+                   <div>
+                     <p>Empowering students to stay motivated through a variety of engaging games connected to their academic progress. Each milestone unlocks new challenges and rewards, fostering responsibility, consistency, curiosity, and care while making learning an enjoyable adventure.</p>
+                   </div>
+               </div>
+            </div>
           </div>
        </div>
        <div className='whyChooseUsWrapper'>

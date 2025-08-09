@@ -20,7 +20,6 @@ export default function EndClass() {
   function getClass(){
    if(classId && studentId){
     const code= classId
-    console.log('id',studentId)
     const url = `https://api.codingscholar.com/currentClass/${(code)}/${studentId}`
     axios.get(url)
     .then(res=>{
@@ -44,30 +43,24 @@ export default function EndClass() {
    setValue(e.target.value)
   }
   const handleClassEndedFully=()=>{
-   if(classId && studentId && lesson){
+    console.log('code class id',studentId,lesson,classId)
+   if(classId && studentId && lesson.length >0){
     lesson.map(item=>{
-      if(item.is_completed===false && item.reason===''){
+      if(item.is_completed===false && item.reason.trim() === "" || item.reason==="''"||item.reason===""){
       const code= classId
       const data={studentId:studentId}
       const url = `https://api.codingscholar.com/ClassAttendedFully/${encodeURIComponent(code)}`
       axios.put(url,data)
-      console.log(data)
       .then(res=>{
-        console.log('class',res.data)
+        console.log('class res',res.data)
         const data = res.data.message
         setClassEndedfully(true)
         alert(data)
-        // if(data==='Class marked as complete'){
-        //   if(role==='student'){
-        //     navigate('/student/dashboard/Details')
-        //   }else{
-        //     navigate('/teacher/dashboard/Details')
-        //   }
-        // }
       })
       .catch(error=>console.log(error))
       }else{
         setClassEndedfully(true)
+        alert('Class already marked as completed')
         // if(role==='student'){
         //   navigate('/student/dashboard/Details')
         // }else{
