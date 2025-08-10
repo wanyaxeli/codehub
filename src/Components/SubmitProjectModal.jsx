@@ -21,7 +21,7 @@ export default function SubmitProjectModal({openSubmitModal,bookingId,ClassName,
         setProject(e.target.value)
     }
     const handleSubmit =()=>{
-        console.log('std',ClassName)
+        console.log('std',ClassName,bookingId)
         if(ClassName){
             const url = `https://api.codingscholar.com/Project/`
             const data={project:project,className:ClassName}
