@@ -132,8 +132,8 @@ import { useEffect } from 'react';
                     .then(res=>{
                         console.log(res.data)
                         const {message}=res.data
-                        // setBookingMessage(message)
-                        alert(message)
+                        setBookingMessage(message)
+                        // alert(message)
                         setLoading(false)
                     })
                     .catch(error=>{

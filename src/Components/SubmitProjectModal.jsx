@@ -34,7 +34,7 @@ export default function SubmitProjectModal({openSubmitModal,bookingId,ClassName,
                 setopenSubmitModal(false)
             })
             .catch(error=>console.log(error))
-        }else if(bookingId){
+        }else if(bookingId && project){
             const url = `https://api.codingscholar.com/TrialProject/`
             const data={project:project,bookingId:bookingId}
             axios.post(url,data,{headers:{
