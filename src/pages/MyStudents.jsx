@@ -44,8 +44,8 @@ export default function MyStudents() {
   return (
     <div className='AllTeachersWrapper'>
         <h3>All My Students</h3>
-        <div className='AllTeachersContainer myStudentWrapper'>
-            {students.length>0?<table>
+        <div className='AllTeachersContainer '>
+            {students.length>0?<table className='myStudentWrapper'>
                 <thead>
                     <tr>
                         <th>Name</th>

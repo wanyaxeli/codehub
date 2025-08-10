@@ -607,18 +607,19 @@ useEffect(() => {
     },[sharing])
     function getTrailClass(){
         if(bookingId){
-            const url=`https://api.codingscholar.com/trialClass/${bookingId}`
-        axios.get(url)
-        .then(res=>{
-            console.log('trial',res.data)
-            const data=res.data
-            const timeUtcZone=formatToLocalTime(data.datetime_utc)
-            console.log('starting time',timeUtcZone)
-            setTrailClass([res.data])
-            setStartingTime(data.datetime_utc)
-        })
-        .catch(error=>console.log(error))
-        }
+            const code = bookingId
+            const url=`https://api.codingscholar.com/trialClass/${code}`
+            axios.get(url)
+            .then(res=>{
+                console.log('trial',res.data)
+                const data=res.data
+                const timeUtcZone=formatToLocalTime(data.datetime_utc)
+                console.log('starting time',timeUtcZone)
+                setTrailClass([res.data])
+                setStartingTime(data.datetime_utc)
+            })
+            .catch(error=>console.log(error))
+            }
        }
        function formatToLocalTime(utcStr) {
         // Combine date and time into a single UTC string
@@ -722,7 +723,8 @@ useEffect(() => {
             }
         }else{
             StartSharing()
-        }
+        } 
+    }
     // display if the class has more than two people don't delete !
     // if(connectedUsers>2){
     //     if(toggleDisplay==='classDisplayer'){
@@ -755,7 +757,6 @@ useEffect(() => {
     //         setInnertoggleSideUser('sideUserDetails')
     //     }
     // }
-    }
     // useEffect(() => {
     //     const timeout = setTimeout(() => {
     //         console.log('peer',peerRef)
@@ -893,8 +894,8 @@ useEffect(() => {
                 <div className='classHeaderBtnwrapper'>
                     <ul>
                         {role ==='student'? <li onClick={handleSubmitProject}>submit project</li>:''}
-                        {ClassType==='trial' && role==='teacher'?<li onClick={handleStudent}>student</li>:''}
-                        {ClassType==='NormalClass' && role==='teacher'?<li className='markClass' onClick={handleEndClass}>mark class</li>:''}
+                        {ClassType==='trial' && role==='teacher'?<li className='studentBtn' onClick={handleStudent}>student</li>:''}
+                        {ClassType==='NormalClass' && role==='teacher' ||ClassType==='trial' && role==='teacher' ?<li className='markClass' onClick={handleEndClass}>mark class</li>:''}
                         {/* <li onClick={handleOpenChat}>chat</li> */}
                     </ul>
                 </div>
@@ -916,6 +917,7 @@ useEffect(() => {
         {StudentId? openSubmitModal &&  <SubmitProjectModal StudentId={StudentId} ClassName={ClassName} setProject={setProject} SubmitProeject={SubmitProeject} project={project} openSubmitModal={openSubmitModal} setopenSubmitModal={setopenSubmitModal}/> :
          openSubmitModal &&  <SubmitProjectModal bookingId={bookingId} openSubmitModal={openSubmitModal} setopenSubmitModal={setopenSubmitModal}/>
         }
+         {trailClass &&  <RegisterStudentModal trailClass={trailClass}  openStudentRegistrationform={openStudentRegistrationform} setopenStudentRegistrationform={setopenStudentRegistrationform}/>}
         </>
 )
 //   if(participants.length <= 2 && timeLeft !=='Event has started!' || participants.length===1 && timeLeft ==='Event has started!'){

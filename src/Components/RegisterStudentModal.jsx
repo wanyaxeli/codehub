@@ -110,6 +110,7 @@ export default function RegisterStudentModal({trailClass,openStudentRegistration
     return  ReactDOM.createPortal(
     <div className={openStudentRegistrationform}>
        <div className='InnerRegisterStudentModal'>
+       {error && <p style={{textAlign:'center',color:'red'}}>{error}</p>}
         <div className='InnerRegisterStudentModalBtnClosewrapper'>
            <div className='ModalBtnCloseContainer' onClick={handleCloseForm}>
             <span>&times;</span>

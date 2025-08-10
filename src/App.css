@@ -1562,6 +1562,7 @@ body{
   border: 1px solid #0097b2;
   border-radius: 5px;
   cursor: pointer;
+  color: #000;
 }
 .classHeaderBtnwrapper ul li:hover{
   border-radius: 5px;
@@ -2737,7 +2738,7 @@ video{
   top:13%;
   z-index: 1;
   right:1%;
-  height:80%;
+  height:auto;
   background-color:#e8e8ee;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   border-radius: 10px;
@@ -3103,6 +3104,10 @@ padding: 15px 0;
   background-color: #c1dfe5;
   color: #000;
 }
+/* .myStudentWrapper  tbody tr td{
+  color: red ;
+  background-color: green;
+} */
 .createGroupClassWrapper,.createGroupClassWrapper .specialContainer{
   width: 100%;
   height: auto;
@@ -3464,9 +3469,7 @@ height: auto;
   color: #0097b2;
   text-transform: capitalize;
 }
-.myStudentWrapper table tr:nth-child(even) td{
-  background-color: red;
-} 
+ 
 .cookie-wrapper{
   width: 50%;
   height:auto;
@@ -3704,6 +3707,12 @@ a:hover{
   color: #000;
   border: 2px solid #0097b2;
 }
+.classHeaderBtnwrapper ul li{
+  color: #000;
+}
+.studentBtn{
+  margin-right: 20px;
+}
 @media (prefers-color-scheme: dark) {
   .leftHeader select {
     background-color: #fff;
@@ -3711,10 +3720,16 @@ a:hover{
     cursor: pointer;
     outline: none;
   }
+  .registerstudentFormwrapper form input::placeholder{
+    color: #fff;
+  }
+  .registerstudentFormwrapper form input{
+    color: #fff;
+  }
   .footerAboutus ul li:first-child a{
     color: #0097b2;
   }
-  .lessonsDetailsWrapper,.TodayClassContainer,.markClass,.EndClassContainer{
+  .lessonsDetailsWrapper,.classHeaderBtnwrapper ul li,.TodayClassContainer,.markClass,.EndClassContainer{
     color: #000;
   }
   .ClassGroupsWrapper table tr th,.showGroupClass  table tr th{
@@ -3738,7 +3753,7 @@ a:hover{
 input[type="date"]::-webkit-calendar-picker-indicator {
   background-color: red;
 }
-  .sharedStyles p, .MyProjectsWrapper p,.noLessons p{
+  .sharedStyles p,.CalendarWrapper .fc, .MyProjectsWrapper p,.noLessons p{
     color: #fff;
   }
   .dashboardDetailsHolder p,.teacherDetailsContainer ,.AlertPOPUp button,.laptop p,.bookingTimeWrapper span,.studentDetails h3,.dashboardDisplayer p,.NoClassDiv p,.TodayClassContainer p ,.TodayClassContainer h4,.AllTeachersContainer table tbody tr:nth-child(odd) td,.studentDetailsWrapper p{

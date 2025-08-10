@@ -30,6 +30,7 @@ export default function Details() {
         navigate('/teacher/dashboard/Add Students')
     }
     const handleJoinClass =(data)=>{
+      console.log('asd',data)
        if(userId){
         const name = data.BookingName
         // navigate(`/Trial Class/${name}`,{state:userId})

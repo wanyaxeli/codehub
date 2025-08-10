@@ -28,9 +28,9 @@ export default function EndClass() {
     })
     .catch(error=>console.log(error))
    }else{
-      if(bookingId && teacherId){
+      if(bookingId){
       const code= bookingId
-      const url=`https://api.codingscholar.com/trialClass/${code}/${teacherId}`
+      const url=`https://api.codingscholar.com/trialClass/${code}`
       axios.get(url)
       .then(res=>{
         setBooking([res.data])
