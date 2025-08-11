@@ -49,6 +49,7 @@ import TeacherDetails from '../pages/TeacherDetails.jsx';
 import VideoPlayer from '../pages/VideoPlayer.jsx';
 import UploadVids from '../pages/UploadVids.jsx';
 import WhyUs from '../pages/WhyUs.jsx';
+import PrivacyPolicy from '../pages/PrivacyPolicy.jsx';
 export default function AppRoutes() {
   return (
     <Routes>
@@ -57,6 +58,7 @@ export default function AppRoutes() {
         <Route path='/laptop' element={<Laptop/>}/>
         <Route path='/login' element={<Login/>}/>
         <Route path='/about us' element={<About/>}/>
+        <Route path='/Privacy policy' element={<PrivacyPolicy/>}/>
         <Route path='/Fee Payment' element={<FeesPayment/>}/>
         <Route path='/SignUp/:token' element={<SignUp/>}/>
         <Route path='/SignUp/' element={<SignUp/>}/>

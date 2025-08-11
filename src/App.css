@@ -3715,6 +3715,15 @@ a:hover{
 .studentBtn{
   margin-right: 20px;
 }
+.PrivacyPolicyWrapper{
+  width: 100%;
+  height: auto;
+}
+.PrivacyPolicyContainer{
+  max-width: 1200px;
+  height: auto;
+  width: 94%;
+}
 @media (prefers-color-scheme: dark) {
   .leftHeader select {
     background-color: #fff;

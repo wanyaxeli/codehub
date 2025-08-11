@@ -24,8 +24,8 @@ export default function Footer() {
                   <ul>
                     <li> about us</li>
                     <li><a href='/Why Us'> why  codingscholar</a></li>
-                    <li>terms and condtion</li>
-                    <li>privacy policy</li>
+                    <li> terms and condtion</li>
+                    <li> <a href='/Privacy policy'>privacy policy</a></li>
                     <li>content policy</li>
                     <li>
                     <a

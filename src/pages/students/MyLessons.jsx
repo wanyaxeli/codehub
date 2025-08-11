@@ -51,19 +51,19 @@ export default function MyLessons() {
 const handleToNotes =(notes)=>{
   navigate(`/student/dashboard/StudentNotes/`, { state: notes });
 }
-function getcodingLessons(){
-  setLessons([])
-  if(data){
-    const codingLessons=data.filter(lesson=>lesson.lessonType==='coding')
-     codingLessons .forEach(lessons=>{
-      const now = new Date(lessons.date_time)
-      const time = now.toLocaleTimeString();
-      const date=now.toLocaleDateString()
-      // const{lesson}=lessons
-      const newData={...lessons,...{time:time},...{date:date}}
-      setLessons(pre=>([...pre,newData]))
-      console.log('newdarsa',newData)
-    })
+function getcodingLessons() {
+  if (data) {
+    const codingLessons = data
+      .filter(lesson => lesson.lessonType === 'coding')
+      .map(lesson => {
+        const now = new Date(lesson.date_time);
+        const time = now.toLocaleTimeString();
+        const date = now.toLocaleDateString();
+        return { ...lesson, time, date };
+      })
+      .sort((a, b) => a.lesson.lesson_number - b.lesson.lesson_number); // Sort ascending by lesson number
+
+    setLessons(codingLessons);
   }
 }
 const handlecodingLessons =()=>{
@@ -76,21 +76,22 @@ const handleMathLessons=()=>{
   setMathLessonActive(true)
   getMathsLessons()
 }
-function getMathsLessons(){
-  setLessons([])
-  if(data){
-    const mathsLessons=data.filter(lesson=>lesson.lessonType==='math')
-     mathsLessons .forEach(lessons=>{
-      const now = new Date(lessons.date_time)
-      const time = now.toLocaleTimeString();
-      const date=now.toLocaleDateString()
-      // const{lesson}=lessons
-      const newData={...lessons,...{time:time},...{date:date}}
-      setLessons(pre=>([...pre,newData]))
-      console.log('newdarsa',newData)
-    })
+function getMathsLessons() {
+  if (data) {
+    const mathsLessons = data
+      .filter(lesson => lesson.lessonType === 'math')
+      .map(lesson => {
+        const now = new Date(lesson.date_time);
+        const time = now.toLocaleTimeString();
+        const date = now.toLocaleDateString();
+        return { ...lesson, time, date };
+      })
+      .sort((a, b) => a.lesson.lesson_number - b.lesson.lesson_number);
+
+    setLessons(mathsLessons);
   }
 }
+
 useEffect(()=>{
   GetMyLessons()
 },[token])

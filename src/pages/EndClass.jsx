@@ -61,11 +61,11 @@ export default function EndClass() {
       }else{
         setClassEndedfully(true)
         alert('Class already marked as completed')
-        // if(role==='student'){
-        //   navigate('/student/dashboard/Details')
-        // }else{
-        //   navigate('/teacher/dashboard/Details')
-        // }
+        if(role==='student'){
+          navigate('/student/dashboard/Details')
+        }else{
+          navigate('/teacher/dashboard/Details')
+        }
       }
      })
    }else if(bookingId && teacherId && booking){
@@ -78,13 +78,13 @@ export default function EndClass() {
           console.log(res.data)
           const data = res.data.message
           alert(data)
-          // if(data==='Trial Class marked as complete'){
-          //   if(role==='student'){
-          //     navigate('/student/dashboard/Details')
-          //   }else{
-          //     navigate('/teacher/dashboard/Details')
-          //   }
-          // }
+          if(data==='Trial Class marked as complete'){
+            if(role==='student'){
+              navigate('/student/dashboard/Details')
+            }else{
+              navigate('/teacher/dashboard/Details')
+            }
+          }
         })
         .catch(error=>console.log(error))
       }
@@ -104,23 +104,23 @@ export default function EndClass() {
             console.log(res.data)
             const data = res.data.message
             alert(data)
-            // if(data==='Class marked '){
+            if(data==='Class marked '){
               
-            //   if(role==='student'){
-            //     navigate('/student/dashboard/Details')
-            //   }else{
-            //     navigate('/teacher/dashboard/Details')
-            //   }
-            // }
+              if(role==='student'){
+                navigate('/student/dashboard/Details')
+              }else{
+                navigate('/teacher/dashboard/Details')
+              }
+            }
           })
           .catch(error=>console.log(error))
         }else{
           alert('This Class is already marked')
-          // if(role==='student'){
-          //   navigate('/student/dashboard/Details')
-          // }else{
-          //   navigate('/teacher/dashboard/Details')
-          // }
+          if(role==='student'){
+            navigate('/student/dashboard/Details')
+          }else{
+            navigate('/teacher/dashboard/Details')
+          }
         }
       })
     }else{
@@ -133,22 +133,22 @@ export default function EndClass() {
             console.log(res.data)
             const data = res.data.message
             alert(res.data.message)
-            // if(data==='Class marked '){
-            //   if(role==='student'){
-            //     navigate('/student/dashboard/Details')
-            //   }else{
-            //     navigate('/teacher/dashboard/Details')
-            //   }
-            // }
+            if(data==='Class marked '){
+              if(role==='student'){
+                navigate('/student/dashboard/Details')
+              }else{
+                navigate('/teacher/dashboard/Details')
+              }
+            }
           })
           .catch(error=>console.log(error))
         }else{
           alert("already marked")
-          // if(role==='student'){
-          //   navigate('/student/dashboard/Details')
-          // }else{
-          //   navigate('/teacher/dashboard/Details')
-          // }
+          if(role==='student'){
+            navigate('/student/dashboard/Details')
+          }else{
+            navigate('/teacher/dashboard/Details')
+          }
         }
       })
     }
