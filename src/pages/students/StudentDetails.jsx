@@ -76,6 +76,9 @@ export default function StudentDetails() {
  const handlechange =(e)=>{
     setProfilePic(e.target.files[0])
 }
+const handleQuiz=()=>{
+    navigate('/student/dashboard/Today Questions')
+}
 useEffect(()=>{
  if(student){
     if(student.tokens===0||student.fees ===false){
@@ -125,6 +128,7 @@ useEffect(()=>{
     console.log("Matched lessons:", todayLessons);
    }
  },[lessons])
+
  useEffect(()=>{
     UpdateProfilePic()
     },[token,profilePic])
@@ -144,7 +148,7 @@ useEffect(()=>{
 useEffect(()=>{
  getToken()
 },[])
-
+ 
   return (
     <div className='DetailsWrapper'>
          <div className='TeacherDetailsWrapper'>
@@ -182,6 +186,14 @@ useEffect(()=>{
                 </div>
             </div>}
         </div>
+        {/* <div className='questionsofthedayWrapper'>
+             <div>
+             <p>Have you attempted today's questions?</p>
+             </div>
+             <div>
+                <button onClick={handleQuiz}>go to questions <i className="fa fa-long-arrow-right" aria-hidden="true"></i></button>
+             </div>
+        </div> */}
         <div className='todayLessonWrapper'>
            <div className='todayLessonHeaderwrapper'>
            <h3>today Classes</h3>

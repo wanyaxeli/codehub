@@ -50,6 +50,7 @@ import VideoPlayer from '../pages/VideoPlayer.jsx';
 import UploadVids from '../pages/UploadVids.jsx';
 import WhyUs from '../pages/WhyUs.jsx';
 import PrivacyPolicy from '../pages/PrivacyPolicy.jsx';
+import TodaysQuestions from '../pages/students/TodaysQuestions.jsx';
 export default function AppRoutes() {
   return (
     <Routes>
@@ -97,6 +98,7 @@ export default function AppRoutes() {
             <Route path='/student/dashboard' element={<StudentDashboard/>}>
               <Route index element={<StudentDetails/>}/>
               <Route path='/student/dashboard/Details' element={<StudentDetails/>}/>
+              <Route path='/student/dashboard/Today Questions' element={<TodaysQuestions/>}/>
               <Route path='/student/dashboard/My  lessons' element={<MyLessons/>}/>
               <Route path='/student/dashboard/My  projects' element={<MyProjects/>}/>
               <Route path='/student/dashboard/My  quizzes' element={<MyQuizzes/>}/>

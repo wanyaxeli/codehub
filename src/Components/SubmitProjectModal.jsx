@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react'
 import ReactDOM from 'react-dom'; // Correct import
 import axios from 'axios';
-export default function SubmitProjectModal({openSubmitModal,bookingId,ClassName,StudentId,setopenSubmitModal}) {
+export default function SubmitProjectModal({openSubmitModal,bookingId,ClassName,setopenSubmitModal}) {
     const [project,setProject]=useState('')
     const [token,setToken]=useState('')
     async function getToken(){
@@ -18,11 +18,12 @@ export default function SubmitProjectModal({openSubmitModal,bookingId,ClassName,
         setopenSubmitModal(false)
     }
     const handleChange=(e)=>{
+        console.log("Typing:", e.target.value);
         setProject(e.target.value)
     }
+    console.log('value',project)
     const handleSubmit =()=>{
-        console.log('std',ClassName,bookingId)
-        if(ClassName){
+        if(ClassName && project){
             const url = `https://api.codingscholar.com/Project/`
             const data={project:project,className:ClassName}
             axios.post(url,data,{headers:{
@@ -31,23 +32,25 @@ export default function SubmitProjectModal({openSubmitModal,bookingId,ClassName,
             .then(res=>{
                 console.log(res.data)
                 setProject('')
+                alert(res.data)
                 setopenSubmitModal(false)
             })
             .catch(error=>console.log(error))
         }else if(bookingId && project){
+            console.log('book',bookingId,project)
             const url = `https://api.codingscholar.com/TrialProject/`
             const data={project:project,bookingId:bookingId}
-            axios.post(url,data,{headers:{
-                'Authorization':`Bearer ${token}`
-            }})
+            axios.post(url,data)
             .then(res=>{
                 console.log(res.data)
+                alert(res.data)
                 setProject('')
                 setopenSubmitModal(false)
             })
             .catch(error=>console.log(error)) 
         }
     }
+    console.log('booktwo',bookingId,project)
     useEffect(()=>{
     getToken()
     },[])
@@ -61,7 +64,7 @@ export default function SubmitProjectModal({openSubmitModal,bookingId,ClassName,
                     </div>
                 </div>
                 <div className='submitinputWrapper'>
-                    <input value={project} onChange={handleChange} type='text' placeHolder='Link'/><br/>
+                    <input value={project} onChange={handleChange} type='text' placeholder='Link'/><br/>
                     <button onClick={handleSubmit}>submit</button>
                  </div>
             </div>

@@ -123,7 +123,7 @@ useEffect(()=>{
           <p>time:<span>{lesson.time}</span></p>
           <p>status:{lesson.is_completed===true?<span className='lessonStatus'>complete</span>:<span className='lessonStatus'>Incomplete</span>}</p>
           <div onClick={()=>handleToNotes(lesson.lesson.pdf_notes)}>
-          {lesson.is_completed===true?<p>notes: <span style={{color:'blue',textTransform:'capitalize',cursor:"pointer",fontSize:'.8rem',textDecoration:'underline'}}>{lesson.lesson.title}</span></p>:null}
+          {lesson.is_completed===true?<button onClick={()=>handleToNotes()}>View notes</button>:null}
           </div>
         </div>
       </div>

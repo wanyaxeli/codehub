@@ -644,11 +644,14 @@ useEffect(() => {
         if (state && classType==='NormalClass') {
             setCode(id);  // Set the state if it exists
             setStartingTime(time);
+            console.log('idstudent state',state)
            if(student){
             setStudentId(student)
+            console.log('idstudent',student)
            }
            setClassType('NormalClass')
           if(title){
+            console.log('tit',title)
             setClassName(title)
           }
         }else if(state && classType ==='trial'){
@@ -771,6 +774,7 @@ useEffect(() => {
       
     //     return () => clearTimeout(timeout);
     //   }, [timeLeft,peerConnected,participants,userVideo,partnerVideo]);
+    console.log('class name',ClassName)
     useEffect(()=>{
         if(userVideo.current===null){
             getMedia()
@@ -914,9 +918,27 @@ useEffect(() => {
         <WherebyProvider>
         <WherebyClass role={role} code={slug}/>
         </WherebyProvider>
-        {StudentId? openSubmitModal &&  <SubmitProjectModal StudentId={StudentId} ClassName={ClassName} setProject={setProject} SubmitProeject={SubmitProeject} project={project} openSubmitModal={openSubmitModal} setopenSubmitModal={setopenSubmitModal}/> :
-         openSubmitModal &&  <SubmitProjectModal bookingId={bookingId} openSubmitModal={openSubmitModal} setopenSubmitModal={setopenSubmitModal}/>
-        }
+        {openSubmitModal && (
+  ClassName && ClassName !== 'undefined' ? (
+    <SubmitProjectModal
+      StudentId={StudentId}
+      ClassName={ClassName}
+      setProject={setProject}
+      SubmitProeject={SubmitProeject}
+      project={project}
+      openSubmitModal={openSubmitModal}
+      setopenSubmitModal={setopenSubmitModal}
+    />
+  ) : (
+    bookingId && bookingId !== 'undefined' && (
+      <SubmitProjectModal
+        bookingId={bookingId}
+        openSubmitModal={openSubmitModal}
+        setopenSubmitModal={setopenSubmitModal}
+      />
+    )
+  )
+)}
          {trailClass &&  <RegisterStudentModal trailClass={trailClass}  openStudentRegistrationform={openStudentRegistrationform} setopenStudentRegistrationform={setopenStudentRegistrationform}/>}
         </>
 )

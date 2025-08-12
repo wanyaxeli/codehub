@@ -1781,7 +1781,7 @@ body{
   height: auto;
   background-color: #e8e8ee;
   border-radius: 10px;
-  padding: 10px;
+  padding: 10px 0;
 }
 .todayLessonWrapper h3{
   padding: 10px 15px;
@@ -1872,8 +1872,25 @@ body{
   border-radius: 5px;
   color: #fff;
   padding: 2px 5px;
+  font-size: .6rem;
 }
 .MyLessonContainer p::first-letter{
+  text-transform: capitalize;
+}
+.MyLessonContainer button{
+  display: inline-block;
+  background-color: #0097b2;
+  outline: none;
+  border: none;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.MyLessonContainer button:hover{
+  border: 2px solid #0097b2;
+  background-color: transparent;
+  color: #000;
   text-transform: capitalize;
 }
 .MyProjectsWrapper {
@@ -3724,6 +3741,54 @@ a:hover{
   height: auto;
   width: 94%;
 }
+
+.questionsofthedayWrapper{
+  width: 100%;
+  height: 70px;
+  padding: 10px ;
+  margin-bottom: 10px;
+  border-radius: 15px;
+  background-image: url('assets/imgbg.png');
+  background-size: fill;   /* Makes it fill the container */
+  background-position: center; /* Centers it */
+  background-repeat: no-repeat; /* Prevents tiling */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.questionsofthedayWrapper p{
+  font-size: 1.5rem;
+}
+.questionsofthedayWrapper button{
+  border: none;
+  background-color: #0097b2;
+  padding: 10px 15px;
+  border-radius: 10px;
+  color: #fff;
+  text-transform: capitalize;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+.questionsofthedayWrapper button:hover{
+  border: 2px solid #0097b2;
+  background-color: transparent;
+  color: #000;
+}
+.lessonsDetailsWrapper
+.TodaysQuestionsWrapper{
+  width: 100%;
+  height: 88vh;
+  background-image: url('assets/bgimg.png');
+  background-size: cover;   /* Makes it fill the container */
+  background-position: center; /* Centers it */
+  background-repeat: no-repeat; /* Prevents tiling */
+  padding: 10px;
+  border-left: 2px solid #0097b2;
+}
+.TodaysQuestionsContainer{
+  width: 100%;
+  height: 100%;
+}
 @media (prefers-color-scheme: dark) {
   .leftHeader select {
     background-color: #fff;
@@ -3740,7 +3805,10 @@ a:hover{
   .footerAboutus ul li:first-child a{
     color: #0097b2;
   }
-  .lessonsDetailsWrapper,.classHeaderBtnwrapper ul li,.TodayClassContainer,.markClass,.EndClassContainer{
+  .todayLessonWrapper{
+    padding: 10px;
+  }
+  .lessonsDetailsWrapper,.questionsofthedayWrapper p,.classHeaderBtnwrapper ul li,.TodayClassContainer,.markClass,.EndClassContainer{
     color: #000;
   }
   .ClassGroupsWrapper table tr th,.showGroupClass  table tr th{
