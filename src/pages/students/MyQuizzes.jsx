@@ -5,6 +5,7 @@ export default function MyQuizzes() {
   const navigate=useNavigate()
   const [token,setToken]=useState()
   const [quiz,SetQuiz]=useState([])
+  const [Attemptedquiz,SetAttemptedQuiz]=useState([])
   async function getToken(){
     try{
         const token= localStorage.getItem('token') // No need to await
@@ -15,6 +16,21 @@ export default function MyQuizzes() {
         console.log(error);
 }
 } 
+function GetttemptedQuizzes(){
+  if(token){
+    const url = 'https://api.codingscholar.com/StudentAttemptedQuizes/';
+    axios.get(url,{headers:{
+      'Authorization':`Bearer ${token}`
+    }})
+    .then(res=>{
+      console.log('attempted res',res.data)
+      if (!res.data.data) {
+        SetAttemptedQuiz(res.data);
+      }
+    })
+    .catch(error=>console.log(error))
+  }
+}
 function getQuizzes(){
   if(token){
     const url = 'https://api.codingscholar.com/Getquizes/';

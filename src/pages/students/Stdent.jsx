@@ -5,9 +5,11 @@ import axios from 'axios'
 export default function Stdent() {
   const initialState={grade:'',teacher:'',module:""}
   const FeesinitialState={amount:'',amountPerClass:''}
+  const promteInstialState={promoteclass:'',promotemodule:'',promoteclassType:''}
   const initialStateforLessonAttendace={first_day:'',second_day:'',
   first_time:'',second_time:''}
   const [fees,setFees]=useState(FeesinitialState)
+  const [promoteValues,setPromoteValues]=useState(promteInstialState)
   const [studentId,setStudentId]=useState('')
   const [student,setStudent]=useState('')
   const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday","Sunday"];
@@ -127,7 +129,23 @@ export default function Stdent() {
    useEffect(()=>{
     GetStudent()
    },[studentId])
-   console.log('time',selectedTimes)
+   const handlePromoteValue=(e)=>{
+     const {name,value}=e.target
+     setPromoteValues({...promoteValues,[name]:value})
+   }
+  const handlePromote=()=>{
+   if(studentId && promoteValues.promoteclass && promoteValues.promotemodule && promoteValues.promoteclassType){
+    const id=studentId
+    const url=`https://api.codingscholar.com/promotion/${id}`
+    const data={className:promoteValues.promoteclass,roomType:promoteValues.promoteclassType,module:promoteValues.promotemodule}
+    axios.post(url,data)
+    .then(res=>{
+      console.log(res.data)
+      const {student} = res.data
+      setStudent(student)
+    })
+   }
+  }
    function convertToUTC(dayOfWeek, timeString) {
     const daysMap = {
       Sunday: 0,
@@ -171,6 +189,17 @@ export default function Stdent() {
                 <p>Recent fee Paid:<span>{student.paymentMade}</span></p>
                 <p>Total fees :<span>{student.TotalpaymentMade}</span></p>
             </div>:<i className="fa fa-spinner spinner" aria-hidden="true"></i>}
+        </div>
+        <div className="studentDetails">
+          <h3>Promote student to next module or class</h3>
+           <div className='studentDetailsClassattendance ActivateStudentWrapper'>
+              <input onChange={handlePromoteValue} name='promoteclass' type='text' placeholder='Enter grade'/>
+              <input onChange={handlePromoteValue} name='promotemodule' type='text' placeholder="Enter module"/>
+              <input onChange={handlePromoteValue} name='promoteclassType' type='text' placeholder="Enter class types coding/math"/>
+           </div>
+           <div className='StdBtnWrapper'>
+              <button onClick={handlePromote}>Promote</button>
+           </div>
         </div>
         <div className="studentDetails">
           <h3>Update student account</h3>

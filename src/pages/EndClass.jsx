@@ -43,7 +43,6 @@ export default function EndClass() {
    setValue(e.target.value)
   }
   const handleClassEndedFully=()=>{
-    console.log('code class id',studentId,lesson,classId)
    if(classId && studentId && lesson.length >0){
     lesson.map(item=>{
       if(item.is_completed===false && item.reason.trim() === "" || item.reason==="''"||item.reason===""){
@@ -56,6 +55,13 @@ export default function EndClass() {
         const data = res.data.message
         setClassEndedfully(true)
         alert(data)
+        if(data==='Class marked as complete and token updated'){
+          if(role==='student'){
+            navigate('/student/dashboard/Details')
+          }else{
+            navigate('/teacher/dashboard/Details')
+          }
+        }
       })
       .catch(error=>console.log(error))
       }else{

@@ -120,7 +120,7 @@ useEffect(()=>{
         <div className='lessonsDetailsWrapper'>
           <h3>{lesson.lesson.title}</h3>
           <p>date:<span>{lesson.date}</span></p>
-          <p>time:<span>{lesson.time}</span></p>
+          <p>time:<span>{lesson.time?.replace(/:\d{2}(?= )/, '')}</span></p>
           <p>status:{lesson.is_completed===true?<span className='lessonStatus'>complete</span>:<span className='lessonStatus'>Incomplete</span>}</p>
           <div onClick={()=>handleToNotes(lesson.lesson.pdf_notes)}>
           {lesson.is_completed===true?<button onClick={()=>handleToNotes()}>View notes</button>:null}

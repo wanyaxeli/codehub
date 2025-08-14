@@ -3876,6 +3876,39 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .SmallDeviceourOfferingCardWrapper{
   display: none;
 }
+.myStudentWrapper {
+  height: auto;
+  width: 100%;
+  padding-bottom: 10px;
+}
+.myStudentContainer{
+  width: 100%;
+  height: auto;
+}
+.myStudentContainer .myStudentWrapper tr th{
+  text-align: left;
+}
+.myStudentContainer .myStudentWrapper tr td{
+ padding: 10px 0;
+ color: #000;
+}
+.myStudentContainer .myStudentWrapper tbody tr:nth-child(even) td {
+  background-color: #fff;
+}
+.myStudentContainer .myStudentWrapper tr td button{
+ border: none;
+ outline: none;
+ background-color: #0097b2;
+ padding: 5px 10px;
+ border-radius: 5px ;
+ color: #fff;
+ cursor: pointer;
+}
+.myStudentContainer .myStudentWrapper tr td button:hover{
+  background-color: transparent;
+  border: 1px solid #0097b2;
+  color: #000;
+}
 @media (min-width: 1536px) {
   .headerContainer,.bannerWrapper ,.CoursesContainer,.BenefitContainer,.parentsCommentsHolder,.footerContainer {
     max-width: 1500px;
