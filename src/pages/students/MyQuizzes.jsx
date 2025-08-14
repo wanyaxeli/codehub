@@ -4,8 +4,9 @@ import axios from 'axios'
 export default function MyQuizzes() {
   const navigate=useNavigate()
   const [token,setToken]=useState()
-  const [quiz,SetQuiz]=useState([])
-  const [Attemptedquiz,SetAttemptedQuiz]=useState([])
+  const [quiz,setQuiz]=useState([])
+  const [attemptedquiz,setAttemptedQuiz]=useState([])
+  const [complete,setComplete]=useState({})
   async function getToken(){
     try{
         const token= localStorage.getItem('token') // No need to await
@@ -40,16 +41,60 @@ function getQuizzes(){
     .then(res=>{
       console.log('res',res.data)
       if (!res.data.error) {
-        SetQuiz(res.data);
+        setQuiz(res.data);
       }
     })
     .catch(error=>console.log(error))
   }
 }
-console.log('quix',quiz)
-useEffect(()=>{
-getQuizzes()
-},[token])
+function checkComplete(){
+  if (quiz.length &&attemptedquiz.length) {
+    const completedStatus = {};
+
+    quiz.forEach(q => {
+      const attempted = attemptedquiz.some(a => a.quiz.id === q.id);
+      if (attempted) {
+        completedStatus[q.id] = 'complete';
+      }
+    });
+
+    setComplete(completedStatus);
+  }
+}
+console.log('complere',complete)
+useEffect(() => {
+  checkComplete()
+}, [quiz, attemptedquiz]);
+// useEffect(()=>{
+// getQuizzes()
+// GetttemptedQuizzes()
+// },[token])
+useEffect(() => {
+  if (token) {
+    axios.get('https://api.codingscholar.com/StudentAttemptedQuizes/', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
+    .then(res => {
+      console.log('attempted res', res.data);
+      if (!res.data.error) {
+        setAttemptedQuiz(res.data.data || []);
+      }
+    })
+    .catch(console.error);
+
+    axios.get('https://api.codingscholar.com/Getquizes/', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
+    .then(res => {
+      console.log('res', res.data);
+      if (!res.data.error) {
+        setQuiz(res.data || []);
+
+      }
+    })
+    .catch(console.error);
+  }
+}, [token]);
 useEffect(()=>{
  getToken()
 },[])
@@ -58,16 +103,18 @@ useEffect(()=>{
   }
   return (
     <div className='MyQuizzes'>
-      {quiz && quiz.length > 0? quiz.map(item=>{
-        return(
-          <div key={item.id} className='QuizzCard'>
-              <h3>{item.title}</h3>
-              <p>Deadline: {item.deadline}</p>
-              <p>status: <span>incomplate</span></p>
-              <button onClick={()=>handleToQuiz(item)}>View</button>
-          </div>
-        )
-      }):<p>No quizzes set yet</p>}
+      {quiz && quiz.length > 0 ? quiz.map(item => {
+      const status = complete[item.id] || 'incomplete';
+
+      return (
+        <div key={item.id} className='QuizzCard'>
+          <h3>{item.title}</h3>
+          <p>Deadline: {item.deadline}</p><br/>
+          <p>Status: <span>{status}</span></p>
+          {status==='complete'?<button>attempted</button> :<button onClick={() => handleToQuiz(item)}>View</button>}
+        </div>
+      );
+    }) : <p>No quizzes set yet</p>}
     </div>
   )
 }

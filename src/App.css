@@ -1984,6 +1984,7 @@ body{
   border-radius: 5px;
   padding: 1px 5px;
   color: #fff;
+  font-size: 0.8rem;
 }
 .QuizzCard button{
   width: 100%;
@@ -3808,7 +3809,7 @@ a:hover{
   .todayLessonWrapper{
     padding: 10px;
   }
-  .lessonsDetailsWrapper,.questionsofthedayWrapper p,.classHeaderBtnwrapper ul li,.TodayClassContainer,.markClass,.EndClassContainer{
+  .lessonsDetailsWrapper,.ProjectsHolder p,.questionsofthedayWrapper p,.classHeaderBtnwrapper ul li,.TodayClassContainer,.markClass,.EndClassContainer{
     color: #000;
   }
   .ClassGroupsWrapper table tr th,.showGroupClass  table tr th{
