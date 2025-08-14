@@ -58,9 +58,9 @@ useEffect(()=>{
           <div key={i} className='MyProjectsContainer'>
           <div className='ProjectsContainerUpper'></div>
           <div  className='ProjectsHolder'>
-            <p>{item.quiz.title}</p>
+            <p style={{color:'#000'}}>{item.quiz.title}</p>
             <button onClick={()=>handleViewProject(item.project_link)}>View</button>
-            <button style={{marginLeft:20}} onClick={handleToReview}>Review</button>
+            {item.review===true?  <button style={{marginLeft:20}}>Reviewed</button>:<button style={{marginLeft:20}} onClick={handleToReview}>Review</button>}
           </div>
           </div>
           )
