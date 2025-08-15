@@ -55,23 +55,13 @@ export default function EndClass() {
         const data = res.data.message
         setClassEndedfully(true)
         alert(data)
-        if(data==='Class marked as complete and token updated'){
-          if(role==='student'){
-            navigate('/student/dashboard/Details')
-          }else{
-            navigate('/teacher/dashboard/Details')
-          }
-        }
+        navigate('/teacher/dashboard/Details')
       })
       .catch(error=>console.log(error))
       }else{
         setClassEndedfully(true)
         alert('Class already marked as completed')
-        if(role==='student'){
-          navigate('/student/dashboard/Details')
-        }else{
-          navigate('/teacher/dashboard/Details')
-        }
+        navigate('/teacher/dashboard/Details')
       }
      })
    }else if(bookingId && teacherId && booking){
@@ -84,13 +74,8 @@ export default function EndClass() {
           console.log(res.data)
           const data = res.data.message
           alert(data)
-          if(data==='Trial Class marked as complete'){
-            if(role==='student'){
-              navigate('/student/dashboard/Details')
-            }else{
-              navigate('/teacher/dashboard/Details')
-            }
-          }
+          navigate('/student/dashboard/Details')
+          navigate('/teacher/dashboard/Details')
         })
         .catch(error=>console.log(error))
       }
@@ -110,23 +95,12 @@ export default function EndClass() {
             console.log(res.data)
             const data = res.data.message
             alert(data)
-            if(data==='Class marked '){
-              
-              if(role==='student'){
-                navigate('/student/dashboard/Details')
-              }else{
-                navigate('/teacher/dashboard/Details')
-              }
-            }
+            navigate('/teacher/dashboard/Details') 
           })
           .catch(error=>console.log(error))
         }else{
           alert('This Class is already marked')
-          if(role==='student'){
-            navigate('/student/dashboard/Details')
-          }else{
-            navigate('/teacher/dashboard/Details')
-          }
+          navigate('/teacher/dashboard/Details')
         }
       })
     }else{

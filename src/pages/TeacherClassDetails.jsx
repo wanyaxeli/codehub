@@ -36,9 +36,9 @@ export default function TeacherClassDetails() {
     }
     const handleNotes = ( title,les, notes) => {
         // e.preventDefault(); // Prevents default link or form behavior
-        console.log('notes', les);
+        console.log('notes', notes);
         const id = title
-        navigate(`/teacher/dashboard/Notes/`, { state: notes });
+        navigate(`/teacher/dashboard/Notes/`, { state: les });
     };
     console.log('time',todayClass)
   return (
@@ -76,7 +76,7 @@ export default function TeacherClassDetails() {
                     <h4>{lesson.lesson.title}</h4>
                     <p>time:{lesson.time?.replace(/:\d{2}(?= )/, '')}</p>
                     <p>
-                    <a 
+                    <a  style={{color:'#000'}}
                         href="#" 
                         onClick={(e) => {
                         e.preventDefault();  // Prevents the default anchor link behavior
