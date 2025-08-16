@@ -22,6 +22,7 @@ export default function Class() {
     const [toggleClassOnJoinedUser,settoggleClassOnJoinedUser]=useState('LessConnctedUsersWrapper')
     const [mic,setToggleMic]=useState(true)
     const [cam,setToggleCam]=useState(true)
+    const [notes,setNotes]=useState('')
     const [ClassType,setClassType]=useState('')
     const [chat,setChat]=useState('')
     const navigate=useNavigate()
@@ -640,11 +641,14 @@ useEffect(() => {
     },[bookingId])
     useEffect(()=>{
         const { state } = location || {}; // Ensure location is not undefined
-        const { id, time ,student,title,classType} = state || {};
+        const { id, time ,student,title,classType,notes} = state || {};
         if (state && classType==='NormalClass') {
             setCode(id);  // Set the state if it exists
             setStartingTime(time);
             console.log('idstudent state',state)
+            if(notes){
+                setNotes(notes)
+            }
            if(student){
             setStudentId(student)
             console.log('idstudent',student)
@@ -653,6 +657,7 @@ useEffect(() => {
           if(title){
             console.log('tit',title)
             setClassName(title)
+
           }
         }else if(state && classType ==='trial'){
             const{id,role,booking_id,code}=state
@@ -812,6 +817,7 @@ useEffect(() => {
         startScreenShare()
     } 
    }
+   console.log('notes',notes)
    function SubmitProeject(){
     if(token){
         const url ='https://api.codingscholar.com/Project/'
@@ -823,6 +829,9 @@ useEffect(() => {
         })
         .catch(error=>console.log(error))
     }
+   }
+   const handletoNotes =(notes)=>{
+    window.open(`https://res.cloudinary.com/dbxsncq5r/${notes}`, "_blank");
    }
    function StopSharing(){
     try {
@@ -891,8 +900,8 @@ useEffect(() => {
                     <div className='logoContainer'>
                         <img src={pic}/>
                     </div>
-                    <div className=''>
-
+                    <div className='ClassnotesDisplayerWrapper'>
+                       {notes && <span onClick={()=>handletoNotes(notes.url)}>{notes.title}</span>}
                     </div>
                 </div>
                 <div className='classHeaderBtnwrapper'>
@@ -939,7 +948,7 @@ useEffect(() => {
     )
   )
 )}
-         {trailClass &&  <RegisterStudentModal trailClass={trailClass}  openStudentRegistrationform={openStudentRegistrationform} setopenStudentRegistrationform={setopenStudentRegistrationform}/>}
+{trailClass &&  <RegisterStudentModal trailClass={trailClass}  openStudentRegistrationform={openStudentRegistrationform} setopenStudentRegistrationform={setopenStudentRegistrationform}/>}
         </>
 )
 //   if(participants.length <= 2 && timeLeft !=='Event has started!' || participants.length===1 && timeLeft ==='Event has started!'){

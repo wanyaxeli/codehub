@@ -142,6 +142,7 @@ export default function Stdent() {
     .then(res=>{
       console.log(res.data)
       const {student} = res.data
+      alert('Student promoted successfully')
       setStudent(student)
     })
    }
@@ -193,9 +194,9 @@ export default function Stdent() {
         <div className="studentDetails">
           <h3>Promote student to next module or class</h3>
            <div className='studentDetailsClassattendance ActivateStudentWrapper'>
-              <input onChange={handlePromoteValue} name='promoteclass' type='text' placeholder='Enter grade'/>
-              <input onChange={handlePromoteValue} name='promotemodule' type='text' placeholder="Enter module"/>
-              <input onChange={handlePromoteValue} name='promoteclassType' type='text' placeholder="Enter class types coding/math"/>
+              <input onChange={handlePromoteValue}  value={promoteValues.promoteclass} name='promoteclass' type='text' placeholder='Enter grade'/>
+              <input onChange={handlePromoteValue} value={promoteValues.promotemodule} name='promotemodule' type='text' placeholder="Enter module"/>
+              <input onChange={handlePromoteValue} value={promoteValues.promoteclassType} name='promoteclassType' type='text' placeholder="Enter class types coding/math"/>
            </div>
            <div className='StdBtnWrapper'>
               <button onClick={handlePromote}>Promote</button>

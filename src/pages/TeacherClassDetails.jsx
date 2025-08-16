@@ -32,7 +32,12 @@ export default function TeacherClassDetails() {
       }
     const handleToJoinClass=(les,student,id,time)=>{
         const navID=`${les.student.id}${id}`
-        navigate(`/class/${navID}`, { state: { id,classType:'NormalClass', time,student} });
+       
+        const title=les.lesson.title 
+        const url=les.lesson.pdf_notes  
+        const notes={title:title,url:url}
+        console.log(notes) 
+        navigate(`/class/${navID}`, { state: { id,classType:'NormalClass', time,student,notes} });
     }
     const handleNotes = ( title,les, notes) => {
         // e.preventDefault(); // Prevents default link or form behavior
