@@ -6,6 +6,7 @@ export default function MyQuizzes() {
   const navigate=useNavigate()
   const [token,setToken]=useState()
   const [quiz,setQuiz]=useState([])
+  const [user_id,setUser_id]=useState('')
   const [attemptedquiz,setAttemptedQuiz]=useState([])
   const [complete,setComplete]=useState({})
   async function getDecodeToken(){
@@ -14,7 +15,7 @@ export default function MyQuizzes() {
           try {
             const decode = jwtDecode(token);
             const { exp, role, user_id } = decode;
-            console.log(decode)
+            setUser_id(user_id)
           } catch (error) {
             console.error("JWT Decode Error:", error);
           }
@@ -33,35 +34,17 @@ export default function MyQuizzes() {
         console.log(error);
 }
 } 
-function GetttemptedQuizzes(){
-  if(token){
-    const url = 'https://api.codingscholar.com/StudentAttemptedQuizes/';
-    axios.get(url,{headers:{
-      'Authorization':`Bearer ${token}`
-    }})
-    .then(res=>{
-      console.log('attempted res',res.data)
-      if (!res.data.data) {
-        SetAttemptedQuiz(res.data);
-      }
-    })
-    .catch(error=>console.log(error))
-  }
-}
-function getQuizzes(){
-  if(token){
-    const url = 'https://api.codingscholar.com/Getquizes/';
-    axios.get(url,{headers:{
-      'Authorization':`Bearer ${token}`
-    }})
-    .then(res=>{
-      console.log('res',res.data)
+function getStudentClassRoom(){
+   if(user_id){
+    const id =user_id
+    axios.get(`https://api.codingscholar.com/studentRoom/${id}`)
+    .then(res => {
       if (!res.data.error) {
-        setQuiz(res.data);
+        setAttemptedQuiz(res.data.data || []);
       }
     })
-    .catch(error=>console.log(error))
-  }
+    .catch(console.error);
+   }
 }
 function checkComplete(){
   if (quiz.length &&attemptedquiz.length) {
@@ -84,6 +67,9 @@ useEffect(() => {
 useEffect(()=>{
 getDecodeToken()
 },[token])
+useEffect(()=>{
+  getStudentClassRoom()
+  },[user_id])
 useEffect(() => {
   if (token) {
     axios.get('https://api.codingscholar.com/StudentAttemptedQuizes/', {
@@ -97,7 +83,7 @@ useEffect(() => {
     })
     .catch(console.error);
 
-    axios.get('https://api.codingscholar.com/Getquizes/', {
+    axios.get('https://api.codingscholar.com/Getquizes/',{
       headers: { 'Authorization': `Bearer ${token}` }
     })
     .then(res => {
