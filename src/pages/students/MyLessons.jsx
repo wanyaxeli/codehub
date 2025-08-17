@@ -3,7 +3,7 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 export default function MyLessons() {
   const [token,setToken]=useState('')
-  const [data,setData]=useState([])
+  const [fullData,setData]=useState([])
   const [lessons,setLessons]=useState([])
   const [activelesson,setActiveLesson]=useState('')
   const [mathlessonactive,setMathLessonActive]=useState(false)
@@ -21,7 +21,6 @@ export default function MyLessons() {
         // setLessons(data)
         if(Array.isArray(data) && data.length > 0){
           setData(data)
-          getcodingLessons()
           // data.forEach(lessons=>{
           //   const now = new Date(lessons.date_time)
           //   const time = now.toLocaleTimeString();
@@ -52,8 +51,8 @@ const handleToNotes =(notes)=>{
   navigate(`/student/dashboard/StudentNotes/`, { state: notes });
 }
 function getcodingLessons() {
-  if (data) {
-    const codingLessons = data
+  if (fullData.length>0) {
+    const codingLessons = fullData
       .filter(lesson => lesson.lessonType === 'coding')
       .map(lesson => {
         const now = new Date(lesson.date_time);
@@ -77,8 +76,8 @@ const handleMathLessons=()=>{
   getMathsLessons()
 }
 function getMathsLessons() {
-  if (data) {
-    const mathsLessons = data
+  if (fullData.length >0) {
+    const mathsLessons = fullData
       .filter(lesson => lesson.lessonType === 'math')
       .map(lesson => {
         const now = new Date(lesson.date_time);
@@ -96,15 +95,28 @@ useEffect(()=>{
   GetMyLessons()
 },[token])
 useEffect(()=>{
-  getcodingLessons()
-},[data])
+  if(fullData.length>0){
+    const lessonTypes = fullData.map(item => item.lessonType);
+    console.log('type',lessonTypes)
+    if (lessonTypes.includes('coding') && lessonTypes.includes('math')) {
+      getcodingLessons();
+      console.log('both',lessonTypes)
+    } else if (lessonTypes.includes('coding')) {
+      getcodingLessons();
+      console.log('coding',lessonTypes)
+    } else if (lessonTypes.includes('math')) {
+      getMathsLessons();
+      console.log('math',lessonTypes)
+    }
+  }
+},[fullData])
 useEffect(()=>{
   getToken()
 },[])
   return (
     <div className='MyLessonWrapper'>
      <div className='classtypenavWrapper'>
-      {data && data.some(item => item.lessonType === 'coding') && data.some(item => item.lessonType === 'math') && (
+      {fullData && fullData.some(item => item.lessonType === 'coding') && fullData.some(item => item.lessonType === 'math') && (
       <ul>
         <li onClick={handlecodingLessons} className={codinglessonactive ? 'activelesson' : ''}>coding</li>
         <li onClick={handleMathLessons} className={mathlessonactive ? 'activelesson' : ''}>mathematics</li>

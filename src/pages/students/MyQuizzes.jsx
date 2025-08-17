@@ -1,12 +1,28 @@
 import React,{useState,useEffect} from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { jwtDecode } from 'jwt-decode'
 export default function MyQuizzes() {
   const navigate=useNavigate()
   const [token,setToken]=useState()
   const [quiz,setQuiz]=useState([])
   const [attemptedquiz,setAttemptedQuiz]=useState([])
   const [complete,setComplete]=useState({})
+  async function getDecodeToken(){
+    try{
+        if (token){
+          try {
+            const decode = jwtDecode(token);
+            const { exp, role, user_id } = decode;
+            console.log(decode)
+          } catch (error) {
+            console.error("JWT Decode Error:", error);
+          }
+        }
+    } catch(error) {
+        console.log(error);
+    }
+}
   async function getToken(){
     try{
         const token= localStorage.getItem('token') // No need to await
@@ -65,10 +81,9 @@ console.log('complere',complete)
 useEffect(() => {
   checkComplete()
 }, [quiz, attemptedquiz]);
-// useEffect(()=>{
-// getQuizzes()
-// GetttemptedQuizzes()
-// },[token])
+useEffect(()=>{
+getDecodeToken()
+},[token])
 useEffect(() => {
   if (token) {
     axios.get('https://api.codingscholar.com/StudentAttemptedQuizes/', {
