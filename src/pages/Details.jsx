@@ -230,6 +230,9 @@ export default function Details() {
     const handleUploadVids=()=>{
       navigate('/teacher/dashboard/upload video')
     }
+    const handleSettodayQuiz =()=>{
+      navigate('/student/dashboard/Set Question')
+    }
     useEffect(()=>{
     getToken()
     },[])
@@ -306,6 +309,9 @@ export default function Details() {
     </div>
     <div onClick={handleSetQuiz} className='actionBtnContainer quiz'>
       <p>Quiz</p>
+    </div>
+    <div onClick={handleSettodayQuiz} className='actionBtnContainer quiz'>
+      <p>Set Question</p>
     </div>
     <div onClick={handleSetLessons} className='actionBtnContainer lessonsBtn'>
       <p>class</p>

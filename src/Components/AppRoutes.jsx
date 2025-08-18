@@ -51,6 +51,7 @@ import UploadVids from '../pages/UploadVids.jsx';
 import WhyUs from '../pages/WhyUs.jsx';
 import PrivacyPolicy from '../pages/PrivacyPolicy.jsx';
 import TodaysQuestions from '../pages/students/TodaysQuestions.jsx';
+import QuestionSetter from '../pages/QuestionSetter.jsx';
 export default function AppRoutes() {
   return (
     <Routes>
@@ -104,6 +105,7 @@ export default function AppRoutes() {
               <Route path='/student/dashboard/My  quizzes' element={<MyQuizzes/>}/>
               <Route path='/student/dashboard/StudentNotes/' element={<StudentNotesView/>}/>
               <Route path='/student/dashboard/Quiz' element={<Quiz/>}/>
+              <Route path='/student/dashboard/Set Question' element={<QuestionSetter/>}/>
             </Route>
           </Route>
             <Route path='/End Class' element={<EndClass/>}/>

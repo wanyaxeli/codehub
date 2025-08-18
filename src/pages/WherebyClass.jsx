@@ -110,9 +110,10 @@ export default function WherebyClass({ code,role }) {
     console.log('code outer',code)
     if (code && role) {
       console.log('code',code)
+      const now = Date.now();
       axios
         .post('https://api.codingscholar.com/create_whereby_room/', {
-          class_name: code,
+          class_name: `${now}_${code}`,
           role: role, 
         })
         .then((res) => {

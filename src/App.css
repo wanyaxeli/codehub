@@ -3536,8 +3536,8 @@ height: auto;
   padding-bottom:10px;
 }
 .OurOfferingContainer,.whyChooseUsContainer,.WhyUsTrialBtnContainer{
-   max-width: 1200px;
-   width: 94%;
+  max-width: 1200px;
+  width: 94%;
   height: auto;
   margin: auto;
 }
@@ -3816,6 +3816,52 @@ a:hover{
 }
 .ClassnotesDisplayerWrapper span::first-letter{
   text-transform: capitalize;
+}
+.QuestionSetterWrapper{
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+}
+.QuestionSetterWrapper h2{
+  text-align: center;
+  padding: 10px 0;
+}
+.questionsInputContainer{
+  width: 70%;
+  height: auto;
+  margin: auto;
+}
+.questionsInputContainer input,.questionsInputContainer textarea{
+  width: 100%;
+  height: 50px;
+  margin-bottom: 10px;
+  padding: 0 10px;
+  border: 1px solid #0097b2;
+  background-color: transparent;
+  outline: none;
+}
+.questionsInputContainer input:not(.optionsInputWrapper input) {
+  border-radius: 10px;
+}
+.optionsInputWrapper input{
+  width: 85%;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+.optionsInputWrapper button{
+  border: none;
+  outline: none;
+  background-color: #0097b2;
+  width: 15%;
+  height: 51px;
+  color: #fff;
+  text-transform: capitalize;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  cursor: pointer;
+}
+.optionsInputWrapper button:hover{
+  background-color: #87cddd;
 }
 @media (prefers-color-scheme: dark) {
   .leftHeader select {
