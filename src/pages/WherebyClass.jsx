@@ -113,7 +113,7 @@ export default function WherebyClass({ code,role }) {
       const now = Date.now();
       axios
         .post('https://api.codingscholar.com/create_whereby_room/', {
-          class_name: `${now}_${code}`,
+          class_name: `${code}`,
           role: role, 
         })
         .then((res) => {
