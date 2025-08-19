@@ -107,13 +107,10 @@ export default function WherebyClass({ code,role }) {
   const [roomUrl, setRoomUrl] = useState('');
   const [shouldConnect, setShouldConnect] = useState(false);
   useEffect(() => {
-    console.log('code outer',code)
     if (code && role) {
-      console.log('code',code)
-      const now = new Date().toISOString().replace(/[-:.TZ]/g, ""); 
       axios
         .post('https://api.codingscholar.com/create_whereby_room/', {
-          class_name: `${now}_${code}`,
+          class_name: `${code}`,
           role: role, 
         })
         
