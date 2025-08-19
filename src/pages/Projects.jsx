@@ -56,7 +56,9 @@ useEffect(()=>{
           {quiz.length >0? quiz.map((item,i)=>{
             return(
           <div key={i} className='MyProjectsContainer'>
-          <div className='ProjectsContainerUpper'></div>
+          <div className='ProjectsContainerUpper'>
+            <h3>{item.student.user.first_name} {item.student.user.last_name}</h3>
+          </div>
           <div  className='ProjectsHolder'>
             <p style={{color:'#000'}}>{item.quiz.title}</p>
             <button onClick={()=>handleViewProject(item.project_link)}>View</button>

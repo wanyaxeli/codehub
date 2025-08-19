@@ -3742,7 +3742,9 @@ a:hover{
   height: auto;
   width: 94%;
 }
-
+.ProjectsContainerUpper{
+  padding: 10px;
+}
 .questionsofthedayWrapper{
   width: 100%;
   height: 70px;
