@@ -102,15 +102,15 @@ import Whereby from '../Components/WhereBy';
 //   </div>
 //   )
 // }
-export default function WherebyClass({ code,role }) {
+export default function WherebyClass({ StudentUser_id,code,role }) {
   // const [roomUrl, setRoomUrl] = useState(null);
   const [roomUrl, setRoomUrl] = useState('');
   const [shouldConnect, setShouldConnect] = useState(false);
   useEffect(() => {
-    if (code && role) {
+    if (code && role && StudentUser_id) {
       axios
         .post('https://api.codingscholar.com/create_whereby_room/', {
-          class_name: `${code}`,
+          class_name: `${StudentUser_id}-${code}`,
           role: role, 
         })
         

@@ -31,25 +31,32 @@ function getQuiz(){
     }})
     .then(res=>{
       const data = res.data
-      data.forEach(item=>{
-        console.log(item)
-        setQuizId(item.quiz.id)
-        setStudentId(item.student.id)
-      })
+      // data.forEach(item=>{
+      //   console.log(item)
+      //   setQuizId(item.quiz.id)
+      //   setStudentId(item.student.id)
+      // })
       setQuiz(res.data)
     })
     .catch(error=>console.log(error))
   }
 }
-const handleToReview=()=>{
+const handleToReview=(quizId,studentId)=>{
+  setStudentId(studentId)
+  setQuizId(quizId)
+  console.log('idss',quizId,'studeid',studentId)
+ if(studentId && quizId ){
   setReview(true)
+ }
 }
+console.log('quiz',quiz)
 useEffect(()=>{
   getQuiz()
  },[token])
 useEffect(()=>{
  getToken()
 },[])
+console.log('qui',studentId,quizId)
   return (
     <div className='MyProjectsWrapper'>
         
@@ -62,12 +69,12 @@ useEffect(()=>{
           <div  className='ProjectsHolder'>
             <p style={{color:'#000'}}>{item.quiz.title}</p>
             <button onClick={()=>handleViewProject(item.project_link)}>View</button>
-            {item.review===true?  <button style={{marginLeft:20}}>Reviewed</button>:<button style={{marginLeft:20}} onClick={handleToReview}>Review</button>}
+            {item.review===true?  <button style={{marginLeft:20}}>Reviewed</button>:<button style={{marginLeft:20}} onClick={()=>handleToReview(item.quiz.id,item.student.id)}>Review</button>}
           </div>
           </div>
           )
           }):<p style={{color:"#000"}}>You have no projects from your students for now</p>}
-          {review && <ReviewPOP studentId={studentId} quizId={quizId} setReview={setReview}/>}
+          {review && quizId!=='' && quizId!=='undefined' && studentId!==''&&studentId!=='undefined' && <ReviewPOP getQuiz={getQuiz} studentId={studentId} quizId={quizId} setReview={setReview}/>}
     </div>
   )
 }

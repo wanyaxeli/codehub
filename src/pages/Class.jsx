@@ -49,6 +49,7 @@ export default function Class() {
     const peerRef = useRef(null);
     const screenPeerRef = useRef(null);
     const [user_id, setUser_id] = useState('');
+    const [StudentUser_id, setStudentUser_id] = useState('');
     const [waiting, setWaiting] = useState(false);
     const [connected, setConnected] = useState([]);
     const [peerConnected, setpeerConnected] = useState(false);
@@ -641,7 +642,7 @@ useEffect(() => {
     },[bookingId])
     useEffect(()=>{
         const { state } = location || {}; // Ensure location is not undefined
-        const { id, time ,student,title,classType,notes} = state || {};
+        const { id, time ,student,title,studentUserId,classType,notes} = state || {};
         if (state && classType==='NormalClass') {
             setCode(id);  // Set the state if it exists
             setStartingTime(time);
@@ -649,6 +650,10 @@ useEffect(() => {
             if(notes){
                 setNotes(notes)
             }
+            if(studentUserId){
+                setStudentUser_id(studentUserId)
+            }
+           
            if(student){
             setStudentId(student)
             console.log('idstudent',student)
@@ -925,7 +930,7 @@ useEffect(() => {
             
         </div>
         <WherebyProvider>
-        <WherebyClass role={role} code={slug}/>
+        <WherebyClass role={role} StudentUser_id={StudentUser_id} code={slug}/>
         </WherebyProvider>
         {openSubmitModal && (
   ClassName && ClassName !== 'undefined' ? (

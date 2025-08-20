@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react'
 import ReactDOM from 'react-dom'; // Correct import
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-export default function ReviewPOP({setReview,studentId,quizId}) {
+export default function ReviewPOP({getQuiz,setReview,studentId,quizId}) {
     const navigate =useNavigate()
     const [token,setToken]=useState('')
     const [points,setPoints]=useState('')
@@ -10,13 +10,14 @@ export default function ReviewPOP({setReview,studentId,quizId}) {
    const handleReview=()=>{
    if(studentId && quizId && token && points){
     const url = 'https://api.codingscholar.com/updateStudentMarks/';
-    const data={studentId:studentId,points:points,quizId:quizId}
+    const data={studentId:studentId,points:parseInt(points),quizId:quizId}
     axios.put(url,data,{headers:{
         'Authorization':`Bearer ${token}`
     }})
     .then(res=>{
         console.log(res.data)
         setPoints('')
+        getQuiz()
         setReview(false)
     })
     .catch(error=>console.log(error))

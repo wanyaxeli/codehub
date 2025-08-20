@@ -15,10 +15,11 @@ export default function StudentDetails() {
     console.log('student',student)
     const handleToJoinClass =(les,id,time,title)=>{
         const lessonTime = new Date(les.date_time);       // Converts ISO string to Date object
+        const studentUserId=les.student.user.id
         const now = new Date();  
         // if (lessonTime > now) {
         const navID=`${les.student.id}${id}`
-        navigate(`/class/${navID}`, { state: { id,classType:'NormalClass', time,title } });
+        navigate(`/class/${navID}`,{state:{id,classType:'NormalClass',time,title,studentUserId } });
         // } else{
         //     alert('The time ')
         // }

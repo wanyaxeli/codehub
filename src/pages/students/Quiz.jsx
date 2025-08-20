@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation,useNavigate } from 'react-router-dom'
 import axios from 'axios'
 export default function quiz() {
   const [token,setToken]=useState()
@@ -9,6 +9,7 @@ export default function quiz() {
   const [link,setLink]=useState('')
   const [error,setError]=useState('')
   const location = useLocation()
+  const navigate=useNavigate()
   async function getToken(){
     try{
         const token= localStorage.getItem('token') // No need to await
@@ -43,6 +44,7 @@ if(quizId && link){
       console.log(res.data)
       alert(res.data)
       setLink('')
+      navigate('/student/dashboard/My  quizzes')
     })
     .catch(error=>console.log(error))
   }else{
