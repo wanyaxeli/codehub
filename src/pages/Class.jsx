@@ -672,6 +672,7 @@ useEffect(() => {
             setCode(code)
             setTrails(true)
             setRole(role)
+            setStudentUser_id(code)
             setClassType('trial')
         }
         // startLocalStream()
