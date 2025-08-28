@@ -104,6 +104,17 @@ export default function CreatLessons() {
         }
         
     };
+    const handleDelete =(lesson)=>{
+    const lessonId=lesson.lessonId
+    console.log(lessonId)
+    const url = `https://api.codingscholar.com/DeleteclassNotes/${encodeURIComponent(lessonId)}`;
+    axios.delete(url)
+    .then(res=>{
+      console.log(res.data)
+      getNotes()
+    })
+    .catch(error=>console.log(error))
+    }
     const handleToNotes =(url)=>{
         console.log(url)
         navigate(`/teacher/dashboard/Notes/`, { state: url});
@@ -165,7 +176,7 @@ export default function CreatLessons() {
                          View PDF
                       </td>
                       <td>
-                        <button>add student</button>
+                        <button onClick={()=>handleDelete(lesson)}>delete</button>
                       </td>
                       {/* <td><button>add teacher</button></td> */}
                     </tr>

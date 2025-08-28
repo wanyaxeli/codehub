@@ -3745,6 +3745,33 @@ a:hover{
 .ProjectsContainerUpper{
   padding: 10px;
 }
+.nextquizBtnWrapper{
+  width: 100%;
+  height: auto;
+  text-align: center;
+  padding: 10px 0;
+}
+.questionsInputContainer textarea{
+  border-radius: 10px;
+}
+.nextquizBtnWrapper button{
+  padding: 15px 25px;
+  border: none;
+  outline:none;
+  background-color: #0097b2;
+  border-radius: 10px;
+  cursor: pointer;
+  text-transform: capitalize;
+}
+.nextquizBtnWrapper button:hover{
+  background-color: #87cddd;
+}
+.optionsWrapper{
+  width: 70%;
+  height: auto;
+  margin: auto;
+  padding: 10px 0;
+}
 .questionsofthedayWrapper{
   width: 100%;
   height: 70px;
@@ -3872,7 +3899,7 @@ a:hover{
     cursor: pointer;
     outline: none;
   }
-  .registerstudentFormwrapper form input::placeholder,a{
+  .registerstudentFormwrapper form input::placeholder,a,input{
     color: #fff;
   }
   .registerstudentFormwrapper form input{

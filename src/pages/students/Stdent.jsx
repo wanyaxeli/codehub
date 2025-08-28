@@ -5,7 +5,7 @@ import axios from 'axios'
 export default function Stdent() {
   const initialState={grade:'',teacher:'',module:""}
   const FeesinitialState={amount:'',amountPerClass:''}
-  const promteInstialState={promoteclass:'',promotemodule:'',promoteclassType:''}
+  const promteInstialState={promoteclass:'',promotemodule:'',promoteclassType:'',lessonNumber:''}
   const initialStateforLessonAttendace={first_day:'',second_day:'',
   first_time:'',second_time:''}
   const [fees,setFees]=useState(FeesinitialState)
@@ -109,7 +109,8 @@ export default function Stdent() {
     const url=`https://api.codingscholar.com/StudentLesson/${id}`
     const data = {
       lesson_schedule: selectedTimes,
-      roomType: 'coding'
+      roomType: 'coding',
+      lessonNumber:1
     };
     axios.post(url,data)
     .then(res=>{
@@ -137,7 +138,7 @@ export default function Stdent() {
    if(studentId && promoteValues.promoteclass && promoteValues.promotemodule && promoteValues.promoteclassType){
     const id=studentId
     const url=`https://api.codingscholar.com/promotion/${id}`
-    const data={className:promoteValues.promoteclass,roomType:promoteValues.promoteclassType,module:promoteValues.promotemodule}
+    const data={className:promoteValues.promoteclass,lessonNumber:parseInt(promoteValues.lessonNumber),roomType:promoteValues.promoteclassType,module:promoteValues.promotemodule}
     axios.post(url,data)
     .then(res=>{
       console.log(res.data)
@@ -197,6 +198,7 @@ export default function Stdent() {
               <input onChange={handlePromoteValue}  value={promoteValues.promoteclass} name='promoteclass' type='text' placeholder='Enter grade'/>
               <input onChange={handlePromoteValue} value={promoteValues.promotemodule} name='promotemodule' type='text' placeholder="Enter module"/>
               <input onChange={handlePromoteValue} value={promoteValues.promoteclassType} name='promoteclassType' type='text' placeholder="Enter class types coding/math"/>
+              <input onChange={handlePromoteValue} value={promoteValues.lessonNumber} name='promoteclassType' type='text' placeholder="Enter lesson number"/>
            </div>
            <div className='StdBtnWrapper'>
               <button onClick={handlePromote}>Promote</button>

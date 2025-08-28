@@ -52,7 +52,8 @@ export default function SpecialClasses() {
       // const data ={...classLesson,...{roomType:'maths'}}
       const data = {
         lesson_schedule: selectedTimes,
-        roomType: 'math'
+        roomType: 'math',
+        lessonNumber:1
       };
       axios.post(url,data)
       .then(res=>{
