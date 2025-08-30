@@ -198,7 +198,7 @@ export default function Stdent() {
               <input onChange={handlePromoteValue}  value={promoteValues.promoteclass} name='promoteclass' type='text' placeholder='Enter grade'/>
               <input onChange={handlePromoteValue} value={promoteValues.promotemodule} name='promotemodule' type='text' placeholder="Enter module"/>
               <input onChange={handlePromoteValue} value={promoteValues.promoteclassType} name='promoteclassType' type='text' placeholder="Enter class types coding/math"/>
-              <input onChange={handlePromoteValue} value={promoteValues.lessonNumber} name='promoteclassType' type='text' placeholder="Enter lesson number"/>
+              <input onChange={handlePromoteValue} value={promoteValues.lessonNumber} name='lessonNumber' type='text' placeholder="Enter lesson number"/>
            </div>
            <div className='StdBtnWrapper'>
               <button onClick={handlePromote}>Promote</button>
