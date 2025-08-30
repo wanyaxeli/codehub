@@ -1,3 +1,4 @@
+import axios from 'axios'
 import React,{useState,useEffect} from 'react'
 
 export default function QuestionSetter() {
@@ -24,8 +25,6 @@ export default function QuestionSetter() {
    const {value,name}=e.target
    setValue({...Value,[name]:value})
   }
-  console.log('value',Value)
-  console.log('va',optionsValue,'opt',options)
   const handleNextQuiz =()=>{
    if(Value.quiztype && Value.grade&&Value.module &&Value.question && options.length ===4 && Value.answer){
     const data={quiztype:Value.quiztype,grade:Value.grade,module:Value.module,question:Value.question,options:options,answer:Value.answer}
@@ -37,14 +36,18 @@ export default function QuestionSetter() {
     setError('Please fill all fields')
    }
   }
-  console.log('questions',questions)
   const handleSubmitQuiz =()=>{
     if (questions.length ===5){
       questions.forEach(question=>{
         
         const data = {quiztype:question.quiztype,grade:question.grade,module:question.module,
         quiz:question.question,answer:question.answer,options:question.options}
-        console.log(data)
+        const url = 'https://api.codingscholar.com/profilePic/';
+        axios.post(url,data)
+        .then(res=>{
+          console.log(res.data)
+        })
+        .catch(error=>{console.log(error)})
       })
     }else{
       setError('Please make sure you have five questions')

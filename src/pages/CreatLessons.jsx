@@ -2,6 +2,7 @@ import React ,{useState,useEffect}from 'react'
 import { v4 as uuidv4 } from "uuid";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import DeletePopUp from '../Components/DeletePopUp';
 export default function CreatLessons() {
     const initialState={
         grade:"",
@@ -13,8 +14,9 @@ export default function CreatLessons() {
     }
     const navigate= useNavigate()
     const [inputs,setInputs]=useState(initialState)
-    console.log('input',inputs)
+    const [openDeletePop,setOpenDeletePop]=useState(false)
     const [notes,setNotes]=useState([])
+    const [lesson,setLesson]=useState('')
     const [error,setError]=useState('')
     const [loading,setLoading]=useState(false)
     const handleChange=(e)=>{
@@ -105,15 +107,8 @@ export default function CreatLessons() {
         
     };
     const handleDelete =(lesson)=>{
-    const lessonId=lesson.lessonId
-    console.log(lessonId)
-    const url = `https://api.codingscholar.com/DeleteclassNotes/${encodeURIComponent(lessonId)}`;
-    axios.delete(url)
-    .then(res=>{
-      console.log(res.data)
-      getNotes()
-    })
-    .catch(error=>console.log(error))
+      setOpenDeletePop(true)
+      setLesson(lesson)
     }
     const handleToNotes =(url)=>{
         console.log(url)
@@ -187,6 +182,7 @@ export default function CreatLessons() {
           ))}
         </div>
       ))}
+      {openDeletePop && lesson && <DeletePopUp lesson={lesson} getNotes={getNotes} setOpenDeletePop={setOpenDeletePop}/>}
         </div>
     </div>
   )

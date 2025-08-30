@@ -3804,20 +3804,62 @@ a:hover{
   background-color: transparent;
   color: #000;
 }
-.lessonsDetailsWrapper
 .TodaysQuestionsWrapper{
   width: 100%;
   height: 88vh;
   background-image: url('assets/bgimg.png');
-  background-size: cover;   /* Makes it fill the container */
-  background-position: center; /* Centers it */
-  background-repeat: no-repeat; /* Prevents tiling */
+  background-size: cover;  
+  background-position: center; 
+  background-repeat: no-repeat; 
   padding: 10px;
   border-left: 2px solid #0097b2;
+  color: #000;
+}
+.TodaysQuestionsBtn{
+  width: 100%;
+  height: auto;
+  text-align: center;
+}
+.TodaysQuestionsBtn button{
+  background-color: #0097b2;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 15px 30px;
+  color: #fff;
+  border-radius: 10px;
+}
+.TodaysQuestionsBtn button:hover{
+  border: 2px solid #0097b2;
+  background-color: transparent;
+  color: #000;
+}
+.TodaysQuestionsContainer ul{
+  list-style: none;
 }
 .TodaysQuestionsContainer{
-  width: 100%;
+  width: 80%;
+  margin: auto;
   height: 100%;
+}
+.answerDiv{
+  width: 100%;
+  height: 30px;
+  border-radius: 10px;
+  background-color: orange;
+  margin: 10px 0;
+  text-align: end;
+}
+.DeleteAlertPOPUp button:first-child{
+  margin-right: 20px;
+}
+.answerDiv span{
+  display: inline-block;
+  width: 98%;
+  height: 100%;
+  background-color: #0097b2;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 .TodayClassContainer a{
   text-decoration: underline;
