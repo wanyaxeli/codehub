@@ -187,14 +187,14 @@ useEffect(()=>{
                 </div>
             </div>}
         </div>
-        <div className='questionsofthedayWrapper'>
+        {/* <div className='questionsofthedayWrapper'>
              <div>
              <p>Have you attempted today's questions?</p>
              </div>
              <div>
                 <button onClick={handleQuiz}>go to questions <i className="fa fa-long-arrow-right" aria-hidden="true"></i></button>
              </div>
-        </div>
+        </div> */}
         <div className='todayLessonWrapper'>
            <div className='todayLessonHeaderwrapper'>
            <h3>today Classes</h3>
