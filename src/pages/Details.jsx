@@ -231,7 +231,7 @@ export default function Details() {
       navigate('/teacher/dashboard/upload video')
     }
     const handleSettodayQuiz =()=>{
-      navigate('/student/dashboard/Set Question')
+      navigate('/teacher/dashboard/Set Question')
     }
     useEffect(()=>{
     getToken()

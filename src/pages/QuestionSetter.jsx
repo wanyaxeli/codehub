@@ -42,10 +42,12 @@ export default function QuestionSetter() {
         
         const data = {quiztype:question.quiztype,grade:question.grade,module:question.module,
         quiz:question.question,answer:question.answer,options:question.options}
-        const url = 'https://api.codingscholar.com/profilePic/';
+        const url = 'https://api.codingscholar.com/questionSetter/';
         axios.post(url,data)
         .then(res=>{
           console.log(res.data)
+          alert(res.data)
+          setQuestions([])
         })
         .catch(error=>{console.log(error)})
       })

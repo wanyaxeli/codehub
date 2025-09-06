@@ -95,6 +95,7 @@ export default function AppRoutes() {
               <Route path='/teacher/dashboard/student/:id' element={<Stdent/>}/>
               <Route path='/teacher/dashboard/videos' element={<VideoPlayer/>}/>
               <Route path='/teacher/dashboard/upload video' element={<UploadVids/>}/>
+              <Route path='/teacher/dashboard/Set Question' element={<QuestionSetter/>}/>
             </Route>
             <Route path='/student/dashboard' element={<StudentDashboard/>}>
               <Route index element={<StudentDetails/>}/>
@@ -105,7 +106,6 @@ export default function AppRoutes() {
               <Route path='/student/dashboard/My  quizzes' element={<MyQuizzes/>}/>
               <Route path='/student/dashboard/StudentNotes/' element={<StudentNotesView/>}/>
               <Route path='/student/dashboard/Quiz' element={<Quiz/>}/>
-              <Route path='/student/dashboard/Set Question' element={<QuestionSetter/>}/>
             </Route>
           </Route>
             <Route path='/End Class' element={<EndClass/>}/>

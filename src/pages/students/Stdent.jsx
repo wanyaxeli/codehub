@@ -12,6 +12,7 @@ export default function Stdent() {
   const [promoteValues,setPromoteValues]=useState(promteInstialState)
   const [studentId,setStudentId]=useState('')
   const [student,setStudent]=useState('')
+  const [lessonNumber,setLessonNumber]=useState('')
   const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday","Sunday"];
   const [selectedTimes, setSelectedTimes] = useState({});
   const location = useLocation()
@@ -101,7 +102,7 @@ export default function Stdent() {
     }
   }
   const handleSubmitLessonAttendance =()=>{
-  if(studentId){
+  if(studentId && lessonNumber){
     const id = studentId
      // Convert local date & time to UTC
     // const localDateTime = new Date(`${values.date}T${values.time}`);
@@ -110,13 +111,15 @@ export default function Stdent() {
     const data = {
       lesson_schedule: selectedTimes,
       roomType: 'coding',
-      lessonNumber:1
+      lessonNumber:parseInt(lessonNumber)
     };
     axios.post(url,data)
     .then(res=>{
       console.log(res.data)
       SetClassLesson(initialStateforLessonAttendace)
       alert('Class attendance time picked successfully ')
+      setSelectedTimes({})
+      setLessonNumber('')
     })
     .catch(error=>console.log(error))  
   }
@@ -145,6 +148,7 @@ export default function Stdent() {
       const {student} = res.data
       alert('Student promoted successfully')
       setStudent(student)
+      setPromoteValues(promteInstialState)
     })
    }
   }
@@ -180,6 +184,10 @@ export default function Stdent() {
     // Return UTC version
     return now.toISOString(); // Or use now.toUTCString() if you prefer
   }
+  const handleLessonNumber =(e)=>{
+  setLessonNumber(e.target.value)
+  }
+  console.log('n',lessonNumber)
   return (
     <div className='StudentWrapper'>
         <div className='studentDetailsWrapper'>
@@ -253,6 +261,10 @@ export default function Stdent() {
           />
         </div>
       ))}
+        <div className='lessonNumberWrapper'>
+        <label>Lesson Number </label>
+        <input value={lessonNumber} name='lessonNumber' onChange={handleLessonNumber} type='text' placeholder='Enter Lesson Number'/>
+        </div>
        </div>
         <div className='StdBtnWrapper'>
               <button onClick={handleSubmitLessonAttendance}>submit</button>

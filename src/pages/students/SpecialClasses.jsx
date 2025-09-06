@@ -7,6 +7,7 @@ export default function SpecialClasses() {
    const initialStateforLessonAttendace={first_day:'',second_day:'',
    first_time:'',second_time:''}
    const [studentId,setStudentId]=useState('')
+   const [lessonNumber,setLessonNumber]=useState('')
    const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday","Sunday"];
    const [student,setStudent]=useState('')
    const [classManagement,SetClassManagement]=useState(initialState)
@@ -43,7 +44,7 @@ export default function SpecialClasses() {
     }
    }
    const handleSubmitLessonAttendance =()=>{
-    if(studentId){
+    if(studentId && lessonNumber){
       const id = studentId
        // Convert local date & time to UTC
       // const localDateTime = new Date(`${values.date}T${values.time}`);
@@ -53,7 +54,7 @@ export default function SpecialClasses() {
       const data = {
         lesson_schedule: selectedTimes,
         roomType: 'math',
-        lessonNumber:1
+        lessonNumber:parseInt(lessonNumber)
       };
       axios.post(url,data)
       .then(res=>{
@@ -69,6 +70,9 @@ export default function SpecialClasses() {
     const {name,value}=e.target
     SetClassLesson({...classLesson,[name]:value})
    }
+   const handleLessonNumber =(e)=>{
+    setLessonNumber(e.target.value)
+    }
    useEffect(()=>{
    const {state}= location
    if(state){
@@ -116,6 +120,10 @@ export default function SpecialClasses() {
                   />
                 </div>
               ))}
+              <div className='lessonNumberWrapper'>
+                <label>Lesson Number </label>
+                <input value={lessonNumber} name='lessonNumber' onChange={handleLessonNumber} type='text' placeholder='Enter Lesson Number'/>
+              </div>
           </div>
           <div className='StdBtnWrapper'>
                   <button onClick={handleSubmitLessonAttendance}>submit</button>
