@@ -23,8 +23,10 @@ export default function Calendar() {
       item.student.id===studentId &&
       item.is_completed===false
     );
-    if(lesson){
+    if(lesson.length > 0){
       navigate('/teacher/dashboard/Teacher Class Details',{state:lesson})
+    }else{
+      alert('This class is already marked complete')
     }
     // console.log('fiste',eventStart)
     // console.log('fisterdd',eventTitle)
