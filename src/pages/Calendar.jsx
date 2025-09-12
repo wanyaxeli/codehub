@@ -20,7 +20,8 @@ export default function Calendar() {
     const lesson = data.filter(item =>
       item.lesson.title === eventTitle &&
       item.date_time === eventStart && 
-      item.student.id===studentId
+      item.student.id===studentId &&
+      item.is_completed===false
     );
     if(lesson){
       navigate('/teacher/dashboard/Teacher Class Details',{state:lesson})

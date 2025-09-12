@@ -129,7 +129,7 @@ useEffect(()=>{
     console.log("Matched lessons:", todayLessons);
    }
  },[lessons])
-
+console.log('asd',todayClass)
  useEffect(()=>{
     UpdateProfilePic()
     },[token,profilePic])
@@ -187,14 +187,14 @@ useEffect(()=>{
                 </div>
             </div>}
         </div>
-        {/* <div className='questionsofthedayWrapper'>
+        <div className='questionsofthedayWrapper'>
              <div>
              <p>Have you attempted today's questions?</p>
              </div>
              <div>
                 <button onClick={handleQuiz}>go to questions <i className="fa fa-long-arrow-right" aria-hidden="true"></i></button>
              </div>
-        </div> */}
+        </div>
         <div className='todayLessonWrapper'>
            <div className='todayLessonHeaderwrapper'>
            <h3>today Classes</h3>
@@ -204,10 +204,9 @@ useEffect(()=>{
                 return(
                     <div key={lesson.id} className='TodayClassContainer'>
                     <h4>{lesson.lesson.title}</h4>
-                    {/* <p>time:{lesson.time}</p> */}
                     <p>Time: {lesson.time?.replace(/:\d{2}(?= )/, '')}</p>
-                    {/* <p><a href='#'>details</a></p> */}
-                    <button onClick={()=>handleToJoinClass(lesson,lesson.lesson.lessonId,lesson.date_time,lesson.lesson.title)}>join</button>
+                    {lesson.is_completed===false?<button onClick={()=>handleToJoinClass(lesson,lesson.lesson.lessonId,lesson.date_time,lesson.lesson.title)}>join</button>:
+                    <button>Completed</button>}
                   </div>
                 )
                }):<div className='NoClassDiv'>

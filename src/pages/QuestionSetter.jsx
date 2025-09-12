@@ -36,25 +36,40 @@ export default function QuestionSetter() {
     setError('Please fill all fields')
    }
   }
-  const handleSubmitQuiz =()=>{
-    if (questions.length ===5){
-      questions.forEach(question=>{
-        
-        const data = {quiztype:question.quiztype,grade:question.grade,module:question.module,
-        quiz:question.question,answer:question.answer,options:question.options}
-        const url = 'https://api.codingscholar.com/questionSetter/';
-        axios.post(url,data)
-        .then(res=>{
-          console.log(res.data)
-          alert(res.data)
-          setQuestions([])
+  const handleSubmitQuiz = () => {
+    if (questions.length === 5) {
+      const url = 'https://api.codingscholar.com/questionSetter/';
+  
+      // create an array of promises
+      const promises = questions.map((question) => {
+        const data = {
+          quiztype: question.quiztype,
+          grade: question.grade,
+          module: question.module,
+          quiz: question.question,
+          answer: question.answer,
+          options: question.options,
+        };
+        return axios.post(url, data);
+      });
+  
+      // wait for all promises to finish
+      Promise.all(promises)
+        .then((responses) => {
+          console.log(responses.map((res) => res.data));
+          alert("All questions submitted successfully!");
+          setQuestions([]);
         })
-        .catch(error=>{console.log(error)})
-      })
-    }else{
-      setError('Please make sure you have five questions')
+        .catch((error) => {
+          console.log(error);
+          alert("Something went wrong while submitting the quiz.");
+        });
+  
+    } else {
+      setError("Please make sure you have five questions");
     }
-  }
+  };
+  
   return (
     <div className='QuestionSetterWrapper'>
          <h2>Create daily questions for students</h2>
