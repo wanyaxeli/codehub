@@ -52,6 +52,7 @@ import WhyUs from '../pages/WhyUs.jsx';
 import PrivacyPolicy from '../pages/PrivacyPolicy.jsx';
 import TodaysQuestions from '../pages/students/TodaysQuestions.jsx';
 import QuestionSetter from '../pages/QuestionSetter.jsx';
+import Certificates from '../pages/Certificates.jsx';
 export default function AppRoutes() {
   return (
     <Routes>
@@ -96,6 +97,7 @@ export default function AppRoutes() {
               <Route path='/teacher/dashboard/videos' element={<VideoPlayer/>}/>
               <Route path='/teacher/dashboard/upload video' element={<UploadVids/>}/>
               <Route path='/teacher/dashboard/Set Question' element={<QuestionSetter/>}/>
+              <Route path='/teacher/dashboard/Certificates' element={<Certificates/>}/>
             </Route>
             <Route path='/student/dashboard' element={<StudentDashboard/>}>
               <Route index element={<StudentDetails/>}/>

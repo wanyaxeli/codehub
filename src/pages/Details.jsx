@@ -233,6 +233,9 @@ export default function Details() {
     const handleSettodayQuiz =()=>{
       navigate('/teacher/dashboard/Set Question')
     }
+    const handleCertificates =()=>{
+      navigate('/teacher/dashboard/Certificates')
+    }
     useEffect(()=>{
     getToken()
     },[])
@@ -318,6 +321,9 @@ export default function Details() {
     </div>
     <div onClick={handleBookingManager} className='actionBtnContainer bookingsManagerBtn'>
       <p>Bookings</p>
+    </div>
+    <div onClick={handleCertificates} className='actionBtnContainer bookingsManagerBtn'>
+      <p>Certificates</p>
     </div>
   </div>
 ) :(

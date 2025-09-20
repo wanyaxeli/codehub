@@ -3959,6 +3959,61 @@ a:hover{
 .optionsInputWrapper button:hover{
   background-color: #87cddd;
 }
+.CertificatesWrapper{
+  width: 100%;
+ height: auto;
+ padding: 10px;
+}
+.CertificatesInputWrapper{
+  width: 100%;
+  height: auto;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.CertificatesInputWrapper input{
+  width: 85%;
+  height: 50px;
+  border: 2px solid #0097b2;
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+  padding:0 10px;
+  outline: none;
+  border-right: 0;
+ 
+}
+.CertificatesInputWrapper button{
+  width: 15%;
+  height: 50px;
+  border-left: 0;
+  background-color: #0097b2;
+  border: 2px solid #0097b2;
+  outline: none;
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+  text-transform: capitalize;
+}
+.CertificatesInputWrapper button:hover{
+  background-color: #52b7c9;
+}
+.CertificatesContainer{
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.Certificates{
+  width: 291px;
+  height: 291px;
+  background-color: #fff;
+  border-radius: 10px;
+}
 @media (prefers-color-scheme: dark) {
   .leftHeader select {
     background-color: #fff;

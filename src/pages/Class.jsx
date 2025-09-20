@@ -667,12 +667,19 @@ useEffect(() => {
         }else if(state && classType ==='trial'){
             const{id,role,booking_id,code}=state
             console.log('state data',state)
+           
+            function normalizeId(id) {
+                return String(id).includes("e")
+                  ? Number(id).toLocaleString("fullwide", { useGrouping: false })
+                  : String(id);
+              }
+            let roomName = normalizeId(code);
             setUser_id(id)
             setBookingId(booking_id)
             setCode(code)
             setTrails(true)
             setRole(role)
-            setStudentUser_id(code)
+            setStudentUser_id(roomName)
             console.log('code',code)
             setClassType('trial')
         }
