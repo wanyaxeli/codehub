@@ -10,6 +10,7 @@ import RegisterStudentModal from '../Components/RegisterStudentModal';
 import CountdownTimer from '../Components/CountdownTimer';
 import axios from 'axios';
 import { WherebyProvider } from "@whereby.com/browser-sdk/react";
+import StudentProfilePopUp from '../Components/StudentProfilePopUp';
 export default function Class() {
     const [mainCss,setMainCss]=useState('fullPageMain')
     const [bookingId,setBookingId]=useState('')
@@ -57,7 +58,10 @@ export default function Class() {
     const [RemoteScreenStream, setRemoteScreenStream] = useState('');
     const [StudentId, setStudentId] = useState('');
     const [ClassName, setClassName] = useState('');
+    const [openStudentProfile, setOpenStudentProfile] = useState('closeStudentProfilePopUp');
     const userVideo = useRef();
+    const [studentName,setStudentName]=useState('')
+    const [student,setStudent]=useState([])
     const beforeConnectionVideo = useRef();
     const [counter, setCounter] = useState(0);
     const [openStudentRegistrationform,setopenStudentRegistrationform]=useState('CloseRegisterStudentModal')
@@ -642,7 +646,7 @@ useEffect(() => {
     },[bookingId])
     useEffect(()=>{
         const { state } = location || {}; // Ensure location is not undefined
-        const { id, time ,student,title,studentUserId,classType,notes} = state || {};
+        const { id, time ,student,title,studentName,studentUserId,classType,notes,studentDetails} = state || {};
         if (state && classType==='NormalClass') {
             setCode(id);  // Set the state if it exists
             setStartingTime(time);
@@ -657,6 +661,12 @@ useEffect(() => {
            if(student){
             setStudentId(student)
             console.log('idstudent',student)
+           }
+           if(studentName){
+               setStudentName(studentName)
+           }
+           if(studentDetails){
+            setStudent(studentDetails)
            }
            setClassType('NormalClass')
           if(title){
@@ -844,6 +854,9 @@ useEffect(() => {
         .catch(error=>console.log(error))
     }
    }
+   const handleOpenProfile=()=>{
+    setOpenStudentProfile('StudentProfilePopUp')
+   }
    const handletoNotes =(notes)=>{
     window.open(`https://res.cloudinary.com/dbxsncq5r/${notes}`, "_blank");
    }
@@ -920,10 +933,12 @@ useEffect(() => {
                 </div>
                 <div className='classHeaderBtnwrapper'>
                     <ul>
+                        {ClassType==='NormalClass' && role==='teacher' && studentName?<li onClick={handleOpenProfile} className='studentNameHolder'>{studentName}</li>:''}
                         {role ==='student'? <li onClick={handleSubmitProject}>submit project</li>:''}
                         {ClassType==='trial' && role==='teacher'?<li className='studentBtn' onClick={handleStudent}>student</li>:''}
                         {ClassType==='NormalClass' && role==='teacher' ||ClassType==='trial' && role==='teacher' ?<li className='markClass' onClick={handleEndClass}>mark class</li>:''}
                         {/* <li onClick={handleOpenChat}>chat</li> */}
+                        { <StudentProfilePopUp student={student} openStudentProfile={openStudentProfile} setOpenStudentProfile={setOpenStudentProfile}/>}
                     </ul>
                 </div>
                 {/* <div className='classheaderBtnActionwrapper'>
@@ -962,7 +977,7 @@ useEffect(() => {
     )
   )
 )}
-{trailClass &&  <RegisterStudentModal trailClass={trailClass}  openStudentRegistrationform={openStudentRegistrationform} setopenStudentRegistrationform={setopenStudentRegistrationform}/>}
+{trailClass &&  <RegisterStudentModal  trailClass={trailClass}  openStudentRegistrationform={openStudentRegistrationform} setopenStudentRegistrationform={setopenStudentRegistrationform}/>}
         </>
 )
 //   if(participants.length <= 2 && timeLeft !=='Event has started!' || participants.length===1 && timeLeft ==='Event has started!'){

@@ -142,7 +142,7 @@ useEffect(()=>{
 useEffect(()=>{
   getStudentQuestions()
 },[token])
-console.log('dai',DaillyQuizAttempt)
+
 useEffect(()=>{
  getToken()
 },[])
@@ -150,7 +150,7 @@ useEffect(()=>{
     <div className='TodaysQuestionsWrapper'>
         <div className='TodaysQuestionsContainer'>
       <div className='classtypenavWrapper'>
-          {DaillyQuizAttempt!==day?fullQuestions && fullQuestions.some(item => item.quiztype === 'coding') && fullData.some(item => item.quiztype === 'math') && (
+          {DaillyQuizAttempt!==day?fullQuestions && fullQuestions.some(item => item.quiztype === 'coding') && fullQuestions.some(item => item.quiztype === 'math') && (
           <ul>
             <li onClick={handlecodingLessons} className={codinglessonactive ? 'activelesson' : ''}>coding</li>
             <li onClick={handleMathLessons} className={mathlessonactive ? 'activelesson' : ''}>mathematics</li>

@@ -102,7 +102,7 @@ import Whereby from '../Components/WhereBy';
 //   </div>
 //   )
 // }
-export default function WherebyClass({ StudentUser_id,code,role }) {
+export default function WherebyClass({ StudentUser_id,code,role,studentName }) {
   // const [roomUrl, setRoomUrl] = useState(null);
   const [roomUrl, setRoomUrl] = useState('');
   const [shouldConnect, setShouldConnect] = useState(false);
@@ -135,7 +135,7 @@ export default function WherebyClass({ StudentUser_id,code,role }) {
   //   return <p>Loading room...</p>;
   // }
   if (roomUrl !=='' && roomUrl!=='undefined' && roomUrl!==null){
-    return <Whereby roomUrl={roomUrl} />;
+    return <Whereby roomUrl={roomUrl}  />;
   } 
    else{
     return <p>Loading room...</p>;
