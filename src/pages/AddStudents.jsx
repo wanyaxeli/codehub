@@ -23,14 +23,6 @@ export default function AddStudents() {
   }
  const handleAddStudent =()=>{
   const email = student.email
-  // const url ='https://api.codingscholar.com/acceptedStudent/'
-  // axios.post(url,{email:email},{headers:{
-  //   'Content-Type':"Application/json"
-  // }})
-  // .then(res=>{
-  //   console.log(res.data)
-  // })
-  // .catch(error=>console.log(error))
   if(email && student.confirm_password && student.first_name && student.last_name && student.password && student.countryName){
     isValidEmail(student)
   }

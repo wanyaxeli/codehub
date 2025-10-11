@@ -18,10 +18,8 @@ export default function SubmitProjectModal({openSubmitModal,bookingId,ClassName,
         setopenSubmitModal(false)
     }
     const handleChange=(e)=>{
-        console.log("Typing:", e.target.value);
         setProject(e.target.value)
     }
-    console.log('value',project)
     const handleSubmit =()=>{
         if(ClassName && project){
             const url = `https://api.codingscholar.com/Project/`
@@ -37,7 +35,6 @@ export default function SubmitProjectModal({openSubmitModal,bookingId,ClassName,
             })
             .catch(error=>console.log(error))
         }else if(bookingId && project){
-            console.log('book',bookingId,project)
             const url = `https://api.codingscholar.com/TrialProject/`
             const data={project:project,bookingId:bookingId}
             axios.post(url,data)

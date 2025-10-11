@@ -4,15 +4,34 @@ import { useNavigate } from 'react-router-dom'
 import { context } from '../../App';
 import { jwtDecode } from "jwt-decode";
 import axios from 'axios';
+import badge from '../../assets/barge1.png'
+import badge2 from '../../assets/barge2.png'
+import badge3 from '../../assets/barge3.png'
+import badge4 from '../../assets/barge4.png'
+import badge5 from '../../assets/barge5.png'
+import badge6 from '../../assets/barge6.png'
+import badge7 from '../../assets/barge7.png'
+import badge8 from '../../assets/barge8.png'
+import badge9 from '../../assets/barge9.png'
+import badge10 from '../../assets/barge10.png'
+import badge11 from '../../assets/barge11.png'
+import badge12 from '../../assets/barge12.png'
+import badge13 from '../../assets/barge13.png'
+import badge14 from '../../assets/barge14.png'
+import badge15 from '../../assets/barge15.png'
+import badge16 from '../../assets/barge16.png'
+
 export default function StudentDetails() {
+    const data=[{id:1,img:badge,name:'hello world hero'},{id:2,img:badge2,name:'tech titan'},{id:3,img:badge3,name:'keyboard worrier'},{id:4,img:badge4,name:'code rockstar'},{id:5,img:badge5,name:'coding wizard '},{id:6,img:badge6,name:'brainy builder'},{id:7,img:badge7,name:'code rockstar'},{id:8,img:badge8,name:'next gen ninja'},{id:9,img:badge9,name:'level up coder'},{id:10,img:badge10,name:'future developer'},
+    {id:11,img:badge11,name:'coding explorer'},{id:12,img:badge12,name:'logic legend'},{id:13,img:badge13,name:'algorithm ace'},{id:14,img:badge14,name:'syntax superstar'},{id:15,img:badge15,name:'bug buster hero'},{id:16,img:badge16,name:'code champion'}]
     const navigate = useNavigate()
     const [token,setToken]=useState('')
     const [lessons,setLesson]=useState([])
     const [todayClass,setTodayClass]=useState([])
+    const [studentBadge,setStudentbadge]=useState([])
     const [studentId,setStudentId]=useState('')
     const {student,proPic,getProfilePic}=useContext(context)
     const [profilePic,setProfilePic]=useState('')
-    console.log('student',student)
     const handleToJoinClass =(les,id,time,title)=>{
         const lessonTime = new Date(les.date_time);       // Converts ISO string to Date object
         const studentUserId=les.student.user.id
@@ -49,7 +68,6 @@ export default function StudentDetails() {
             setLesson(pre=>([...pre,{...lesson,...newdata}]))
             
         })
-        console.log('datas',data)
     })
     .catch(error=>console.log(error))
    }
@@ -74,6 +92,20 @@ export default function StudentDetails() {
         .catch(error => console.error(error));
     }
     }
+ function getStudentBadge(){
+   if(studentId){
+    const id = studentId
+    const url = `https://api.codingscholar.com/getbadge/${id}`;
+    axios.get(url)
+    .then(res=>{
+        console.log(res.data)
+    })
+    .catch(error=>console.log(error))
+   }
+ }
+ function StudentBadge(){
+    
+ }
  const handlechange =(e)=>{
     setProfilePic(e.target.files[0])
 }
@@ -89,21 +121,6 @@ useEffect(()=>{
 },[student])
  useEffect(()=>{
    if (lessons){
-    // const date= new Date()
-    // const today= date.getDate()
-    // const month=date.getMonth() + 1
-    // const year= date.getFullYear()
-    // const fullDate=`${month}/${today}/${year}`
-    // const todaylesson=lessons.filter(lesson=>lesson.date===fullDate)
-    // if(todaylesson){
-    //     setTodayClass(todaylesson)
-    // }
-    // else{
-    //     setTodayClass([])
-    // }
-    // console.log('lesson',todaylesson)
-    // console.log('alllessons',lessons)
-    // console.log('fuul',fullDate)
     const now = new Date();
 
     // Format today's date in user's local timezone
@@ -125,11 +142,8 @@ useEffect(()=>{
 
     setTodayClass(todayLessons.length > 0 ? todayLessons : []);
 
-    console.log("Today for:", todayFormatted);
-    console.log("Matched lessons:", todayLessons);
    }
  },[lessons])
-console.log('asd',todayClass)
  useEffect(()=>{
     UpdateProfilePic()
     },[token,profilePic])
@@ -213,6 +227,18 @@ useEffect(()=>{
                 <p>You do not have a class today</p>
                 </div>}
             </div>
+            {/* <div className='todayLessonHeaderwrapper studentBadgesWrapper'>
+            <h3>badges</h3>
+            </div> */}
+            {/* <div className='StedentbadgeHolder'>
+                {data.map(item=>{
+                    return(
+                    <div className='Stedentbadge'>
+                    <img src={item.img}/>
+                    </div>
+                    )
+                })}
+            </div> */}
         </div>
     </div>
   )

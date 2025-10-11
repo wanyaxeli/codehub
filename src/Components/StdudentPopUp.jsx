@@ -67,8 +67,6 @@ export default function StudentPopUp({setDaillyQuizAttempt,day,setStudentChoices
             const decode = jwtDecode(token);
             const {role,user_id}=decode
             setUser_id(user_id)
-            console.log("Decoded Token:", user_id);
-            // setRole(role)
           } catch (error) {
             console.error("JWT Decode Error:", error);
           }

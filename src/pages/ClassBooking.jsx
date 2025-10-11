@@ -30,12 +30,12 @@ import { useEffect } from 'react';
         axios.get(url)
         .then(res=>{
             setfetchloading(false)
-            const data=res.data
+            const unfilteredData=res.data
+            const data =unfilteredData.filter(items=>items.booked===false)
             setData(data)
             const today = new Date().toISOString().split('T')[0]
             const time = new Date().toTimeString().split(' ')[0]
             const todayAvailability = data.filter(item => item.date === today && item.time >=time)
-            console.log('today',time,todayAvailability)
             todayAvailability.forEach(item=>{
              const timeZoneTime=formatToLocalTime(item.datetime_utc)
              setAvailability(pre=>([...pre,{...item,...{timeZoneTime:timeZoneTime}}]))
@@ -79,9 +79,10 @@ import { useEffect } from 'react';
     const tomorrowStr = formatDateString(tomorrow);
     const dayAfterStr = formatDateString(dayAfterTomorrow);
     const handleShowBookingforTomorrow=(id)=>{
-        setActive({id:id})
         setAvailability([])
-        console.log(data)
+        // GetAvailabeBookingTime()
+        setActive({id:id})
+        // setAvailability([])
         const filtered = data.filter(item => item.date === tomorrowStr);
 
         console.log("Tomorrow's bookings:", filtered);
@@ -93,20 +94,23 @@ import { useEffect } from 'react';
         // const time = new Date().toTimeString().split(' ')[0]  
     }
     const handleToBooking=(id)=>{
-        setActive({id:id})
         setAvailability([])
+        // GetAvailabeBookingTime()
+        setActive({id:id})
+        // setAvailability([])
         const today = new Date().toISOString().split('T')[0]
         const time = new Date().toTimeString().split(' ')[0]
         const todayAvailability = data.filter(item => item.date === today && item.time >=time)
-        console.log('today',time,todayAvailability)
         todayAvailability.forEach(item=>{
         const timeZoneTime=formatToLocalTime(item.datetime_utc)
         setAvailability(pre=>([...pre,{...item,...{timeZoneTime:timeZoneTime}}]))
         })
     }
     const handleShowBookingforOtherDay=(id)=>{
-        setActive({id:id})
         setAvailability([])
+        // GetAvailabeBookingTime()
+        setActive({id:id})
+        // setAvailability([])
         const filtered = data.filter(item => item.date === dayAfterStr);
         console.log("Day-after-tomorrow's bookings:", filtered);
         filtered.forEach(item=>{

@@ -9,6 +9,7 @@ export default function TeacherClassDetails() {
     const [todayClass,setTodayClass]=useState([])
     const [studentDetails,setStudent]=useState([])
     const [studentName,setStudentName]=useState('')
+    const [studentPic,setStudentPic]=useState('')
     const [token,setToken]=useState()
     const [studentId,setStudentId]=useState()
     const {teacher,proPic,seeEarning,setEarning}=useContext(context)
@@ -45,21 +46,35 @@ export default function TeacherClassDetails() {
         const url=les.lesson.pdf_notes  
         const notes={title:title,url:url}
         console.log(studentUserId) 
-        navigate(`/class/${navID}`, { state: { id,classType:'NormalClass',studentName, time,student,studentUserId,notes,studentDetails} });
+        navigate(`/class/${navID}`, { state: { id,classType:'NormalClass',studentName, time,student,studentUserId,notes,studentDetails,studentPic} });
     }
     const handleNotes = ( title,les, notes) => {
         // e.preventDefault(); // Prevents default link or form behavior
         const id = title
         navigate(`/teacher/dashboard/Notes/`, { state: les });
     };
+
    function getStudentProfilePic(){
-    const url = 'https://api.codingscholar.com/getprofilePic/';
-    axios.get(url)
-    .then(res=>{
-        console.log(res.data)
-    })
-    .catch(error=>{console.log(error)})
+    if( studentDetails.length > 0){
+        studentDetails.map(item=>{
+            const studentId=item.id
+            const url =`https://api.codingscholar.com/getprofilePic/${studentId}`;
+            axios.get(url)
+            .then(res=>{
+                const data=res.data
+                if(data.error){
+                    setStudentPic('')
+                }else{
+                    setStudentPic(data.image)
+                }
+            })
+            .catch(error=>{console.log(error)})
+                })
+            }
    }
+   useEffect(()=>{
+    getStudentProfilePic()
+   },[studentDetails])
   return (
     <div className='DetailsWrapper'>
          <div className='TeacherDetailsWrapper'>
@@ -115,7 +130,7 @@ export default function TeacherClassDetails() {
                     <div className='stdntDetails'>
                     <div className='stdntImageWrapper'>
                         <div className='stdntImage'>
-                            <img src={pic}/>
+                            {studentPic!==''?<img src={`https://res.cloudinary.com/dbxsncq5r/${studentPic}`}/>:<img src={pic}/>}
                          </div>
                         <div className='stdntname'>
                             <span>{item.first_name}</span>

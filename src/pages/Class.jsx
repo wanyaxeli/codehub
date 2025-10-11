@@ -11,6 +11,7 @@ import CountdownTimer from '../Components/CountdownTimer';
 import axios from 'axios';
 import { WherebyProvider } from "@whereby.com/browser-sdk/react";
 import StudentProfilePopUp from '../Components/StudentProfilePopUp';
+import Barge from '../Components/Barge';
 export default function Class() {
     const [mainCss,setMainCss]=useState('fullPageMain')
     const [bookingId,setBookingId]=useState('')
@@ -36,7 +37,9 @@ export default function Class() {
     const [openMic,setOpenMic]=useState('')
     const [openVidoe,setOpenVideo]=useState('on')
     const [code,setCode]=useState('')
+    const [newStudent,setNewStudent]=useState('')
     const [timeLeft, setTimeLeft] = useState(null);
+    const [studentPic,setStudentPic]=useState('')
     const [openSubmitModal,setopenSubmitModal]=useState(false)
     const location = useLocation()
     const [isConnected, setIsConnected] = useState(false);
@@ -73,6 +76,7 @@ export default function Class() {
     const [ice, setIce] = useState([]);
     const [screen, setScreen] = useState(false);
     const [slug, setSlug] = useState('');
+    const [openBadges,setOpenBadge]=useState(false)
     const [trails, setTrails] = useState(false);
     const [toggleMic,setToggleMuteMic]=useState(true)
     const [closeSharing,setCloseSharing]=useState(false)
@@ -99,7 +103,10 @@ export default function Class() {
         } catch(error) {
             console.log(error);
   }
-}  
+} 
+const handleShowBarges =()=>{
+    setOpenBadge(true)
+} 
 useEffect(()=>{
     getToken()
     setToggleCam(true)
@@ -140,7 +147,7 @@ useEffect(() => {
         }
       ]
     if(iceServers){
-      console.log('ice ',iceServers)
+     
       setIce(iceServers)
     }
   };
@@ -372,7 +379,7 @@ useEffect(() => {
         userVideo.current.srcObject = localStream;
     }
     },[localStream,peerConnected,userVideo])
-    console.log('connected',peerConnected)
+
     const handleScreenOffer =(socket, signal, targetID, senderId)=>{
         const peerConfig = { iceServers: ice };
         const screenPeer = new Peer({
@@ -444,150 +451,7 @@ useEffect(() => {
     
         setPeer(responder);
         peerRef.current = responder
-    };
-    async function startScreenShare() {
-        if (participants.length > 1 && ice.length >0) {
-            const InitiatorUser = participants.find(user => String(user.userId) === String(user_id));
-            const NonInitiatorUser = participants.find(user => String(user.userId) !== String(user_id));
-            const peerConfig = { iceServers: ice };
-            try {
-                // Get the screen stream
-                const screenStream = await navigator.mediaDevices.getDisplayMedia({
-                    video: { cursor: "always" },
-                    audio: false,
-                });
-        
-                if (LocalscreenVideo.current) {
-                    LocalscreenVideo.current.srcObject = screenStream; // Show preview
-                }
-        
-                // Create a separate peer connection for screen sharing
-                const screenPeer = new Peer({
-                    initiator: true,
-                    trickle: true, // Disable trickle ICE for easier signaling
-                    stream: screenStream,
-                    config: peerConfig
-                });
-        
-                // Send offer to remote peer
-                screenPeer.on("signal", (data) => {
-                    console.log('screen offer',data)
-                    if (data.candidate) {
-                        ws.send(JSON.stringify({ type: "screen_candidate", candidate: data, sender: InitiatorUser.userId, target: targetUser.userId }));
-                    } else {
-                        ws.send(JSON.stringify({ type: "screen-offer", data ,sender: InitiatorUser.userId, target: NonInitiatorUser.userId }));
-                    }
-                });
-                screenPeerRef.current = screenPeer;
-                // Stop sharing when the user closes the screen share
-                // const track = screenStream.getVideoTracks()[0];
-                //     track.addEventListener("ended", () => {
-                //     console.log("Track ended via browser stop sharing UI");
-                //     // StopSharing();
-                //     });
-                screenStream.getVideoTracks()[0].onended = () => {
-                    console.log("Screen sharing stopped via browser UI");
-                    // try {
-                    //     StopSharing();
-                    // } catch (error) {
-                    //     console.error("Error calling StopSharing:", error);
-                    // }
-                        setCloseSharing(true)
-                        console.log('stopped',user_id,sharing)
-                        ws.send(JSON.stringify({ 
-                            type: "stop_sharing",
-                            sharing: false,
-                        }));
-                        if (LocalscreenVideo.current?.srcObject) {
-                            LocalscreenVideo.current.srcObject.getTracks().forEach(track => track.stop());
-                            LocalscreenVideo.current.srcObject = null;
-                        }
-                };
-                screenStream.oninactive = () => {
-                    console.log(" Screen sharing stream is now inactive");
-                    setCloseSharing(true)
-                    try {
-                      StopSharing();
-                    } catch (error) {
-                      console.error("Error calling StopSharing:", error);
-                    }
-                  };
-            } catch (error) {
-                if (error.name === "NotAllowedError" || error.name === "AbortError") {
-                    console.warn("User canceled screen sharing.");
-                    // Handle UI feedback if necessary
-                    setCloseSharing(true)
-                    ws.send(JSON.stringify({ 
-                        type: "stop_sharing",
-                        sharing: false,
-                    }));
-                    StopSharing()
-                } else {
-                    console.error("Error starting screen sharing:", error);
-                }
-            }
-        }else{
-            console.log("screen share error",ice)
-        }
-    }   
-    useEffect(()=>{
-        if (screenVideo.current) {
-            console.log('screen',RemoteScreenStream)
-            screenVideo.current.srcObject = RemoteScreenStream; // Display screen share
-        }
-    },[RemoteScreenStream])
-    useEffect(()=>{
-     if(peerRef){
-        console.log('peer',peerRef,'partner',partnerVideo,'user',userVideo)
-     }
-    },[peerRef])
-    function stopScreenSharing() {
-        if (screenPeerRef) {
-            screenPeerRef.current.destroy();
-            screenPeerRef.current = null;
-          
-        }
-        console.log("Screen sharing stopped.");
-    }
-    useEffect(() => {
-       if(peerConnected){
-        if (!RemoteStream || !partnerVideo.current) return;
-    
-        const videoElement = partnerVideo.current;
-    
-        
-        RemoteStream.getTracks().forEach(track => {
-            console.log(`Track kind: ${track.kind}, enabled: ${track.enabled}, readyState: ${track.readyState}`);
-        });
-        // Check if we are assigning a new stream
-        if (videoElement.srcObject !== RemoteStream) {
-            // Stop any existing tracks before assigning a new stream
-            if (videoElement.srcObject) {
-                videoElement.srcObject.getTracks().forEach(track => track.stop());
-            }
-    
-            videoElement.srcObject = RemoteStream;
-        }
-    
-        // Wait a bit before playing to ensure stream is fully loaded
-        setTimeout(() => {
-            const playPromise = videoElement.play();
-            if (playPromise !== undefined) {
-                playPromise
-                    .then(() => console.log("Playback started successfully"))
-                    .catch(error => console.error("Playback errors:", error));
-            }
-        }, 100); // Small delay to allow stream to load
-    
-        return () => {
-            if (videoElement.srcObject) {
-                videoElement.srcObject.getTracks().forEach(track => track.stop());
-            }
-            videoElement.srcObject = null;
-        };
-       }
-    
-    }, [peerConnected,RemoteStream]);
+    }; 
     useEffect(()=>{
         if (ws && ws.readyState === WebSocket.OPEN && user_id && sharing===false && closeSharing===true){
             ws.send(JSON.stringify({ 
@@ -617,10 +481,8 @@ useEffect(() => {
             const url=`https://api.codingscholar.com/trialClass/${code}`
             axios.get(url)
             .then(res=>{
-                console.log('trial',res.data)
                 const data=res.data
                 const timeUtcZone=formatToLocalTime(data.datetime_utc)
-                console.log('starting time',timeUtcZone)
                 setTrailClass([res.data])
                 setStartingTime(data.datetime_utc)
             })
@@ -646,11 +508,10 @@ useEffect(() => {
     },[bookingId])
     useEffect(()=>{
         const { state } = location || {}; // Ensure location is not undefined
-        const { id, time ,student,title,studentName,studentUserId,classType,notes,studentDetails} = state || {};
+        const { id, time ,student,studentPic,title,studentName,studentUserId,classType,notes,studentDetails} = state || {};
         if (state && classType==='NormalClass') {
             setCode(id);  // Set the state if it exists
             setStartingTime(time);
-            console.log('idstudent state',state)
             if(notes){
                 setNotes(notes)
             }
@@ -660,7 +521,9 @@ useEffect(() => {
            
            if(student){
             setStudentId(student)
-            console.log('idstudent',student)
+           }
+           if(studentPic){
+            setStudentPic(studentPic)
            }
            if(studentName){
                setStudentName(studentName)
@@ -670,13 +533,11 @@ useEffect(() => {
            }
            setClassType('NormalClass')
           if(title){
-            console.log('tit',title)
             setClassName(title)
 
           }
         }else if(state && classType ==='trial'){
             const{id,role,booking_id,code}=state
-            console.log('state data',state)
            
             function normalizeId(id) {
                 return String(id).includes("e")
@@ -690,7 +551,6 @@ useEffect(() => {
             setTrails(true)
             setRole(role)
             setStudentUser_id(roomName)
-            console.log('code',code)
             setClassType('trial')
         }
         // startLocalStream()
@@ -700,110 +560,11 @@ useEffect(() => {
         setAsideCss('closeAside')
         setToggleMic(true)
       }, []); // This runs on mount
-      const handleToggleVideo = () => {
-        if (!localStream) return; 
-    
-        const videoTracks = localStream.getVideoTracks();
-        
-        if (cam) {
-            videoTracks.forEach(track => track.enabled = false);
-            setOpenVideo('');
-            setToggleCam(false);
-        } else {
-            // videoTracks.forEach(track => track.enabled = true);
-            getMedia()
-            setOpenVideo('on');
-            setToggleCam(true);
-        }
-    };
      const handleEndClass=()=>{
         if(StudentId){
             navigate('/End Class',{state:{code:code,StudentId:StudentId,classTypes:'normal'}})
         }
      }
-      const handleChat =(e)=>{
-        setChat(e.target.value)
-      }
-      const handleSendChat =()=>{
-        if (user_id){
-            const data= {text:chat,user:user_id}
-            if(ws && ws.readyState === WebSocket.OPEN){
-                setChat('')
-                ws.send(JSON.stringify({ type: "chats", data}))
-            }
-        }
-      }
-      const handleToggleMic = () => {
-        if (openMic === '') {
-            setOpenMic('on');
-            tunOnMic();
-            setToggleMuteMic(false); // Unmute the video
-        } else {
-            setOpenMic('');
-            tunOFMic();
-            setToggleMuteMic(true); // Mute the video
-        }
-    };
-     
-    const handleShareScreen=()=>{
-        if(sharing===true){
-            if(Usersharing===user_id){
-                StopSharing()
-                stopScreenSharing()
-            }else{
-                alert(`${Usersharing} is sharing screen already`)
-            }
-        }else{
-            StartSharing()
-        } 
-    }
-    // display if the class has more than two people don't delete !
-    // if(connectedUsers>2){
-    //     if(toggleDisplay==='classDisplayer'){
-    //         setToggleDisplay('classImageDisplayer')
-    //         setOpenSharing('on')
-    //         setVideoCard('shareVideoWrapper')
-    //      }else{
-    //         setToggleDisplay('classDisplayer')
-    //         setVideoCard('hideVideo')
-    //         setOpenSharing('')
-    //      }
-    //      if(card==='classCardDisplayer'){
-    //         setCard('classCard')
-    //      }else{
-    //         setCard('classCardDisplayer')
-    //      }
-    // }else{
-    //     if(toggleClassOnJoinedUser==='LessConnctedUsersWrapper'){
-    //         settoggleClassOnJoinedUser('classImageDisplayer')
-    //         setOpenSharing('on')
-    //         setInnertoggleSideUser('InnersideUserDetails')
-    //         setVideoCard('shareVideoWrapper')
-    //         settoggleSideUser('fistUserDivWrapper')
-            
-    //     }else {
-    //         settoggleClassOnJoinedUser('LessConnctedUsersWrapper')
-    //         setOpenSharing('of')
-    //         setVideoCard('hideVideo')
-    //         settoggleSideUser('SecondUserDivWrapper') 
-    //         setInnertoggleSideUser('sideUserDetails')
-    //     }
-    // }
-    // useEffect(() => {
-    //     const timeout = setTimeout(() => {
-    //         console.log('peer',peerRef)
-    //       if (timeLeft==='Event has started!' && peerConnected===false && participants.length ===2 && userVideo && partnerVideo) {
-    //         console.log("Fallback: Peer is connected (checked manually).");
-    //         setpeerConnected(true);
-    //       } else {
-    //         console.warn("Fallback: Peer is NOT connected.");
-    //         setpeerConnected(false);
-    //       }
-    //     }, 1000); // wait 10s
-      
-    //     return () => clearTimeout(timeout);
-    //   }, [timeLeft,peerConnected,participants,userVideo,partnerVideo]);
-    console.log('class name',ClassName)
     useEffect(()=>{
         if(userVideo.current===null){
             getMedia()
@@ -829,19 +590,6 @@ useEffect(() => {
 
         return () => clearInterval(interval); // Cleanup interval
     }, [timeLeft])
-   function StartSharing(){
-    if (ws && ws.readyState === WebSocket.OPEN && user_id && sharing===false){
-        ws.send(JSON.stringify({ 
-            type: "sharing",
-            sharing: true,
-            userId: user_id 
-        }));
-        // startScreenSharing()
-        // shareScreen()
-        startScreenShare()
-    } 
-   }
-   console.log('notes',notes)
    function SubmitProeject(){
     if(token){
         const url ='https://api.codingscholar.com/Project/'
@@ -859,27 +607,6 @@ useEffect(() => {
    }
    const handletoNotes =(notes)=>{
     window.open(`https://res.cloudinary.com/dbxsncq5r/${notes}`, "_blank");
-   }
-   function StopSharing(){
-    try {
-        console.log("Inside StopSharing, about to send WebSocket message...");
-        if (ws && ws.readyState === WebSocket.OPEN && user_id && sharing === true) {
-            ws.send(JSON.stringify({ 
-                type: "stop_sharing",
-                sharing: false,
-            }));
-            if (LocalscreenVideo.current?.srcObject) {
-                LocalscreenVideo.current.srcObject.getTracks().forEach(track => track.stop());
-                LocalscreenVideo.current.srcObject = null;
-            }
-            stopScreenSharing();
-            console.log("Screen sharing stopped successfully.");
-        } else {
-            console.log("WebSocket closed or conditions not met.");
-        }
-    } catch (error) {
-        console.error("Error in StopSharing:", error);
-    }
    }
    const handleStudent =()=>{
     setopenStudentRegistrationform('RegisterStudentModal')
@@ -933,22 +660,16 @@ useEffect(() => {
                 </div>
                 <div className='classHeaderBtnwrapper'>
                     <ul>
+                        {role ==='teacher' && ClassType==='trial'? <li className='barges'  onClick={handleShowBarges}>badges</li>:''}
                         {ClassType==='NormalClass' && role==='teacher' && studentName?<li onClick={handleOpenProfile} className='studentNameHolder'>{studentName}</li>:''}
                         {role ==='student'? <li onClick={handleSubmitProject}>submit project</li>:''}
                         {ClassType==='trial' && role==='teacher'?<li className='studentBtn' onClick={handleStudent}>student</li>:''}
                         {ClassType==='NormalClass' && role==='teacher' ||ClassType==='trial' && role==='teacher' ?<li className='markClass' onClick={handleEndClass}>mark class</li>:''}
                         {/* <li onClick={handleOpenChat}>chat</li> */}
-                        { <StudentProfilePopUp student={student} openStudentProfile={openStudentProfile} setOpenStudentProfile={setOpenStudentProfile}/>}
+                        { <StudentProfilePopUp studentPic={studentPic} student={student} openStudentProfile={openStudentProfile} setOpenStudentProfile={setOpenStudentProfile}/>}
+                        {openBadges && <Barge newStudent={newStudent} setOpenBadge={setOpenBadge}/>}
                     </ul>
                 </div>
-                {/* <div className='classheaderBtnActionwrapper'>
-                    <ul>
-                        <li></li>
-                    </ul>
-                {role==='teacher'?<div className='endclassBtnwrapper'>
-                    <button onClick={handleEndClass}>end class</button>
-                    </div>:''}
-                </div> */}
                 </div>
             </div>
             
@@ -977,7 +698,7 @@ useEffect(() => {
     )
   )
 )}
-{trailClass &&  <RegisterStudentModal  trailClass={trailClass}  openStudentRegistrationform={openStudentRegistrationform} setopenStudentRegistrationform={setopenStudentRegistrationform}/>}
+{trailClass &&  <RegisterStudentModal setNewStudent={setNewStudent}  trailClass={trailClass}  openStudentRegistrationform={openStudentRegistrationform} setopenStudentRegistrationform={setopenStudentRegistrationform}/>}
         </>
 )
 //   if(participants.length <= 2 && timeLeft !=='Event has started!' || participants.length===1 && timeLeft ==='Event has started!'){

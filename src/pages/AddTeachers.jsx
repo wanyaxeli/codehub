@@ -19,15 +19,6 @@ export default function AddTeachers() {
   const handleAddTeacher =()=>{
     const email = values.email
     if(email && values.confirm_password && values.first_name && values.last_name && values.password && values.countryName){
-    //   const url ='https://api.codingscholar.com/acceptedTeacher/'
-    // axios.post(url,{email:email},{headers:{
-    //   'Content-Type':"Application/json"
-    // }})
-    // .then(res=>{
-    //   res.data
-    //   setValues(initialState)
-    // })
-    // .catch(error=>console.log(error))
     isValidEmail(values)
     }else{
       setError('Please Fill In Email Input')

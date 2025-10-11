@@ -8,7 +8,7 @@ import axios from 'axios';
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 import countries from "i18n-iso-countries";
 import en from "i18n-iso-countries/langs/en.json";
-export default function RegisterStudentModal({trailClass,openStudentRegistrationform,setopenStudentRegistrationform}) {
+export default function RegisterStudentModal({trailClass,openStudentRegistrationform,setopenStudentRegistrationform,setNewStudent}) {
     const initialState={name:'',email:'',
     password:'',country:'',phone_number:'',confirm_password:'',grade:""}
     // Register the English locale for i18n-iso-countries
@@ -50,22 +50,20 @@ export default function RegisterStudentModal({trailClass,openStudentRegistration
     }
   } else {
     // Show error / warning
-    console.log('Please Fill All Inputs')
     setError('Please Fill All Inputs')
   }
   }
   function isValidEmail(data) {
-    console.log('askladlasksld',data)
+  
     const email=data.email
-    console.log('mea',email)
+   
     const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if(pattern.test(email)){
-      const splitName=studentValues.name.split(' ')
-      const first_name=splitName[0]
-      const splitGrade=studentValues.grade.split(' ')
-      const last_name=splitName[1]
-      console.log('nae',last_name,'funname',splitName,'grade',splitGrade[1])
-      const fulldata={first_name:first_name,last_name:last_name,grade:splitGrade[1],
+      const splitName=studentValues.name.trim().split(/\s+/)
+      const first_name=splitName[0].toUpperCase()
+      const splitGrade=studentValues.grade.split(/\s+/)
+      const last_name=splitName[1].toUpperCase()
+      const fulldata={first_name:first_name,email:studentValues.email,last_name:last_name,grade:parseInt(splitGrade[1]),
       country:studentValues.country,phone_number:studentValues.phone_number,password:studentValues.password,
       confirm_password:studentValues.confirm_password}
       const url ='https://api.codingscholar.com/student/'
@@ -73,13 +71,15 @@ export default function RegisterStudentModal({trailClass,openStudentRegistration
           headers:{
               'Content-Type':'application/json'
           }
-      })
+      }) 
       .then(res=>{
-          console.log('res',res.data)
           const data = res.data
+          console.log('ress',data)
+          if (data.student){
+            console.log('ress student',data)
+            setNewStudent(data.student)
+          }
           setStudentValues(initialState)
-          // const {access}=data
-          // localStorage.setItem('token',access)
           setLoading(false)
         
       })
@@ -106,7 +106,6 @@ export default function RegisterStudentModal({trailClass,openStudentRegistration
          setError('Invalid email')
     }
 }
-  console.log('student',studentValues)
     return  ReactDOM.createPortal(
     <div className={openStudentRegistrationform}>
        <div className='InnerRegisterStudentModal'>

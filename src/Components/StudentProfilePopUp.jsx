@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react'
 import ReactDOM from 'react-dom'; // Correct import
 import pic from '../assets/codehubImage.jpeg'
-export default function StudentProfilePopUp({openStudentProfile,setOpenStudentProfile,student}) {
+export default function StudentProfilePopUp({openStudentProfile,setOpenStudentProfile,student,studentPic}) {
     const handleOpen=()=>{
         setOpenStudentProfile('closeStudentProfilePopUp')
     }
@@ -18,7 +18,8 @@ export default function StudentProfilePopUp({openStudentProfile,setOpenStudentPr
             </div>
             <div className='StudentProfilecloseImgWrapper'>
                   <div className='StudentProfilecloseImg'>
-                     <img src={pic}/>
+                     {/* <img src={pic}/> */}
+                     {studentPic!==''?<img src={`https://res.cloudinary.com/dbxsncq5r/${studentPic}`}/>:<img src={pic}/>}
                   </div>
              </div>
              <div className='StudentProfilecName'>
