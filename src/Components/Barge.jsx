@@ -16,19 +16,23 @@ import badge12 from '../assets/barge12.png'
 import badge13 from '../assets/barge13.png'
 import badge14 from '../assets/barge14.png'
 import badge15 from '../assets/barge15.png'
+import badge17 from '../assets/badge17.png'
+import badge18 from '../assets/badge18.png'
+import badge19 from '../assets/badge19.png'
+import badge20 from '../assets/badge20.png'
+import badge21 from '../assets/bagde21.png'
 import ShowBadge from './ShowBadge';
 import axios from 'axios';
 export default function Barge({setOpenBadge,newStudent}) {
-  console.log('new sss',newStudent)
      const [badge,setBadge]=useState(false)
      const [NewStudentId,setNewStudentId]=useState()
      const [NewStudentName,setNewStudenName]=useState()
      const [showBadge,setShowBadge]=useState('')
     const data=[{id:1,img:badge1,name:'hello world hero'},{id:2,img:badge2,name:'tech titan'},{id:3,img:badge3,name:'keyboard worrier'},{id:4,img:badge4,name:'code rockstar'},{id:5,img:badge5,name:'coding wizard '},{id:6,img:badge6,name:'brainy builder'},{id:7,img:badge7,name:'code rockstar'},{id:8,img:badge8,name:'next gen ninja'},{id:9,img:badge9,name:'level up coder'},{id:10,img:badge10,name:'future developer'},
         {id:11,img:badge11,name:'coding explorer'},{id:12,img:badge12,name:'logic legend'},{id:13,img:badge13,name:'algorithm ace'},{id:14,img:badge14,name:'syntax superstar'},{id:15,img:badge15,name:'bug buster hero'},{id:16,img:badge16,name:'code champion'}]
+        const mathbadges=[{id:1,img:badge17,name:'math guru'},{id:2,img:badge18,name:'number ninja'},{id:4,img:badge19,name:'problem solver'},{id:5,img:badge20,name:'math genius'},{id:6,img:badge21,name:'math genius'}]
         const handleToBarge=(image)=>{
            setShowBadge(true)
-          console.log('a',image)
             setBadge(image)
             SaveStudentBarge(image.name)
         }
@@ -62,6 +66,16 @@ export default function Barge({setOpenBadge,newStudent}) {
                <h2>coding:</h2>
                <div className='codingBadgeholder'>
                {data.map(badge=>{
+                return(
+                     <div key={badge.id} onClick={()=>handleToBarge(badge)} className='badge'>
+                        <img src={badge.img}/>
+                     </div>
+                )
+               })}
+               </div>
+               <h2>maths:</h2>
+               <div className='codingBadgeholder'>
+               {mathbadges.map(badge=>{
                 return(
                      <div key={badge.id} onClick={()=>handleToBarge(badge)} className='badge'>
                         <img src={badge.img}/>

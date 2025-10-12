@@ -4179,13 +4179,13 @@ a:hover{
 }
 .BargeWrapper{
   width: 90%;
-  height: 500px;
+  height: auto;
   background-color: white;
   position: absolute;
   top: 12%;
   left: 5%;
   border-radius: 10px;
-  padding: 10px;
+  padding: 10px 10px 30px 10px;
 }
 .badgecloseBtnWrapper{
   width: 100%;
@@ -4217,8 +4217,8 @@ a:hover{
   padding-bottom: 20px;
 }
 .badge{
-  width: 100px;
-  height: 100px;
+  width: 75px;
+  height: 75px;
   cursor: pointer;
 }
 .badge img{
