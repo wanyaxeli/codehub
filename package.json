@@ -17,7 +17,7 @@
     "@fullcalendar/daygrid": "^6.1.15",
     "@fullcalendar/react": "^6.1.15",
     "@whereby.com/browser-sdk": "^3.12.21",
-    "axios": "^1.7.9",
+    "axios": "^1.12.2",
     "buffer": "^6.0.3",
     "canvas-confetti": "^1.9.3",
     "font-awesome": "^4.7.0",
