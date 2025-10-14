@@ -23,7 +23,7 @@ import badge20 from '../assets/badge20.png'
 import badge21 from '../assets/bagde21.png'
 import ShowBadge from './ShowBadge';
 import axios from 'axios';
-export default function Barge({setOpenBadge,newStudent}) {
+export default function Barge({setOpenBadge,StudentId,newStudent,student}) {
      const [badge,setBadge]=useState(false)
      const [NewStudentId,setNewStudentId]=useState()
      const [NewStudentName,setNewStudenName]=useState()
@@ -45,6 +45,14 @@ export default function Barge({setOpenBadge,newStudent}) {
            setNewStudenName(newStudent.user.first_name)
          }
         },[newStudent])
+        useEffect(()=>{
+        if(student.length > 0){
+          student.forEach(item=>{
+            setNewStudenName(item.first_name)
+          })
+          setNewStudentId(StudentId)
+        }
+        },[student])
         function SaveStudentBarge(badge_name){
           const data={badge_name:badge_name}
           const id=NewStudentId 

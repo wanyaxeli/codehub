@@ -667,7 +667,7 @@ useEffect(() => {
                         {ClassType==='NormalClass' && role==='teacher' ||ClassType==='trial' && role==='teacher' ?<li className='markClass' onClick={handleEndClass}>mark class</li>:''}
                         {/* <li onClick={handleOpenChat}>chat</li> */}
                         { <StudentProfilePopUp studentPic={studentPic} student={student} openStudentProfile={openStudentProfile} setOpenStudentProfile={setOpenStudentProfile}/>}
-                        {openBadges && <Barge newStudent={newStudent} setOpenBadge={setOpenBadge}/>}
+                        {openBadges && <Barge StudentId={StudentId} newStudent={newStudent} student={student} setOpenBadge={setOpenBadge}/>}
                     </ul>
                 </div>
                 </div>
