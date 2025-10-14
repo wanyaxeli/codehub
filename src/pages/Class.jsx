@@ -660,7 +660,7 @@ useEffect(() => {
                 </div>
                 <div className='classHeaderBtnwrapper'>
                     <ul>
-                        {role ==='teacher' && ClassType==='trial'? <li className='barges'  onClick={handleShowBarges}>badges</li>:''}
+                        {role ==='teacher'? <li className='barges'  onClick={handleShowBarges}>badges</li>:''}
                         {ClassType==='NormalClass' && role==='teacher' && studentName?<li onClick={handleOpenProfile} className='studentNameHolder'>{studentName}</li>:''}
                         {role ==='student'? <li onClick={handleSubmitProject}>submit project</li>:''}
                         {ClassType==='trial' && role==='teacher'?<li className='studentBtn' onClick={handleStudent}>student</li>:''}
