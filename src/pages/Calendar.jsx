@@ -20,13 +20,13 @@ export default function Calendar() {
     const lesson = data.filter(item =>
       item.lesson.title === eventTitle &&
       item.date_time === eventStart && 
-      item.student.id===studentId &&
-      item.is_completed===false
+      item.student.id===studentId 
+      // item.is_completed===false
     );
     if(lesson.length > 0){
       navigate('/teacher/dashboard/Teacher Class Details',{state:lesson})
     }else{
-      alert('This class is already marked complete')
+      alert('unexpected error occured please try again')
     }
     // console.log('fiste',eventStart)
     // console.log('fisterdd',eventTitle)

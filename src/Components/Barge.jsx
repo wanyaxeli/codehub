@@ -23,7 +23,7 @@ import badge20 from '../assets/badge20.png'
 import badge21 from '../assets/bagde21.png'
 import ShowBadge from './ShowBadge';
 import axios from 'axios';
-export default function Barge({setOpenBadge,StudentId,newStudent,student}) {
+export default function Barge({setOpenBadge,ws,StudentId,newStudent,student}) {
      const [badge,setBadge]=useState(false)
      const [NewStudentId,setNewStudentId]=useState()
      const [NewStudentName,setNewStudenName]=useState()
@@ -63,6 +63,22 @@ export default function Barge({setOpenBadge,StudentId,newStudent,student}) {
           })
           .catch(error=>console.log(error))
         }
+  useEffect(()=>{
+  if(ws && ws.readyState === WebSocket.OPEN && badge){
+    ws.send(JSON.stringify({ 
+      type: "share_badge",
+      badge:badge,
+  }));
+  }
+  },[badge])
+  useEffect(()=>{
+    if(ws && ws.readyState === WebSocket.OPEN && showBadge){
+      ws.send(JSON.stringify({ 
+        type: "show_badge",
+        showBadge:showBadge,
+    }));
+  }
+  },[showBadge])
   return  ReactDOM.createPortal (
     <div className='BargeWrapper'>
         <div className='badgecloseBtnWrapper'>

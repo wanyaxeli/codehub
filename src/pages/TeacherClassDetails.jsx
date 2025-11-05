@@ -40,13 +40,20 @@ export default function TeacherClassDetails() {
         }
       }
     const handleToJoinClass=(les,student,id,time)=>{
-        const navID=`${les.student.id}${id}`
-        const studentUserId=les.student.user.id
-        const title=les.lesson.title 
-        const url=les.lesson.pdf_notes  
-        const notes={title:title,url:url}
-        console.log(studentUserId) 
-        navigate(`/class/${navID}`, { state: { id,classType:'NormalClass',studentName, time,student,studentUserId,notes,studentDetails,studentPic} });
+        console.log('tttt',todayClass)
+        todayClass.forEach(item=>{
+            if(item.is_completed===false){
+            const navID=`${les.student.id}${id}`
+            const studentUserId=les.student.user.id
+            const title=les.lesson.title 
+            const url=les.lesson.pdf_notes  
+            const notes={title:title,url:url}
+            console.log(studentUserId) 
+            navigate(`/class/${navID}`, { state: { id,classType:'NormalClass',studentName, time,student,studentUserId,notes,studentDetails,studentPic} });
+            }else{
+                alert('this class is completed')
+            }
+        })
     }
     const handleNotes = ( title,les, notes) => {
         // e.preventDefault(); // Prevents default link or form behavior

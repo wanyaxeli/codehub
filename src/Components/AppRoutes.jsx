@@ -53,6 +53,7 @@ import PrivacyPolicy from '../pages/PrivacyPolicy.jsx';
 import TodaysQuestions from '../pages/students/TodaysQuestions.jsx';
 import QuestionSetter from '../pages/QuestionSetter.jsx';
 import Certificates from '../pages/Certificates.jsx';
+import StudentCertificate from '../pages/students/StudentCertificate.jsx';
 export default function AppRoutes() {
   return (
     <Routes>
@@ -108,6 +109,7 @@ export default function AppRoutes() {
               <Route path='/student/dashboard/My  quizzes' element={<MyQuizzes/>}/>
               <Route path='/student/dashboard/StudentNotes/' element={<StudentNotesView/>}/>
               <Route path='/student/dashboard/Quiz' element={<Quiz/>}/>
+              <Route path='/student/dashboard/certificate' element={<StudentCertificate/>}/>
             </Route>
           </Route>
             <Route path='/End Class' element={<EndClass/>}/>

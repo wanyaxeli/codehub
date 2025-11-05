@@ -3,7 +3,9 @@ import pic from '../../assets/codehubImage.jpeg'
 import { useNavigate } from 'react-router-dom'
 import { context } from '../../App';
 import { jwtDecode } from "jwt-decode";
+import jsPDF from "jspdf";
 import axios from 'axios';
+import certpic from '../../assets/cert.png'
 import badge from '../../assets/barge1.png'
 import badge2 from '../../assets/barge2.png'
 import badge3 from '../../assets/barge3.png'
@@ -34,6 +36,8 @@ export default function StudentDetails() {
     const navigate = useNavigate()
     const [token,setToken]=useState('')
     const [lessons,setLesson]=useState([])
+    const [cert,setCert]=useState([])
+    const [previewUrl, setPreviewUrl] = useState([]);
     const [todayClass,setTodayClass]=useState([])
     const [studentBadge,setStudentbadge]=useState([])
     const [studentId,setStudentId]=useState('')
@@ -99,6 +103,20 @@ export default function StudentDetails() {
         .catch(error => console.error(error));
     }
     }
+ function getCertificate(){
+    if(token){
+        const url = `https://api.codingscholar.com/getCert/`;
+        axios.get(url,{headers:{
+            'Authorization':`Bearer ${token}`
+        }})
+        .then(res=>{
+            const data = res.data
+            console.log('cert',res.data)
+            setCert(data)
+        })
+        .catch(error=>{console.log(error)})
+    }
+ }
  function getStudentBadge(){
    if(student){
     const id = student.id
@@ -111,6 +129,61 @@ export default function StudentDetails() {
     .catch(error=>console.log(error))
    }
  }
+  const generatePDF = () => {
+   if(cert.length >0 && student){
+    cert.forEach(item=>{
+        const name =`${student.user.first_name} ${student.user.last_name}`
+        const doc = new jsPDF({
+          orientation: "portrait",
+          unit: "px",
+          format: [768, 1087], // match your image resolution
+        });
+    
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const pageHeight = doc.internal.pageSize.getHeight();
+    
+        // background
+        doc.addImage(certpic, "JPG", 0, 0, pageWidth, pageHeight);
+    
+        const centerX = pageWidth / 2;
+        const Datecenter = pageWidth / 1.8;
+        const Certcenter = pageWidth / 1.75;
+        // Title
+        // doc.setFont("helvetica", "bold");
+        // doc.setFontSize(32);
+        // doc.text("CERTIFICATE OF COMPLETION", centerX, pageHeight * 0.30, { align: "center" });
+    
+        // Recipient name
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(0, 151, 178); // teal-blue like your template
+        doc.setFontSize(54);
+        doc.text(name, centerX, pageHeight * 0.50, { align: "center" });
+    
+        // Course line
+        doc.setFont("helvetica", "bold");
+        doc.setTextColor(0, 151, 178);
+        doc.setFontSize(40);
+        doc.text(
+          `${item.certificate}`,
+          centerX,
+          pageHeight * 0.35,
+          { align: "center" }
+        );
+    
+        // Date
+        doc.setFontSize(18);
+        doc.text(item.time_achieved, Datecenter, pageHeight * 0.66, { align: "center" });
+        //certificate id
+    
+        doc.setFontSize(18);
+        doc.text(item.certificate_id, Certcenter, pageHeight * 0.91, { align: "center" });
+        const blob = doc.output("blob");
+        const url = URL.createObjectURL(blob);
+        setPreviewUrl(pre=>([...pre,url]));
+    })
+   }
+  };
+
  function StudentBadge(b){
     b.forEach(barge=>{
         const filterData=data.filter(item=>item.name === barge.badge_name)
@@ -133,6 +206,12 @@ useEffect(()=>{
     }
  }
 },[student])
+useEffect(()=>{
+    getCertificate()
+},[token])
+useEffect(()=>{
+    generatePDF()
+},[cert,student])
  useEffect(()=>{
    if (lessons){
     const now = new Date();
@@ -252,6 +331,28 @@ useEffect(()=>{
                     return(
                     <div className='Stedentbadge'>
                     <img src={item.img}/>
+                    </div>
+                    )
+                })}
+            </div>
+            </>
+            :''}
+            {previewUrl.length >0 ?
+            <>
+            <div className='todayLessonHeaderwrapper studentBadgesWrapper'>
+            <h3>certificates</h3>
+            </div>
+            <div className='StedentbadgeHolder'>
+                {previewUrl.map((item,i)=>{
+                    return(
+                    <div key={i} className='Certificates'>
+                    <iframe
+                            src={item}
+                            title="Certificate Preview"
+                            width="100%"
+                            height="100%"
+                            // style={{ border: "1px solid #ccc", borderRadius: "8px" }}
+                        />
                     </div>
                     )
                 })}

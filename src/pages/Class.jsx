@@ -209,7 +209,6 @@ useEffect(() => {
         // const ws = new WebSocket(`wss://localhost:8000/ws/classRoom/${code}/`);
         // const ws = new WebSocket(`wss://api.codingscholar.com/ws/classRoom/${code}/`);
         const ws = new WebSocket(`wss://api.codingscholar.com/ws/classRoom/${slug}/`);
-        getMedia()
         ws.onopen = () =>{
             ws.send(JSON.stringify({type:"id",user_id}));
             setWs(ws)
@@ -217,87 +216,18 @@ useEffect(() => {
 
         ws.onmessage=(data)=>{
             const Recieveddata = JSON.parse(data.data)
-            if(Recieveddata.type ==='user-joined'){
-                const {users,users_count}= Recieveddata
-                setparticipants(users)
+            if(Recieveddata.type === "badge_name"){
+                    console.log('barge',Recieveddata)
             }
-             else if(Recieveddata.type==='chat'){
-                 const {message}= Recieveddata
-               
-                setWsChat(pre=>([...pre,message]))
-            } 
-            else if(Recieveddata.type === "offer"){
-                if (String(Recieveddata.target) === String(user_id)) {  
-                    const isRenegotiation = Recieveddata.renegotiation;
-                    handleOffer(ws, Recieveddata.offer, Recieveddata.sender, Recieveddata.target, isRenegotiation);
-                }
-            }
-            else if(Recieveddata.type === "new_initiator"){
-                 setparticipants(Recieveddata.users)
-                 setpeerConnected(false)
-            }
-            else if(Recieveddata.type === "answer"){
-              
-                if (peerRef.current && String(Recieveddata.target===String(user_id))) {  // Ensure peer exists and is not closed
-                    try {
-                        peerRef.current.signal(Recieveddata.answer); // Set remote answer
-                    } catch (error) {
-                        console.error("Error setting remote answer:", error);
-                    }
-                } else {
-                    console.log("Peer connection not found or already closed.");
-                }
-            }
-            else if (Recieveddata.type === "candidate") {
-                if (peerRef.current && Recieveddata.candidate) {
-                    peerRef.current.signal(Recieveddata.candidate);
-                 }
-            }
-            else if (Recieveddata.type === "screen_candidate") {
-             
-                // if (peer && Recieveddata.candidate) {
-                //     try {
-                //         peer.signal(Recieveddata.candidate);  // Apply ICE candidate
-                //     } catch (error) {
-                //         console.error("Error adding ICE candidate:", error);
-                //     }
-                // }
-                if (screenPeerRef.current && Recieveddata.candidate) {
-                    screenPeerRef.current.signal(Recieveddata.candidate);
-                 }
-            }
-            else if (Recieveddata.type === "sharing_screen") {
-                setSharing(Recieveddata.sharing)
-                setUserSharing(Recieveddata.sender)
-            }
-            else if (Recieveddata.type === "stop_sharing_screen") {
-                setSharing(Recieveddata.sharing)
-                setUserSharing('')
-            }
-            else if (Recieveddata.type === "screen_offer") {
-                if (String(Recieveddata.target) === String(user_id)) {  
-                    handleScreenOffer(ws, Recieveddata.offer, Recieveddata.sender, Recieveddata.target,);
-                }
-            }
-            else if(Recieveddata.type === "screen_answer"){
-              
-                if (screenPeerRef.current && String(Recieveddata.target===String(user_id))) {  // Ensure peer exists and is not closed
-                    try {
-                        screenPeerRef.current.signal(Recieveddata.answer); // Set remote answer
-                    } catch (error) {
-                        console.error("Error setting remote answer:", error);
-                    }
-                } else {
-                    console.log("Peer connection not found or already closed.");
-                }
-            }
-            // const users =Recieveddata.users
+            else if(Recieveddata.type === "badge_name"){
+                console.log('show barge',Recieveddata)
+            }// const users =Recieveddata.users
             
         }
      return () => {
             ws.close();
         };
-    },[code,user_id,ice]);
+    },[code]);
     function startCall(){
         if(participants && participants.length===2 && timeLeft ==='Event has started!' && user_id && ws &&  ice.length > 0){
             const InitiatorUser = participants.find(user =>user.initiator === true);
@@ -488,7 +418,7 @@ useEffect(() => {
             })
             .catch(error=>console.log(error))
             }
-       }
+    }
        function formatToLocalTime(utcStr) {
         // Combine date and time into a single UTC string
         const utcDateTime =utcStr;
@@ -667,7 +597,7 @@ useEffect(() => {
                         {ClassType==='NormalClass' && role==='teacher' ||ClassType==='trial' && role==='teacher' ?<li className='markClass' onClick={handleEndClass}>mark class</li>:''}
                         {/* <li onClick={handleOpenChat}>chat</li> */}
                         { <StudentProfilePopUp studentPic={studentPic} student={student} openStudentProfile={openStudentProfile} setOpenStudentProfile={setOpenStudentProfile}/>}
-                        {openBadges && <Barge StudentId={StudentId} newStudent={newStudent} student={student} setOpenBadge={setOpenBadge}/>}
+                        {openBadges && <Barge ws={ws} StudentId={StudentId} newStudent={newStudent} student={student} setOpenBadge={setOpenBadge}/>}
                     </ul>
                 </div>
                 </div>

@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
-import jsPDF from "jspdf";
-import cert from '../assets/cert.png';
 
-export default function Certificates() {
+import React, { useState,useEffect } from 'react';
+import jsPDF from "jspdf";
+import { useLocation,useNavigate } from 'react-router-dom'
+import cert from '../../assets/cert.png'
+import axios from 'axios';
+export default function StudentCertificate() {
   const [courseName, setCourseName] = useState('');
   const [previewUrl, setPreviewUrl] = useState(null);
+  const [student,setStudent]=useState('')
+  const [certDetails,setCertDetails]=useState('')
+  const location = useLocation()
   function monthsInString(month) {
     switch (month) {
       case 1:
@@ -35,16 +40,25 @@ export default function Certificates() {
         return 'Invalid month'; 
     }
   }
-  
+
   const generatePDF = () => {
+   if(student){
+    const name = `${student.first_name} ${student.last_name}`
+    console.log('name',name)
     const date= new Date()
     const day=String(date.getDate()).padStart(2, '0');
     const year=date.getFullYear()
     const month=date.getMonth() + 1
     const monthName=monthsInString(month)
-    const certificateId=`CS-${courseName} -${year}-${day}`
+    const certificateId=`CS-${courseName}-${year}-${day}`
     const fulldate=`${monthName} ${day},${year}`
     console.log(fulldate)
+    const  certData={
+        courseName:courseName,
+        date:fulldate,
+        certId:certificateId
+    }
+    setCertDetails(certData)
     const doc = new jsPDF({
       orientation: "portrait",
       unit: "px",
@@ -69,7 +83,7 @@ export default function Certificates() {
     doc.setFont("helvetica", "bold");
     doc.setTextColor(0, 153, 204); // teal-blue like your template
     doc.setFontSize(54);
-    doc.text("Elias Wanyama", centerX, pageHeight * 0.50, { align: "center" });
+    doc.text(name, centerX, pageHeight * 0.50, { align: "center" });
 
     // Course line
     doc.setFont("helvetica", "bold");
@@ -92,8 +106,30 @@ export default function Certificates() {
     const blob = doc.output("blob");
     const url = URL.createObjectURL(blob);
     setPreviewUrl(url);
+   }else{
+    alert('Unexpected error')
+   }
   };
-
+  const handleReward =()=>{
+   if(certDetails && student){
+    console.log(certDetails)
+    const id = student.id
+    const url=`https://api.codingscholar.com/awardCert/${id}`
+    axios.post(url,certDetails)
+    .then(res=>{
+        console.log('res.data',res.data)
+        alert(res.data.message)
+    })
+    .catch(error=>console.log(error))
+   }
+  }
+  useEffect(()=>{  
+    const {state}=location
+    console.log('student',state)
+    setStudent(state)
+    },[])
+    console.log(student)
+ 
   return (
     <div className="CertificatesWrapper">
       <div className="CertificatesInputWrapper">
@@ -103,20 +139,29 @@ export default function Certificates() {
         />
         <button onClick={generatePDF}>Create</button>
       </div>
-
-      <div className="CertificatesContainer">
+       {certDetails!==''?
+        <div className="CertificatesContainer">
         <div className='Certificates'>
         {previewUrl && (
           <iframe
             src={previewUrl}
             title="Certificate Preview"
             width="100%"
-            height="100%"
+            height="85%"
+            style={{
+                border: "none",
+                objectFit:'contain'
+              }}
+              scrolling="no"
             // style={{ border: "1px solid #ccc", borderRadius: "8px" }}
           />
         )}
+        <div className='certButton'>
+           <button onClick={handleReward}>reward</button>
         </div>
-      </div>
+        </div>
+      </div>:""}
     </div>
   );
 }
+

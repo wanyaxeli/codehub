@@ -42,11 +42,17 @@ export default function EndClass() {
   const handleValue=(e)=>{
    setValue(e.target.value)
   }
-  const handleClassEndedFully=()=>{
-   if(classId && studentId && lesson.length >0){
-    lesson.map(item=>{
-      if(item.is_completed===false && item.reason.trim() === "" || item.reason==="''"||item.reason===""){
-      const code= classId
+  // Debounce utility
+  function debounceLeading(func, delay) {
+    let timeoutId;
+    return (...args) => {
+      if (!timeoutId) func(...args);
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => timeoutId = null, delay);
+    };
+  }
+  function markClassComplete(){
+    const code= classId
       const data={studentId:studentId}
       const url = `https://api.codingscholar.com/ClassAttendedFully/${encodeURIComponent(code)}`
       axios.put(url,data)
@@ -58,6 +64,25 @@ export default function EndClass() {
         navigate('/teacher/dashboard/Details')
       })
       .catch(error=>console.log(error))
+  }
+  const debouncedMarkClassComplete = debounceLeading(markClassComplete, 5000);
+  const handleClassEndedFully=()=>{
+   if(classId && studentId && lesson.length >0){
+    lesson.map(item=>{
+      if(item.is_completed===false && item.reason.trim() === "" || item.reason.trim()==="''"||item.reason===""){
+      // const code= classId
+      // const data={studentId:studentId}
+      // const url = `https://api.codingscholar.com/ClassAttendedFully/${encodeURIComponent(code)}`
+      // axios.put(url,data)
+      // .then(res=>{
+      //   console.log('class res',res.data)
+      //   const data = res.data.message
+      //   setClassEndedfully(true)
+      //   alert(data)
+      //   navigate('/teacher/dashboard/Details')
+      // })
+      // .catch(error=>console.log(error))
+      debouncedMarkClassComplete()
       }else{
         setClassEndedfully(true)
         alert('Class already marked as completed')

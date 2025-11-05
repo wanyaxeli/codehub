@@ -152,6 +152,10 @@ export default function Stdent() {
     })
    }
   }
+   const handleTocert=()=>{
+    console.log('stude',student.user)
+    navigate('/student/dashboard/certificate',{state:student.user})
+   }
    function convertToUTC(dayOfWeek, timeString) {
     const daysMap = {
       Sunday: 0,
@@ -275,7 +279,7 @@ export default function Stdent() {
            <div className='SpecialClassesWrapper'>
              <div className='SpecialClasses' onClick={handleToMath}>math</div>
              <div className='SpecialClasses' onClick={handleToClassGroup}>class group</div>
-             <div className='SpecialClasses'>math</div>
+             <div className='SpecialClasses' onClick={handleTocert}>certificate</div>
            </div>
         </div>
     </div>
