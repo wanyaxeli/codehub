@@ -35,12 +35,10 @@ function App() {
             const { exp, role, user_id } = decode;
             const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
             if (exp > currentTime) {
-              console.log("Token is valid");
-              console.log("Decoded Token:", decode);
               localStorage.setItem('token', token);
               // Optionally: setRole(role)
             } else {
-              console.warn("Token has expired, not storing.");
+            
               localStorage.removeItem('token',token)
               navigate('/Login')
             }

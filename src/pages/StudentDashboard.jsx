@@ -11,7 +11,7 @@ export default function StudentDashboard() {
   const location =useLocation()
   const {pathname}=location
   const {setStudent}=useContext(context)
-  const dashboardLinks=['/student/dashboard/Details','/student/dashboard/Today%20Questions','/student/dashboard']
+  const dashboardLinks=['/student/dashboard/Details','/student/dashboard/Questions/attempted-questions','/student/dashboard/Today%20Questions','/student/dashboard/display-questions','/student/dashboard/Questions/questionPage','/student/dashboard/Today%20Questions','/student/dashboard']
   const quizLinks=['/student/dashboard/My%20%20quizzes','/student/dashboard/Quiz']
   const lessonLikns=['/student/dashboard/StudentNotes/','/student/dashboard/My%20%20lessons']
   const handleToLessons=()=>{

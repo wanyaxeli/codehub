@@ -54,6 +54,10 @@ import TodaysQuestions from '../pages/students/TodaysQuestions.jsx';
 import QuestionSetter from '../pages/QuestionSetter.jsx';
 import Certificates from '../pages/Certificates.jsx';
 import StudentCertificate from '../pages/students/StudentCertificate.jsx';
+import Questions from '../pages/students/questions.jsx';
+import StudentQuestionPage from '../pages/students/StudentQuestionPage.jsx';
+import AttemptedQuizPage from '../pages/students/AttemptedQuizPage.jsx';
+import DisplayAttemptedQuiz from '../pages/students/DisplayAttemptedQuiz.jsx';
 export default function AppRoutes() {
   return (
     <Routes>
@@ -109,7 +113,13 @@ export default function AppRoutes() {
               <Route path='/student/dashboard/My  quizzes' element={<MyQuizzes/>}/>
               <Route path='/student/dashboard/StudentNotes/' element={<StudentNotesView/>}/>
               <Route path='/student/dashboard/Quiz' element={<Quiz/>}/>
-              <Route path='/student/dashboard/certificate' element={<StudentCertificate/>}/>
+              <Route path='/student/dashboard/Questions' element={<Questions/>}>
+                  <Route index element={<StudentQuestionPage/>} />
+                  <Route path='questionPage' element={<StudentQuestionPage/>} />
+                  <Route path='attempted-questions' element={<AttemptedQuizPage/>} />
+              </Route>
+              <Route path='/student/dashboard/certificate' element={<StudentCertificate/>}/>\
+              <Route path='/student/dashboard/display-questions' element={<DisplayAttemptedQuiz/>}/>
             </Route>
           </Route>
             <Route path='/End Class' element={<EndClass/>}/>

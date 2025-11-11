@@ -23,7 +23,6 @@ export default function EndClass() {
     const url = `https://api.codingscholar.com/currentClass/${(code)}/${studentId}`
     axios.get(url)
     .then(res=>{
-      console.log('res data',res.data)
       setLesson([res.data])
     })
     .catch(error=>console.log(error))

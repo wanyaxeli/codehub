@@ -40,7 +40,6 @@ export default function TeacherClassDetails() {
         }
       }
     const handleToJoinClass=(les,student,id,time)=>{
-        console.log('tttt',todayClass)
         todayClass.forEach(item=>{
             if(item.is_completed===false){
             const navID=`${les.student.id}${id}`

@@ -2,6 +2,7 @@ import React,{useState,useEffect} from 'react'
 import axios from 'axios';
 import { context } from '../../App';
 import { useContext } from 'react';
+import { useLocation } from 'react-router-dom';
 import StudentPopUp from '../../Components/StdudentPopUp';
 export default function TodaysQuestions() {
   const[token,setToken]=useState('')
@@ -16,6 +17,7 @@ export default function TodaysQuestions() {
   const [codinglessonactive,setCodingLessonActive]=useState(true)
   const[showMarks,setshowMarks]=useState(false)
   const {DaillyQuizAttempt,setDaillyQuizAttempt}=useContext(context)
+  const location= useLocation()
   async function getToken(){
     try{
         const token= localStorage.getItem('token') // No need to await
@@ -44,12 +46,11 @@ function getStudentQuestions(){
     'Authorization':`Bearer ${token}`
   }})
   .then(res=>{
-    console.log('quiz',res.data)
     const data=res.data 
     if (Array.isArray(data) && data.length > 0) {
       setFullQuestions(data);
     } else {
-      console.log("No questions found", data);
+
       setError('No questions found')
     }
   })
@@ -89,31 +90,31 @@ useEffect(()=>{
 
     // Get day of the week (e.g., "Tuesday")
     const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
-    console.log('qasd',dayName)
     setDay(dayName)
   })
  }
 },[questions])
 useEffect(()=>{
+  const {state}=location
+  const {groupedQuiz,questions}= state
+  setQuestions(questions)
+  setFullQuestions([groupedQuiz])
+},[])
+useEffect(()=>{
   if(fullQuestions.length>0){
     const lessonTypes = fullQuestions.map(item => item.quiztype);
-    console.log('type',lessonTypes)
     if (lessonTypes.includes('coding') && lessonTypes.includes('math')) {
       getcodingLessons();
-      console.log('both',lessonTypes)
     } else if (lessonTypes.includes('coding')) {
       getcodingLessons();
-      console.log('coding',lessonTypes)
     } else if (lessonTypes.includes('math')) {
       getMathsLessons();
-      console.log('math',lessonTypes)
     }
   }
 },[fullQuestions])
 useEffect(()=>{
  if(questions.length > 0){
   questions.forEach(question=>{
-    console.log(question.answer)
     setAnswer(pre=>[...pre,question.answer])
   })
  }
@@ -131,7 +132,7 @@ const handleSubmit = () => {
     const total = answers.length; // e.g., 5
     const score = correct.length;
     const percentage = (score / total) * 100;
-    setMarks(percentage)
+    setMarks(Math.floor(percentage))
   } else {
     setError("Please answer all questions");
   }
@@ -139,9 +140,9 @@ const handleSubmit = () => {
 useEffect(()=>{
   setshowMarks(true)
 },[marks])
-useEffect(()=>{
-  getStudentQuestions()
-},[token])
+// useEffect(()=>{
+//   getStudentQuestions()
+// },[token])
 
 useEffect(()=>{
  getToken()
@@ -185,7 +186,7 @@ useEffect(()=>{
           <button onClick={handleSubmit}>Submit</button>
           </div>:'':''}
         </div>
-        {showMarks && marks && <StudentPopUp marks={marks} setDaillyQuizAttempt={setDaillyQuizAttempt} day={day} setStudentChoices={setStudentChoices} setMarks={setMarks} getStudentQuestions={getStudentQuestions}/>}
+        {showMarks && marks && fullQuestions && <StudentPopUp fullQuestions={fullQuestions} marks={marks} setDaillyQuizAttempt={setDaillyQuizAttempt} day={day} setStudentChoices={setStudentChoices} setMarks={setMarks} getStudentQuestions={getStudentQuestions}/>}
     </div>
   )
 }

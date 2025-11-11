@@ -6,7 +6,7 @@ export default function QuestionSetter() {
   const [questions,setQuestions]=useState([])
   const [optionsValue,setOptionsValue]=useState('')
   const [error,setError]=useState('')
-  const initialState={question:'',quiztype:'',grade:'',module:'',answer:''}
+  const initialState={question:'',quiztype:'',date:'',name:'',grade:'',module:'',answer:''}
   const [Value,setValue]=useState(initialState)
   const handleAddOptions =()=>{
    if(optionsValue){
@@ -26,8 +26,8 @@ export default function QuestionSetter() {
    setValue({...Value,[name]:value})
   }
   const handleNextQuiz =()=>{
-   if(Value.quiztype && Value.grade&&Value.module &&Value.question && options.length ===4 && Value.answer){
-    const data={quiztype:Value.quiztype,grade:Value.grade,module:Value.module,question:Value.question,options:options,answer:Value.answer}
+   if(Value.quiztype &&Value.name && Value.date && Value.grade&&Value.module &&Value.question && options.length ===4 && Value.answer){
+    const data={quiztype:Value.quiztype,name:Value.name,date:Value.date,grade:Value.grade,module:Value.module,question:Value.question,options:options,answer:Value.answer}
     console.log(data)
     setQuestions(pre=>[...pre,data])
     setValue(initialState)
@@ -49,19 +49,21 @@ export default function QuestionSetter() {
           quiz: question.question,
           answer: question.answer,
           options: question.options,
+          date:question.date,
+          name:question.name
         };
-        return axios.post(url, data);
+        return axios.post(url,data);
       });
   
       // wait for all promises to finish
       Promise.all(promises)
         .then((responses) => {
-          console.log(responses.map((res) => res.data));
+          // console.log(responses.map((res) => res.data));
           alert("All questions submitted successfully!");
           setQuestions([]);
         })
         .catch((error) => {
-          console.log(error);
+  
           alert("Something went wrong while submitting the quiz.");
         });
   
@@ -86,13 +88,15 @@ export default function QuestionSetter() {
           </div>
          <div className='questionsInputContainer'>
             {error &&  <p style={{color:'red',paddingBottom:10}}> {error}</p>}
-            <input value={Value.quiztype} name='quiztype' onChange={handleChange} placeholder='Enter Question type coding/math'/><br/>
-            <input value={Value.grade} name='grade' onChange={handleChange} placeholder='Enter grade'/><br/>
-            <input value={Value.module} name='module' onChange={handleChange} placeholder='Enter module'/><br/>
+            <input type='text' value={Value.name} name='name' onChange={handleChange} placeholder='Enter quiz name'/><br/>
+            <input type='text' value={Value.quiztype} name='quiztype' onChange={handleChange} placeholder='Enter Question type coding/math'/><br/>
+            <input type='text' value={Value.grade} name='grade' onChange={handleChange} placeholder='Enter grade'/><br/>
+            <input type='text' value={Value.module} name='module' onChange={handleChange} placeholder='Enter module'/><br/>
             <textarea value={Value.question} name='question' onChange={handleChange} placeholder='Enter question'/><br/>
-            <input value={Value.answer} name='answer' onChange={handleChange} placeholder='Enter answer'/><br/>
+            <input type='text' value={Value.answer} name='answer' onChange={handleChange} placeholder='Enter answer'/><br/>
+            <input type='date' value={Value.date} name='date' onChange={handleChange} placeholder='Enter answer'/><br/>
             <div className='optionsInputWrapper'>
-            <input value={optionsValue} onChange={handleOptions} placeholder='Enter four answer options including answer'/>   
+            <input type='text' value={optionsValue} onChange={handleOptions} placeholder='Enter four answer options including answer'/>   
             <button onClick={handleAddOptions}>add</button>
             </div>  
             <div className='nextquizBtnWrapper'>

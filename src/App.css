@@ -3559,6 +3559,79 @@ height: auto;
   width: 100%;
   height: 50%;
 }
+.AllquestionsWrapper{
+  width: 100%;
+  height: auto;
+}
+.questionHolder{
+  width: 100%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.questionCard{
+  width: 213px;
+  height: auto;
+  background-color: #fff;
+  border-radius: 10px;
+  display: flex;
+  align-items:center;
+  justify-content: space-between;
+  padding: 10px;
+  flex-direction: column;
+}
+.questionCard button{
+  border: none;
+  outline: none;
+  width: 100%;
+  height: 40px;
+  background-color: #0097b2;
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+  text-transform: capitalize;
+}
+.questionCard button:hover{
+  background-color: #52b7c9;
+}
+.questionCard h4{
+  text-transform: capitalize;
+}
+.questionCard  p{
+  margin: 10px 0;
+}
+.DisplayAttemptedQuiz{
+  width: 100%;
+  height: auto;
+  padding: 10px;
+  overflow-y: auto;
+}
+.questionCardHolder{
+  width: 100%;
+  height: auto;
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+.answerQrapper{
+  width: 100%;
+  height: auto;
+  background-color: orange;
+  padding-left: 10px;
+  margin: 10px 0;
+  border-radius: 10px;
+}
+.InneranswerQrapper{
+  width: 100%;
+  height: auto;
+  background-color: #0097b2;
+  padding: 10px;
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
+}
 .AboutCodingScholarImg img{
   width: 100%;
   height: 100%;
@@ -4311,11 +4384,6 @@ a:hover{
   color: #0097b2;
   font-size:2rem;
 }
-/* .ShowBadgeHolder img{
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-} */
 .codingBadgeholder{
   width: 100%;
   height: auto;
@@ -4323,13 +4391,6 @@ a:hover{
   flex-wrap: wrap;
   gap: 20px;
 }
-/* .ShowBadge {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  background: radial-gradient(circle, #0077ea, #1f4f96, #1b2949, #000);
-} */
 
 .ShowBadgeHolder {
   text-align: center;

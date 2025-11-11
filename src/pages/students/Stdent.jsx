@@ -75,7 +75,6 @@ export default function Stdent() {
     const first_name=splitname[0]
     const last_name=splitname[1]
     const data={...classManagement,...{first_name:first_name,roomType:'coding',last_name:last_name}}
-    console.log('data std',data)
     axios.post(url,data)
     .then(res=>{
       SetClassManagement(initialState)
@@ -127,7 +126,6 @@ export default function Stdent() {
   }
    useEffect(()=>{  
    const {state}=location
-   console.log('student id',state)
    setStudentId(state)
    },[ ])
    useEffect(()=>{

@@ -5,7 +5,7 @@ import { jwtDecode } from 'jwt-decode'
 import { useEffect } from 'react';
 import confetti from 'canvas-confetti';
 import { useNavigate } from 'react-router-dom';
-export default function StudentPopUp({setDaillyQuizAttempt,day,setStudentChoices,marks,setMarks,getStudentQuestions}) {
+export default function StudentPopUp({setDaillyQuizAttempt,day,setStudentChoices,fullQuestions,marks,setMarks,getStudentQuestions}) {
     const[res,setRes]=useState('')
     const[token,setToken]=useState('')
     const[userId,setUser_id]=useState('')
@@ -13,15 +13,28 @@ export default function StudentPopUp({setDaillyQuizAttempt,day,setStudentChoices
     const handleToHome =()=>{
      if(userId && marks){
         const url =`https://api.codingscholar.com/updateStudentMarks/${userId}`
-        console.log('ur',userId)
         const data= marks
         axios.put(url,data)
         .then(res=>{
-            console.log(res.data)
-            localStorage.setItem('attempted',day)
-            navigate('/student/dashboard/Details')
+            markQuestionsCompleter()
         })
         .catch(error=>console.log(error))
+     }
+    }
+    function markQuestionsCompleter(){
+     if(fullQuestions.length>0){
+      fullQuestions.forEach(item=>{
+        const id = item.id
+        const data={marks:marks,quiz_name:item.quiz_name,questions:fullQuestions}
+        const url =`https://api.codingscholar.com/StudentMarks/`
+        axios.post(url,data,{headers:{
+          'Authorization':`Bearer ${token}`
+        }})
+        .then(res=>{
+          navigate('/student/dashboard/Questions')
+        })
+        .catch(error=>console.log(error))
+      })
      }
     }
     function confettiShow() {
@@ -46,11 +59,11 @@ export default function StudentPopUp({setDaillyQuizAttempt,day,setStudentChoices
         })();
       }
     }
-    const handleTryAgain =()=>{
-      setStudentChoices([])
-        setMarks(false)
-        getStudentQuestions()
-    }
+    // const handleTryAgain =()=>{
+    //   setStudentChoices([])
+    //     setMarks(false)
+    //     navigate('/student/dashboard/Today Questions',{state:fullQuestions})
+    // }
     async function getToken(){
         try{
             const token= localStorage.getItem('token') // No need to await
@@ -78,14 +91,18 @@ export default function StudentPopUp({setDaillyQuizAttempt,day,setStudentChoices
     useEffect(()=>{
     getToken()
     },[])
+    // useEffect(()=>{
+    // markQuestionsCompleter()
+    // },[fullQuestions])
+
   return ReactDOM.createPortal (
     <div className='AlertPOPUpWrapper'>
     <div className='AlertPOPUpContainer'>
         <div className='AlertPOPUp DeleteAlertPOPUp'>
         <p style={{textAlign:'center'}}>🎉 Congratulations! You scored <b>{marks}%</b> in today’s quiz.</p>
             <div>
-            <button style={{color:'#fff'}} onClick={handleToHome}>go to dashboard</button>
-            <button style={{color:'#fff'}} onClick={handleTryAgain}>try again</button>
+            <button style={{color:'#fff'}} onClick={handleToHome}>okay</button>
+            {/* <button style={{color:'#fff'}} onClick={handleTryAgain}>try again</button> */}
             </div>
         </div>
      </div>

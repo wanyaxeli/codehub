@@ -97,7 +97,6 @@ export default function StudentDetails() {
         })
         .then(response => {
             alert(response.data.message)
-            console.log(response.data)
             getProfilePic(token)
         })
         .catch(error => console.error(error));
@@ -111,7 +110,6 @@ export default function StudentDetails() {
         }})
         .then(res=>{
             const data = res.data
-            console.log('cert',res.data)
             setCert(data)
         })
         .catch(error=>{console.log(error)})
@@ -194,14 +192,15 @@ export default function StudentDetails() {
     setProfilePic(e.target.files[0])
 }
 const handleQuiz=()=>{
-    navigate('/student/dashboard/Today Questions')
+    // navigate('/student/dashboard/Today Questions')
+    navigate('/student/dashboard/Questions')
 }
 useEffect(()=>{
     getStudentBadge()
 },[student])
 useEffect(()=>{
  if(student){
-    if(student.tokens===0||student.fees ===false){
+    if(student.tokens===-2||student.fees ===false){
         navigate('/Fee Payment')
     }
  }

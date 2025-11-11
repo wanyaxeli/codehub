@@ -352,7 +352,6 @@ useEffect(() => {
         const responder = new Peer({ initiator: false, trickle: true, stream: localStream, config: peerConfig });
     
         responder.on("connect", () => {
-            console.log("Responder: Peer connected successfully!");
             setpeerConnected(true)
         });
     

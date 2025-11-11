@@ -85,13 +85,10 @@ import { useEffect } from 'react';
         // setAvailability([])
         const filtered = data.filter(item => item.date === tomorrowStr);
 
-        console.log("Tomorrow's bookings:", filtered);
         filtered.forEach(item=>{
         const timeZoneTime=formatToLocalTime(item.datetime_utc)
         setAvailability(pre=>([...pre,{...item,...{timeZoneTime:timeZoneTime}}]))
-        })
-        // const tommrrow = new Date().toISOString().split('T')[0] + 1
-        // const time = new Date().toTimeString().split(' ')[0]  
+        }) 
     }
     const handleToBooking=(id)=>{
         setAvailability([])
@@ -112,7 +109,6 @@ import { useEffect } from 'react';
         setActive({id:id})
         // setAvailability([])
         const filtered = data.filter(item => item.date === dayAfterStr);
-        console.log("Day-after-tomorrow's bookings:", filtered);
         filtered.forEach(item=>{
         const timeZoneTime=formatToLocalTime(item.datetime_utc)
         setAvailability(pre=>([...pre,{...item,...{timeZoneTime:timeZoneTime}}]))

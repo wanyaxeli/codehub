@@ -44,7 +44,7 @@ export default function Certificates() {
     const monthName=monthsInString(month)
     const certificateId=`CS-${courseName} -${year}-${day}`
     const fulldate=`${monthName} ${day},${year}`
-    console.log(fulldate)
+ 
     const doc = new jsPDF({
       orientation: "portrait",
       unit: "px",

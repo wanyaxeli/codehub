@@ -6,7 +6,7 @@ export default function ShowBadge({badge,setShowBadge,newStudent,NewStudentName}
   const handleCloseShowbadge =()=>{
     setShowBadge(false)
   }
-  console.log('new',newStudent)
+  
     function confettiShow() {
         if (badge) {
           const duration = 10 * 1000; // runs for 2 seconds

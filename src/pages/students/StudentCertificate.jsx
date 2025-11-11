@@ -44,7 +44,6 @@ export default function StudentCertificate() {
   const generatePDF = () => {
    if(student){
     const name = `${student.first_name} ${student.last_name}`
-    console.log('name',name)
     const date= new Date()
     const day=String(date.getDate()).padStart(2, '0');
     const year=date.getFullYear()
@@ -52,7 +51,6 @@ export default function StudentCertificate() {
     const monthName=monthsInString(month)
     const certificateId=`CS-${courseName}-${year}-${day}`
     const fulldate=`${monthName} ${day},${year}`
-    console.log(fulldate)
     const  certData={
         courseName:courseName,
         date:fulldate,
@@ -125,7 +123,6 @@ export default function StudentCertificate() {
   }
   useEffect(()=>{  
     const {state}=location
-    console.log('student',state)
     setStudent(state)
     },[])
     console.log(student)
