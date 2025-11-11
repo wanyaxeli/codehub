@@ -262,7 +262,7 @@ useEffect(()=>{
          <div className='TeacherDetailsWrapper'>
             <div className='TeacherImageWrapper'>
                 <div className='TeacherImageContainer'>
-                    {proPic?<img src={`https://res.cloudinary.com/dbxsncq5r/${proPic}`}/>:<img src={pic}/>}
+                    {proPic?<img loading="lazy" src={`https://res.cloudinary.com/dbxsncq5r/${proPic}`}/>:<img src={pic}/>}
                 </div>
                 <div className='imageChanger'>
                  <div className='imageChangerHolder'>
@@ -326,9 +326,9 @@ useEffect(()=>{
             <h3>badges</h3>
             </div>
             <div className='StedentbadgeHolder'>
-                {flatData.map(item=>{
+                {flatData.map((item,i)=>{
                     return(
-                    <div className='Stedentbadge'>
+                    <div key={i} className='Stedentbadge'>
                     <img src={item.img}/>
                     </div>
                     )

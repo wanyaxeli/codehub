@@ -119,7 +119,7 @@ export default function Banner() {
         </div>
         </div>
         <div className='smallDeviceBanner'>
-        <img src={pic} alt="codingscholar"/>
+        <img loading="lazy" src={pic} alt="codingscholar"/>
         <div className='smallDeviceBannerCover'>
            <div className='smallDeviceBannerContainer'>
               <div className='smallDeviceBannerContainerHolder'>

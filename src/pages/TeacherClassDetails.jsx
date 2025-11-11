@@ -87,7 +87,7 @@ export default function TeacherClassDetails() {
             <div className='TeacherImageWrapper'>
                 <div className='TeacherImageContainer'>
                     {/* <img src={pic}/> */}
-                    {proPic?<img src={`https://res.cloudinary.com/dbxsncq5r/${proPic}`}/>:<img src={pic}/>}
+                    {proPic?<img loading="lazy" src={`https://res.cloudinary.com/dbxsncq5r/${proPic}`}/>:<img src={pic}/>}
                 </div>
                 {/* <div className='imageChanger'>
                  <div className='imageChangerHolder'>

@@ -12,19 +12,19 @@ export default function StudentDashboard() {
   const {pathname}=location
   const {setStudent}=useContext(context)
   const dashboardLinks=['/student/dashboard/Details','/student/dashboard/Questions/attempted-questions','/student/dashboard/Today%20Questions','/student/dashboard/display-questions','/student/dashboard/Questions/questionPage','/student/dashboard/Today%20Questions','/student/dashboard']
-  const quizLinks=['/student/dashboard/My%20%20quizzes','/student/dashboard/Quiz']
-  const lessonLikns=['/student/dashboard/StudentNotes/','/student/dashboard/My%20%20lessons']
+  const quizLinks=['/student/dashboard/My%20quizzes','/student/dashboard/My%20%20quizzes','/student/dashboard/Quiz']
+  const lessonLikns=['/student/dashboard/My%20lessons','/student/dashboard/StudentNotes/','/student/dashboard/My%20%20lessons']
   const handleToLessons=()=>{
-  navigate('/student/dashboard/My  lessons')
+  navigate('My lessons')
   }
   const handleToMyQuizzes=()=>{
-    navigate('/student/dashboard/My  quizzes')
+    navigate('My quizzes')
     }
   const handleToMyProjects=()=>{
-      navigate('/student/dashboard/My  projects')
+      navigate('My projects')
       }
   const handleToDashboard=()=>{
-        navigate('/student/dashboard/Details')
+        navigate('Details')
         }
    useEffect(() => {
           if (token) {
@@ -77,7 +77,7 @@ export default function StudentDashboard() {
           <ul>
             <li className={dashboardLinks.includes(pathname)?'active':""} onClick={handleToDashboard} >dashboard</li>
             <li className={lessonLikns.includes(pathname)?'active':""} onClick={handleToLessons} >my lessons</li>
-            <li className={pathname==='/student/dashboard/My%20%20projects'?'active':""} onClick={handleToMyProjects}>my projects</li>
+            <li className={pathname==='/student/dashboard/My%20projects'?'active':""} onClick={handleToMyProjects}>my projects</li>
             <li className={quizLinks.includes( pathname)?'active':""} onClick={handleToMyQuizzes}>my quizzes</li>
           </ul>
         </aside>

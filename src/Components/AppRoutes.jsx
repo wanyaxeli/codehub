@@ -71,7 +71,7 @@ export default function AppRoutes() {
   return (
     <Suspense fallback={<div className="loading-screen">Loading...</div>}>
       <Routes>
-        {/* 🏠 Public Routes */}
+        {/* Public Routes */}
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/laptop" element={<Laptop />} />
@@ -85,9 +85,9 @@ export default function AppRoutes() {
         <Route path="/StudentSignup" element={<StudentSignUp />} />
         <Route path="/Why Us" element={<WhyUs />} />
 
-        {/* 🔒 Protected Routes */}
+        {/* Protected Routes */}
         <Route element={<ProtectedLayout />}>
-          {/* 👩‍🏫 Teacher Dashboard */}
+          {/* Teacher Dashboard */}
           <Route path="/teacher" element={<Teacher />} />
           <Route path="/teacher/dashboard" element={<Dashboard />}>
             <Route index element={<Details />} />
@@ -119,7 +119,7 @@ export default function AppRoutes() {
             <Route path="Certificates" element={<Certificates />} />
           </Route>
 
-          {/* 👩‍🎓 Student Dashboard */}
+          {/*  Student Dashboard */}
           <Route path="/student/dashboard" element={<StudentDashboard />}>
             <Route index element={<StudentDetails />} />
             <Route path="Details" element={<StudentDetails />} />

@@ -124,7 +124,7 @@ export default function Header() {
                 {/* //logo */}
                 <div onClick={handleHome} className='logoWRapper'>
                     <div className='logoContainer'>
-                    <img src={pic}/>
+                    <img  loading="lazy" src={pic}/>
                     </div>
                     <h4>codingscholar</h4>
                 </div>
@@ -146,7 +146,7 @@ export default function Header() {
         </div>
         <div className='HeaderForSmallDevices'>
           <div className='logoContainer'>
-          <img src={pic}/>
+          <img loading="lazy" src={pic}/>
           </div>
           <div className='headerBars'>
           {toggleSideBar===false?<i onClick={handleToggleSideBar} className="fa fa-bars" aria-hidden="true"></i>:

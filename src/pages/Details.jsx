@@ -254,7 +254,7 @@ export default function Details() {
         <div className='TeacherDetailsWrapper'>
             <div className='TeacherImageWrapper'>
                 <div className='TeacherImageContainer'>
-                    {proPic?<img alt='codingscholar' src={`https://res.cloudinary.com/dbxsncq5r/${proPic}`}/>:<img src={pic} alt="codingscholar"/>}
+                    {proPic?<img loading="lazy" alt='codingscholar' src={`https://res.cloudinary.com/dbxsncq5r/${proPic}`}/>:<img src={pic} alt="codingscholar"/>}
                 </div>
                 <div className='imageChanger'>
                  <div className='imageChangerHolder'>
