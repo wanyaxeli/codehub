@@ -11,7 +11,7 @@ export default function ClassGroups() {
    useEffect(()=>{
    const {state} = location
    if(state){
-    console.log('student',state)
+   
     setStudent(state)
    }
    },[])

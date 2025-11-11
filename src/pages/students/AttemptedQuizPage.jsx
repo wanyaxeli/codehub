@@ -3,7 +3,6 @@ import { useNavigate,useOutletContext } from 'react-router-dom'
 export default function AttemptedQuizPage() {
     const navigate= useNavigate()
     const {Attemptedquestions} = useOutletContext();
-    console.log('ttt',Attemptedquestions)
     const handleToQuestion =(items)=>{
         
         items.forEach(item=>{

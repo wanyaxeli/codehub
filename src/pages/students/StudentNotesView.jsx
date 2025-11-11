@@ -3,13 +3,11 @@ import { useLocation } from "react-router-dom";
 export default function StudentNotesView() {
   const [notes, setNotes] = useState("");
   const location = useLocation();
-  console.log(location)
   useEffect(() => {
     if (location.state) {
       setNotes(location.state);
     }
   }, [location]); // Add location as a dependency
-  console.log('notes',notes)
   return (
     <div className="NotesViewerWrapper">
       {notes ? (
