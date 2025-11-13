@@ -13,7 +13,7 @@ export default function AttemptedQuizPage() {
     }
   return (
     <div className='questionHolder'>
-    {Attemptedquestions ? Attemptedquestions.map((item,i)=>{
+    {Attemptedquestions.lenght>0 ? Attemptedquestions.map((item,i)=>{
       return (
       <div key={i} className='questionCard'>
        <h4>{item.quiz_name}</h4>
@@ -21,7 +21,7 @@ export default function AttemptedQuizPage() {
        <button onClick={()=>handleToQuestion(item.questions)}>view</button>
     </div>
       )
-    }):<p>loading ....</p>}
+    }):<p>No Attempted questions yet, Please do more daily questions to see them here</p>}
 </div>
   )
 }

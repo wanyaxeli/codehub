@@ -10,7 +10,7 @@ export default function StudentQuestionPage() {
     }
   return (
     <div className='questionHolder'>
-          {fullQuestions ? fullQuestions.map((item,i)=>{
+          {fullQuestions.lenght>0 ? fullQuestions.map((item,i)=>{
             return (
             <div key={i} className='questionCard'>
              <h4>{item.quiz_name}</h4>
@@ -18,7 +18,7 @@ export default function StudentQuestionPage() {
              <button onClick={()=>handleToQuestion(item)}>Attempt</button>
           </div>
             )
-          }):<p>loading ....</p>}
+          }):<p>Please no questions found at the moment</p>}
       </div>
   )
 }
