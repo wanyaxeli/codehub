@@ -21,22 +21,12 @@ export default function Header() {
     const handleToFreeClass =()=>{
     navigate('/register')
     }
-    console.log('path',pathname)
+   
     const handleToLogin=()=>{
-      // console.log('token',token)
-      // if(token){
-      //   try {
-      //     const decode = jwtDecode(token);
-      //     const {role,user_id}=decode
-      //     console.log("Decoded Token:", decode);
-      //     // setRole(role)
-      //   } catch (error) {
-      //     console.error("JWT Decode Error:", error);
-      //   }
-      // }
+     
       const token=localStorage.getItem('token')
       if (token){
-         console.log('adad',token)
+        
            try {
           const decode = jwtDecode(token);
           const {role,user_id}=decode
@@ -66,7 +56,7 @@ export default function Header() {
         try {
           const decode = jwtDecode(token);
           const {role,user_id}=decode
-          console.log("Decoded Token:", decode,role);
+        
           if(role ==='student'){
             navigate('/student/dashboard/Details')
           }else if(role==='teacher'){

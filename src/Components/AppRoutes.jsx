@@ -54,7 +54,8 @@ const MyQuizzes = lazy(() => import("../pages/students/MyQuizzes.jsx"));
 const StudentNotesView = lazy(() => import("../pages/students/StudentNotesView.jsx"));
 const Quiz = lazy(() => import("../pages/students/Quiz.jsx"));
 const TodaysQuestions = lazy(() => import("../pages/students/TodaysQuestions.jsx"));
-const Questions = lazy(() => import("../pages/students/questions.jsx"));
+const Questions = lazy(() => import("../pages/students/Questions.jsx"));
+// import Questions from "../pages/students/Questions.jsx";
 const StudentQuestionPage = lazy(() => import("../pages/students/StudentQuestionPage.jsx"));
 const AttemptedQuizPage = lazy(() => import("../pages/students/AttemptedQuizPage.jsx"));
 const DisplayAttemptedQuiz = lazy(() => import("../pages/students/DisplayAttemptedQuiz.jsx"));
@@ -131,7 +132,7 @@ export default function AppRoutes() {
             <Route path="Quiz" element={<Quiz />} />
 
             {/* Grouped Question Routes */}
-            <Route path="Questions" element={<Questions />}>
+            <Route path="Questions" element={<Questions/>}>
               <Route index element={<StudentQuestionPage />} />
               <Route path="questionPage" element={<StudentQuestionPage />} />
               <Route path="attempted-questions" element={<AttemptedQuizPage />} />

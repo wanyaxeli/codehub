@@ -29,7 +29,6 @@ export default function Questions() {
           }
         })
         .then(res=>{
-          console.log('res attempted',res.data)
           setAttemptedQuestions(res.data)
 
         })
@@ -55,7 +54,7 @@ export default function Questions() {
         .then(res=>{
           const data=res.data 
           if (Array.isArray(data) && data.length > 0) {
-            console.log('data',data);
+           
             setQuestions(data)
             // const grouped = data.reduce((acc, item) => {
             //   // combine both fields to form a unique key
@@ -77,7 +76,7 @@ export default function Questions() {
             // });
           
             // setFullQuestions(groupedArray);
-            console.log('ffgg',groupedArray)
+           
           }
           else {
       
@@ -94,11 +93,11 @@ export default function Questions() {
         const attemptedNames = new Set(
           Attemptedquestions.map(item => item.quiz_name)
         );
-        console.log('ste',attemptedNames)
+      
         const filteredData = questions.filter(
           q => !attemptedNames.has(q.quiz_name)
         );
-        console.log('fiii',filteredData)
+        
         const grouped = filteredData.reduce((acc, item) => {
           // combine both fields to form a unique key
           const key = `${item.quiz_name}_${item.dateforquestionset}`;
@@ -140,17 +139,6 @@ export default function Questions() {
             {/* )} */}
       </div>
       <Outlet context={{fullQuestions,Attemptedquestions}}/>
-      {/* <div className='questionHolder'>
-          {fullQuestions.map((item,i)=>{
-            return (
-            <div key={i} className='questionCard'>
-             <h4>{item.quiz_name}</h4>
-             <p>Expire:<span>{item.dateforquestionset}</span></p>
-             <button onClick={()=>handleToQuestion(item)}>Attempt</button>
-          </div>
-            )
-          })}
-      </div> */}
     </div>
   )
 }
