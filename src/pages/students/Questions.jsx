@@ -53,6 +53,7 @@ export default function Questions() {
         }})
         .then(res=>{
           const data=res.data 
+          console.log('sada',res.data)
           if (Array.isArray(data) && data.length > 0) {
            
             setQuestions(data)
@@ -97,7 +98,7 @@ export default function Questions() {
         const filteredData = questions.filter(
           q => !attemptedNames.has(q.quiz_name)
         );
-        
+        console.log('filer',filteredData)
         const grouped = filteredData.reduce((acc, item) => {
           // combine both fields to form a unique key
           const key = `${item.quiz_name}_${item.dateforquestionset}`;
@@ -117,6 +118,27 @@ export default function Questions() {
           };
         });
       
+        setFullQuestions(groupedArray);
+      }else{
+        const grouped = questions.reduce((acc, item) => {
+          // combine both fields to form a unique key
+          const key = `${item.quiz_name}_${item.dateforquestionset}`;
+          if (!acc[key]) acc[key] = [];
+          acc[key].push(item);
+          return acc;
+        }, {});
+        console.log('ggg',grouped)
+        // convert grouped object into array
+        const groupedArray = Object.entries(grouped).map(([key, questions]) => {
+          // extract quiz_name and datefrom key
+          const [quiz_name, dateforquestionset] = key.split('_');
+          return {
+            quiz_name,
+            dateforquestionset,
+            questions,
+          };
+        });
+       
         setFullQuestions(groupedArray);
       }
       },[questions,Attemptedquestions])

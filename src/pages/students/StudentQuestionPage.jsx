@@ -8,9 +8,10 @@ export default function StudentQuestionPage() {
         console.log(item)
         navigate('/student/dashboard/Today Questions',{state:{questions:item.questions,groupedQuiz:item}})
     }
+   
   return (
     <div className='questionHolder'>
-          {fullQuestions.lenght>0 ? fullQuestions.map((item,i)=>{
+          {fullQuestions && fullQuestions.length>0 ? fullQuestions.map((item,i)=>{
             return (
             <div key={i} className='questionCard'>
              <h4>{item.quiz_name}</h4>
