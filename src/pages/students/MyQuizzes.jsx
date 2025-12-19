@@ -87,7 +87,7 @@ useEffect(() => {
       headers: { 'Authorization': `Bearer ${token}` }
     })
     .then(res => {
-      console.log('res', res.data);
+      console.log('ressssdd',res.data);
       if (!res.data.error) {
         setQuiz(res.data || []);
 

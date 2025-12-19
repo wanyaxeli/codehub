@@ -5,6 +5,7 @@ export default function Questions() {
     const [mathlessonactive,setMathLessonActive]=useState(false)
     const [codinglessonactive,setCodingLessonActive]=useState(true)
     const[token,setToken]=useState('')
+    const[error,setError]=useState('')
     const[questions,setQuestions]=useState([])
     const[Attemptedquestions,setAttemptedQuestions]=useState([])
     const[fullQuestions,setFullQuestions]=useState([])

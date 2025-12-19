@@ -3,6 +3,7 @@ import { useLocation,useNavigate } from 'react-router-dom'
 import { context } from '../App'
 import pic from '../assets/codehubImage.jpeg'
 import axios from 'axios'
+import Portal from '../Components/Portal'
 export default function TeacherClassDetails() {
     const location =useLocation()
     const navigate=useNavigate()
@@ -113,20 +114,28 @@ export default function TeacherClassDetails() {
                {todayClass.map(lesson=>{
                 return(
                     <div key={lesson.id} className='TodayClassContainer'>
-                    <h4>{lesson.lesson.title}</h4>
-                    <p>time:{lesson.time?.replace(/:\d{2}(?= )/, '')}</p>
-                    <p>
-                    <a  style={{color:'#000'}}
-                        href="#" 
-                        onClick={(e) => {
-                        e.preventDefault();  // Prevents the default anchor link behavior
-                        handleNotes(lesson.lesson.title, lesson.lesson.pdf_notes);
-                    }}
-                    >
-                        details
-                    </a>
-                    </p>
-                    <button onClick={()=>handleToJoinClass(lesson,lesson.student.id,lesson.lesson.lessonId,lesson.date_time)}>join</button>
+                        <h4>{lesson.lesson.title}</h4>
+                        <p>time:{lesson.time?.replace(/:\d{2}(?= )/, '')}</p>
+                        <p>
+                        <a  style={{color:'#000'}}
+                            href="#" 
+                            onClick={(e) => {
+                            e.preventDefault();  // Prevents the default anchor link behavior
+                            handleNotes(lesson.lesson.title, lesson.lesson.pdf_notes);
+                        }}
+                        >
+                            details
+                        </a>
+                        </p>
+                        <button onClick={()=>handleToJoinClass(lesson,lesson.student.id,lesson.lesson.lessonId,lesson.date_time)}>join</button>
+                        <div className='showMoreWrapper'>
+                            <span><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span>
+                        </div>
+                        {/* <Portal>
+                        <div className='RescheduleWrapper'>
+                            <p>reschedule</p>
+                        </div>
+                        </Portal> */}
                   </div>
                 )
                })}

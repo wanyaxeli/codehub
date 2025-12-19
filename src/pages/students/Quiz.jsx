@@ -31,6 +31,7 @@ const isValidURL = (string) => {
     return false;
   }
 };
+console.log('quix',quiz.split('.'))
 const handlesubmit =()=>{
 if(quizId && link){
   if (isValidURL(link)) {
@@ -44,7 +45,7 @@ if(quizId && link){
       console.log(res.data)
       alert(res.data)
       setLink('')
-      navigate('/student/dashboard/My  quizzes')
+      navigate('/student/dashboard/My quizzes')
     })
     .catch(error=>console.log(error))
   }else{
@@ -71,7 +72,15 @@ useEffect(()=>{
       {error && <p style={{color:'red',textAlign:'center'}}>{error}</p>}
         <h3>{quizTitle}</h3>
         <div className='quizContainer'>
-            <p>{quiz}</p>
+            {/* <p>{quiz}</p> */}
+              <ol>
+              {quiz
+                .split('.')
+                .filter(item => item.trim() !== '') // remove empty item
+                .map((item, i) => (
+                  <li className='listOfQuizzes' key={i}>{item}</li>
+                ))}
+            </ol>
             <div className='quizInputWrapper'>
                 <input value={link} onChange={handleChange} placeholder='Submit Project Link...'/><br/>
                 <div className='quizBtnHolder'>

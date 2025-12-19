@@ -1813,6 +1813,7 @@ body{
   background-color: #fff;
   border-radius: 10px;
   padding: 10px;
+  position: relative;
 }
 .TodayClassContainer h4,.TodayClassContainer p{
   text-transform: capitalize;
@@ -1961,7 +1962,7 @@ body{
   flex-wrap: wrap;
 }
 .QuizzCard{
-  width: 291px;
+  width: 287px;
   height: auto;
   background-color: #fff;
   border-radius: 10px;
@@ -4461,7 +4462,33 @@ a:hover{
     transform: rotateY(-40deg) rotateX(-33deg);
   }
 }
-
+.showMoreWrapper{
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.RescheduleWrapper{
+  width: 200px;
+  height: 200px;
+  background-color: #e8e8ee;
+  position: absolute;
+  color: #000;
+  top: 0;
+  right: 0;
+}
+.showMoreWrapper:hover{
+  background-color: #e8e8ee;
+}
+.listOfQuizzes{
+  margin:  20px 0;
+}
 @media (prefers-color-scheme: dark) {
   .leftHeader select {
     background-color: #fff;
