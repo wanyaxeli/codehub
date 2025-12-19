@@ -76,7 +76,7 @@ useEffect(()=>{
               <ol>
               {quiz
                 .split('.')
-                .filter(item => item.trim() !== '') // remove empty item
+                .filter(item => item.trim() !== '' &&  isNaN(item.trim()) ) // remove empty item
                 .map((item, i) => (
                   <li className='listOfQuizzes' key={i}>{item}</li>
                 ))}
