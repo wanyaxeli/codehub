@@ -31,7 +31,7 @@ const isValidURL = (string) => {
     return false;
   }
 };
-console.log('quix',quiz.split('.'))
+
 const handlesubmit =()=>{
 if(quizId && link){
   if (isValidURL(link)) {
@@ -58,7 +58,7 @@ if(quizId && link){
 useEffect(()=>{
 const state=location.state
 const {id,title,quiz}=state
-console.log('q',state)
+
 setQuizTitle(title)
 setQuiz(quiz)
 setQuizid(id)

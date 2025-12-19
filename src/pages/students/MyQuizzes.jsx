@@ -39,6 +39,7 @@ function getStudentClassRoom(){
     const id =user_id
     axios.get(`https://api.codingscholar.com/studentRoom/${id}`)
     .then(res => {
+      console.log('aaaaa',res.data)
       if (!res.data.error) {
         setAttemptedQuiz(res.data.data || []);
       }
@@ -60,16 +61,16 @@ function checkComplete(){
     setComplete(completedStatus);
   }
 }
-console.log('complere',complete)
+console.log('complere',complete,'aat',attemptedquiz)
 useEffect(() => {
   checkComplete()
 }, [quiz, attemptedquiz]);
 useEffect(()=>{
 getDecodeToken()
 },[token])
-useEffect(()=>{
-  getStudentClassRoom()
-  },[user_id])
+// useEffect(()=>{
+//   getStudentClassRoom()
+//   },[user_id])
 useEffect(() => {
   if (token) {
     axios.get('https://api.codingscholar.com/StudentAttemptedQuizes/', {
