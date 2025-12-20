@@ -8,6 +8,7 @@ export default function Dashboard() {
   const navigate=useNavigate()
   const location =useLocation()
   const [token,setToken]=useState('')
+  const [NotReviewed,setNotReviewed]=useState('')
   const [role,setRole]=useState('')
   const [user_id,setUser_id]=useState('')
   const {setTeacher}= useContext(context)
@@ -51,7 +52,20 @@ useEffect(()=>{
   console.log("running getToken effect");
 getToken()
 },[])
-console.log("Component mounted");
+function getQuiz(){
+  if(token){
+    const url = 'https://api.codingscholar.com/TeacherQuizes/';
+    axios.get(url,{headers:{
+      'Authorization':`Bearer ${token}`
+    }})
+    .then(res=>{
+      const data = res.data
+      const review= data.filter(item=>item.review === false)
+      setNotReviewed(review.length)
+    })
+    .catch(error=>console.log(error))
+  }
+}
   function getTeacher(){
     console.log('tea',token)
     if(token && user_id && role ==='teacher'){
@@ -82,6 +96,9 @@ console.log("Component mounted");
     }
   }, [token]);
   useEffect(()=>{
+    getQuiz()
+   },[token])
+  useEffect(()=>{
     getTeacher()
     },[token,user_id,role])
   return (
@@ -92,7 +109,13 @@ console.log("Component mounted");
           <ul>
             <li className={dashboardLinks.includes(pathname)?'active':""} onClick={handleToDashboard} >dashboard</li>
             <li className={calendarLinks.includes(pathname)?'active':""} onClick={handleToCalendar} >calendar</li>
-            <li className={pathname==='/teacher/dashboard/Projects'?'active':""} onClick={handleToProjects}>projects</li>
+            <li className={`reviewHolder ${pathname==='/teacher/dashboard/Projects'?'active':""}`} onClick={handleToProjects}>projects
+             {pathname!=='/teacher/dashboard/Projects'?
+              <div className='reviewWrapper'>
+               <p>{NotReviewed}</p>
+             </div>
+             :""}
+            </li>
             <li className={studentLink.includes(pathname)?'active':""} onClick={handleToMystudents}>my students</li>
           </ul>
         </aside>

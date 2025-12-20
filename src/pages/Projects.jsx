@@ -31,11 +31,6 @@ function getQuiz(){
     }})
     .then(res=>{
       const data = res.data
-      // data.forEach(item=>{
-      //   console.log(item)
-      //   setQuizId(item.quiz.id)
-      //   setStudentId(item.student.id)
-      // })
       setQuiz(res.data)
     })
     .catch(error=>console.log(error))

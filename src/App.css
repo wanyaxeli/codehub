@@ -4489,6 +4489,25 @@ a:hover{
 .listOfQuizzes{
   margin:  20px 0;
 }
+.reviewWrapper{
+  width: 30px;
+  height: 30px;
+  background-color: #0097b2;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  position: absolute;
+  left: -10px;
+  top: -10px;
+}
+.reviewWrapper p{
+  font-size: .7rem;
+}
+.reviewHolder{
+  position: relative;
+}
 @media (prefers-color-scheme: dark) {
   .leftHeader select {
     background-color: #fff;
