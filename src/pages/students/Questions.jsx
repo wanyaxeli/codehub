@@ -30,6 +30,7 @@ export default function Questions() {
           }
         })
         .then(res=>{
+          console.log('ate',res.data)
           setAttemptedQuestions(res.data)
 
         })
@@ -57,28 +58,7 @@ export default function Questions() {
           console.log('sada',res.data)
           if (Array.isArray(data) && data.length > 0) {
            
-            setQuestions(data)
-            // const grouped = data.reduce((acc, item) => {
-            //   // combine both fields to form a unique key
-            //   const key = `${item.quiz_name}_${item.dateforquestionset}`;
-            //   if (!acc[key]) acc[key] = [];
-            //   acc[key].push(item);
-            //   return acc;
-            // }, {});
-          
-            // // convert grouped object into array
-            // const groupedArray = Object.entries(grouped).map(([key, questions]) => {
-            //   // extract quiz_name and datefrom key
-            //   const [quiz_name, dateforquestionset] = key.split('_');
-            //   return {
-            //     quiz_name,
-            //     dateforquestionset,
-            //     questions,
-            //   };
-            // });
-          
-            // setFullQuestions(groupedArray);
-           
+            setQuestions(data) 
           }
           else {
       
@@ -90,59 +70,46 @@ export default function Questions() {
         })
         }
       }
-      useEffect(()=>{
-      if(questions.length > 0 && Attemptedquestions.length > 0){
-        const attemptedNames = new Set(
-          Attemptedquestions.map(item => item.quiz_name)
+      useEffect(() => {
+        if (!questions.length || !Attemptedquestions.length) return;
+      
+        const attemptedKeys = new Set(
+          Attemptedquestions.map(item => {
+            const date = item.questions?.[0]?.dateforquestionset;
+            if (!date) return null;
+      
+            return `${item.quiz_name.trim()}_${date}`;
+          }).filter(Boolean)
         );
       
-        const filteredData = questions.filter(
-          q => !attemptedNames.has(q.quiz_name)
-        );
-        console.log('filer',filteredData)
+        console.log('attemptedKeys', attemptedKeys);
+      
+        const filteredData = questions.filter(q => {
+          const key = `${q.quiz_name.trim()}_${q.dateforquestionset}`;
+          return !attemptedKeys.has(key);
+        });
+      
+        console.log('filtered', filteredData);
+      
         const grouped = filteredData.reduce((acc, item) => {
-          // combine both fields to form a unique key
           const key = `${item.quiz_name}_${item.dateforquestionset}`;
           if (!acc[key]) acc[key] = [];
           acc[key].push(item);
           return acc;
         }, {});
       
-        // convert grouped object into array
         const groupedArray = Object.entries(grouped).map(([key, questions]) => {
-          // extract quiz_name and datefrom key
-          const [quiz_name, dateforquestionset] = key.split('_');
+          const last = key.lastIndexOf('_');
           return {
-            quiz_name,
-            dateforquestionset,
+            quiz_name: key.slice(0, last),
+            dateforquestionset: key.slice(last + 1),
             questions,
           };
         });
       
         setFullQuestions(groupedArray);
-      }else{
-        const grouped = questions.reduce((acc, item) => {
-          // combine both fields to form a unique key
-          const key = `${item.quiz_name}_${item.dateforquestionset}`;
-          if (!acc[key]) acc[key] = [];
-          acc[key].push(item);
-          return acc;
-        }, {});
-        console.log('ggg',grouped)
-        // convert grouped object into array
-        const groupedArray = Object.entries(grouped).map(([key, questions]) => {
-          // extract quiz_name and datefrom key
-          const [quiz_name, dateforquestionset] = key.split('_');
-          return {
-            quiz_name,
-            dateforquestionset,
-            questions,
-          };
-        });
-       
-        setFullQuestions(groupedArray);
-      }
-      },[questions,Attemptedquestions])
+      }, [questions, Attemptedquestions]);
+      
       useEffect(()=>{
         getStudentQuestions()
         getAttemptedQuiz()

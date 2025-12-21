@@ -4,16 +4,17 @@ export default function AttemptedQuizPage() {
     const navigate= useNavigate()
     const {Attemptedquestions} = useOutletContext();
     const handleToQuestion =(items)=>{
-        
-        items.forEach(item=>{
-          console.log(item.questions)
-           navigate('/student/dashboard/display-questions',{state:item.questions})
-        })
+         console.log(items)
+        // items.forEach(item=>{
+        //   console.log(item.questions)
+       navigate('/student/dashboard/display-questions',{state:items})
+        // })
         
     }
+    console.log('ss',Attemptedquestions)
   return (
     <div className='questionHolder'>
-    {Attemptedquestions.lenght>0 ? Attemptedquestions.map((item,i)=>{
+    {Attemptedquestions &&Attemptedquestions.length>0 ? Attemptedquestions.map((item,i)=>{
       return (
       <div key={i} className='questionCard'>
        <h4>{item.quiz_name}</h4>

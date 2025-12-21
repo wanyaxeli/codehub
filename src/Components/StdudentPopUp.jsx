@@ -5,7 +5,7 @@ import { jwtDecode } from 'jwt-decode'
 import { useEffect } from 'react';
 import confetti from 'canvas-confetti';
 import { useNavigate } from 'react-router-dom';
-export default function StudentPopUp({setDaillyQuizAttempt,day,setStudentChoices,fullQuestions,marks,setMarks,getStudentQuestions}) {
+export default function StudentPopUp({fullQuestions,marks,studentChoices}) {
     const[res,setRes]=useState('')
     const[token,setToken]=useState('')
     const[userId,setUser_id]=useState('')
@@ -21,11 +21,12 @@ export default function StudentPopUp({setDaillyQuizAttempt,day,setStudentChoices
         .catch(error=>console.log(error))
      }
     }
+    console.log('choice',studentChoices)
     function markQuestionsCompleter(){
-     if(fullQuestions.length>0){
+     if(studentChoices && fullQuestions.length>0){
       fullQuestions.forEach(item=>{
         const id = item.id
-        const data={marks:marks,quiz_name:item.quiz_name,questions:fullQuestions}
+        const data={marks:marks,quiz_name:item.quiz_name,questions:{question:fullQuestions,studentChoices:studentChoices}}
         const url =`https://api.codingscholar.com/StudentMarks/`
         axios.post(url,data,{headers:{
           'Authorization':`Bearer ${token}`

@@ -119,6 +119,7 @@ useEffect(()=>{
   })
  }
 },[questions])
+console.log('coices',studentChoices,fullQuestions)
 const handleSubmit = () => {
   if (studentChoices.length === answers.length) {
 
@@ -186,7 +187,7 @@ useEffect(()=>{
           <button onClick={handleSubmit}>Submit</button>
           </div>:'':''}
         </div>
-        {showMarks && marks && fullQuestions && <StudentPopUp fullQuestions={fullQuestions} marks={marks} setDaillyQuizAttempt={setDaillyQuizAttempt} day={day} setStudentChoices={setStudentChoices} setMarks={setMarks} getStudentQuestions={getStudentQuestions}/>}
+        {showMarks && marks && studentChoices && fullQuestions && <StudentPopUp fullQuestions={fullQuestions} studentChoices={studentChoices} marks={marks} setDaillyQuizAttempt={setDaillyQuizAttempt} day={day} setStudentChoices={setStudentChoices} setMarks={setMarks} getStudentQuestions={getStudentQuestions}/>}
     </div>
   )
 }
