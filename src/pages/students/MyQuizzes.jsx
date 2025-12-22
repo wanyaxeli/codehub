@@ -65,7 +65,7 @@ function checkComplete(){
   }
 }
 function UnDoneQuizzes() {
-  if (quiz.length && attemptedquiz.length) {
+  if (quiz.length >0 && attemptedquiz.length > 0 ) {
     const notDone = quiz.filter(q =>
      {
      return  attemptedquiz.every(a => a.quiz.id !== q.id)
@@ -73,6 +73,8 @@ function UnDoneQuizzes() {
     );
     setNotDoneQuiz(notDone)
 
+  }else{
+    setNotDoneQuiz(quiz)
   }
 
  
