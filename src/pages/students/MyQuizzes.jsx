@@ -141,7 +141,7 @@ const handleMathLessons=()=>{
           <li onClick={handleMathLessons} className={mathlessonactive ? 'activelesson' : ''}>attempted quiz</li>
         </ul>
       </div>
-      <Outlet context={{notDonequiz,attemptedquiz,complete}}/>  
+      <Outlet context={{notDonequiz,attemptedquiz,complete,handleToQuiz}}/>  
     </div>
   )
 }

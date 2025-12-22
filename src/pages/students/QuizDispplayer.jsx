@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate,useOutletContext } from 'react-router-dom'
 export default function QuizDispplayer() {
-    const {notDonequiz,complete} = useOutletContext();
+    const {notDonequiz,complete,handleToQuiz} = useOutletContext();
   return (
     <div className='MyQuizzesWrapper'>
       {notDonequiz && notDonequiz.length > 0 ? notDonequiz.map(item => {
