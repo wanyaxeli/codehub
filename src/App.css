@@ -1956,6 +1956,11 @@ body{
   width: 100%;
   height: auto;
   padding: 10px;
+ 
+}
+.MyQuizzesWrapper{
+  width: 100%;
+  height: auto;
   display: flex;
   align-items: center;
   gap: 20px;
@@ -2009,6 +2014,38 @@ body{
   width: 100%;
   height: 100%;
   padding: 10px;
+}
+.AttemptedQuizesDisplayer{
+  width: 100%;
+  height: auto;
+  padding: 10px;
+}
+.AttemptedQuizesWrapper{
+  width: 100%;
+  height: 200px;
+  background-color: #fff;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.AttemptedQuizesContentWrapper a{
+  color: red;
+  margin: 20px 0;
+}
+.AttemptedQuizesImgWrapper,.AttemptedQuizesContentWrapper{
+  width: 48%;
+  height: 100%;
+  padding: 10px;
+}
+.AttemptedQuizesImgWrapper img{
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+.AttemptedQuizesContentWrapper h2{
+  text-transform: capitalize;
 }
 .QuizWrapper h3{
   text-align: center;

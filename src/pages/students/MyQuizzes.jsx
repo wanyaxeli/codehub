@@ -1,14 +1,17 @@
 import React,{useState,useEffect} from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate,Outlet } from 'react-router-dom'
 import axios from 'axios'
 import { jwtDecode } from 'jwt-decode'
 export default function MyQuizzes() {
   const navigate=useNavigate()
   const [token,setToken]=useState()
   const [quiz,setQuiz]=useState([])
+  const [notDonequiz,setNotDoneQuiz]=useState([])
   const [user_id,setUser_id]=useState('')
   const [attemptedquiz,setAttemptedQuiz]=useState([])
   const [complete,setComplete]=useState({})
+  const [mathlessonactive,setMathLessonActive]=useState(false)
+  const [codinglessonactive,setCodingLessonActive]=useState(true)
   async function getDecodeToken(){
     try{
         if (token){
@@ -61,9 +64,26 @@ function checkComplete(){
     setComplete(completedStatus);
   }
 }
+function UnDoneQuizzes() {
+  if (quiz.length && attemptedquiz.length) {
+    const notDone = quiz.filter(q =>
+     {
+     return  attemptedquiz.every(a => a.quiz.id !== q.id)
+     }
+    );
+    setNotDoneQuiz(notDone)
+
+  }
+
+ 
+}
+// const handleToQuizes=()=>{
+//   navigate('quizzes')
+// }
 console.log('complere',complete,'aat',attemptedquiz)
 useEffect(() => {
   checkComplete()
+  UnDoneQuizzes()
 }, [quiz, attemptedquiz]);
 useEffect(()=>{
 getDecodeToken()
@@ -100,23 +120,28 @@ useEffect(() => {
 useEffect(()=>{
  getToken()
 },[])
+const handlecodingLessons =()=>{
+  setCodingLessonActive(true)
+  setMathLessonActive(false)
+  navigate('quizzes')
+}
+const handleMathLessons=()=>{
+  setCodingLessonActive(false)
+  setMathLessonActive(true)
+  navigate('Attemptedquizzes')
+}
   const handleToQuiz=(quiz)=>{
    navigate("/student/dashboard/Quiz",{state:quiz})
   }
   return (
     <div className='MyQuizzes'>
-      {quiz && quiz.length > 0 ? quiz.map(item => {
-      const status = complete[item.id] || 'incomplete';
-
-      return (
-        <div key={item.id} className='QuizzCard'>
-          <h3>{item.title}</h3>
-          <p>Deadline: {item.deadline}</p><br/>
-          <p>Status: <span>{status}</span></p>
-          {status==='complete'?<button>attempted</button> :<button onClick={() => handleToQuiz(item)}>View</button>}
-        </div>
-      );
-    }) : <p>No quizzes set yet</p>}
+      <div className='classtypenavWrapper'>
+        <ul>
+          <li onClick={handlecodingLessons} className={codinglessonactive ? 'activelesson' : ''}>quiz</li>
+          <li onClick={handleMathLessons} className={mathlessonactive ? 'activelesson' : ''}>attempted quiz</li>
+        </ul>
+      </div>
+      <Outlet context={{notDonequiz,attemptedquiz,complete}}/>  
     </div>
   )
 }

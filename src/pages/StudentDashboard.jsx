@@ -11,8 +11,8 @@ export default function StudentDashboard() {
   const location =useLocation()
   const {pathname}=location
   const {setStudent}=useContext(context)
-  const dashboardLinks=['/student/dashboard/Details','/student/dashboard/Questions/attempted-questions','/student/dashboard/Today%20Questions','/student/dashboard/display-questions','/student/dashboard/Questions/questionPage','/student/dashboard/Today%20Questions','/student/dashboard']
-  const quizLinks=['/student/dashboard/My%20quizzes','/student/dashboard/My%20%20quizzes','/student/dashboard/Quiz']
+  const dashboardLinks=['/student/dashboard/Questions','/student/dashboard/Details','/student/dashboard/Questions/attempted-questions','/student/dashboard/Today%20Questions','/student/dashboard/display-questions','/student/dashboard/Questions/questionPage','/student/dashboard/Today%20Questions','/student/dashboard']
+  const quizLinks=['/student/dashboard/My%20quizzes/Attemptedquizzes','/student/dashboard/My%20quizzes/quizzes','/student/dashboard/My%20quizzes','/student/dashboard/My%20%20quizzes','/student/dashboard/Quiz']
   const lessonLikns=['/student/dashboard/My%20lessons','/student/dashboard/StudentNotes/','/student/dashboard/My%20%20lessons']
   const handleToLessons=()=>{
   navigate('My lessons')

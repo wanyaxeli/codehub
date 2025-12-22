@@ -1,9 +1,13 @@
 import React, { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
+// import AttemptedQuizesDisplayer from "../pages/students/AttemptedQuizesDisplayer.jsx";
+// import QuizDispplayer from "../pages/students/QuizDispplayer.jsx";
 import ProtectedLayout from "./ProtectedRoute.jsx";
 
 //  Lazy-load all heavy pages
 const Home = lazy(() => import("../pages/Home.jsx"));
+const AttemptedQuizesDisplayer = lazy(() => import("../pages/students/AttemptedQuizesDisplayer.jsx"));
+const QuizDispplayer = lazy(() => import("../pages/students/QuizDispplayer.jsx"));
 const Register = lazy(() => import("../pages/Register.jsx"));
 const Laptop = lazy(() => import("../pages/Laptop.jsx"));
 const Login = lazy(() => import("../pages/Login.jsx"));
@@ -127,7 +131,11 @@ export default function AppRoutes() {
             <Route path="Today Questions" element={<TodaysQuestions />} />
             <Route path="My lessons" element={<MyLessons />} />
             <Route path="My projects" element={<MyProjects />} />
-            <Route path="My quizzes" element={<MyQuizzes />} />
+            <Route path="My quizzes" element={<MyQuizzes />}>
+               <Route index element={<QuizDispplayer />} />
+               <Route path="quizzes" element={<QuizDispplayer/>}/>
+               <Route path="Attemptedquizzes" element={<AttemptedQuizesDisplayer/>}/>
+            </Route>
             <Route path="StudentNotes" element={<StudentNotesView />} />
             <Route path="Quiz" element={<Quiz />} />
 
