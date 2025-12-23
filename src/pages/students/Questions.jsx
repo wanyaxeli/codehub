@@ -30,7 +30,7 @@ export default function Questions() {
           }
         })
         .then(res=>{
-          console.log('ate',res.data)
+         
           setAttemptedQuestions(res.data)
 
         })
@@ -55,7 +55,7 @@ export default function Questions() {
         }})
         .then(res=>{
           const data=res.data 
-          console.log('sada',res.data)
+         
           if (Array.isArray(data) && data.length > 0) {
            
             setQuestions(data) 
@@ -71,43 +71,42 @@ export default function Questions() {
         }
       }
       useEffect(() => {
-        if (!questions.length || !Attemptedquestions.length) return;
-      
-        const attemptedKeys = new Set(
-          Attemptedquestions.map(item => {
-            const date = item.questions?.[0]?.dateforquestionset;
-            if (!date) return null;
-      
-            return `${item.quiz_name.trim()}_${date}`;
-          }).filter(Boolean)
-        );
-      
-        console.log('attemptedKeys', attemptedKeys);
-      
-        const filteredData = questions.filter(q => {
-          const key = `${q.quiz_name.trim()}_${q.dateforquestionset}`;
-          return !attemptedKeys.has(key);
-        });
-      
-        console.log('filtered', filteredData);
-      
-        const grouped = filteredData.reduce((acc, item) => {
-          const key = `${item.quiz_name}_${item.dateforquestionset}`;
-          if (!acc[key]) acc[key] = [];
-          acc[key].push(item);
-          return acc;
-        }, {});
-      
-        const groupedArray = Object.entries(grouped).map(([key, questions]) => {
-          const last = key.lastIndexOf('_');
-          return {
-            quiz_name: key.slice(0, last),
-            dateforquestionset: key.slice(last + 1),
-            questions,
-          };
-        });
-      
-        setFullQuestions(groupedArray);
+        if (questions.length >0 && Attemptedquestions.length >0){
+          const attemptedKeys = new Set(
+            Attemptedquestions.map(item => {
+              const date = item.questions?.[0]?.dateforquestionset;
+              if (!date) return null;
+        
+              return `${item.quiz_name.trim()}_${date}`;
+            }).filter(Boolean)
+          );
+        
+        
+          const filteredData = questions.filter(q => {
+            const key = `${q.quiz_name.trim()}_${q.dateforquestionset}`;
+            return !attemptedKeys.has(key);
+          });
+        
+          const grouped = filteredData.reduce((acc, item) => {
+            const key = `${item.quiz_name}_${item.dateforquestionset}`;
+            if (!acc[key]) acc[key] = [];
+            acc[key].push(item);
+            return acc;
+          }, {});
+        
+          const groupedArray = Object.entries(grouped).map(([key, questions]) => {
+            const last = key.lastIndexOf('_');
+            return {
+              quiz_name: key.slice(0, last),
+              dateforquestionset: key.slice(last + 1),
+              questions,
+            };
+          });
+        
+          setFullQuestions(groupedArray);
+        }else{
+          setFullQuestions(questions);
+        }
       }, [questions, Attemptedquestions]);
       
       useEffect(()=>{
