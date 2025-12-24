@@ -16,7 +16,7 @@ export default function TodaysQuestions() {
   const [mathlessonactive,setMathLessonActive]=useState(false)
   const [codinglessonactive,setCodingLessonActive]=useState(true)
   const[showMarks,setshowMarks]=useState(false)
-  const {DaillyQuizAttempt,setDaillyQuizAttempt}=useContext(context)
+  // const {DaillyQuizAttempt,setDaillyQuizAttempt}=useContext(context)
   const location= useLocation()
   async function getToken(){
     try{
@@ -59,59 +59,47 @@ function getStudentQuestions(){
   })
   }
 }
-function getcodingLessons() {
-  if (fullQuestions.length>0) {
-    const codingLessons = fullQuestions.filter(lesson => lesson.quiztype === 'coding')
-    setQuestions(codingLessons);
-  }
-}
-function getMathsLessons() {
-  if (fullQuestions.length >0) {
-    const mathsLessons = fullQuestions.filter(lesson => lesson.quiztype === 'math')
-    setQuestions(mathsLessons);
-  }
-}
-const handlecodingLessons =()=>{
-  setCodingLessonActive(true)
-  setMathLessonActive(false)
-  getcodingLessons()
-}
-const handleMathLessons=()=>{
-  setCodingLessonActive(false)
-  setMathLessonActive(true)
-  getMathsLessons()
-}
-useEffect(()=>{
- if(questions.length>0){
-  questions.map(question=>{
-   
-    const todayDate=question.dateforquestionset
-    const date = new Date(todayDate);
+// function getcodingLessons() {
+//   if (fullQuestions.length>0) {
+//     const codingLessons = fullQuestions.filter(lesson => lesson.quiztype === 'coding')
+//     setQuestions(codingLessons);
+//   }
+// }
+// function getMathsLessons() {
+//   if (fullQuestions.length >0) {
+//     const mathsLessons = fullQuestions.filter(lesson => lesson.quiztype === 'math')
+//     setQuestions(mathsLessons);
+//   }
+// }
+// const handlecodingLessons =()=>{
+//   setCodingLessonActive(true)
+//   setMathLessonActive(false)
+//   getcodingLessons()
+// }
+// const handleMathLessons=()=>{
+//   setCodingLessonActive(false)
+//   setMathLessonActive(true)
+//   getMathsLessons()
+// }
 
-    // Get day of the week (e.g., "Tuesday")
-    const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
-    setDay(dayName)
-  })
- }
-},[questions])
 useEffect(()=>{
   const {state}=location
   const {groupedQuiz,questions}= state
   setQuestions(questions)
   setFullQuestions([groupedQuiz])
 },[])
-useEffect(()=>{
-  if(fullQuestions.length>0){
-    const lessonTypes = fullQuestions.map(item => item.quiztype);
-    if (lessonTypes.includes('coding') && lessonTypes.includes('math')) {
-      getcodingLessons();
-    } else if (lessonTypes.includes('coding')) {
-      getcodingLessons();
-    } else if (lessonTypes.includes('math')) {
-      getMathsLessons();
-    }
-  }
-},[fullQuestions])
+// useEffect(()=>{
+//   if(fullQuestions.length>0){
+//     const lessonTypes = fullQuestions.map(item => item.quiztype);
+//     if (lessonTypes.includes('coding') && lessonTypes.includes('math')) {
+//       getcodingLessons();
+//     } else if (lessonTypes.includes('coding')) {
+//       getcodingLessons();
+//     } else if (lessonTypes.includes('math')) {
+//       getMathsLessons();
+//     }
+//   }
+// },[fullQuestions])
 useEffect(()=>{
  if(questions.length > 0){
   questions.forEach(question=>{
@@ -119,7 +107,7 @@ useEffect(()=>{
   })
  }
 },[questions])
-console.log('coices',studentChoices,fullQuestions)
+
 const handleSubmit = () => {
   if (studentChoices.length === answers.length) {
 
@@ -151,16 +139,9 @@ useEffect(()=>{
   return (
     <div className='TodaysQuestionsWrapper'>
         <div className='TodaysQuestionsContainer'>
-      <div className='classtypenavWrapper'>
-          {DaillyQuizAttempt!==day?fullQuestions && fullQuestions.some(item => item.quiztype === 'coding') && fullQuestions.some(item => item.quiztype === 'math') && (
-          <ul>
-            <li onClick={handlecodingLessons} className={codinglessonactive ? 'activelesson' : ''}>coding</li>
-            <li onClick={handleMathLessons} className={mathlessonactive ? 'activelesson' : ''}>mathematics</li>
-          </ul>
-            ):''}
-      </div>
-         {error && <p style={{color:'red'}}>{error}</p>}
-          {DaillyQuizAttempt!==day? questions.length >0? questions.map((q) => (
+      
+       
+          {questions && questions.length >0? questions.map((q) => (
           <div key={q.id} className="QuestionBlock">
             <p>{q.quiz}</p>
             <ul>
@@ -180,14 +161,12 @@ useEffect(()=>{
               ))}
             </ul>
           </div>
-        )):<p>{error}</p>:<div className='attemptedWrapper'>
-           <p>You have already attempted todays' questions let's meet tomorrow</p>
-          </div>}
-         {DaillyQuizAttempt !==day? questions.length>0? <div className='TodaysQuestionsBtn'>
+        )):<p>loading ...</p>}
+         {questions && questions.length>0? <div className='TodaysQuestionsBtn'>
           <button onClick={handleSubmit}>Submit</button>
-          </div>:'':''}
+          </div>:''}
         </div>
-        {showMarks && marks && studentChoices && fullQuestions && <StudentPopUp fullQuestions={fullQuestions} studentChoices={studentChoices} marks={marks} setDaillyQuizAttempt={setDaillyQuizAttempt} day={day} setStudentChoices={setStudentChoices} setMarks={setMarks} getStudentQuestions={getStudentQuestions}/>}
+        {showMarks && marks && studentChoices && fullQuestions && <StudentPopUp fullQuestions={fullQuestions} studentChoices={studentChoices} marks={marks}   setStudentChoices={setStudentChoices} setMarks={setMarks} />}
     </div>
   )
 }

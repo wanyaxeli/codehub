@@ -57,7 +57,7 @@ export default function Questions() {
           const data=res.data 
          
           if (Array.isArray(data) && data.length > 0) {
-           
+            console.log('sss',data)
             setQuestions(data) 
           }
           else {
@@ -105,7 +105,23 @@ export default function Questions() {
         
           setFullQuestions(groupedArray);
         }else{
-          setFullQuestions(questions);
+          const grouped = questions.reduce((acc, item) => {
+            const key = `${item.quiz_name}_${item.dateforquestionset}`;
+            if (!acc[key]) acc[key] = [];
+            acc[key].push(item);
+            return acc;
+          }, {});
+        
+          const groupedArray = Object.entries(grouped).map(([key, questions]) => {
+            const last = key.lastIndexOf('_');
+            return {
+              quiz_name: key.slice(0, last),
+              dateforquestionset: key.slice(last + 1),
+              questions,
+            };
+          });
+        
+          setFullQuestions(groupedArray);
         }
       }, [questions, Attemptedquestions]);
       
