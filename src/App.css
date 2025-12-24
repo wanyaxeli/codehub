@@ -2251,7 +2251,7 @@ body{
    text-transform: capitalize;
 }
 .AttemptedQuizesContentWrapper{
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 .ReviewPopWrapper input {
   margin-bottom: 20px;
