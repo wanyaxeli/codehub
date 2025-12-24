@@ -4,19 +4,23 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 export default function ReviewPOP({getQuiz,setReview,studentId,quizId}) {
     const navigate =useNavigate()
+    const initialState={
+      points:'',
+      comment:''
+    }
     const [token,setToken]=useState('')
-    const [points,setPoints]=useState('')
+    const [values,setValues]=useState(initialState)
     const [error,setError]=useState('')
    const handleReview=()=>{
-   if(studentId && quizId && token && points){
+   if(studentId && quizId && token && values.points !=='undefined' && values.comment !=='undefined' ){
     const url = 'https://api.codingscholar.com/updateStudentMarks/';
-    const data={studentId:studentId,points:parseInt(points),quizId:quizId}
+    const data={studentId:studentId,points:parseInt(values.points),comment:values.comment,quizId:quizId}
     axios.put(url,data,{headers:{
         'Authorization':`Bearer ${token}`
     }})
     .then(res=>{
         console.log(res.data)
-        setPoints('')
+        setValues(initialState)
         getQuiz()
         setReview(false)
     })
@@ -29,8 +33,12 @@ export default function ReviewPOP({getQuiz,setReview,studentId,quizId}) {
     setReview(false)
    }
    const handleChange =(e)=>{
-    setPoints(e.target.value)
+    const {name,value}=e.target
+    setValues({
+      ...values,[name]:value
+    })
    }
+   console.log(values)
    async function getToken(){
     try{
         const token= localStorage.getItem('token') // No need to await
@@ -54,7 +62,8 @@ useEffect(()=>{
                     <span>&times;</span>
                   </div>
                 </div>
-                 <input value={points} onChange={handleChange} type='text' placeholder='Enter points'/>
+                 <input  name='points' value={values.points} onChange={handleChange} type='text' placeholder='Enter points'/>
+                 <input name='comment' value={values.comment} onChange={handleChange} type='text' placeholder='Enter comment'/>
                 <div>
                 <button style={{color:'#000'}} onClick={handleReview}>Review</button>
                 </div>

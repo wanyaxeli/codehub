@@ -33,6 +33,7 @@ export default function AttemptedQuizesDisplayer() {
                  rel="noopener noreferrer"
                 >View Project</a>
                  {item.review===true?<p>Points {item.score}</p>:<p>Points:Yet to be reviewed by teacher</p>}
+                 {item.comment!==''?<p>{item.comment}</p>:""}
             </div>
         </div>
             )

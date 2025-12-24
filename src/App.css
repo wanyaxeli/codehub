@@ -2239,13 +2239,16 @@ body{
 }
 .AlertPOPUp{
   width: 30%;
-  height: 30%;
+  height: 35%;
   background-color: #fff;
   border-radius: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+.ReviewPopWrapper input {
+  margin-bottom: 20px;
 }
 .AlertPOPUp p{
   font-size: 1.1rem;
