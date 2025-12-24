@@ -2247,6 +2247,12 @@ body{
   align-items: center;
   flex-direction: column;
 }
+.AttemptedQuizesContentWrapper p:last-child::first-letter{
+   text-transform: capitalize;
+}
+.AttemptedQuizesContentWrapper{
+  overflow-y: scroll;
+}
 .ReviewPopWrapper input {
   margin-bottom: 20px;
 }
