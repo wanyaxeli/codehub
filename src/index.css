@@ -1,3 +1,9 @@
+@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -6,13 +12,46 @@
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
+  --background: oklch(0.98 0.01 240);
+  --foreground: rgb(4, 12, 19);
+  --card: rgb(255, 255, 255);
+  --card-foreground: oklch(0.15 0.02 240);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.15 0.02 240);
+  --primary: rgb(0, 34, 140);
+  --primary-foreground: oklch(0.98 0 0);
+  --secondary: oklch(0.95 0.01 240);
+  --secondary-foreground: oklch(0.32 0.18 260);
+  --muted: oklch(0.92 0.01 240);
+  --muted-foreground: oklch(0.52 0.01 240);
+  --accent: rgb(135, 138, 248);
+  --accent-foreground: oklch(0.98 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.577 0.245 27.325);
+  --border: rgb(223, 230, 235);
+  --input: oklch(0.92 0.01 240);
+  --ring: oklch(0.32 0.18 260);
+  --chart-1: oklch(0.32 0.18 260);
+  --chart-2: oklch(0.68 0.16 280);
+  --chart-3: oklch(0.62 0.15 265);
+  --chart-4: oklch(0.45 0.12 250);
+  --chart-5: oklch(0.55 0.14 275);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.98 0 0);
+  --sidebar-foreground: oklch(0.15 0.02 240);
+  --sidebar-primary: oklch(0.32 0.18 260);
+  --sidebar-primary-foreground: oklch(0.98 0 0);
+  --sidebar-accent: oklch(0.95 0.01 240);
+  --sidebar-accent-foreground: oklch(0.32 0.18 260);
+  --sidebar-border: oklch(0.92 0.01 240);
+  --sidebar-ring: oklch(0.32 0.18 260);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-*{
+*{  
   margin: 0;
   padding: 0;
   box-sizing: border-box;

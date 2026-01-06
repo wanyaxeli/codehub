@@ -3861,15 +3861,165 @@ a:hover{
 .studentBtn{
   margin-right: 20px;
 }
-.PrivacyPolicyWrapper{
+
+.nav-link {
+  color: rgb(0, 34, 140);
+  transition: color 150ms ease;
+}
+
+.nav-link:hover {
+  color: rgb(135, 138, 248);
+}
+
+.privacy-hero {
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 34, 140, 0.05),
+    rgb(232, 242, 251)
+  );
+  padding: 3rem 0;
+}
+
+@media (min-width: 768px) {
+  .privacy-hero {
+    padding: 5rem 0;
+  }
+}
+
+.privacy-container {
+  max-width: 64rem; /* 1024px */
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .privacy-container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .privacy-container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+.privacy-header{
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.privacy-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: rgb(4, 12, 19);
+  margin-bottom: 1rem;
+  text-wrap: balance;
+}
+
+.paddingfour{
+  padding:1rem
+}
+
+.mb-one{
+  margin-bottom: 0.25rem;
+}
+
+
+.nav-cont{
+  margin-bottom: 3rem;
+  padding:1.5rem;
+}
+
+.nav-title{
+  margin-bottom: 1rem;
+}
+.marginbottom-two{
+  margin-bottom: 0.5rem;
+}
+.privacy-sections{
+  margin-bottom: 3rem;
+}
+
+.privacy-parentalconsent{
+  margin-bottom: 3rem;
+  padding: 1.5rem;
+}
+.privacy-content{
+  padding:3rem 0;
+}
+
+.privacy-ul{
+  margin-left:1rem;
+}
+.privacy-bullets{
+  margin-right:0.75rem;
+  color:  var(--accent);
+}
+.privacy-infocollect-description{
+  margin-bottom:1.5rem;
+}
+
+.privacy-infocollect-container{
+  padding:1.5rem;
+}
+
+.privacy-infocollect-title{
+  margin-bottom:0.75rem;
+}
+.privacy-margintop{
+  margin-top: 1rem;
+}
+
+
+.privacy-contactsection{
+  margin-bottom: 3rem;
+  padding:2rem;
+}
+
+@media (min-width: 768px) {
+  .privacy-title {
+    font-size: 3rem;
+  }
+
+  .privacy-content {
+    padding: 4rem 0
+    
+  }
+}
+
+.info-item {
+  border-left-width: 4px;
+  border-left-style: solid;
+  border-left-color: var(--accent); 
+  padding-left: 1rem; /* pl-4 */
+  padding-top: 0.5rem; /* py-2 */
+  padding-bottom: 0.5rem;
+}
+
+
+/* .privacy-infowrapper{
+  display:flex;
+  flex-direction: column;
+  gap:1.5rem
+  
+} */
+/* .PrivacyPolicyWrapper {
   width: 100%;
-  height: auto;
-}
-.PrivacyPolicyContainer{
-  max-width: 1200px;
-  height: auto;
-  width: 94%;
-}
+
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+} */
+
+/* .PrivacyPolicyContainer{
+  background-color:rgb(232,242,251);
+  flex-grow: 1;
+} */
 .ProjectsContainerUpper{
   padding: 10px;
 }
