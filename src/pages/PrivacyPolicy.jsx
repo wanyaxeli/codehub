@@ -1,10 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import '../index.css'
 import Footer from '../Components/Footer'
 import Header from '../Components/Header'
-
+import Cookies from 'js-cookie'
 
 export default function PrivacyPolicy() {
+  useEffect(()=>{
+    const accepted=Cookies.get("codingscholarCookieConsent")
+    console.log(`cookie accepted...${accepted}`)
+  })
+
   return (
     <div className='min-h-screen flex flex-col '>
       <Header/>
@@ -30,7 +35,7 @@ export default function PrivacyPolicy() {
         <section className="privacy-content">
           <div className="privacy-container">
             {/* Quick Navigation */}
-            <div className="nav-cont bg-[rgb(255,255,255)]  border border-[rgb(223,230,235)] rounded-lg">
+            <div className="nav-cont bg-[rgb(255,255,255)]  border border-[rgb(223,230,235)] rounded-3xl">
               <h2 className="nav-title text-sm font-semibold text-[rgb(0,34,140)]  uppercase tracking-wide">Quick Navigation</h2>
               <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 text-[rgb(0,34,140)] ">
                 {[
@@ -88,7 +93,7 @@ export default function PrivacyPolicy() {
 
               <div className="flex flex-col gap-6">
                 {/* Parents/Guardians */}
-                <div className=" privacy-infocollect-container bg-[rgb(255,255,255)] rounded-lg border border-[rgb(223,230,235)]">
+                <div className=" privacy-infocollect-container bg-[rgb(255,255,255)] rounded-3xl  border border-[rgb(223,230,235)]">
                   <h3 className=" privacy-infocollect-title text-xl font-semibold text-[rgb(4,12,19)] ">3.1 Information from Parents/Guardians</h3>
                   <ul className="privacy-ul flex flex-col gap-2 text-[rgb(100,106,110)]">
                     {[
@@ -107,7 +112,7 @@ export default function PrivacyPolicy() {
                 </div>
 
                 {/* Students */}
-                <div className=" privacy-infocollect-container bg-[rgb(255,255,255)]  rounded-lg border border-[rgb(223,230,235)]">
+                <div className=" privacy-infocollect-container bg-[rgb(255,255,255)]  rounded-3xl border border-[rgb(223,230,235)]">
                   <h3 className=" privacy-infocollect-title text-xl font-semibold text-[rgb(4,12,19)] ">3.2 Information About Students</h3>
                   <ul className="privacy-ul flex flex-col gap-2 ml-4 text-[rgb(100,106,110)]">
                     {[
@@ -128,7 +133,7 @@ export default function PrivacyPolicy() {
                 </div>
 
                 {/* Teachers/Tutors */}
-                <div className="privacy-infocollect-container bg-[rgb(255,255,255)] rounded-lg border border-[rgb(223,230,235)]">
+                <div className="privacy-infocollect-container bg-[rgb(255,255,255)] rounded-3xl border border-[rgb(223,230,235)]">
                   <h3 className="privacy-infocollect-title text-xl font-semibold text-[rgb(4,12,19)] mb-3">3.3 Information from Teachers/Tutors</h3>
                   <ul className=" privacy-ul flex flex-col gap-2 ml-4 text-[rgb(100,106,110)]">
                     {[
@@ -150,7 +155,7 @@ export default function PrivacyPolicy() {
                 </div>
 
                 {/* Automatically Collected */}
-                <div className=" privacy-infocollect-container bg-[rgb(255,255,255)]  p-6 rounded-lg border border-[rgb(223,230,235)]">
+                <div className=" privacy-infocollect-container bg-[rgb(255,255,255)]  p-6 rounded-3xl border border-[rgb(223,230,235)]">
                   <h3 className="privacy-infocollect-title text-xl font-semibold text-[rgb(4,12,19)] mb-3">
                     3.4 Automatically Collected Information
                   </h3>
@@ -173,7 +178,7 @@ export default function PrivacyPolicy() {
             {/* Section 4: How We Use Information */}
             <section id="section-4" className="privacy-sections scroll-mt-20">
               <h2 className="nav-title text-3xl font-bold text-[rgb(4,12,19)] mb-4">4. How We Use Your Information</h2>
-              <div className="privacy-infocollect-container bg-[rgb(0,34,140)]/5 border border-[rgb(0,34,140)]/10 p-6 rounded-lg">
+              <div className="privacy-infocollect-container bg-[rgb(0,34,140)]/5 border border-[rgb(0,34,140)]/10 p-6 rounded-3xl">
                 <ul className="flex flex-col gap-3 text-[rgb(100,106,110)]">
                   {[
                     "Provide and manage online classes",
@@ -195,7 +200,7 @@ export default function PrivacyPolicy() {
             {/* Section 5: Children's Privacy */}
             <section id="section-5" className="privacy-sections scroll-mt-20">
               <h2 className="nav-title text-3xl font-bold text-[rgb(4,12,19)] mb-4">5. Children's Privacy</h2>
-              <div className="privacy-infocollect-container bg-accent/5 border border-accent/10  rounded-lg space-y-4">
+              <div className="privacy-infocollect-container bg-accent/5 border border-accent/10  rounded-3xl space-y-4">
                 <p className="privacy-infocollect-description text-[rgb(100,106,110)]">
                   At Coding Scholar, protecting children's privacy is our highest priority. Here's what you should know:
                 </p>
@@ -229,7 +234,7 @@ export default function PrivacyPolicy() {
                   { title: "Technology Providers", desc: "Video conferencing and learning platforms" },
                   { title: "Legal Authorities", desc: "Only when required by law" },
                 ].map((partner, idx) => (
-                  <div key={idx} className="paddingfour bg-[rgb(255,255,255)]  p-4 rounded-lg border border-[rgb(223,230,235)]">
+                  <div key={idx} className="paddingfour bg-[rgb(255,255,255)]  p-4 rounded-xl border border-[rgb(223,230,235)]">
                     <h4 className=" mb-one font-semibold text-[rgb(4,12,19)] mb-1">{partner.title}</h4>
                     <p className="text-sm text-[rgb(100,106,110)]">{partner.desc}</p>
                   </div>
@@ -253,7 +258,7 @@ export default function PrivacyPolicy() {
                   "Limited access to sensitive student data",
                   "Regular security audits and compliance checks",
                 ].map((measure, idx) => (
-                  <div key={idx} className=" paddingfour flex items-start bg-[rgb(255,255,255)]  p-4 rounded-lg border border-[rgb(223,230,235)]">
+                  <div key={idx} className=" paddingfour flex items-start bg-[rgb(255,255,255)]  p-4 rounded-xl border border-[rgb(223,230,235)]">
                     <span className="privacy-bullets text-[rgb(0,34,140)] mr-3 font-bold">✓</span>
                     <span className="text-[rgb(100,106,110)]">{measure}</span>
                   </div>
@@ -288,7 +293,7 @@ export default function PrivacyPolicy() {
             </section>
 
             {/* Section 9: Contact Information */}
-            <section id="section-9" className=" privacy-contactsection mb-12 scroll-mt-20 bg-[rgb(255,255,255)]  p-8 rounded-lg border border-[rgb(223,230,235)]">
+            <section id="section-9" className=" privacy-contactsection mb-12 scroll-mt-20 bg-[rgb(255,255,255)]  p-8 rounded-3xl border border-[rgb(223,230,235)]">
               <h2 className="privacy-infocollect-description text-3xl font-bold text-[rgb(4,12,19)] mb-6">9. Contact Us</h2>
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
@@ -297,7 +302,7 @@ export default function PrivacyPolicy() {
                     Have questions about our privacy practices? We're here to help.
                   </p>
                 </div>
-                <div className="space-y-3">
+                <div className="flex flex-col gap-3 ">
                   <div>
                     <p className="text-xs font-semibold text-[rgb(100,106,110)] uppercase tracking-wide">Email</p>
                     <a
@@ -337,7 +342,7 @@ export default function PrivacyPolicy() {
             {/* Section 11: Parental Consent */}
             <section
               id="section-11"
-              className="privacy-parentalconsent mb-12 scroll-mt-20 bg-[rgb(0,34,140)]/5 border border-[rgb(0, 34, 140)]/10 p-6 rounded-lg"
+              className="privacy-parentalconsent mb-12 scroll-mt-20 bg-[rgb(0,34,140)]/5 border border-[rgb(0, 34, 140)]/10 p-6 rounded-3xl"
             >
               <h2 className="nav-title text-3xl font-bold text-[rgb(4,12,19)] mb-4">11. Parental Consent</h2>
               <p className="text-[rgb(100,106,110)]">

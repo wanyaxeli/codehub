@@ -62,7 +62,9 @@ export default function Banner() {
   // getToken()
   // },[])
   return (
-    <div className='bannerWrapper'>
+    <div className='bannerWrapper'
+    // style={{backgroundImage:`url(${pic})`}}
+    >
         <div className='bannerContainer'>
           <div className='bannerDetailsWrapper'>
             <div className='sharedStyles introWrapper'>
