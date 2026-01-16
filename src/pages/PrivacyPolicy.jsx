@@ -6,8 +6,9 @@ import Cookies from 'js-cookie'
 
 export default function PrivacyPolicy() {
   useEffect(()=>{
+    const PROJECT_ID=import.meta.env.VITE_CLARITY_PROJECT_ID
     const accepted=Cookies.get("codingscholarCookieConsent")
-    console.log(`cookie accepted...${accepted}`)
+    console.log(`cookie accepted...${PROJECT_ID}`)
   })
 
   return (
