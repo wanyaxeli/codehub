@@ -3906,6 +3906,10 @@ a:hover{
   }
 }
 
+.fa-quote-left{
+  color:rgb(37,165,189)
+}
+
 .privacy-container {
   max-width: 64rem; /* 1024px */
   margin-left: auto;
@@ -3931,6 +3935,10 @@ a:hover{
 .privacy-header{
   text-align: center;
   margin-bottom: 2rem;
+}
+
+.commentpadding{
+  padding: 0.25rem;
 }
 
 .privacy-title {

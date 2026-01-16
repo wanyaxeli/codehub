@@ -8,7 +8,7 @@ export default function Courses() {
   return (
     <div className='CoursesWrapper'>
         <div className='CoursesContainer'>
-          <h3>Choose a coding course that excites your child</h3>
+          <h3 className='font-bold'>Choose a coding course that excites your child</h3>
           <div className='courseCardContainer'>
                     <div  className='courseCard'>
                      <div className='headerforCourse'>

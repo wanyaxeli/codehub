@@ -92,10 +92,10 @@ export default function Login() {
             <div className='studentComment'>
                 <div className='innerstudentComment'>
                     <div className='quoteHolder'>
-                        <p></p>
+                        <i  className="fa fa-quote-left" aria-hidden="true"></i>
                     </div>
                     <div className='studentQuote'> 
-                    <p>I’m still on my learning journey with <strong>codingscholar</strong>, but I can already see how much I’ve grown thanks to the structure, clarity, and dedication my teacher brings to every session.</p>
+                    <p className='commentpadding'>I’m still on my learning journey with <strong>codingscholar</strong>, but I can already see how much I’ve grown thanks to the structure, clarity, and dedication my teacher brings to every session.</p>
                     </div>
                     <div className='studentPicholder'>
                         <div className='studentPic'>

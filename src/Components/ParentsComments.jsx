@@ -65,7 +65,7 @@ export default function ParentsComments() {
   return (
     <div className='parentsComments'>
         <div className='parentsCommentsHolder'>
-             <h3>Students and parents love codingscholar’s training program and curriculum</h3>
+             <h3 className='font-bold'>Students and parents love codingscholar’s training program and curriculum</h3>
              <div >
              <Slider {...settings} className='parentsCommentsContainer'>
              {comments.map((item,i)=>{
@@ -81,8 +81,8 @@ export default function ParentsComments() {
                      </div>
                    </div>
                    <div className='commentHolder'>
-                   <h4>{item.name}</h4>
-                    <p>{item.comment}</p>
+                   {/* <h4>{item.name}</h4> */}
+                    <div> <i  className="fa fa-quote-left" aria-hidden="true"></i> <p className='commentpadding'> {item.comment} </p></div>
                    </div>
                    <div className='ParantsLocationHolder'>
                    <i className="fa fa-map-marker" aria-hidden="true"></i>
@@ -111,7 +111,8 @@ export default function ParentsComments() {
                      </div>
                    </div>
                    <div className='commentHolder'>
-                   <h4>{item.name}</h4>
+                   {/* <h4>{item.name}</h4> */}
+                    <div> <i  className="fa fa-quote-left" aria-hidden="true"></i> <p className='commentpadding'> {item.comment} </p></div>
                     <p>{item.comment}</p>
                    </div>
                    <div className='ParantsLocationHolder'>
@@ -141,7 +142,8 @@ export default function ParentsComments() {
                      </div>
                    </div>
                    <div className='commentHolder'>
-                   <h4>{item.name}</h4>
+                   {/* <h4>{item.name}</h4> */}
+                    <div> <i  className="fa fa-quote-left" aria-hidden="true"></i> <p className='commentpadding'> {item.comment} </p></div>
                     <p>{item.comment}</p>
                    </div>
                    <div className='ParantsLocationHolder'>
