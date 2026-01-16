@@ -4,13 +4,18 @@ import './App.css'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { jwtDecode } from 'jwt-decode'
+import useClarityPageView from './Components/UseclarityPageView'
 
 export const context = createContext()
+
 
 //  lazy-load AppRoutes
 const AppRoutes = lazy(() => import('./Components/AppRoutes'))
 
 function App() {
+
+  useClarityPageView();
+
   const [value, setValue] = useState('')
   const [grade, setGrade] = useState('')
   const [email, setEmail] = useState('')

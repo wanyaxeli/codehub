@@ -16,6 +16,9 @@ export default defineConfig({
       brotliSize: true,
     }),
   ],
+  server:{
+    allowedHosts:["untawed-overheady-tony.ngrok-free.dev"]
+  },
   define: {
     global: "window",
   },

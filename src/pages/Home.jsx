@@ -37,7 +37,7 @@ export default function Home() {
   declineButtonText="Decline"
   cookieName="codingscholarCookieConsent"
   style={{ background: "#455053" }}
-  buttonStyle={{ color: "#a59393", fontSize: "13px" }}
+  buttonStyle={{ color: "#f1efef", fontSize: "13px",backgroundColor:"rgb(0,151,178)" }}
   declineButtonStyle={{ color: "#fff", fontSize: "13px", background: "#555" }}
   enableDeclineButton
   // expires={150}
