@@ -270,7 +270,9 @@
 }
 .loginInputWrapper  .LoginCountryCodeWrapper input {
   width: 100%;
+  border: 2px solid #0097b2;
 }
+
 .countCodeHolder{
   width: 50px;
   height: 50px;
@@ -785,6 +787,7 @@
 .InnerRegisterFormWrapper h4{
   padding: 10px 0;
 }
+
 .formInputWrapper{
   /* display: flex;
   align-items: center; */
@@ -979,6 +982,7 @@
   outline: none;
   border-radius: 10px;
   padding: 0 10px;
+  border: 2px solid #0097b2;
 }
 .loginInputWrapper .signUpInput{
   width: 100%;
@@ -988,6 +992,9 @@
   padding:15px 20px;
   
 }
+/* .loginInputWrapper input{
+  border: 1px solid #0097b2;
+} */
 .InnerSignWrapper h3{
   margin-bottom: 15px;
   font-size: 1.4rem;
@@ -1584,6 +1591,7 @@ body{
   cursor: pointer;
   color: #000;
 }
+.loginInputWrapper
 .classHeaderBtnwrapper ul li:hover{
   border-radius: 5px;
   background-color: #0097b2;
@@ -1757,6 +1765,7 @@ body{
   color: #000;
   text-transform: capitalize;
 }
+
 .mainClassBtnActionHolder{
   max-width: 1200px;
   width: 94%;
@@ -1827,6 +1836,7 @@ body{
   display: flex;
   gap: 20px;
 }
+
 .TodayClassContainer{
   width: 35%;
   height: auto;
@@ -2479,6 +2489,7 @@ body{
  border-radius: 10px;
  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
+
 .classesShowWrapper{
   height: auto;
   width: 100%;
