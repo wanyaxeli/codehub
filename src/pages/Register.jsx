@@ -196,7 +196,7 @@ export default function Register() {
                  <div className='registerPromptWrapper'>
                     <p><span><i className="fa fa-pencil" aria-hidden="true"></i></span> Register now, grab your free slot for coding class on our platform!</p>
                  </div>
-                 <div>
+                 <div className='registerPolicyWrapper'>
                     {/* <p>By signing up, you agree to the Terms of Service and Privacy Policy. You also agree that you have parental consent. Important updates will be sent via email, SMS & WhatsApp, and class reminders will be sent via call.</p> */}
                     <p>By signing up, you agree to the Terms of Service and Privacy Policy, and confirm that you have parental or guardian consent where applicable. Notifications may be sent via email, SMS, WhatsApp, or phone calls for class reminders and important updates.</p>
                   </div>
