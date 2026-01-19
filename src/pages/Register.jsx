@@ -118,9 +118,12 @@ export default function Register() {
                 <div className='registerLogoWRapper'></div>
                 <div className='studentComment'>
                     <div className='innerstudentComment'>
-                        <div className='quoteHolder'>
+                        {/* <div className='quoteHolder'>
                             <p></p>
-                        </div>
+                        </div> */}
+                        <div className='quoteHolder'>
+                        <i  className="fa fa-quote-left" aria-hidden="true"></i>
+                    </div>
                         <div className='studentQuote'> 
                         <p>I’m still on my learning journey with <strong>codingscholar</strong>, but I can already see how much I’ve grown thanks to the structure, clarity, and dedication my teacher brings to every session.</p>
                         </div>
