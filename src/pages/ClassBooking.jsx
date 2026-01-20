@@ -17,6 +17,10 @@ import { useEffect } from 'react';
     const [todayActive,setTodayActive]=useState('')
     const [tomorrowActive,settomorrowActive]=useState('')
     const [otherdayActive,setotherdayActive]=useState('')
+    const [fourthActive,setfourthActive]=useState('')
+    const [fifthActive,setfifthActive]=useState('')
+    const [sixActive,setSixActive]=useState('')
+    const [sevenActive,setSevenActive]=useState('')
     const [fetchloading,setfetchloading]=useState(true)
     const [availability,setAvailability]=useState([])
     const [pickedTime,setPickedTime]=useState([])
@@ -65,7 +69,14 @@ import { useEffect } from 'react';
   
     const dayAfterTomorrow = new Date();
     dayAfterTomorrow.setDate(today.getDate() + 2);
-  
+    const fourthDay = new Date();
+    fourthDay.setDate(today.getDate() + 3);
+    const fifthDay = new Date();
+    fifthDay.setDate(today.getDate() + 4);
+    const sixthDay = new Date();
+    sixthDay.setDate(today.getDate() + 5);
+    const seventhDay = new Date();
+    seventhDay.setDate(today.getDate() + 6);
     // Format as readable string (e.g., "Wednesday, July 16, 2025")
     const formatDate = (date) => {
       return date.toLocaleDateString('en-US', {
@@ -75,9 +86,20 @@ import { useEffect } from 'react';
         day: 'numeric',
       });
     };
-    const formatDateString = (date) => date.toISOString().split('T')[0];
+    // const formatDateString = (date) => date.toISOString().split('T')[0];
+    const formatDateString = (date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+      
+        return `${year}-${month}-${day}`;
+      };
     const tomorrowStr = formatDateString(tomorrow);
     const dayAfterStr = formatDateString(dayAfterTomorrow);
+    const fourthDayStr = formatDateString(fourthDay);
+    const fifthDayStr = formatDateString(fifthDay);
+    const sixDayStr = formatDateString(sixthDay);
+    const sevenDayStr = formatDateString(seventhDay);
     const handleShowBookingforTomorrow=(id)=>{
         setAvailability([])
         // GetAvailabeBookingTime()
@@ -104,17 +126,71 @@ import { useEffect } from 'react';
         })
     }
     const handleShowBookingforOtherDay=(id)=>{
+        // const data=[{id:3,day:dayAfterStr},{id:4,day:fourthDayStr},{id:5,day:fifthDayStr}]
         setAvailability([])
         // GetAvailabeBookingTime()
         setActive({id:id})
         // setAvailability([])
-        const filtered = data.filter(item => item.date === dayAfterStr);
+        const filtered = data.filter(item => item.date ===dayAfterStr );
         filtered.forEach(item=>{
         const timeZoneTime=formatToLocalTime(item.datetime_utc)
         setAvailability(pre=>([...pre,{...item,...{timeZoneTime:timeZoneTime}}]))
         
         })
     }
+    const handleShowBookingforFourthDay =(id)=>{
+        setAvailability([])
+        // GetAvailabeBookingTime()
+        setActive({id:id})
+        // setAvailability([])
+        const filtered = data.filter(item => item.date ===fourthDayStr );
+        filtered.forEach(item=>{
+        const timeZoneTime=formatToLocalTime(item.datetime_utc)
+        setAvailability(pre=>([...pre,{...item,...{timeZoneTime:timeZoneTime}}]))
+        
+        })
+    }
+    const handleShowBookingforFifthDay =(id)=>{
+        // const data=[{id:3,day:dayAfterStr},{id:4,day:fourthDayStr},{id:5,day:fifthDayStr}]
+        setAvailability([])
+        // GetAvailabeBookingTime()
+        setActive({id:id})
+        console.log('a',active)
+        // setAvailability([])
+        const filtered = data.filter(item => item.date ===fifthDayStr );
+        filtered.forEach(item=>{
+        const timeZoneTime=formatToLocalTime(item.datetime_utc)
+        setAvailability(pre=>([...pre,{...item,...{timeZoneTime:timeZoneTime}}]))
+        
+        })
+    }
+    const handleShowBookingforSixDay =(id)=>{
+    // const data=[{id:3,day:dayAfterStr},{id:4,day:fourthDayStr},{id:5,day:fifthDayStr}]
+    setAvailability([])
+    // GetAvailabeBookingTime()
+    setActive({id:id})
+    // setAvailability([])
+    const filtered = data.filter(item => item.date ===sixDayStr );
+    filtered.forEach(item=>{
+    const timeZoneTime=formatToLocalTime(item.datetime_utc)
+    setAvailability(pre=>([...pre,{...item,...{timeZoneTime:timeZoneTime}}]))
+    
+    })
+}
+const handleShowBookingforSevenDay =(id)=>{
+   // const data=[{id:3,day:dayAfterStr},{id:4,day:fourthDayStr},{id:5,day:fifthDayStr}]
+   setAvailability([])
+   // GetAvailabeBookingTime()
+   setActive({id:id})
+   console.log('a',active)
+   // setAvailability([])
+   const filtered = data.filter(item => item.date ===sevenDayStr );
+   filtered.forEach(item=>{
+   const timeZoneTime=formatToLocalTime(item.datetime_utc)
+   setAvailability(pre=>([...pre,{...item,...{timeZoneTime:timeZoneTime}}]))
+   
+   })
+}
     const handleBook=()=>{
         const uniqueId = uuidv4();
         const BookingName = `freeTrial${uniqueId}`
@@ -156,16 +232,64 @@ import { useEffect } from 'react';
         setTodayActive('activeDay')
         settomorrowActive('')
         setotherdayActive('')
+        setfourthActive('')
+        setfifthActive('')
+        setSevenActive('')
+        setSixActive('')
     }
     else if(active.id===2){
         settomorrowActive('activeDay')
         setTodayActive('')
         setotherdayActive('')
+        setfourthActive('')
+        setfifthActive('')
+        setSevenActive('')
+        setSixActive('')
     }
     else if(active.id===3){
         settomorrowActive('')
         setTodayActive('')
         setotherdayActive('activeDay')
+        setfourthActive('')
+        setfifthActive('')
+        setSevenActive('')
+        setSixActive('')
+    }
+    else if(active.id===4){
+        settomorrowActive('')
+        setTodayActive('')
+        setotherdayActive('')
+        setfourthActive('activeDay')
+        setfifthActive('')
+        setSevenActive('')
+        setSixActive('')
+    }
+    else if(active.id===5){
+        settomorrowActive('')
+        setTodayActive('')
+        setotherdayActive('')
+        setfourthActive('')
+        setfifthActive('activeDay')
+        setSevenActive('')
+        setSixActive('')
+    }
+    else if(active.id===6){
+        settomorrowActive('')
+        setTodayActive('')
+        setotherdayActive('')
+        setfourthActive('')
+        setfifthActive('')
+        setSevenActive('')
+        setSixActive('activeDay')
+    }
+    else if(active.id===7){
+        settomorrowActive('')
+        setTodayActive('')
+        setotherdayActive('')
+        setfourthActive('')
+        setfifthActive('')
+        setSevenActive('activeDay')
+        setSixActive('')
     }
     },[active])
   return (
@@ -225,6 +349,10 @@ import { useEffect } from 'react';
                             <li onClick={()=>handleToBooking(1)} className={todayActive}>today</li>
                             <li className={tomorrowActive} onClick={()=>handleShowBookingforTomorrow(2)}>{formatDate(tomorrow)}</li>
                             <li className={otherdayActive} onClick={()=>handleShowBookingforOtherDay(3)}>{formatDate(dayAfterTomorrow)}</li>
+                            <li className={fourthActive} onClick={()=>handleShowBookingforFourthDay(4)}>{formatDate(fourthDay)}</li>
+                            <li className={fifthActive} onClick={()=>handleShowBookingforFifthDay(5)}>{formatDate(fifthDay)}</li>
+                            <li className={sixActive} onClick={()=>handleShowBookingforSixDay(6)}>{formatDate(sixthDay)}</li>
+                            <li className={sevenActive} onClick={()=>handleShowBookingforSevenDay(7)}>{formatDate(seventhDay)}</li>
                         </ul>
                     </div>
                     <p>Select  time </p>

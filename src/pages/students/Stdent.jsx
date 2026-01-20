@@ -186,6 +186,9 @@ export default function Stdent() {
     // Return UTC version
     return now.toISOString(); // Or use now.toUTCString() if you prefer
   }
+  const handleToScheduleClasses =()=>{
+    navigate('/teacher/dashboard/class schedule')
+  }
   const handleLessonNumber =(e)=>{
   setLessonNumber(e.target.value)
   }
@@ -278,6 +281,7 @@ export default function Stdent() {
              <div className='SpecialClasses' onClick={handleToMath}>math</div>
              <div className='SpecialClasses' onClick={handleToClassGroup}>class group</div>
              <div className='SpecialClasses' onClick={handleTocert}>certificate</div>
+             <div className='SpecialClasses' onClick={handleToScheduleClasses}>schedule classes</div>
            </div>
         </div>
     </div>

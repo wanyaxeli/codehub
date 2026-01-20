@@ -128,7 +128,8 @@ export default function StudentDetails() {
    }
  }
   const generatePDF = () => {
-   if(cert.length >0 && student){
+    console.log('cert',cert)
+   if(cert !=='Student not found' && cert.length >0 && student){
     cert.forEach(item=>{
         const name =`${student.user.first_name} ${student.user.last_name}`
         const doc = new jsPDF({

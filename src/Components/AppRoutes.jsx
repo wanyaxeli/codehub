@@ -1,10 +1,12 @@
 import React, { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
+// import ScheduleClasses from "../pages/students/ScheduleClasses.jsx";
 // import AttemptedQuizesDisplayer from "../pages/students/AttemptedQuizesDisplayer.jsx";
 // import QuizDispplayer from "../pages/students/QuizDispplayer.jsx";
 import ProtectedLayout from "./ProtectedRoute.jsx";
 
 //  Lazy-load all heavy pages
+// import ScheduleClasses from "../pages/students/ScheduleClasses.jsx";
 const Home = lazy(() => import("../pages/Home.jsx"));
 const AttemptedQuizesDisplayer = lazy(() => import("../pages/students/AttemptedQuizesDisplayer.jsx"));
 const QuizDispplayer = lazy(() => import("../pages/students/QuizDispplayer.jsx"));
@@ -18,7 +20,7 @@ const SignUp = lazy(() => import("../pages/SignUp.jsx"));
 const StudentSignUp = lazy(() => import("../pages/StudentSignUp.jsx"));
 const WhyUs = lazy(() => import("../pages/WhyUs.jsx"));
 const ErrorPage = lazy(() => import("../pages/Error.jsx"));
-
+const ClassSchedule = lazy(() => import("../pages/students/ScheduleClasses.jsx"));
 //  Teacher dashboard
 const Teacher = lazy(() => import("../pages/Teacher.jsx"));
 const Dashboard = lazy(() => import("../pages/Dashboard.jsx"));
@@ -96,6 +98,7 @@ export default function AppRoutes() {
           <Route path="/teacher" element={<Teacher />} />
           <Route path="/teacher/dashboard" element={<Dashboard />}>
             <Route index element={<Details />} />
+            <Route path="class schedule" element={<ClassSchedule />} />
             <Route path="Details" element={<Details />} />
             <Route path="Booking Manager" element={<BookingsManager />} />
             <Route path="Calendar" element={<Calendar />} />
