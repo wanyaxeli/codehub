@@ -2877,6 +2877,9 @@ video{
 .bookingDateWrapper ul li{
   font-size: .8rem;
 }
+.bookingTimeWrapper span{
+  font-size: .8rem;
+}
 .bookingTimeWrapper{
   display: flex;
   align-items: center;
