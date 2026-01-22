@@ -2,6 +2,7 @@ import React,{useState,useEffect} from 'react'
 import pic from '../../assets/hubImage.png'
 import { useLocation,useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import ScheduleClasses from './ScheduleClasses'
 export default function Stdent() {
   const initialState={grade:'',teacher:'',module:""}
   const FeesinitialState={amount:'',amountPerClass:''}
@@ -187,12 +188,11 @@ export default function Stdent() {
     return now.toISOString(); // Or use now.toUTCString() if you prefer
   }
   const handleToScheduleClasses =()=>{
-    navigate('/teacher/dashboard/class schedule')
+    navigate('/teacher/dashboard/class schedule',{state:studentId})
   }
   const handleLessonNumber =(e)=>{
   setLessonNumber(e.target.value)
   }
-  console.log('n',lessonNumber)
   return (
     <div className='StudentWrapper'>
         <div className='studentDetailsWrapper'>
@@ -253,7 +253,7 @@ export default function Stdent() {
               <button onClick={handleSubmitLessonAttendance}>submit</button>
             </div>
         </div> */}
-        <div className="studentDetails">
+        {/* <div className="studentDetails">
         <h3>lesson attendance</h3>
        <div className='dayspickedWrapper'>
        {daysOfWeek.map(day => (
@@ -274,14 +274,15 @@ export default function Stdent() {
         <div className='StdBtnWrapper'>
               <button onClick={handleSubmitLessonAttendance}>submit</button>
         </div>
-        </div>
+        </div> */}
+        <ScheduleClasses studentId={studentId}/>
         <div className="studentDetails">
           <h3>Special Classes</h3>
            <div className='SpecialClassesWrapper'>
              <div className='SpecialClasses' onClick={handleToMath}>math</div>
              <div className='SpecialClasses' onClick={handleToClassGroup}>class group</div>
              <div className='SpecialClasses' onClick={handleTocert}>certificate</div>
-             <div className='SpecialClasses' onClick={handleToScheduleClasses}>schedule classes</div>
+             {/* <div className='SpecialClasses' onClick={handleToScheduleClasses}>schedule classes</div> */}
            </div>
         </div>
     </div>

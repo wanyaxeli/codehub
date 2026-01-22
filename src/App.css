@@ -495,9 +495,13 @@
   width: 100%;
   height: auto;
   padding: 10px;
+  background-color: #fff;
+  margin-top: 20px;
+  border-radius: 10px;
+  margin-bottom: 10px;
 }
 .ScheduleClassesDaysWrapper  input{
-  width: 30%;
+  width: 48%;
   height: 50px;
   border: 2px solid #0097b2;
   border-radius: 10px;
@@ -526,10 +530,18 @@
   border-radius: 10px;
   cursor: pointer;
 }
+.ScheduleClassesDaysBtnWrapper button:first-child{
+  margin-right: 20px;
+}
+.ScheduleClassesDaysBtnWrapper button:hover{
+  background-color: transparent;
+  border: 2px solid #0097b2;
+  color: #000;
+}
 .daysDisplayer{
   width: 70%;
   height: auto;
-  background-color: #fff;
+  background-color: #e8e8ee;
   border-radius: 10px;
   padding: 10px;
   margin: 10px auto;

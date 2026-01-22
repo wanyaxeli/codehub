@@ -1,6 +1,7 @@
 import React,{useState,useEffect} from 'react'
 import { useLocation } from 'react-router-dom'
 import axios from 'axios'
+import ScheduleClasses from './ScheduleClasses'
 export default function SpecialClasses() {
     const initialState= {grade:'',teacher:'',module:""}
    const [values,setValues]=useState(initialState)
@@ -107,7 +108,8 @@ export default function SpecialClasses() {
               <button onClick={handleSubmitLessonAttendance}>submit</button>
             </div>
         </div> */}
-        <div className="studentDetails">
+        <ScheduleClasses studentId={studentId}/>
+        {/* <div className="studentDetails">
           <h3>lesson attendance</h3>
           <div className='dayspickedWrapper'>
               {daysOfWeek.map(day => (
@@ -128,7 +130,7 @@ export default function SpecialClasses() {
           <div className='StdBtnWrapper'>
                   <button onClick={handleSubmitLessonAttendance}>submit</button>
           </div>
-        </div>
+        </div> */}
       {/* <div className='specialContainer'>
         <span>Teacher's Name</span><br/>
         <input name='name' onChange={handleChange} value={values.name} type='text' placeholder='Full Name ...'></input><br/>
