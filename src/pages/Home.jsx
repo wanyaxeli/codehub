@@ -12,9 +12,9 @@ import ParentsComments from '../Components/ParentsComments'
 import { Helmet } from 'react-helmet-async';
 export default function Home() {
 
-  useEffect(()=>{
-    Cookies.remove("codingscholarCookieConsent")
-  })
+  // useEffect(()=>{
+  //   Cookies.remove("codingscholarCookieConsent")
+  // })
 
   return (
    <div className='HomeWrapper'>
@@ -40,8 +40,8 @@ export default function Home() {
   buttonStyle={{ color: "#f1efef", fontSize: "13px",backgroundColor:"rgb(0,151,178)" }}
   declineButtonStyle={{ color: "#fff", fontSize: "13px", background: "#555" }}
   enableDeclineButton
-  // expires={150}
-  debug={true}
+  expires={150}
+  // debug={true}
   onAccept={() => {
     console.log("User accepted cookies");
     // You can do other actions here, like analytics opt-in
