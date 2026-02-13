@@ -2675,6 +2675,11 @@ body{
   outline: none;
   border: none;
   padding: 0 10px;
+  border: 2px solid #0097b2;
+}
+.custom-file-upload{
+  border: 2px solid #0097b2;
+  background-color: transparent;
 }
 /* .CreatLessonsContainer input:last-child{
   background-color: #fff;

@@ -40,16 +40,27 @@ export default function TeacherClassDetails() {
           localStorage.setItem('earning', seeEarning);
         }
       }
-    const handleToJoinClass=(les,student,id,time)=>{
+    const handleToJoinClass=(les,student,Lessonid,time)=>{
         todayClass.forEach(item=>{
             if(item.is_completed===false){
-            const navID=`${les.student.id}${id}`
-            const studentUserId=les.student.user.id
-            const title=les.lesson.title 
-            const url=les.lesson.pdf_notes  
-            const notes={title:title,url:url}
-            console.log(studentUserId) 
-            navigate(`/class/${navID}`, { state: { id,classType:'NormalClass',studentName, time,student,studentUserId,notes,studentDetails,studentPic} });
+                if(les.group_class){
+                    console.log(les)
+                    const title=les.lesson.title 
+                    const id=`${les.group_class.group_name}-${Lessonid}`
+                    const url=les.lesson.pdf_notes 
+                    const notes={title:title,url:url}
+                    const studentUserId=les.student.user.id
+                    navigate(`/class/${id}`, { state: { id,typeOfClass:'group',classType:'NormalClass',studentName, time,student,studentUserId,notes,studentDetails,studentPic} }); 
+                }else{
+                    const studentUserId=les.student.user.id
+                    const title=les.lesson.title 
+                    const url=les.lesson.pdf_notes  
+                    const id=Lessonid
+                    const navID=`${les.student.id}${id}`
+                    const notes={title:title,url:url}
+                    console.log(studentUserId) 
+                    navigate(`/class/${navID}`, { state: { id,typeOfClass:'oneOnone',classType:'NormalClass',studentName, time,student,studentUserId,notes,studentDetails,studentPic} }); 
+                }
             }else{
                 alert('this class is completed')
             }

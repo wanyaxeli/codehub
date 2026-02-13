@@ -102,24 +102,42 @@ import Whereby from '../Components/WhereBy';
 //   </div>
 //   )
 // }
-export default function WherebyClass({ StudentUser_id,code,role,studentName }) {
+export default function WherebyClass({ StudentUser_id,code,role,studentName ,typeOfClass}) {
   // const [roomUrl, setRoomUrl] = useState(null);
   const [roomUrl, setRoomUrl] = useState('');
   const [shouldConnect, setShouldConnect] = useState(false);
   useEffect(() => {
-    if (code && role && StudentUser_id) {
-      axios
-        .post('https://api.codingscholar.com/create_whereby_room/', {
-          class_name: `${StudentUser_id}-${code}`,
-          role: role, 
-        })
-        
-        .then((res) => {
-          console.log('url',res.data)
-          setRoomUrl(res.data.roomUrl);
-          setShouldConnect(true); // mark it's safe to connect
-        })
-        .catch((err) => console.error('Room creation failed:', err));
+    console.log(typeOfClass,code)
+    if(typeOfClass==='oneOnone'){
+      if (code && role && StudentUser_id) {
+        axios
+          .post('https://api.codingscholar.com/create_whereby_room/', {
+            class_name: `${StudentUser_id}-${code}`,
+            role: role, 
+          })
+          
+          .then((res) => {
+            // console.log('url',res.data)
+            setRoomUrl(res.data.roomUrl);
+            setShouldConnect(true); // mark it's safe to connect
+          })
+          .catch((err) => console.error('Room creation failed:', err));
+      }
+    }else if(typeOfClass==='group'){
+      if (code && role) {
+        axios
+          .post('https://api.codingscholar.com/create_whereby_room/', {
+            class_name:code,
+            role: role, 
+          })
+          
+          .then((res) => {
+            // console.log('url',res.data)
+            setRoomUrl(res.data.roomUrl);
+            setShouldConnect(true); // mark it's safe to connect
+          })
+          .catch((err) => console.error('Room creation failed:', err));
+      }
     }
   }, [code,role]);
 

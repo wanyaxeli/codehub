@@ -14,15 +14,18 @@ export default function Calendar() {
     const eventStart = clickInfo.event.start.toISOString().split('.')[0] + 'Z';
     const eventTitle = clickInfo.event.title;
     const studentId=clickInfo.event.extendedProps.studentId
+    const classType=clickInfo.event.extendedProps.classType
     const id = clickInfo.event.id
-    console.log('infor clixk',eventStart)
+    
     // const lesson=data.filter(item=>item.lesson.title===clickInfo.event.title)
     const lesson = data.filter(item =>
       item.lesson.title === eventTitle &&
       item.date_time === eventStart && 
-      item.student.id===studentId 
+      item.student.id===studentId && 
+      item.classType===classType
       // item.is_completed===false
     );
+    console.log('infor clixk',lesson)
     if(lesson.length > 0){
       navigate('/teacher/dashboard/Teacher Class Details',{state:lesson})
     }else{
@@ -43,9 +46,41 @@ export default function Calendar() {
     .then(res=>{
       // console.log('teacher',res.data)
       const data=res.data
-      setData(data)
+      console.log('asda',data)
+      if(data.length > 0){
+        setData(pre=> [...pre,data])
       data.forEach(item=>{
-        console.log('item',item)
+        const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const {title}=item.lesson
+        const studentId=item.student.id
+        const localTime = DateTime.fromISO(item.date_time, { zone: 'utc' })
+                             .setZone(userTimeZone) // or Intl.DateTimeFormat().resolvedOptions().timeZone
+                             .toISO();
+        const newdata={id:item.id,title:title,start:localTime, extendedProps: {
+          studentId: studentId, // this will be available as clickInfo.event.extendedProps.studentId
+        }}
+        setCalendarEvent(pre=>([...pre,newdata]))
+        // console.log('title',newdata)
+      })
+      }
+    })
+    .catch(error=>console.log(error))
+    }
+  }
+  function getTeacherGroupClassSchudule(){
+    if(token){
+    const url =`https://api.codingscholar.com/teacherGroupClass/`
+    axios.get(url,{headers:{
+      'Authorization':`Bearer ${token}`
+    }})
+    .then(res=>{
+      // console.log('teacher',res.data)
+      const data=res.data
+      if(data.length > 0){
+         setData( pre=> [...pre,data])
+      console.log('group item',data)
+      data.forEach(item=>{
+        
         const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
         const {title}=item.lesson
         const studentId=item.student.id
@@ -59,6 +94,7 @@ export default function Calendar() {
         setCalendarEvent(pre=>([...pre,newdata]))
         // console.log('title',newdata)
       })
+      }
     })
     .catch(error=>console.log(error))
     }
@@ -74,9 +110,70 @@ export default function Calendar() {
         console.log(error);
 }
 }
-useEffect(()=>{
-   getTeacherSchudule()
-  },[token])
+function lessonToCalendarEvent(item) {
+  const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  console.log('item',item)
+  const localTime = DateTime
+    .fromISO(item.date_time, { zone: 'utc' })
+    .setZone(userTimeZone)
+    .toISO();
+
+  return {
+    id: `${item.id}`, // prevents collisions
+    title: item.lesson?.title || 'Class',
+    start: localTime,
+    extendedProps: {
+      studentId: item.student?.id ?? null,
+      groupClassId: item.group_class?.id ?? null,
+      type: item.lessontype,
+      classType:item.group_class?'group':'oneOnone',
+    },
+  };
+}
+async function fetchSchedule(url, token) {
+  try {
+    const res = await axios.get(url, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return Array.isArray(res.data) ? res.data : [];
+  } catch (err) {
+    console.error(`Failed to fetch ${url}`, err);
+    return []; // SAFE fallback
+  }
+}
+async function loadTeacherSchedule() {
+  if (!token) return;
+
+  const [
+    oneOnOneLessons,
+    groupLessons,
+  ] = await Promise.all([
+    fetchSchedule('https://api.codingscholar.com/teacherSchedule/', token),
+    fetchSchedule('https://api.codingscholar.com/teacherGroupClass/', token),
+  ]);
+
+  const allLessons = [...oneOnOneLessons, ...groupLessons];
+
+  if (allLessons.length === 0) {
+    setCalendarEvent([]); // empty calendar
+    return;
+  }
+   allLessons.forEach(item=>{
+    const newData={...item,...{classType:item.group_class?'group':'oneOnone'}}
+    setData(pre=>[...pre,newData])
+   })
+  const events = allLessons.map(lessonToCalendarEvent);
+  console.log('aa',allLessons)
+  setCalendarEvent(events);
+}
+useEffect(() => {
+  loadTeacherSchedule();
+}, [token]);
+ console.log('dd',data)
+// useEffect(()=>{
+//    getTeacherSchudule()
+//     getTeacherGroupClassSchudule()
+//   },[token])
 useEffect(()=>{
 getToken()
 },[])

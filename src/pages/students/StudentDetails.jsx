@@ -43,16 +43,20 @@ export default function StudentDetails() {
     const [studentId,setStudentId]=useState('')
     const {student,proPic,getProfilePic}=useContext(context)
     const [profilePic,setProfilePic]=useState('')
-    const handleToJoinClass =(les,id,time,title)=>{
-        const lessonTime = new Date(les.date_time);       // Converts ISO string to Date object
+    const handleToJoinClass =(les,Lessonid,time,title)=>{
+        if(les.group_class){
+            const studentUserId=les.student.user.id
+            const id=`${les.group_class.group_name}-${Lessonid}`
+            navigate(`/class/${id}`,{state:{id,typeOfClass:'group',classType:'NormalClass',time,title,studentUserId } });
+        }else{
+        const lessonTime = new Date(les.date_time);       
         const studentUserId=les.student.user.id
-        const now = new Date();  
-        // if (lessonTime > now) {
+        const now = new Date(); 
+        const id=Lessonid 
         const navID=`${les.student.id}${id}`
-        navigate(`/class/${navID}`,{state:{id,classType:'NormalClass',time,title,studentUserId } });
-        // } else{
-        //     alert('The time ')
-        // }
+         navigate(`/class/${navID}`,{state:{id,typeOfClass:'oneOnone',classType:'NormalClass',time,title,studentUserId } });
+        }
+       
     }
     async function getToken(){
         try{
@@ -83,6 +87,29 @@ export default function StudentDetails() {
     .catch(error=>console.log(error))
    }
  }
+ function GetStudentGroupLessons(){
+    if(studentId && token){
+     const id = studentId
+     const url =`https://api.codingscholar.com/studentGroupLesson/${id}`
+     axios.get(url,{headers:{
+        'Authorization':`Bearer ${token}`
+     }})
+     .then(res=>{
+         const data=res.data
+         if(data.length > 0){
+            data.forEach(lesson=>{
+                const now = new Date(lesson.date_time)
+                const date = now.toLocaleDateString();
+                const time = now.toLocaleTimeString();
+                const newdata={date:date,time:time}
+                setLesson(pre=>([...pre,{...lesson,...newdata}]))
+                
+            })
+         }
+     })
+     .catch(error=>console.log(error))
+    }
+  }
  function UpdateProfilePic(){
     if(token && profilePic){
         const url = 'https://api.codingscholar.com/profilePic/';
@@ -243,6 +270,7 @@ useEffect(()=>{
     },[token,profilePic])
  useEffect(()=>{
   getLessons()
+  GetStudentGroupLessons()
  },[token,studentId])
  useEffect(()=>{
     getProfilePic(token)

@@ -61,6 +61,7 @@ export default function Class() {
     const [RemoteScreenStream, setRemoteScreenStream] = useState('');
     const [StudentId, setStudentId] = useState('');
     const [ClassName, setClassName] = useState('');
+    const [typeOfClass,settypeOfClass]=useState('')
     const [openStudentProfile, setOpenStudentProfile] = useState('closeStudentProfilePopUp');
     const userVideo = useRef();
     const [studentName,setStudentName]=useState('')
@@ -437,10 +438,11 @@ useEffect(() => {
     },[bookingId])
     useEffect(()=>{
         const { state } = location || {}; // Ensure location is not undefined
-        const { id, time ,student,studentPic,title,studentName,studentUserId,classType,notes,studentDetails} = state || {};
+        const { id, time,typeOfClass ,student,studentPic,title,studentName,studentUserId,classType,notes,studentDetails} = state || {};
         if (state && classType==='NormalClass') {
             setCode(id);  // Set the state if it exists
             setStartingTime(time);
+            settypeOfClass(typeOfClass)
             if(notes){
                 setNotes(notes)
             }
@@ -604,7 +606,7 @@ useEffect(() => {
             
         </div>
         <WherebyProvider>
-        <WherebyClass role={role} StudentUser_id={StudentUser_id} code={slug}/>
+        <WherebyClass role={role} StudentUser_id={StudentUser_id} typeOfClass={typeOfClass} code={slug}/>
         </WherebyProvider>
         {openSubmitModal && (
   ClassName && ClassName !== 'undefined' ? (
