@@ -76,7 +76,27 @@ export default function GroupDetails({group,onBack}){
     const saveroom_url=`https://api.codingscholar.com/CreateClassGroupRoomView/${group.id}`
     const studentaddurl=`https://api.codingscholar.com/AddStudentToGroup/${group.id}`
     const scheduleclasses_url =`https://api.codingscholar.com/GroupLessonView/${group.id}`
+    const deletegroup=`https://api.codingscholar.com/DeleteGroupclass/${group.id}`
+    const students_in_group_url=`https://api.codingscholar.com/studentInGroup/${group.id}`
+    const group_lesson_url=`https://api.codingscholar.com/studentGroupLesson/${group.id}`
 
+
+    const fetchgroup_students=async(goten_token)=>{
+      try{
+        const students=await axios.get(students_in_group_url,{
+          headers:{
+            Authorization:`Bearer ${goten_token}`
+          }
+        })
+
+        const group_students=students.data
+        setStudents(group_students)
+        setOriginalstudents(group_students)
+
+      }catch{
+        console.log('error in getting all students in agroup',e)
+      }
+    }
     useEffect(()=>{
       const got_t=localStorage.getItem('token')
       setGot_t(got_t)
@@ -98,7 +118,7 @@ export default function GroupDetails({group,onBack}){
           console.log('error in getting data from the backend', e)
         }
       }
-      
+      fetchgroup_students(got_t)
       fetchData()
     },[])
 
@@ -162,6 +182,7 @@ export default function GroupDetails({group,onBack}){
             await new Promise((resolve) => setTimeout(resolve, 1000));
 
             setOriginalstudents(students)
+            fetchgroup_students(got_t)
             console.log('Student changes saved:', {
              added: addedstudents,
               removed: removedstudents,
@@ -413,14 +434,21 @@ export default function GroupDetails({group,onBack}){
    
   };
 
-  const handleDeleteGroup = () => {
+  const handleDeleteGroup = async() => {
     setShowDeleteConfirmModal(false);
-    const {addedstudents,removedstudents} =getStudentchanges()
-    console.log('new student list ', students)
-    console.log('new original student list ', originalstudents)
-    console.log('new removedstudents ', removedstudents)
-      console.log('new addedstudents ', addedstudents )
-    // onBack();
+    // const {addedstudents,removedstudents} =getStudentchanges()
+    // console.log('new student list ', students)
+    // console.log('new original student list ', originalstudents)
+    // console.log('new removedstudents ', removedstudents)
+    //   console.log('new addedstudents ', addedstudents )
+    const deletinggroup=await axios.delete(deletegroup,{
+      headers:{
+        Authorization:`Bearer ${got_t}`
+      }
+    }) 
+
+    console.log(deletinggroup)
+    onBack();
   };
 
     return(
