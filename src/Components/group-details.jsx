@@ -32,7 +32,7 @@ import AddStudents from "../pages/AddStudents";
 //   { id: '2', name: 'Prof. John Doe', email: 'john@example.com' },
 //   { id: '3', name: 'Ms. Emily Davis', email: 'emily@example.com' },
 // ];
-const weekdays=['Monday', 'Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']
+const weekdays=['monday', 'tuesday','wednesday','thursday','friday','saturday','sunday']
 
 export default function GroupDetails({group,onBack}){
     const [allstudents,setAllStudents]=useState([])
@@ -76,6 +76,7 @@ export default function GroupDetails({group,onBack}){
     const saveroom_url=`https://api.codingscholar.com/CreateClassGroupRoomView/${group.id}`
     const studentaddurl=`https://api.codingscholar.com/AddStudentToGroup/${group.id}`
     const scheduleclasses_url =`https://api.codingscholar.com/GroupLessonView/${group.id}`
+    // const scheduleclasses_url=''
     const deletegroup=`https://api.codingscholar.com/DeleteGroupclass/${group.id}`
     const students_in_group_url=`https://api.codingscholar.com/studentInGroup/${group.id}`
     const group_lesson_url=`https://api.codingscholar.com/studentGroupLesson/${group.id}`
@@ -334,6 +335,13 @@ export default function GroupDetails({group,onBack}){
     try{
         const {addedclasses,removedclasses}=getclassScheduleChanges()
 
+        
+       addedclasses.map(addclass=>console.log('class data', {
+                "lesson_schedule":addclass.scheduleDays,
+                "roomType":addclass.classType,
+                "lesson_number":Number(addclass.lessonNumber)
+              }))
+
         if (addedclasses.length>0){
            const addclass_results=await Promise.allSettled(
             addedclasses.map(addclass=>axios.post(
@@ -341,20 +349,23 @@ export default function GroupDetails({group,onBack}){
               {
                 "lesson_schedule":addclass.scheduleDays,
                 "roomType":addclass.classType,
-                "lessonNumber":addclass.lessonNumber
+                "lesson_number":addclass.lessonNumber
               },
               {
                 headers:{
                   "Authorization":`Bearer ${got_t}`
                 }
               }
-            ))
+            )
+
+          
+          )
 
            )
 
            addclass_results.forEach((addc_res,index)=>{
             if(addc_res.status=="fulfilled"){
-              console.log("success in adding classs::",addc_res.value.data)
+              console.log("success in adding classs::",addc_res.value)
             }else{
               console.log("error in  add class::",addedclasses[index],addc_res.value.data)
             }
@@ -504,10 +515,11 @@ export default function GroupDetails({group,onBack}){
                                         ):(
                                             <div className=" flex  align-center justify-center gap-3 ">
                                             <p className="text-slate-500 italic flex-1">
-                                               No room set yet. set one first.
+                                               No room set yet. Add students then Set one .
                                             </p>
                                             <button 
                                             onClick={()=>{setIsRoomModule(true)}}
+                                            disabled={students.length===0}
                                             className="input-button bg-[#06b6d4] hover:bg-blue-600 text-white font-semibold px-6 rounded-lg transition-colors" >
                                                 set room
                                             </button>
@@ -893,7 +905,7 @@ export default function GroupDetails({group,onBack}){
                     className=" newgrouppadding w-full bg-white border border-[#d5d5dd] text-[#1a1a2e] rounded-lg px-3 py-2 focus:border-[#2563eb] focus:ring-[#2563eb] focus:outline-none"
                   >
                     <option value="">Select Grade Type</option>
-                    {['Coding','Math'].map((gradetype) => (
+                    {['coding','math'].map((gradetype) => (
                       <option key={gradetype} value={gradetype}>
                       {gradetype}
                       </option>
@@ -932,7 +944,7 @@ export default function GroupDetails({group,onBack}){
                   >
                     <option value="" className="text-slate-500 bg-blue-200">Select Teacher</option>
                     {allteachers.map((teacher) => (
-                      <option key={teacher.id} value={teacher.id}>
+                      <option key={teacher.id} value={teacher.user.id}>
                         {teacher.user.first_name}
                       </option>
                     ))}
@@ -985,7 +997,7 @@ export default function GroupDetails({group,onBack}){
                                         className="marginbottom-two f scheduleclassinput-field fl bg-white border border-[#d5d5dd]">
 
                                         <option value="">class type</option>
-                                        {['coding','Math'].map((classes)=>(
+                                        {['coding','math'].map((classes)=>(
                                             <option key={classes} value={classes}> {classes}</option>
                                         ))}                                        
                                         </select>
