@@ -11,24 +11,37 @@ export default function TeacherClassDetails() {
     const [studentDetails,setStudent]=useState([])
     const [studentName,setStudentName]=useState('')
     const [studentPic,setStudentPic]=useState('')
+    const [groupName,setGroupName]=useState('')
     const [token,setToken]=useState()
     const [studentId,setStudentId]=useState()
     const {teacher,proPic,seeEarning,setEarning}=useContext(context)
+    // const [aboutlesson,]
     useEffect(()=>{
     const {state}=location
    if(state){
-    state.forEach(item=>{
+    console.log('lesson...',state)
+    const [item]=state
+    // state.forEach(item=>{
         
-        const id= item.student.user.id
-        setStudentId(id)
+        // const id= item.student.user.id
+        // setStudentId(id)
         const now = new Date(item.date_time)
         const time = now.toLocaleTimeString();
         const newData={...item,...{time:time}}
         setTodayClass([newData])
-        const name=`${item.student.user.first_name} ${item.student.user.last_name}`
-        setStudent([item.student.user])
-        setStudentName(name)
-    })
+        // if(item.classType==='oneOnone'){}
+        let name
+        if (item.classType==='oneOnone'){
+            name=`${item.student.user.first_name} ${item.student.user.last_name}`
+            setStudentName(name)
+            setStudent([item.student.user])
+        }else{
+            setGroupName(item.group_class.group_name)
+           const g_students=item.group_students.map(gstudents=>gstudents.user)
+           setStudent(g_students)
+        }
+        
+    // })
    }
     },[])
     const handleToSeeEarning =()=>{
@@ -41,6 +54,7 @@ export default function TeacherClassDetails() {
         }
       }
     const handleToJoinClass=(les,student,Lessonid,time)=>{
+        
         todayClass.forEach(item=>{
             if(item.is_completed===false){
                 if(les.group_class){
@@ -49,8 +63,10 @@ export default function TeacherClassDetails() {
                     const id=`${les.group_class.group_name}-${Lessonid}`
                     const url=les.lesson.pdf_notes 
                     const notes={title:title,url:url}
-                    const studentUserId=les.student.user.id
-                    navigate(`/class/${id}`, { state: { id,typeOfClass:'group',classType:'NormalClass',studentName, time,student,studentUserId,notes,studentDetails,studentPic} }); 
+                    // const studentUserId=les.student.user.id
+                    const groupId=les.group_class.id
+                    // navigate(`/class/${id}`, { state: { id,typeOfClass:'group',classType:'NormalClass',studentName, time,student,studentUserId,notes,studentDetails,studentPic} }); 
+                    navigate(`/class/${id}`, { state: { id,typeOfClass:'group',classType:'NormalClass',groupName, time,student,groupId,notes,studentDetails} }); 
                 }else{
                     const studentUserId=les.student.user.id
                     const title=les.lesson.title 
@@ -90,9 +106,15 @@ export default function TeacherClassDetails() {
                 })
             }
    }
+
+   console.log('Todays class',todayClass)
    useEffect(()=>{
     getStudentProfilePic()
    },[studentDetails])
+
+   const [todayclassobj]=todayClass
+
+
   return (
     <div className='DetailsWrapper'>
          <div className='TeacherDetailsWrapper'>
@@ -118,8 +140,9 @@ export default function TeacherClassDetails() {
             </div>
         </div>
         <div className='todayLessonWrapper'>
-           <div className='todayLessonHeaderwrapper'>
-           <h3>Class</h3>
+           <div className='todayLessonHeaderwrapper flex gap-4'>
+            {groupName && <h3>{groupName}</h3>}
+           <h3>{todayclassobj?.classType==='oneOnone'? 'One To One Class':' Group Class'}</h3>
            </div>
             <div className='todayLessonContainer'>
                {todayClass.map(lesson=>{
@@ -143,7 +166,7 @@ export default function TeacherClassDetails() {
                             <span><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span>
                         </div>
                         {/* <Portal>
-                        <div className='RescheduleWrapper'>
+                        <div className='RescheduleWrapper'>`1
                             <p>reschedule</p>
                         </div>
                         </Portal> */}
@@ -151,7 +174,59 @@ export default function TeacherClassDetails() {
                 )
                })}
             </div>
-            {studentDetails && studentDetails.map(item=>{
+
+            {
+                groupName && (
+                    <div className='groupstdnt-container'>
+                        <h1 className='text-black flex items-center justify-center font-bold'>Students </h1>
+
+                        <table className='w-[95%] st-table' >
+                            <thead>
+                                <tr className='border-b border-slate-700 bg-white rounded-sm'>
+                                <th className='table-header text-left font-semibold text-[#1a1a2e] '>
+                                    Profile Pic
+                                </th>
+                                <th className='table-header text-left font-semibold text-[#1a1a2e] '>
+                                     Name
+                                </th>
+                                <th className='table-header text-left font-semibold text-[#1a1a2e] '>
+                                     Email
+                                </th>
+                                <th className='table-header text-left font-semibold text-[#1a1a2e] '>
+                                     Phone Number
+                                </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    studentDetails.map((student)=>(
+                                        <tr key={student.id}
+                                        className='border-b border-slate-700 bg-slate-200'>
+                                            <td className="table-header">
+                                                 <div className='flex justify-center items-center'>
+                                                     <img
+                                                        src={studentPic !== '' ? `https://res.cloudinary.com/dbxsncq5r/${studentPic}` : pic}
+                                                        alt="student"
+                                                        style={{
+                                                            width: '50px',       // fixed width
+                                                            height: '50px',      // fixed height
+                                                            objectFit: 'cover',  // crop and fit nicely
+                                                            borderRadius: '50%'  // optional: make it circular
+                                                        }}
+                                                    />
+                                                </div></td>
+                                            <td className='table-header text-[#1a1a2e]'>{student.first_name} {student.last_name}</td>
+                                            <td className='table-header text-[#1a1a2e]'>{student.email}</td>
+                                            <td className='table-header text-[#1a1a2e]'>{student.phone_number}</td>
+                                        </tr>
+                                    ))
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                )
+            }
+            {studentName && studentDetails.map(item=>{
                 return(
                     <div className='stdntDetails'>
                     <div className='stdntImageWrapper'>

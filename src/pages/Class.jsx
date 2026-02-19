@@ -9,9 +9,11 @@ import { jwtDecode } from 'jwt-decode';
 import RegisterStudentModal from '../Components/RegisterStudentModal';
 import CountdownTimer from '../Components/CountdownTimer';
 import axios from 'axios';
+import { Phone, User,X } from 'lucide-react'
 import { WherebyProvider } from "@whereby.com/browser-sdk/react";
 import StudentProfilePopUp from '../Components/StudentProfilePopUp';
 import Barge from '../Components/Barge';
+// import Image from "next/image"
 export default function Class() {
     const [mainCss,setMainCss]=useState('fullPageMain')
     const [bookingId,setBookingId]=useState('')
@@ -84,6 +86,9 @@ export default function Class() {
     const [participants,setparticipants]=useState([])
     const screenVideo = useRef(null); // Remote screen video element
     const LocalscreenVideo = useRef(null); // Local screen video element
+    const [groupname,setGroupName]=useState('')
+    const [groupstdntdetails,setGroupStudentDetails]=useState([])
+    const [showStudents, setShowStudents] = useState(false);
     const {classEndedfully}=useContext(context)
     const handleOpenChat=()=>{
         if(toggleChat===false){
@@ -438,7 +443,7 @@ useEffect(() => {
     },[bookingId])
     useEffect(()=>{
         const { state } = location || {}; // Ensure location is not undefined
-        const { id, time,typeOfClass ,student,studentPic,title,studentName,studentUserId,classType,notes,studentDetails} = state || {};
+        const { id, time,typeOfClass ,student,studentPic,title,studentName,groupName,studentUserId,classType,notes,studentDetails} = state || {};
         if (state && classType==='NormalClass') {
             setCode(id);  // Set the state if it exists
             setStartingTime(time);
@@ -455,6 +460,12 @@ useEffect(() => {
            }
            if(studentPic){
             setStudentPic(studentPic)
+           }
+           if (groupName){
+              setGroupName(groupName)
+              setGroupStudentDetails(studentDetails)
+
+              
            }
            if(studentName){
                setStudentName(studentName)
@@ -533,6 +544,11 @@ useEffect(() => {
         .catch(error=>console.log(error))
     }
    }
+   const handleToggleStudents = () => {
+    console.log('students...',groupstdntdetails)
+    setShowStudents(prev => !prev);
+};
+
    const handleOpenProfile=()=>{
     setOpenStudentProfile('StudentProfilePopUp')
    }
@@ -593,10 +609,19 @@ useEffect(() => {
                     <ul>
                         {role ==='teacher'? <li className='barges'  onClick={handleShowBarges}>badges</li>:''}
                         {ClassType==='NormalClass' && role==='teacher' && studentName?<li onClick={handleOpenProfile} className='studentNameHolder'>{studentName}</li>:''}
+                        {ClassType==='NormalClass' && role==='teacher' && groupname && (
+                            <>
+                            <li className='studentNameHolder cursor-pointer'
+                                onClick={handleToggleStudents}>
+                                {groupname}
+                            </li>
+                            </>
+                        )}
                         {role ==='student'? <li onClick={handleSubmitProject}>submit project</li>:''}
                         {ClassType==='trial' && role==='teacher'?<li className='studentBtn' onClick={handleStudent}>student</li>:''}
                         {ClassType==='NormalClass' && role==='teacher' ||ClassType==='trial' && role==='teacher' ?<li className='markClass' onClick={handleEndClass}>mark class</li>:''}
                         {/* <li onClick={handleOpenChat}>chat</li> */}
+                        
                         { <StudentProfilePopUp studentPic={studentPic} student={student} openStudentProfile={openStudentProfile} setOpenStudentProfile={setOpenStudentProfile}/>}
                         {openBadges && <Barge ws={ws} StudentId={StudentId} newStudent={newStudent} student={student} setOpenBadge={setOpenBadge}/>}
                     </ul>
@@ -605,6 +630,7 @@ useEffect(() => {
             </div>
             
         </div>
+        
         <WherebyProvider>
         <WherebyClass role={role} StudentUser_id={StudentUser_id} typeOfClass={typeOfClass} code={slug}/>
         </WherebyProvider>
@@ -630,8 +656,65 @@ useEffect(() => {
   )
 )}
 {trailClass &&  <RegisterStudentModal setNewStudent={setNewStudent}  trailClass={trailClass}  openStudentRegistrationform={openStudentRegistrationform} setopenStudentRegistrationform={setopenStudentRegistrationform}/>}
+   {/* Modal Popup */}
+      {showStudents && (
+        <div className='fixed inset-0 z-50 flex items-start justify-end p-4 classgrouppop'>
+          <div className='bg-white rounded-2xl shadow-2xl max-w-md w-[65%] max-h-[90vh] overflow-hidden flex flex-col'>
+            {/* Modal Header with Group Name on Right */}
+            <div className='bg-gradient-to-r from-cyan-500 to-cyan-600 px-6 py-4 flex items-center justify-between classgrouppopheader'>
+              <div />
+              <button
+                onClick={handleToggleStudents}
+                className='text-white hover:bg-cyan-700 rounded-full p-1 transition-colors'
+                aria-label='Close'
+              >
+                <X className='w-6 h-6' />
+              </button>
+            </div>
+
+            {/* Students List */}
+            <div className='overflow-y-auto flex-1   p-4 bg-gray-50'>
+              {groupstdntdetails.length > 0 ? (
+                groupstdntdetails.map((student) => (
+                  <div
+                    key={student.id}
+                    className='bg-white padding-four  p-4 flex items-center gap-4 shadow-sm hover:shadow-md transition-shadow border-l-4 border-cyan-500'
+                  >
+                    {/* Profile Picture */}
+                    <div className='flex-shrink-0'>
+                      <img
+                         src={student.profilePic ? student.profilePic : "/placeholder.png"}
+                        alt={student.name}
+                        className="w-14 h-14 rounded-full object-cover border-2 border-cyan-500"
+                    />
+
+                    </div>
+
+                    {/* Student Info */}
+                    <div className='flex-grow'>
+                      <h3 className='font-semibold text-gray-800 flex items-center gap-2 text-base'>
+                        <User className='w-4 h-4 text-cyan-600' />
+                        {student.first_name}
+                      </h3>
+                      <p className='text-sm text-gray-600 flex items-center gap-2 mt-2'>
+                        <Phone className='w-4 h-4 text-cyan-600' />
+                        {student.phone_number}
+                      </p>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p className='text-gray-500 text-center py-8'>No students in this group</p>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
         </>
 )
+
+
 //   if(participants.length <= 2 && timeLeft !=='Event has started!' || participants.length===1 && timeLeft ==='Event has started!'){
 //     return(
 //         <div className='classNotStartedWrapper'>

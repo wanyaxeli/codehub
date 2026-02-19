@@ -15,17 +15,20 @@ export default function Calendar() {
     const eventTitle = clickInfo.event.title;
     const studentId=clickInfo.event.extendedProps.studentId
     const classType=clickInfo.event.extendedProps.classType
+    const groupId=clickInfo.event.extendedProps.groupClassId
     const id = clickInfo.event.id
     
     // const lesson=data.filter(item=>item.lesson.title===clickInfo.event.title)
-    const lesson = data.filter(item =>
+    const lessonobj = data.find(item =>
       item.lesson.title === eventTitle &&
       item.date_time === eventStart && 
-      item.student.id===studentId && 
+      ((item.student?.id===studentId) ||( item.group_class.id===groupId)) && 
+      // item.group_class.id===groupId &&
       item.classType===classType
       // item.is_completed===false
     );
-    console.log('infor clixk',lesson)
+    const lesson=lessonobj?[lessonobj]:[]
+    console.log('info click',lesson)
     if(lesson.length > 0){
       navigate('/teacher/dashboard/Teacher Class Details',{state:lesson})
     }else{
@@ -37,36 +40,36 @@ export default function Calendar() {
    
     // window.location.href = `/event/${clickInfo.event.id}`;
   };
-  function getTeacherSchudule(){
-    if(token){
-    const url =`https://api.codingscholar.com/teacherSchedule/`
-    axios.get(url,{headers:{
-      'Authorization':`Bearer ${token}`
-    }})
-    .then(res=>{
-      // console.log('teacher',res.data)
-      const data=res.data
-      console.log('asda',data)
-      if(data.length > 0){
-        setData(pre=> [...pre,data])
-      data.forEach(item=>{
-        const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-        const {title}=item.lesson
-        const studentId=item.student.id
-        const localTime = DateTime.fromISO(item.date_time, { zone: 'utc' })
-                             .setZone(userTimeZone) // or Intl.DateTimeFormat().resolvedOptions().timeZone
-                             .toISO();
-        const newdata={id:item.id,title:title,start:localTime, extendedProps: {
-          studentId: studentId, // this will be available as clickInfo.event.extendedProps.studentId
-        }}
-        setCalendarEvent(pre=>([...pre,newdata]))
-        // console.log('title',newdata)
-      })
-      }
-    })
-    .catch(error=>console.log(error))
-    }
-  }
+  // function getTeacherSchudule(){
+  //   if(token){
+  //   const url =`https://api.codingscholar.com/teacherSchedule/`
+  //   axios.get(url,{headers:{
+  //     'Authorization':`Bearer ${token}`
+  //   }})
+  //   .then(res=>{
+  //     // console.log('teacher',res.data)
+  //     const data=res.data
+  //     console.log('asda',data)
+  //     if(data.length > 0){
+  //       setData(pre=> [...pre,data])
+  //     data.forEach(item=>{
+  //       const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  //       const {title}=item.lesson
+  //       const studentId=item.student.id
+  //       const localTime = DateTime.fromISO(item.date_time, { zone: 'utc' })
+  //                            .setZone(userTimeZone) // or Intl.DateTimeFormat().resolvedOptions().timeZone
+  //                            .toISO();
+  //       const newdata={id:item.id,title:title,start:localTime, extendedProps: {
+  //         studentId: studentId, // this will be available as clickInfo.event.extendedProps.studentId
+  //       }}
+  //       setCalendarEvent(pre=>([...pre,newdata]))
+  //       // console.log('title',newdata)
+  //     })
+  //     }
+  //   })
+  //   .catch(error=>console.log(error))
+  //   }
+  // }
   function getTeacherGroupClassSchudule(){
     if(token){
     const url =`https://api.codingscholar.com/teacherGroupClass/`
@@ -135,6 +138,7 @@ async function fetchSchedule(url, token) {
     const res = await axios.get(url, {
       headers: { Authorization: `Bearer ${token}` },
     });
+    // console.log(`my_lessons for (${url}) are \n`, res.data)
     return Array.isArray(res.data) ? res.data : [];
   } catch (err) {
     console.error(`Failed to fetch ${url}`, err);
@@ -152,7 +156,7 @@ async function loadTeacherSchedule() {
     fetchSchedule('https://api.codingscholar.com/teacherGroupClass/', token),
   ]);
 
-  const allLessons = [...oneOnOneLessons, ...groupLessons];
+  const allLessons = [...oneOnOneLessons,...groupLessons];
 
   if (allLessons.length === 0) {
     setCalendarEvent([]); // empty calendar
