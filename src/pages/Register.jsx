@@ -10,6 +10,8 @@ import countries from "i18n-iso-countries";
 import en from "i18n-iso-countries/langs/en.json"
 import {useNavigate}from 'react-router-dom'
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
+import { ChevronLeft } from 'lucide-react';
 export default function Register() {
     const [selectedValue, setSelectedValue] = useState('');
     const [error,setErrors]=useState('')
@@ -117,6 +119,12 @@ export default function Register() {
             <aside>
                 <div className='registerLogoWRapper'></div>
                 <div className='studentComment'>
+                  <div className="absolute top-4 left-9 z-10">
+                    <Link   to="/"  className="back-button"  aria-label="Back to home">
+                      <ChevronLeft className="w-5 h-5" />
+                      <span>Back</span>
+                   </Link>
+                  </div>
                     <div className='innerstudentComment'>
                         {/* <div className='quoteHolder'>
                             <p></p>
@@ -131,6 +139,13 @@ export default function Register() {
                             <div className='studentPic'>
                                 <img  src={pic} alt="Kids learning coding online in Kenya"/>
                             </div>
+
+                            <div className='studentpicname '>
+                            <p className='stdntname font-semibold flex'>Joy Hassan </p>
+                            <p className='stdntdescription text-sm'>Active Student, Ghana</p>
+
+                        </div>
+
                         </div>
                     </div>
                     <div className='copywrightHolder'>
@@ -159,8 +174,14 @@ export default function Register() {
                 </div>
             </div>
             <div className='RegisterFormWrapper'>
-               <div className='InnerRegisterFormWrapper'>
-                 <h3>Let's get started</h3>
+                <div className="md:opacity-0  absolute top-4 left-28  z-10">
+                  <Link   to="/"  className="back-button"  aria-label="Back to home">
+                    <ChevronLeft className="w-5 h-5" />
+                      <span >Back</span>
+                    </Link>
+                 </div>
+               <div className='InnerRegisterFormWrapper login-margintop'>
+                 <h3 >Let's get started</h3>
                  <h4>Enter your WhatsApp phone number</h4>
                  {error &&  <p className='errorPara'>{error}</p>}
                  <div className='formInputWrapper'>

@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import pic from '../assets/student.jpg'
 import axios from 'axios'
 import { Helmet } from 'react-helmet-async';
+import {Link} from 'react-router-dom'
+import { ChevronLeft } from 'lucide-react'
 export default function Login() {
     const navigate =useNavigate()
     const initialState={
@@ -90,6 +92,13 @@ export default function Login() {
         <aside>
             <div className='registerLogoWRapper'></div>
             <div className='studentComment'>
+
+                <div className="absolute top-4 left-9 z-10">
+              <Link   to="/"  className="back-button"  aria-label="Back to home">
+          <ChevronLeft className="w-5 h-5" />
+          <span>Back</span>
+        </Link>
+         </div>
                 <div className='innerstudentComment'>
                     <div className='quoteHolder'>
                         <i  className="fa fa-quote-left" aria-hidden="true"></i>
@@ -100,9 +109,16 @@ export default function Login() {
                     <div className='studentPicholder'>
                         <div className='studentPic'>
                             <img  src={pic} alt="Kids learning coding online in Kenya"/>
+                            {/* jhdhdgh */}
+                        </div>
+                        <div className='studentpicname '>
+                            <p className='stdntname font-semibold flex'>Joy Hassan </p>
+                            <p className='stdntdescription text-sm'>Active Student, Ghana</p>
+
                         </div>
                     </div>
                 </div>
+                
                 <div className='copywrightHolder'>
                     <p><span><i className="fa fa-copyright" aria-hidden="true"></i></span> {new Date().getFullYear()} codingscholar.com</p>
                 </div>
@@ -111,7 +127,9 @@ export default function Login() {
         <main>
         <div className='registerLogoWRapper rightSideLogo'>
             <div className='rightSideLogoLeft'></div>
+            
             <div className='rightSideLogoRight'>
+            
                 <ul>
                 <li>
                 <i className="fa fa-envelope-open" aria-hidden="true"></i>
@@ -130,6 +148,13 @@ export default function Login() {
         </div>
         <div className='RegisterFormWrapper'>
            <div className='InnerLoginWrapper'>
+            <div className="md:opacity-0  absolute top-4  z-10">
+              <Link   to="/"  className="back-button"  aria-label="Back to home">
+                 <ChevronLeft className="w-5 h-5" />
+               <span >Back</span>
+             </Link>
+            </div>
+
            <h3>Let's get started</h3>
            <div className='loginInputWrapper'>
             {error && <p style={{color:'red'}}>{error}</p>}
@@ -145,6 +170,9 @@ export default function Login() {
            </div>
            <div className='LoginBtnWrapper'>
             <button onClick={handleToSignUp}>Login</button>
+           </div>
+           <div>
+            <p className='margintop-ii justify-center  text-md text-center'>Don't have an account? <a className='link-blue text-sm font-medium' href="/register">Try Free Trial</a></p>
            </div>
            </div>
         </div>
