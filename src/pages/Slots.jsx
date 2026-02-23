@@ -45,19 +45,21 @@ export default function Slots() {
       }
     }
     const handleEnterSlot=()=>{
-      if(teacherName){
+      if(token){
         const url='https://api.codingscholar.com/TeacherAvailability/'
-        const splitName=teacherName.trim().split(/\s+/);
-        const first_name=splitName[0]
-        const last_name=splitName[1]
+        // const splitName=teacherName.trim().split(/\s+/);
+        // const first_name=splitName[0]
+        // const last_name=splitName[1]
          // Convert local date & time to UTC
         const localDateTime = new Date(`${values.date}T${values.time}`);
         const utcDateTime = localDateTime.toISOString();  // Convert to UTC
-        const data={...values,...{last_name:last_name,utcDateTime:utcDateTime,first_name:first_name}}
-        axios.post(url,data)
+        const data={...values,...{utcDateTime:utcDateTime}}
+        axios.post(url,data,{headers:{
+          'Authorization':`Bearer ${token}`
+        }})
         .then(res=>{
-          console.log(res.data)
-          alert(res.data)
+          alert(res.data.message
+            )
           getMySlots()
           setValues(initialState)
         })
