@@ -1,4 +1,4 @@
-import { ArrowLeft, Calendar, Check, Edit2, Plus, Trash2, User, Users, X } from "lucide-react";
+import { Accessibility, ArrowLeft, Calendar, Check, Edit2, Plus, Trash2, User, Users, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import AddStudents from "../pages/AddStudents";
@@ -79,7 +79,8 @@ export default function GroupDetails({group,onBack}){
     // const scheduleclasses_url=''
     const deletegroup=`https://api.codingscholar.com/DeleteGroupclass/${group.id}`
     const students_in_group_url=`https://api.codingscholar.com/studentInGroup/${group.id}`
-    const group_lesson_url=`https://api.codingscholar.com/studentGroupLesson/${group.id}`
+    const group_lesson_url=`https://api.codingscholar.com/teacherGroupClass`
+    const group_details=`https://api.codingscholar.com/Get_class_group_room/${group.id}`
 
 
     const fetchgroup_students=async(goten_token)=>{
@@ -94,33 +95,107 @@ export default function GroupDetails({group,onBack}){
         setStudents(group_students)
         setOriginalstudents(group_students)
 
-      }catch{
+      }catch(e){
         console.log('error in getting all students in agroup',e)
+      }
+    }
+
+    const formatdates=(dates)=>{
+      return new Date(dates).toLocaleDateString("en-GB",{
+        day:'numeric',
+        month:'short',
+        year:'2-digit',
+        weekday:'long',
+        hour:'2-digit',
+        minute:'2-digit'
+      })
+    }
+
+    const grouplessons=async(goten_token)=>{
+      try{
+        const {data}=await axios.get(group_lesson_url,{
+          headers:{
+            Authorization:`Bearer ${goten_token}`
+          }
+        })
+
+        const group_classes=data.filter((lesson)=> lesson.group_class.id==group.id && new Date(lesson.date_time).getTime() >= Date.now())
+        setscheduledClasses(group_classes)
+        setOriginalClassSchedule(group_classes)
+        // const grouped_lessons=Object.values(
+        //   group_classes.reduce((acc,lesson)=>{
+        //     const classType=lesson.lessontype
+
+        //     if(!acc[classType]){
+        //       acc[classType]={
+        //         classType:classType,
+        //         lessonNumber:[],
+        //         lessonTitle:[],
+        //         scheduleddates:[]
+        //       }
+        //     }
+
+        //     acc[classType].lessonNumber.push()
+        //   })  
+        // )
+
+
+
+      // const 
+      // const upcoming_classes=group_classes.filter()
+
+
+      }catch(e){
+        console.error('error in getting group lessons',e)
+      }
+    }
+
+    const fetch_groupdetails=async()=>{
+      try{
+        const groupdetails =await axios.get(group_details)
+        const details=groupdetails.data
+        const existing_room={
+          grade:details?.room??'',
+          gradetype:details?.roomType??'',
+          module:details?.module??'',
+          teacher:details?.teacher??''
+        }
+        const teachers_data=await fetchData()
+        const newteacher=teachers_data.find((teacher)=>teacher.id===Number(details.teacher))
+        
+        setAssignedTeacher(newteacher)
+        setRoom(existing_room)
+        
+
+      }catch(e){
+        console.error('error in getting group_details',e)
+      }
+    }
+
+    const fetchData=async () =>{
+      try{
+        const [studentRes,teachersRes]=await Promise.all([
+          axios.get(student_url),
+          axios.get(teachers_url),
+        ]);
+        const teachers_data=teachersRes.data
+        setAllStudents(studentRes.data)
+        setAllTeachers(teachersRes.data)
+
+        return teachers_data
+
+      }catch(e){
+        console.error('error in getting data from the backend', e)
       }
     }
     useEffect(()=>{
       const got_t=localStorage.getItem('token')
       setGot_t(got_t)
-      const fetchData=async () =>{
-        try{
-          const [studentRes,teachersRes]=await Promise.all([
-            axios.get(student_url),
-            axios.get(teachers_url),
-          ]);
-          setAllStudents(studentRes.data)
-          setAllTeachers(teachersRes.data)
-
-          console.log('student data ...\n',studentRes.data)
-          console.log('teachers data ...\n',teachersRes.data)
-          console.log(`saveroom url...${saveroom_url}`)
-
-
-        }catch(e){
-          console.log('error in getting data from the backend', e)
-        }
-      }
       fetchgroup_students(got_t)
       fetchData()
+      fetch_groupdetails()
+      grouplessons(got_t)
+      
     },[])
 
     const closeModal=()=>{
@@ -158,7 +233,7 @@ export default function GroupDetails({group,onBack}){
 
               addresults.forEach((add_res,index)=>{
                 if(add_res.status=="fulfilled"){
-                  console.log("success::",add_res.value.data)
+                
                 }else{
                   console.error("failed add student::",addedstudents[index],add_res.reason)
                 }
@@ -172,22 +247,18 @@ export default function GroupDetails({group,onBack}){
 
               removedresults.forEach((removeresult,index)=>{
                 if(removeresult.status=="fulfilled"){
-                  console.log("success::",removeresult.value.data)
+                  alert('students removed successfully')
                 }else{
                   console.error("faileed remove student::",removedstudents[index],removeresult.reason)
                 }
               })
             }
 
-            console.log(`add results .. ${addresults}`)
             await new Promise((resolve) => setTimeout(resolve, 1000));
 
             setOriginalstudents(students)
             fetchgroup_students(got_t)
-            console.log('Student changes saved:', {
-             added: addedstudents,
-              removed: removedstudents,
-            });
+            
 
         }catch(e){
             console.error('Error saving student changes:', error);
@@ -225,8 +296,6 @@ export default function GroupDetails({group,onBack}){
                 gradetype:room.gradetype
             }
 
-            
-            console.log(`saveroom url...${saveroom_url}`)
 
             const savedroom=await axios.post(
               saveroom_url,
@@ -245,14 +314,13 @@ export default function GroupDetails({group,onBack}){
              )
 
              if (savedroom){
-              console.log('saved room...,',savedroom)
+              alert('room saved successfully')
+              fetch_groupdetails()
+              
              }
 
             // console.log('new room ', newRoom)
 
-            // const newteacher=allteachers.find((teacher)=>teacher.id===Number(room.teacher))
-            // console.log('new teacher ', newteacher)
-            // setAssignedTeacher(newteacher)
 
              
             // setRoomDetails(newRoom)
@@ -336,11 +404,11 @@ export default function GroupDetails({group,onBack}){
         const {addedclasses,removedclasses}=getclassScheduleChanges()
 
         
-       addedclasses.map(addclass=>console.log('class data', {
-                "lesson_schedule":addclass.scheduleDays,
-                "roomType":addclass.classType,
-                "lesson_number":Number(addclass.lessonNumber)
-              }))
+      //  addedclasses.map(addclass=>console.log('class data', {
+      //           "lesson_schedule":addclass.scheduleDays,
+      //           "roomType":addclass.classType,
+      //           "lesson_number":Number(addclass.lessonNumber)
+      //         }))
 
         if (addedclasses.length>0){
            const addclass_results=await Promise.allSettled(
@@ -365,9 +433,9 @@ export default function GroupDetails({group,onBack}){
 
            addclass_results.forEach((addc_res,index)=>{
             if(addc_res.status=="fulfilled"){
-              console.log("success in adding classs::",addc_res.value)
+              alert('classes added succesfully')
             }else{
-              console.log("error in  add class::",addedclasses[index],addc_res.value.data)
+              console.error("error in  add class::",addedclasses[index],addc_res.value.data)
             }
            })
         }
@@ -390,27 +458,19 @@ export default function GroupDetails({group,onBack}){
 
            removeclass_results.forEach((removec_res,index)=>{
             if(removec_res.status=="fulfilled"){
-              console.log("success in adding classs::",removec_res.value.data)
+              alert("success in removing classs::")
             }else{
-              console.log("error in  add class::",removedclasses[index],removec_res.value.data)
+              console.error("error in  add class::",removedclasses[index],removec_res.value.data)
             }
            })
         }
 
         await new Promise((sending)=>setTimeout(sending,1000))
         setOriginalClassSchedule(scheduledClasses)
-      
-        console.log('classes changes saved:', {
-             added: addedclasses,
-              removed: removedclasses,
-
-            });
-
-
-
+   
 
     }catch(e){
-        console.log('error saving class Change ', e)
+        console.error('error saving class Change ', e)
     }finally{
         setIsSaving(false)
         setShowSaveConfirmModal(false)
@@ -425,7 +485,6 @@ export default function GroupDetails({group,onBack}){
    // Handle assigning teacher
   const handleAssignTeacher = async (teacher) => {
     //  setIsSaving(true)
-    console.log(" TEACHER 001 ", teacher)
     setChangedTeacher('')
     
     // const saveteacher=await axios.post(savingteacher,{teacher})
@@ -448,17 +507,12 @@ export default function GroupDetails({group,onBack}){
   const handleDeleteGroup = async() => {
     setShowDeleteConfirmModal(false);
     // const {addedstudents,removedstudents} =getStudentchanges()
-    // console.log('new student list ', students)
-    // console.log('new original student list ', originalstudents)
-    // console.log('new removedstudents ', removedstudents)
-    //   console.log('new addedstudents ', addedstudents )
     const deletinggroup=await axios.delete(deletegroup,{
       headers:{
         Authorization:`Bearer ${got_t}`
       }
     }) 
 
-    console.log(deletinggroup)
     onBack();
   };
 
@@ -699,19 +753,26 @@ export default function GroupDetails({group,onBack}){
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
                         <p className="text-[#1a1a2e] font-semibold">
-                          {cls.lesson}
+                          {cls.lessons?cls.lessons:cls.lesson.title}
                         </p>
                         <span className="paddingyxtwo px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full">
-                          {cls.classType}
+                          {cls.classType?cls.classType:cls.lessontype}
                         </span>
                       </div>
                       <div className="spacing-y-one">
-                        {cls.scheduleDays.map((day) => (
+                        {cls.sheduleDays?(
+                          cls.scheduleDays.map((day) => (
                           <div key={day.id} className="flex items-center gap-2 text-sm text-[#666680]">
                             <span className="w-1.5 h-1.5 bg-[#06b6d4] rounded-full"></span>
                             {day.day} at {day.time}
                           </div>
-                        ))}
+                        ))):(
+                          <div  className="flex items-center gap-2 text-sm text-[#666680]">
+                            <span className="w-1.5 h-1.5 bg-[#06b6d4] rounded-full"></span>
+                            {formatdates(cls.date_time)}
+                          </div>
+                        )
+                        }
                       </div>
                     </div>
                     <button
