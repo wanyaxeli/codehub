@@ -1,5 +1,5 @@
 import React,{useState,useEffect,useContext} from 'react'
-import { useLocation,useNavigate } from 'react-router-dom'
+import { data, useLocation,useNavigate } from 'react-router-dom'
 import { context } from '../App'
 import pic from '../assets/codehubImage.jpeg'
 import axios from 'axios'
@@ -41,7 +41,13 @@ export default function TeacherClassDetails() {
         }else{
             setGroupName(item.group_class.group_name)
            const g_students=item.group_students.map(gstudents=>gstudents.user)
-           setStudent(g_students)
+           const updatestudents=async(g_students)=>{
+               const allstudes=await getStudentProfilePic(g_students)
+               console.log('all studes',allstudes)
+               setStudent(allstudes)
+           }
+
+           updatestudents(g_students)
         }
         
     // })
@@ -91,23 +97,33 @@ export default function TeacherClassDetails() {
         navigate(`/teacher/dashboard/Notes/`, { state: les });
     };
 
-   function getStudentProfilePic(){
-    if( studentDetails.length > 0){
-        studentDetails.map(item=>{
-            const studentId=item.id
-            const url =`https://api.codingscholar.com/getprofilePic/${studentId}`;
-            axios.get(url)
-            .then(res=>{
+   async function getStudentProfilePic(studentDetails){
+    console.log('students details',studentDetails)
+    if( studentDetails.length === 0) return
+        const updatedstudents=await Promise.all(
+            studentDetails.map(async(item)=>{
+                const studentId=item.id
+                const url =`https://api.codingscholar.com/getprofilePic/${studentId}`;
+                try{
+                const res=await  axios.get(url)
                 const data=res.data
-                if(data.error){
-                    setStudentPic('')
-                }else{
-                    setStudentPic(data.image)
+                return{
+                        ...item,
+                        studentpic:data.error?"":data.image
                 }
-            })
-            .catch(error=>{console.log(error)})
-                })
-            }
+               
+                 }catch(error){
+                    console.error(error)
+                    return {
+                        ...item,
+                        studentpic:''
+                    }
+                }
+                    })
+        )
+        console.log('updated',updatedstudents)
+         return updatedstudents
+                  
    }
 
    console.log('Todays class',todayClass)
@@ -272,7 +288,7 @@ export default function TeacherClassDetails() {
                                             <td className="table-header">
                                                  <div className='flex justify-center items-center'>
                                                      <img
-                                                        src={studentPic !== '' ? `https://res.cloudinary.com/dbxsncq5r/${studentPic}` : pic}
+                                                        src={student.studentpic !== '' ? `https://res.cloudinary.com/dbxsncq5r/${student.studentpic}` : pic}
                                                         alt="student"
                                                         style={{
                                                             width: '50px',       // fixed width
