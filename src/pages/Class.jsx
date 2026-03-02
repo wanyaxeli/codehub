@@ -504,7 +504,9 @@ useEffect(() => {
       }, []); // This runs on mount
      const handleEndClass=()=>{
         if(StudentId){
-            navigate('/End Class',{state:{code:code,StudentId:StudentId,classTypes:'normal'}})
+            navigate('/End Class',{state:{code:code,StudentId:StudentId,classTypes:'normal',}})
+        } else if(groupstdntdetails){
+            navigate('/End Class',{state:{code:code,groupstdntdetails:groupstdntdetails,classTypes:'normal'}})
         }
      }
     useEffect(()=>{
@@ -656,7 +658,8 @@ useEffect(() => {
   )
 )}
 {trailClass &&  <RegisterStudentModal setNewStudent={setNewStudent}  trailClass={trailClass}  openStudentRegistrationform={openStudentRegistrationform} setopenStudentRegistrationform={setopenStudentRegistrationform}/>}
-   {/* Modal Popup */}
+
+   {/* Modal Popup for group*/}
       {showStudents && (
         <div className='fixed inset-0 z-50 flex items-start justify-end p-4 classgrouppop'>
           <div className='bg-white rounded-2xl shadow-2xl max-w-md w-[65%] max-h-[90vh] overflow-hidden flex flex-col'>
@@ -683,8 +686,8 @@ useEffect(() => {
                     {/* Profile Picture */}
                     <div className='flex-shrink-0'>
                       <img
-                         src={student.profilePic ? student.profilePic : "/placeholder.png"}
-                        alt={student.name}
+                         src={student.studentpic ? `https://res.cloudinary.com/dbxsncq5r/${student.studentpic}` : "/placeholder.png"}
+                        alt={student.first_name}
                         className="w-14 h-14 rounded-full object-cover border-2 border-cyan-500"
                     />
 
