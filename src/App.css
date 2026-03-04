@@ -2,10 +2,63 @@
   --background: #e8e8ee;
   --foreground: #1a1a2e;
   --card: #ffffff;
+
 }
 .HomeWrapper{
   width: 100%;
   height: auto;
+}
+
+.paddingtopfour{
+  padding-top: 1rem;
+}
+
+.padding-yfour{
+  padding-top:1rem;
+  padding-bottom: 1rem;
+}
+
+.paddingbtmfour{
+  padding-bottom: 1rem;
+}
+.paddingysxtn{
+  padding-bottom: 4rem;
+  padding-top:4rem
+}
+
+.boutcoursesect{
+  padding-bottom: 4rem;
+  padding-top:4rem
+}
+
+@media (min-width:768px){
+  .paddingysxtn{
+    padding-bottom:6rem;
+    padding-top: 6rem;
+  }
+  .boutcoursesect{
+  padding-bottom:5rem;
+  padding-top:5rem
+}
+}
+
+.heroblogcontainer{
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width:640px){
+  .heroblogcontainer{
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width:1024px){
+  .heroblogcontainer{
+    padding-left: 2rem;
+    padding-right:2rem;
+  }
 }
 
 .inputone{
@@ -27,6 +80,10 @@
   padding: 1rem;
   margin-top:4.5rem
 
+}
+
+.mbottomtwelve{
+  margin-bottom: 3rem;
 }
 
 .student-list > * + * {
@@ -200,8 +257,20 @@
   margin-top: 0.5rem;
 }
 
+.paddingxeight{
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.spacing-y-two>*+*{
+  margin-top:0.5rem
+}
 .scheduleclass-modalspacing>*+*{
   margin-top:1rem
+}
+
+.spacing-y-six>*+*{
+  margin-top:1.5rem
 }
 
 .spacing-y-one>*+*{
