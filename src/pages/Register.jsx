@@ -68,7 +68,7 @@ export default function Register() {
     // }
     const handleToLapTop=()=>{
     // navigate('/laptop')
-    if(grade && value && email && name){
+    if(grade && value && email ){
       if (isValidPhoneNumber(value)) {
         if(grade){
              if(email){
@@ -83,7 +83,7 @@ export default function Register() {
         setErrors('Invalid phone number');
       }
     }else{
-      setErrors('Plase all fields are requered')
+      setErrors('Plase all fields are required')
     }
     }
     function isValidEmail(email) {
@@ -190,7 +190,7 @@ export default function Register() {
                  {error &&  <p className='errorPara'>{error}</p>}
                  <div className='formInputWrapper'>
                      {/* <div className='InputCodeWrapper'> </div> */}
-                     {/* <input onChange={handleName} type='text' placeholder='Enter Student Name'/> */}
+                      <input onChange={handleName} type='text' placeholder='Enter Student Name'/> 
                      <input onChange={handleEmail} type='email' placeholder='Enter Email'/>
                      <PhoneInput
                     placeholder="Enter phone number"
