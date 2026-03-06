@@ -87,7 +87,6 @@ export default function GroupSection({onViewGroup}) {
         }}
       )
 
-      console.log('groups...',allgroups)
       const sortedgroups=allgroups.data.sort((a,b)=>new Date(b.created_at)-new Date(a.created_at))
       setGroups(sortedgroups)
     }
@@ -95,7 +94,6 @@ export default function GroupSection({onViewGroup}) {
 
     useEffect(()=>{
       const gotentoken=localStorage.getItem('token')
-      console.log('gotentoken from useffect...\n',{gotentoken})
       setGotenToken(gotentoken)
 
       fetchgroups(gotentoken)
@@ -117,7 +115,6 @@ export default function GroupSection({onViewGroup}) {
       };
 
       const gotentoken=localStorage.getItem('token')
-      console.log('gotentoken...\n',{gotentoken})
 
       const gradeName=groupName
       
@@ -129,7 +126,7 @@ export default function GroupSection({onViewGroup}) {
       )
       const savedgroup=savegroup.data
 
-      console.log('savedgroup message',savedgroup)
+     
 // {message: 'Class group successfully created'}
       if (savedgroup.status===200){
         alert("Group created successfully")
@@ -138,7 +135,7 @@ export default function GroupSection({onViewGroup}) {
         setCurrentPage(1);
 
       }else{
-        alert('error in creating the group')
+        console.error('error in creating the group')
       }
 
       // if (savedgroup){
