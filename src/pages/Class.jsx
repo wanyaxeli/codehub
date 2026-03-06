@@ -480,7 +480,7 @@ useEffect(() => {
           }
         }else if(state && classType ==='trial'){
             const{id,role,booking_id,code}=state
-            settypeOfClass(typeOfClass)
+            settypeOfClass('oneOnone')
             function normalizeId(id) {
                 return String(id).includes("e")
                   ? Number(id).toLocaleString("fullwide", { useGrouping: false })
