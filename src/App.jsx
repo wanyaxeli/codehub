@@ -20,6 +20,7 @@ function App() {
   const [grade, setGrade] = useState('')
   const [email, setEmail] = useState('')
   const [token, setToken] = useState('')
+  const [name, setName] = useState('')
   const [CountryCode, setCountryCode] = useState('')
   const [CountryName, setCountryName] = useState('')
   const [student, setStudent] = useState('')
@@ -96,6 +97,8 @@ function App() {
         proPic,
         grade,
         setGrade,
+        setName,
+        name
       }}
     >
       {/*  wrap lazy import in Suspense */}

@@ -23,7 +23,7 @@ export default function Register() {
         'NG', 'RW', 'RE', 'SH', 'ST', 'SN', 'SC', 'SL', 'SO', 'ZA', 'SS', 'SD', 'TZ', 
         'TG', 'TN', 'UG', 'EH', 'ZM', 'ZW'
       ];
-      const {value,setValue,email,setEmail,CountryCode,setCountryName,setCountryCode,grade,setGrade}=useContext(context)
+      const {value,setValue,email,setEmail,CountryCode,setCountryName,setCountryCode,grade,setGrade,setName,name}=useContext(context)
       const handlePhoneChange = (phone) => {
         setErrors('')
         if (phone) {
@@ -48,6 +48,10 @@ export default function Register() {
             setErrors('')
             setEmail(e.target.value)
         }
+        const handleName =(e)=>{
+          setErrors('')
+          setName(e.target.value)
+      }
     var settings = {
         dots: false,
         infinite: true,
@@ -64,7 +68,7 @@ export default function Register() {
     // }
     const handleToLapTop=()=>{
     // navigate('/laptop')
-    if(grade && value && email){
+    if(grade && value && email && name){
       if (isValidPhoneNumber(value)) {
         if(grade){
              if(email){
@@ -174,19 +178,20 @@ export default function Register() {
                 </div>
             </div>
             <div className='RegisterFormWrapper'>
-                <div className="md:opacity-0  absolute top-4 left-28  z-10">
+                {/* <div className="md:opacity-0  absolute top-4 left-28  z-10">
                   <Link   to="/"  className="back-button"  aria-label="Back to home">
                     <ChevronLeft className="w-5 h-5" />
                       <span >Back</span>
                     </Link>
-                 </div>
+                 </div> */}
                <div className='InnerRegisterFormWrapper login-margintop'>
                  <h3 >Let's get started</h3>
                  <h4>Enter your WhatsApp phone number</h4>
                  {error &&  <p className='errorPara'>{error}</p>}
                  <div className='formInputWrapper'>
                      {/* <div className='InputCodeWrapper'> </div> */}
-                     <input onChange={handleEmail} type='email' placeholder='Email'/>
+                     {/* <input onChange={handleName} type='text' placeholder='Enter Student Name'/> */}
+                     <input onChange={handleEmail} type='email' placeholder='Enter Email'/>
                      <PhoneInput
                     placeholder="Enter phone number"
                     value={value}
@@ -215,11 +220,11 @@ export default function Register() {
                     <button onClick={handleToLapTop}>proceed to take a free lesson</button>
                  </div>
                  <div className='registerPromptWrapper'>
-                    <p><span><i className="fa fa-pencil" aria-hidden="true"></i></span> Register now, grab your free slot for coding class on our platform!</p>
+                    <p><span><i className="fa fa-pencil" aria-hidden="true"></i></span> Grab your free slot for coding class on our platform!</p>
                  </div>
                  <div className='registerPolicyWrapper'>
                     {/* <p>By signing up, you agree to the Terms of Service and Privacy Policy. You also agree that you have parental consent. Important updates will be sent via email, SMS & WhatsApp, and class reminders will be sent via call.</p> */}
-                    <p>By signing up, you agree to the Terms of Service and Privacy Policy, and confirm that you have parental or guardian consent where applicable. Notifications may be sent via email, SMS, WhatsApp, or phone calls for class reminders and important updates.</p>
+                    <p>By signing up, you agree to our Terms and Privacy Policy and consent to receive updates via email, SMS, WhatsApp, or phone.</p>
                   </div>
                </div>
             </div>

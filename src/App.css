@@ -1101,16 +1101,12 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   content: "“"; /* Add the opening quotation mark */
   color: #0097b2; /* Color for the quotation mark */
   position: absolute;
-  top: -10px; /* Adjust position of the quotation mark */
+  top: -40px; /* Adjust position of the quotation mark */
   left: 0; /* Align it to the left of the text */
   font-size: 6rem; /* Size of the quotation mark */
   line-height: 1; /* Ensures proper alignment */
   font-family: serif; /* Use a serif font for the quote */
 }
-.studentQuote{
-  /* margin-top: 60px; */
-}
-
 .studentpicname{
   margin-top: 4rem;
   /* flex-direction:column; */
@@ -1137,6 +1133,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
  
   /* flex-direction: row; */
 }
+
 .studentPic{
   width: 150px;
   height: 150px;
@@ -1200,20 +1197,23 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 .RegisterFormWrapper{
   width: 100%;
-  height: 88%;
-  display: flex;
-  align-items: center;
+  height: auto;
+  display: flex; 
+   align-items:flex-start ;
   justify-content: center;
 }
 .InnerRegisterFormWrapper{
   width: 70%;
   height: auto;
-  /* background-color: red; */
+  margin: auto;
 }
 .InnerRegisterFormWrapper h3{
   font-size: 2rem;
   margin-top: -13px;
 }
+/* .login-margintop{
+  margin-top: 1rem;
+} */
 .InnerRegisterFormWrapper h4{
   padding: 10px 0;
 }
@@ -1223,7 +1223,8 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   align-items: center; */
   margin: 10px 0;
 }
-.formInputWrapper input[type='email']{
+
+.formInputWrapper input[type='email'],.formInputWrapper input[type='text']{
   margin-bottom: 15px;
   border-radius: 15px;
   padding:0 15px;
@@ -4442,9 +4443,7 @@ a:hover{
   margin-bottom: 3rem;
 }
 
-.login-margintop{
-  margin-top: 5rem;
-}
+
 
 .privacy-parentalconsent{
   margin-bottom: 3rem;
