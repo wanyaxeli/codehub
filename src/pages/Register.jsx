@@ -190,7 +190,7 @@ export default function Register() {
                  {error &&  <p className='errorPara'>{error}</p>}
                  <div className='formInputWrapper'>
                      {/* <div className='InputCodeWrapper'> </div> */}
-                      <input onChange={handleName} type='text' placeholder='Enter Student Name'/> 
+                      {/* <input onChange={handleName} type='text' placeholder='Enter Student Name'/>  */}
                      <input onChange={handleEmail} type='email' placeholder='Enter Email'/>
                      <PhoneInput
                     placeholder="Enter phone number"
