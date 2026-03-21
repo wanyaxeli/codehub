@@ -1,5 +1,6 @@
 import React, { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
+
 // import ScheduleClasses from "../pages/students/ScheduleClasses.jsx";
 // import AttemptedQuizesDisplayer from "../pages/students/AttemptedQuizesDisplayer.jsx";
 // import QuizDispplayer from "../pages/students/QuizDispplayer.jsx";
@@ -41,6 +42,7 @@ const StudentProfile = lazy(() => import("../pages/StudentProfile.jsx"));
 const SpecialClasses = lazy(() => import("../pages/students/SpecialClasses.jsx"));
 const ClassGroups = lazy(() => import("../pages/students/ClassGroups.jsx"));
 const Math = lazy(() => import("../pages/Math.jsx"));
+const TrailNotes = lazy(() => import("../pages/TrialNotes.jsx"));
 const GroupClass = lazy(() => import("../pages/GroupClass.jsx"));
 const Slots = lazy(() => import("../pages/Slots.jsx"));
 const TeacherDetails = lazy(() => import("../pages/TeacherDetails.jsx"));
@@ -124,7 +126,7 @@ export default function AppRoutes() {
             <Route path="videos" element={<VideoPlayer />} />
             <Route path="upload video" element={<UploadVids />} />
             <Route path="Set Question" element={<QuestionSetter />} />
-            <Route path="Certificates" element={<Certificates />} />
+            <Route path="TrailNotes" element={<TrailNotes />} />
           </Route>
 
           {/*  Student Dashboard */}

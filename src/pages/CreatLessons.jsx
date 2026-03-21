@@ -126,7 +126,7 @@ export default function CreatLessons() {
             <input value={inputs.module} name='module' onChange={handleChange} type='text' placeholder='Module'/><br/>
             <input value={inputs.classname} name='classname' onChange={handleChange} type='text' placeholder='Lesson Name'/><br/>
             <input value={inputs.LessonNumber} name='LessonNumber' onChange={handleChange} type='text' placeholder='Lesson Number'/><br/>
-            <label for="file-upload" class="custom-file-upload">
+            <label htmlFor="file-upload" className="custom-file-upload">
              {/* {inputs.notes?inputs.notes:'Upload Notes'} */}
              {inputs.notes?<p>Selected file: {inputs.notes.name}</p>:'Upload Notes'}
             </label>

@@ -1130,8 +1130,6 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   width: 100%;
   height: auto;
   display: flex;
- 
-  /* flex-direction: row; */
 }
 
 .studentPic{
@@ -1149,7 +1147,14 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 .rightSideLogo{
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+}
+.rightSideLogo p  .fa{
+  color: #0097b2;
+}
+.rightSideLogo p:hover{
+  text-decoration: underline;
+  color: #0097b2;
 }
 .rightSideLogoLeft{
   flex: .4;
@@ -1199,7 +1204,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   width: 100%;
   height: auto;
   display: flex; 
-   align-items:flex-start ;
+  align-items:flex-start ;
   justify-content: center;
 }
 .InnerRegisterFormWrapper{
@@ -1207,10 +1212,44 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   height: auto;
   margin: auto;
 }
+.loginWraper{
+  height: 85%;
+  align-items: center;
+}
 .InnerRegisterFormWrapper h3{
   font-size: 2rem;
   margin-top: -13px;
 }
+.TrialNotesWrapper,.TrialNotesWrapper table{
+  width: 100%;
+  height: auto;
+}
+.TrialNotesWrapper table{
+  margin-top: 20px;
+}
+.TrialNotesWrapper table th{
+  text-transform: capitalize;
+  background-color: #0097b2;
+  padding: 20px 10px;
+  text-align: left;
+ 
+}
+.TrialNotesWrapper table th:first-child,.TrialNotesWrapper table td:first-child{
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+.TrialNotesWrapper table th:last-child,.TrialNotesWrapper table td:last-child{
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.TrialNotesWrapper table tr td{
+  padding: 20px;
+}
+.TrialNotesWrapper table tr:nth-child(even) td{
+ background-color: #e8e8ee;
+ color: #000;
+}
+
 /* .login-margintop{
   margin-top: 1rem;
 } */
@@ -1224,13 +1263,6 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   margin: 10px 0;
 }
 
-.formInputWrapper input[type='email'],.formInputWrapper input[type='text']{
-  margin-bottom: 15px;
-  border-radius: 15px;
-  padding:0 15px;
-  background-color: #e8e8ee;
-  border: 2px solid #0097b2;
-}
 .formInputWrapper input::placeholder{
   color: #000;
 }
@@ -1241,22 +1273,34 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   border-bottom-left-radius: 10px;
   border-top-left-radius: 10px;
   border-right: 1px solid #e8e8ee;
-  
+
 }
 .PhoneInput{
   background-color: #e8e8ee !important;
   border: 2px solid #0097b2;
-  margin: 15px 0;
+  margin: 10px 0;
 }
 .formInputWrapper input{
   width: 100%;
-  height: 50px;
+  height: 40px;
   outline: none;
   /* border: 2px solid #0097b2; */
   background-color: #e8e8ee;
 
   border-bottom-right-radius: 10px;
   border-top-right-radius: 10px;
+}
+
+.formInputWrapper input[type='email'],.formInputWrapper input[type='text']{
+  margin-bottom: 10px;
+  border-radius: 10px;
+  padding:0 10px;
+  background-color: #e8e8ee;
+  border: 2px solid #0097b2;
+  height: 45px;
+}
+.formInputWrapper input[type='text']{
+  margin-bottom: 15px;
 }
 .registerPolicyWrapper p{
   font-size: .8rem;
@@ -1268,7 +1312,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 .gradeSelectorHolder select{
   width: 100%;
-  height: 50px;
+  height: 45px;
   border: none;
   outline: none;
   padding: 0 10px;
@@ -1283,7 +1327,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 }
 .formBtnwrapper button{
   width: 100%;
-  height: 50px;
+  height: 45px;
   border: none;
   outline: none;
   border-radius: 10px;
@@ -5230,13 +5274,85 @@ a:hover{
   cursor: pointer;
 }
 .RescheduleWrapper{
-  width: 200px;
-  height: 200px;
-  background-color: #e8e8ee;
+  width: 100%;
+  height: 100%;
+  /* background-color: ; */
   position: absolute;
   color: #000;
   top: 0;
   right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.RescheduleWrapper h2{
+  text-align: center;
+  text-transform: capitalize;
+  padding-top: 20px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+.InnerRescheduleWrapper{
+  width: 40%;
+  height: 35%;
+  background-color: white;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-radius: 10px;
+}
+.rescheduleInputWrapper{
+  width: 100%;
+  height: 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.rescheduleInputWrapper input{
+  border: 2px solid #0097b2;
+  width: 90%;
+  height: 50px;
+  border-radius: 10px;
+  padding: 0 10px;
+}
+.rescheduleBtnWrapper{
+  width: 100%;
+  height: auto;
+  text-align: center;
+}
+.rescheduleBtnWrapper button{
+  background-color: #0097b2;
+  padding: 10px 20px;
+  border-radius: 10px;
+  text-transform: capitalize;
+  color: #fff;
+  cursor: pointer;
+}
+.rescheduleBtnWrapper button:hover{
+  background-color: transparent;
+  border: 2px solid #0097b2;
+  color: #000;
+}
+.InnerRescheduleBtnWrapper{
+  width: 100%;
+  height: auto;
+  position: relative;
+}
+.InnerRescheduleBtnHolder{
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: red;
+  position: absolute;
+  right: -10px;
+  top: -10px;
+  cursor: pointer;
+  color: #fff;
+  padding-bottom: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.InnerRescheduleBtnHolder:hover{
+  transform: scale(1.1);
 }
 .showMoreWrapper:hover{
   background-color: #e8e8ee;

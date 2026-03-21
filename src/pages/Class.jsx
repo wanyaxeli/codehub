@@ -553,7 +553,7 @@ useEffect(() => {
     setOpenStudentProfile('StudentProfilePopUp')
    }
    const handletoNotes =(notes)=>{
-    window.open(`https://res.cloudinary.com/dbxsncq5r/${notes}`, "_blank");
+    window.open(`https://res.cloudinary.com/dbxsncq5r/${notes}  #toolbar=0&navpanes=0&scrollbar=0 `, "_blank");
    }
    const handleStudent =()=>{
     setopenStudentRegistrationform('RegisterStudentModal')

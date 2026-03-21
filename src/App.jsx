@@ -18,6 +18,7 @@ function App() {
 
   const [value, setValue] = useState('')
   const [grade, setGrade] = useState('')
+  const [course, setCourse] = useState('')
   const [email, setEmail] = useState('')
   const [token, setToken] = useState('')
   const [name, setName] = useState('')
@@ -98,7 +99,9 @@ function App() {
         grade,
         setGrade,
         setName,
-        name
+        name,
+        course, 
+        setCourse
       }}
     >
       {/*  wrap lazy import in Suspense */}

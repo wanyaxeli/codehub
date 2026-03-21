@@ -12,7 +12,10 @@ export default function TeacherClassDetails() {
     const [studentName,setStudentName]=useState('')
     const [studentPic,setStudentPic]=useState('')
     const [groupName,setGroupName]=useState('')
+    const [openPortal,setopenPortal]=useState(false)
+    const [RescheduleBtn,setRescheduleBtn]=useState(false)
     const [token,setToken]=useState()
+    const [dates,setDates]=useState()
     const [studentId,setStudentId]=useState()
     const {teacher,proPic,seeEarning,setEarning}=useContext(context)
     // const [aboutlesson,]
@@ -111,10 +114,57 @@ export default function TeacherClassDetails() {
    useEffect(()=>{
     getStudentProfilePic()
    },[studentDetails])
-
+   const handleCloseBtn =()=>{
+    setRescheduleBtn(false)
+   }
+  
+   const handleOpenSchedule =()=>{
+    setRescheduleBtn(true)
+   }
    const [todayclassobj]=todayClass
-
-
+  const  RescheduleClass =(lesson)=>{
+   console.log(lesson)
+   console.log(dates)
+   const id=lesson.id
+   const studentId=lesson.student.id
+   const url=`https://api.codingscholar.com/reschedulingClassToAnotherDay/${id}`
+   const data={
+    student_id:studentId,
+    date:dates
+   }
+   console.log('data',data)
+   axios.put(url,data,{
+    'headers':{
+        'Authorization':`Bearer ${token}`
+    }
+   })
+   .then(res=>{
+    console.log(res.data)
+    // const data=res.data
+    // if(data.message==='Lesson rescheduled successfully'){
+    //     setDates('')
+    //     setRescheduleBtn(false)
+    //     navigate('/teacher/dashboard/Calendar')
+    // }
+   })
+   .catch(error=>console.log(error))
+  }
+  const handleDateInputs =(e)=>{
+   setDates(e.target.value)
+  }
+  async function getToken(){
+    try{
+        const token= localStorage.getItem('token') // No need to await
+        if (token){
+            setToken(token);
+        }
+    } catch(error) {
+        console.log(error);
+}
+}
+  useEffect(()=>{
+   getToken()
+  },[])
   return (
     <div className='DetailsWrapper'>
          <div className='TeacherDetailsWrapper'>
@@ -162,14 +212,31 @@ export default function TeacherClassDetails() {
                         </a>
                         </p>
                         <button onClick={()=>handleToJoinClass(lesson,lesson.student.id,lesson.lesson.lessonId,lesson.date_time)}>join</button>
-                        <div className='showMoreWrapper'>
-                            <span><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span>
+                         {todayclassobj?.classType==='oneOnone'?
+                          <div onClick={handleOpenSchedule} className='showMoreWrapper'>
+                          <span ><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span>
+                      </div>
+                         :""}
+                       {RescheduleBtn===true? <Portal>
+                        <div className='RescheduleWrapper'>`
+                            <div className='InnerRescheduleWrapper'>
+                                <div className='InnerRescheduleBtnWrapper'>
+                                    <div className='InnerRescheduleBtnHolder' onClick={handleCloseBtn}>
+                                        &times;
+                                    </div>
+                                </div>
+                            <div>
+                            <h2>reschedule class</h2>
+                            </div>
+                            <div className='rescheduleInputWrapper'>
+                                <input value={dates} type='datetime-local' onChange={handleDateInputs}/>
+                            </div>
+                            <div className='rescheduleBtnWrapper'>
+                                <button onClick={()=>RescheduleClass(lesson)}>reschedule</button>
+                            </div>
+                            </div>
                         </div>
-                        {/* <Portal>
-                        <div className='RescheduleWrapper'>`1
-                            <p>reschedule</p>
-                        </div>
-                        </Portal> */}
+                        </Portal>:''}
                   </div>
                 )
                })}

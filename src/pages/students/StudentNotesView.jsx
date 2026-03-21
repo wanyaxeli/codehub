@@ -12,7 +12,7 @@ export default function StudentNotesView() {
     <div className="NotesViewerWrapper">
       {notes ? (
         <iframe
-          src={`https://res.cloudinary.com/dbxsncq5r/${notes}`}
+          src={`https://res.cloudinary.com/dbxsncq5r/${notes}  #toolbar=0&navpanes=0&scrollbar=0 `}
           width="100%"
           height="600px"
           style={{ border: "none" }}

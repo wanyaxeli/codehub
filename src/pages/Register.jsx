@@ -23,7 +23,7 @@ export default function Register() {
         'NG', 'RW', 'RE', 'SH', 'ST', 'SN', 'SC', 'SL', 'SO', 'ZA', 'SS', 'SD', 'TZ', 
         'TG', 'TN', 'UG', 'EH', 'ZM', 'ZW'
       ];
-      const {value,setValue,email,setEmail,CountryCode,setCountryName,setCountryCode,grade,setGrade,setName,name}=useContext(context)
+      const {value,setValue,email,setEmail,CountryCode,setCountryName,setCountryCode,grade,setGrade,setName,name,course, setCourse}=useContext(context)
       const handlePhoneChange = (phone) => {
         setErrors('')
         if (phone) {
@@ -68,7 +68,7 @@ export default function Register() {
     // }
     const handleToLapTop=()=>{
     // navigate('/laptop')
-    if(grade && value && email ){
+    if(grade && value && email  && name && course){
       if (isValidPhoneNumber(value)) {
         if(grade){
              if(email){
@@ -83,7 +83,7 @@ export default function Register() {
         setErrors('Invalid phone number');
       }
     }else{
-      setErrors('Plase all fields are required')
+      setErrors('Please all fields are required.')
     }
     }
     function isValidEmail(email) {
@@ -107,6 +107,10 @@ export default function Register() {
         setErrors('')
         setSelectedValue(event.target.value);
       };
+    const handleCourseChange =(e)=>{
+      setErrors('')
+     setCourse(e.target.value)
+    }
     useEffect(()=>{
     setGrade(selectedValue)
     },[selectedValue])
@@ -159,11 +163,12 @@ export default function Register() {
             </aside>
             <main>
             <div className='registerLogoWRapper rightSideLogo'>
-                <div className='rightSideLogoLeft'></div>
-                <div className='rightSideLogoRight'>
-                    <ul>
+                {/* <div className='rightSideLogoLeft'></div> */}
+                {/* <div className='rightSideLogoRight'> */}
+                    {/* <ul> */}
                         {/* <li onClick={handleToTeacherLogin}>Are you are teacher </li> */}
-                      <li>
+                      {/* <li> */}
+                      <p>
                         <i className="fa fa-envelope-open" aria-hidden="true"></i>
                         &nbsp;
                         <a
@@ -173,9 +178,9 @@ export default function Register() {
                         style={{ textDecoration: 'none', color: 'inherit' }}>
                             support: info@codingscholar.com
                         </a>
-                      </li>
-                    </ul>
-                </div>
+                        </p>
+                      {/* </li>
+                    </ul> */}
             </div>
             <div className='RegisterFormWrapper'>
                 {/* <div className="md:opacity-0  absolute top-4 left-28  z-10">
@@ -186,14 +191,14 @@ export default function Register() {
                  </div> */}
                <div className='InnerRegisterFormWrapper login-margintop'>
                  <h3 >Let's get started</h3>
-                 <h4>Enter your WhatsApp phone number</h4>
+                 {/* <h4>Enter your WhatsApp phone number</h4> */}
                  {error &&  <p className='errorPara'>{error}</p>}
                  <div className='formInputWrapper'>
                      {/* <div className='InputCodeWrapper'> </div> */}
-                      {/* <input onChange={handleName} type='text' placeholder='Enter Student Name'/>  */}
+                      <input onChange={handleName} type='text' placeholder='Enter Student Name'/> 
                      <input onChange={handleEmail} type='email' placeholder='Enter Email'/>
                      <PhoneInput
-                    placeholder="Enter phone number"
+                    placeholder="Enter WhatsApp phone number"
                     value={value}
                     countries={africanCountries}
                     defaultCountry="KE"
@@ -214,6 +219,15 @@ export default function Register() {
                     <option value="7">grade 7</option>
                     <option value="8">grade 8</option>
                     <option value="9">grade 9</option>
+                    </select>
+                 </div>
+                 <div className='gradeSelectorHolder'>
+                    <select value={course} onChange={handleCourseChange}>
+                    <option value="" disabled>
+                     course
+                    </option>
+                    <option value="coding">coding</option>
+                    <option value="mathematics">mathematics</option>
                     </select>
                  </div>
                  <div className='formBtnwrapper'>

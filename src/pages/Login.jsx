@@ -146,14 +146,14 @@ export default function Login() {
                 </ul>
             </div>
         </div>
-        <div className='RegisterFormWrapper'>
+        <div className='RegisterFormWrapper loginWraper'>
            <div className='InnerLoginWrapper'>
-            <div className="md:opacity-0  absolute top-4  z-10">
+            {/* <div className="md:opacity-0  absolute top-4  z-10">
               <Link   to="/"  className="back-button"  aria-label="Back to home">
                  <ChevronLeft className="w-5 h-5" />
                <span >Back</span>
              </Link>
-            </div>
+            </div> */}
 
            <h3>Let's get started</h3>
            <div className='loginInputWrapper'>

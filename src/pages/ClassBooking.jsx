@@ -7,7 +7,7 @@ import AlertPOPUp from '../Components/AlertPOPUp';
 import { useEffect } from 'react';
  export default function ClassBooking() {
 
-    const {value,email,grade,CountryCode,CountryName}=useContext(context)
+    const {value,email,grade,CountryCode,CountryName,name,course}=useContext(context)
     const initialState={date:'',time:""}
     const [booking,setBooking]=useState(initialState)
     const [loading,setLoading]=useState(false)
@@ -202,7 +202,7 @@ const handleShowBookingforSevenDay =(id)=>{
                 const {teacher,time,date,datetime_utc}=item
                 const first_name=teacher.user.first_name
                 const last_name=teacher.user.last_name
-                const data={phone_number:value,email:email,
+                const data={phone_number:value,email:email,course:course,name:name,
                     first_name:first_name,last_name:last_name,datetime_utc:datetime_utc,time:time,date:date,grade:grade,BookingName:BookingName,countryCode:CountryCode,country:CountryName}
                     axios.post(url,data)
                     .then(res=>{
@@ -308,6 +308,11 @@ const handleShowBookingforSevenDay =(id)=>{
                         <div className='studentPicholder'>
                             <div className='studentPic'>
                                 <img  src={pic}/>
+                            </div>
+                            <div className='studentpicname '>
+                                <p className='stdntname font-semibold flex'>Joyce Wanjiku </p>
+                                <p className='stdntdescription text-sm'>Active Teacher, Kenya</p>
+
                             </div>
                         </div>
                     </div>
