@@ -69,10 +69,12 @@ export default function TeacherClassDetails() {
                     const id=`${les.group_class.group_name}-${Lessonid}`
                     const url=les.lesson.pdf_notes 
                     const notes={title:title,url:url}
+                    const lessontype=les.lessonType
+                    const lesid=les.id
                     // const studentUserId=les.student.user.id
                     const groupId=les.group_class.id
                     // navigate(`/class/${id}`, { state: { id,typeOfClass:'group',classType:'NormalClass',studentName, time,student,studentUserId,notes,studentDetails,studentPic} }); 
-                    navigate(`/class/${id}`, { state: { id,typeOfClass:'group',classType:'NormalClass',groupName, time,student,groupId,notes,studentDetails} }); 
+                    navigate(`/class/${id}`, { state: { id,typeOfClass:'group',classType:'NormalClass',groupName, time,student,groupId,notes,studentDetails,lessontype,lesid} }); 
                 }else{
                     const studentUserId=les.student.user.id
                     const title=les.lesson.title 
@@ -80,8 +82,10 @@ export default function TeacherClassDetails() {
                     const id=Lessonid
                     const navID=`${les.student.id}${id}`
                     const notes={title:title,url:url}
-                    console.log(studentUserId) 
-                    navigate(`/class/${navID}`, { state: { id,typeOfClass:'oneOnone',classType:'NormalClass',studentName, time,student,studentUserId,notes,studentDetails,studentPic} }); 
+                    const lessontype=les.lessonType
+                    const lesid=les.id
+                    // console.log(studentUserId) 
+                    navigate(`/class/${navID}`, { state: { id,typeOfClass:'oneOnone',classType:'NormalClass',studentName, time,student,studentUserId,notes,studentDetails,studentPic,lessontype,lesid} }); 
                 }
             }else{
                 alert('this class is completed')

@@ -1,7 +1,8 @@
 // type courses {
 
 // }
-const courses=[
+const courses=
+[
     {
         id:1,
         tag:"🎓 New Course",

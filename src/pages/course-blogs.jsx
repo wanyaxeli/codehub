@@ -4,6 +4,7 @@ import CourseDetailPage from "@/Components/blogs";
 import Footer from "@/Components/Footer";
 import Header from "@/Components/Header";
 import { useEffect, useState } from 'react'
+import HeaderSection from "@/Components/code-headers";
 
 export default function CourseBlogs(){
     const [chosencourseid,setChosenCourseId]=useState(1)
@@ -16,7 +17,8 @@ export default function CourseBlogs(){
     //   },[])
     return(
         <>
-        <Header/>
+        {/* <Header/> */}
+        <HeaderSection/>
         <CourseDetailPage/>
         <Footer/>
         </>

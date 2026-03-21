@@ -6,10 +6,12 @@ import Footer from '../Components/Footer'
 import Header from '../Components/Header'
 import CookieConsent from "react-cookie-consent";
 import Cookies from "js-cookie"
+import CourseSection from '@/Components/c-courses'
 
 // import CookieConsent from '../Components/cookie-consent'
 import ParentsComments from '../Components/ParentsComments'
 import { Helmet } from 'react-helmet-async';
+import HeaderSection from '@/Components/code-headers'
 export default function Home() {
 
   // useEffect(()=>{
@@ -24,10 +26,12 @@ export default function Home() {
         <meta name="keywords" content="coding,coding for kids, education, online classes,online classes for kids, programming for kids, programming" />
         <link rel="canonical" href="https://www.codingscholar.com/" />
       </Helmet>
-    <Header/>
+    {/* <Header/> */}
+    <HeaderSection/>
     {/* <CookieConsent/> */}
     <Banner/>
-    <Courses/>
+    {/* <Courses/> */}
+    <CourseSection/>
     <Benefit/>
     <ParentsComments/>
     <Footer/>

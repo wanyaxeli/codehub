@@ -51,7 +51,7 @@ export default function CourseDetailPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="paddingysxtn relative w-full overflow-hidden bg-gradient-to-br from-blue-50 via-white to-cyan-50 py-16 md:paddingysxtn">
+      <section className="paddingy-courseblogs relative w-full overflow-hidden bg-gradient-to-br from-blue-50 via-white to-cyan-50 py-16 md:paddingy-courseblogs">
         <div className="heroblogcontainer mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid gap-8 md:gap-12 lg:grid-cols-2 items-center">
             <div className="spacing-y-six flex flex-col justify-center space-y-6">
