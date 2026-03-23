@@ -160,12 +160,12 @@ export default function TeacherClassDetails() {
    })
    .then(res=>{
     console.log(res.data)
-    // const data=res.data
-    // if(data.message==='Lesson rescheduled successfully'){
-    //     setDates('')
-    //     setRescheduleBtn(false)
-    //     navigate('/teacher/dashboard/Calendar')
-    // }
+    const data=res.data
+    if(data.message==='Lesson rescheduled successfully'){
+        setDates('')
+        setRescheduleBtn(false)
+        navigate('/teacher/dashboard/Calendar')
+    }
    })
    .catch(error=>console.log(error))
   }
