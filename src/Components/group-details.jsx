@@ -81,6 +81,7 @@ export default function GroupDetails({group,onBack}){
     const students_in_group_url=`https://api.codingscholar.com/studentInGroup/${group.id}`
     const group_lesson_url=`https://api.codingscholar.com/teacherGroupClass`
     const group_details=`https://api.codingscholar.com/Get_class_group_room/${group.id}`
+    const remove_student=`https://api.codingscholar.com/RemoveStudentInGroupClass/${group.id}`
 
 
     const fetchgroup_students=async(goten_token)=>{
@@ -225,6 +226,7 @@ export default function GroupDetails({group,onBack}){
         try{
             const {addedstudents,removedstudents} =getStudentchanges()
             let addresults;
+            let removedresults;
             // api call
             if (addedstudents.length>0){
               addresults=await Promise.allSettled(
@@ -241,15 +243,21 @@ export default function GroupDetails({group,onBack}){
             }
 
             if(removedstudents.length>0){
+              console.log('removed students',removedstudents)
+
               removedresults=await Promise.allSettled(
-                removedstudents.map(removedstudent=>axios.post(studentremoveurl,{student:student.id},{headers:{"Authorization":`Bearer ${got_t}`}}))
-              )
+                removedstudents.map(removedstudent=>axios.delete(remove_student,
+                  {headers:{"Authorization":`Bearer ${got_t}`},
+                   data:{student_id:removedstudent.id}
+                }
+                ))
+              );
 
               removedresults.forEach((removeresult,index)=>{
                 if(removeresult.status=="fulfilled"){
-                  alert('students removed successfully')
+                  alert('✅✅students removed successfully')
                 }else{
-                  console.error("faileed remove student::",removedstudents[index],removeresult.reason)
+                  console.error("❌faileed remove student::",removedstudents[index],removeresult.reason)
                 }
               })
             }
@@ -261,7 +269,7 @@ export default function GroupDetails({group,onBack}){
             
 
         }catch(e){
-            console.error('Error saving student changes:', error);
+            console.error('❌Error saving student changes:', error);
         } finally{
             setIsSaving(false)
             setShowSaveConfirmModal(false)
@@ -338,7 +346,26 @@ export default function GroupDetails({group,onBack}){
         // send to backend
     }
 
-    const handleRemoveStudent=(studentId)=>{
+    const handleRemoveStudent=async(studentId)=>{
+    //   // try{
+    //   //   console.log('removing student')
+    //   //   const remove_res=await axios.post(remove_student,
+    //   //     {
+    //   //       student_id:studentId
+    //   //     },
+    //   //     {
+    //   //             headers:{
+    //   //               "Authorization":`Bearer ${got_t}`
+    //   //             }
+    //   //           }
+    //   //   )
+    //   //   console.log('removed student results',remove_res)
+    //   //   alert('✅student removed successfully ')
+
+    //   // }catch(e){
+    //   //   console.error('❌error in removing the student from the group')
+    //   // }
+
         setStudents(students.filter((s)=>s.id!==studentId))
     }
     // const students=[]

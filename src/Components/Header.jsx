@@ -17,6 +17,10 @@ export default function Header() {
     const {pathname}=location
     const handleChange = (event) => {
         setSelectedValue(event.target.value);
+        const chosencourse=event.target.value
+        if (chosencourse && chosencourse!==""){
+          navigate('/course-blogs',{state:chosencourse})
+        }
       };
     const handleToFreeClass =()=>{
     navigate('/register')
@@ -122,9 +126,9 @@ export default function Header() {
                 <option value="" disabled>
                  courses
                 </option>
-                <option value="option1">python for kids</option>
-                <option value="option2">web development</option>
-                <option value="option3">scratch programming</option>
+                <option value="1">python for kids</option>
+                <option value="2">web development</option>
+                <option value="3">scratch programming</option>
                 </select>
             </div>
             <HeaderDetails pic2={pic2}  handleToStudentDashboard={handleToStudentDashboard} handleToFreeClass={handleToFreeClass} handleToLogin={handleToLogin}  handleJoinClass={handleJoinClass} handleToDashboard={handleToDashboard} teacher={teacher} student={student}  proPic={proPic}/>

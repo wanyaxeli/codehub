@@ -2,10 +2,141 @@
   --background: #e8e8ee;
   --foreground: #1a1a2e;
   --card: #ffffff;
+
 }
 .HomeWrapper{
   width: 100%;
   height: auto;
+}
+
+.paddingtopfour{
+  padding-top: 1rem;
+}
+.header-text{
+  color:rgb(27, 27, 27)
+}
+
+.paddingy-two{
+  padding-bottom:0.25rem ;
+  padding-top:0.25rem;
+}
+
+.homeherosect{
+  padding-top: 3.5rem;
+  padding-bottom: 4rem;
+}
+
+.padding-yfour{
+  padding-top:1rem;
+  padding-bottom: 1rem;
+}
+
+.paddingbtmfour{
+  padding-bottom: 1rem;
+}
+.paddingysxtn{
+  padding-bottom:4rem;
+  padding-top:4rem
+}
+.paddingy-courseblogs{
+  padding-bottom:2rem;
+  padding-top:2rem
+}
+.boutcoursesect{
+  padding-bottom: 4rem;
+  padding-top:4rem
+}
+
+.homeheropadxsix{
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.howitworksspacing-y>*+*{
+  margin-top: 4rem;
+
+}
+
+.pl-twenty{
+  padding-left: 5rem;
+}
+.pl-sxtn{
+  padding-left: 4rem;
+}
+
+.pr-sxtn{
+  padding-left: 4rem;
+}
+
+.home-p-ten{
+  padding:2.5rem
+}
+
+@media (min-width:768px){
+  .home-p-ten{
+  padding:4rem
+}
+  .pl-sxtn{
+  padding-left: 4rem;
+}
+  .pr-sxtn{
+  padding-left: 4rem;
+}
+  .pl-twenty{
+  padding-left:0
+}
+
+  .howitworksspacing-y>*+*{
+  margin-top: 6rem;
+
+}
+  .homeheropadxsix{
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+  .paddingysxtn{
+    padding-bottom:6rem;
+    padding-top: 6rem;
+  }
+  .paddingy-courseblogs{
+   padding-bottom:4rem;
+    padding-top: 2rem;
+}
+  .boutcoursesect{
+  padding-bottom:5rem;
+  padding-top:3rem
+}
+}
+
+.heroblogcontainer{
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.headercontainer{
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+@media (min-width:640px){
+  .heroblogcontainer{
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width:1024px){
+  .home-p-ten{
+  padding:6rem
+}
+  .heroblogcontainer{
+    padding-left: 2rem;
+    padding-right:2rem;
+  }
+
+  .headercontainer{
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
 }
 
 .inputone{
@@ -19,6 +150,10 @@
 
 }
 
+.mb-sxtn{
+  margin-bottom: 4rem;
+}
+
 .classgrouppopheader{
   padding:0.35rem
 }
@@ -27,6 +162,13 @@
   padding: 1rem;
   margin-top:4.5rem
 
+}
+.mbottomsxtn{
+  margin-bottom: 4rem;
+}
+
+.mbottomtwelve{
+  margin-bottom: 3rem;
 }
 
 .student-list > * + * {
@@ -55,7 +197,7 @@
 }
 .headerContainer{
   max-width: 1200px;
-  height: 100%;
+  /* height: 100%; */
   width: 94%;
   margin: auto;
   display: flex;
@@ -130,6 +272,15 @@
   margin-bottom: 1rem;
 }
 
+.paddingleft-four{
+  padding-left: 1rem;
+}
+
+.paddingx-four{
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
 .paddingx-six{
   padding-left: 1.5rem;
   padding-right: 1.5rem;
@@ -200,8 +351,24 @@
   margin-top: 0.5rem;
 }
 
+.spacing-y-twelve>*+*{
+  margin-top: 3rem;
+}
+
+.paddingxeight{
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.spacing-y-two>*+*{
+  margin-top:0.5rem
+}
 .scheduleclass-modalspacing>*+*{
   margin-top:1rem
+}
+
+.spacing-y-six>*+*{
+  margin-top:1.5rem
 }
 
 .spacing-y-one>*+*{
@@ -210,6 +377,10 @@
 
 .spacing-y-three>*+*{
   margin-top:0.75rem
+}
+
+.mb-ten{
+  margin-bottom: 2.5rem;
 }
 
 .scheduleclassinput-field {
@@ -383,14 +554,14 @@
   padding: 2px 0;
 }
 .logoContainer{
-  width: 80px;
-  height:80px;
+  width: 5rem;
+  height:5rem;
   margin-right: 10px;
 }
 .logoContainer img{
   width:100% ;
   height: 100% ;
-  object-fit:fill;
+  object-fit:contain;
 }
 .leftHeader select{
   width: 50%;
@@ -633,7 +804,9 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 .BenefitWrapper{
   width: 100%;
   height: auto;
-  background-color: #e8e8ee;
+  padding-bottom: 4rem;
+  padding-top:4rem;
+  background-color: #b3b3d3;
 }
 .BenefitContainer{
   max-width: 1200px;
@@ -2049,15 +2222,15 @@ body{
   justify-content: flex-end;
 }
 .logoContainer {
-  height: 100%;
-  width: 70px;
+  /* height: 100%;
+  width: 70px; */
   padding: 7px 0; 
 
 }
 .logoContainer img{
   width: 100%;
   height: 100%;
-  border-radius:15px;
+  border-radius:100%;
   cursor: pointer;
 }
 .endclassBtnwrapper button{
@@ -4485,6 +4658,9 @@ a:hover{
   margin-bottom: 1rem;
 }
 
+.margintop-i{
+  margin-top: 0.25rem;
+}
 .paddingfour{
   padding:1rem
 }
@@ -4499,6 +4675,10 @@ a:hover{
   padding:1.5rem;
 }
 
+.py-thirtytwo{
+  padding-top: 8rem;
+  padding-bottom: 8rem;
+}
 .nav-title{
   margin-bottom: 1rem;
 }
@@ -4579,6 +4759,10 @@ a:hover{
   
 }
 
+.mb-twentyfour{
+  margin-bottom: 6rem;
+}
+
 .group-backbtn{
   color:rgb(46, 165, 165);
   background-color: white;
@@ -4589,9 +4773,57 @@ a:hover{
   color:#00c3ff
 
 }
+.mb-twenty{
+  margin-bottom: 5rem;
+}
+
+.paddingx-eight{
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+.paddingx-ten{
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+}
+
+.pb-six{
+  padding-bottom: 1.5rem;
+}
+
+.pr-eight{
+  padding-right: 2rem;
+}
+
+.paddingy-five{
+  padding-top: 1.25rem;
+  padding-bottom:1.25rem;
+}
+
+.paddingy-six{
+  padding-top: 1.5rem;
+  padding-bottom:1.5rem;
+}
 .paddingy-eight{
   padding-top: 2rem;
   padding-bottom: 2rem;
+}
+.paddin-ten{
+  padding:2.5rem
+}
+
+.py-one{
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+.px-three{
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+.py-twentyfour{
+  padding-top:6rem;
+  padding-bottom: 6rem;
 }
 
 .link-blue:hover{
@@ -4606,7 +4838,21 @@ a:hover{
   padding:2rem;
 }
 
+.mtauto{
+  margin-top: auto;
+}
+
+.pad-eight-homsect{
+  padding: 2rem;
+}
+
 @media (min-width: 768px) {
+  .pad-eight-homsect{
+  padding: 2.5rem;
+}
+  .paddin-ten{
+    padding:2.5rem
+  }
   .privacy-title {
     font-size: 3rem;
   }
@@ -5069,6 +5315,9 @@ a:hover{
   height: 100%;
   object-fit: cover;
   border-radius: 50%;
+}
+.mtauto{
+  margin-top: auto;
 }
 .stdntname{
   margin-top: 10px;
