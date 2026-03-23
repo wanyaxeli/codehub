@@ -4,6 +4,7 @@ import { useNavigate,useLocation,useNavigation } from 'react-router-dom'
 import axios from 'axios'
 import { jwtDecode } from 'jwt-decode';
 import {Upload, X,Calendar} from 'lucide-react'
+// import { promiseHooks } from 'v8';
 export default function EndClass() {
   const location = useLocation()
   const navigate = useNavigate()
@@ -28,10 +29,25 @@ export default function EndClass() {
   const [selectedTime,setSelectedTime]=useState()
   const [manualreschedule,setManualReschedule]=useState(false)
   const [footering,setFooter]=useState(true)
+  const [groupId,setGroupId]=useState()
+  const[classType,setClassType]=useState()
+  const[lessontype,setLessonType]=useState()
+  const [lesid,setLesId]=useState()
+
+  // console.log('groupId...',groupId)
+  // console.log('lessonId...',classId)
+
+  const group_vediosAPI=`https://api.codingscholar.com/student_class_videos/${groupId}`
+  const automatic_rescheduleAPI=`https://api.codingscholar.com/forwardRescheduling/${lesid}`
+  const manual_rescheduleAPI=`https://api.codingscholar.com/reschedulingClassToAnotherDay/${lesid}`
+  // console.log('group api ',group_vediosAPI)
+  // console.log('automatic api :: ',automatic_rescheduleAPI ,'\n manual reschedule::',manual_rescheduleAPI)
+
   function getClass(){
    if(classId && studentId){
     const code= classId
     const url = `https://api.codingscholar.com/currentClass/${(code)}/${studentId}`
+      console.log('group api  urlll ',url)
     axios.get(url)
     .then(res=>{
       setLesson([res.data])
@@ -128,9 +144,11 @@ export default function EndClass() {
   }
   const handleSubmit=()=>{
     if(classId && studentId){
-      setIsOpen(true)
+      // console.log('lesson..')
       lesson.map(item=>{
-        if(item.is_completed===false && value && item.reason===''){
+        // if(item.is_completed===false && value && item.reason==='')
+        if(item.is_completed===false){
+          setIsOpen(true)
           const code= classId
           const url = `https://api.codingscholar.com/NotAttendedClass/${encodeURIComponent(code)}/${studentId}}`
           axios.put(url,{data:value})
@@ -142,7 +160,7 @@ export default function EndClass() {
           })
           .catch(error=>console.log(error))
         }else{
-          setIsOpen(true)
+          // setIsOpen(true)
           alert('This Class is already marked')
           navigate('/teacher/dashboard/Details')
         }
@@ -214,14 +232,18 @@ useEffect(()=>{
     const { state } = location || {}; // Ensure location is not undefined
     // const { id } = state || {};\
     console.log('state ',state)
-    const {code,StudentId,classTypes,groupstdntdetails}=state
+    const {code,StudentId,classTypes,groupstdntdetails,groupId,lessontype,lesid}=state
     if (classTypes==='trial'){
      setBookingId(code)
     
     }else{
+      setLesId(lesid)
       setClassId(code)
       setStudentId(StudentId)
       setGroupstudentdetails(groupstdntdetails)
+      setGroupId(groupId)
+      setClassType(classTypes)
+      setLessonType(lessontype)
     }
     // if (state) {
     //     setClassId(state);  // Set the state if it exists
@@ -247,24 +269,90 @@ const handleFileChange = (event) => {
     }
   };
 
- const handleUpload = () => {
+ const handleUpload = async() => {
     if (selectedFile) {
       console.log('Uploading file:', selectedFile.name);
-      // Handle file upload here
-      alert(`File uploaded: ${selectedFile.name}`);
-      setSelectedFile(null);
-      setIsOpen(false);
-      setClassCompleted(true)
+      try{
+        console.log('sending file⏩⏩')
+        const sendfile_res=await Promise.allSettled(
+          groupstdntdetails.map((student)=>{
+            const formdata=new FormData()
+            formdata.append('vid',selectedFile)
+            formdata.append('lessonId',classId)
+            formdata.append('studentId',student.id)
+  
+            return axios.post(group_vediosAPI,formdata,
+          {
+            headers:{
+              "Content-Type":"multipart/form-data",
+              "Authorization":`Bearer ${token}`
+            }
+  
+          }
+          );
+          })
+        );
+
+        console.log('sendingfile response...',sendfile_res)
+  
+        sendfile_res.forEach((success_res,index)=>{
+          if(success_res.status=='fulfilled'){
+           console.log( '✅ file sent to student successfully', groupstdntdetails[index].name)
+          }else{
+            console.error('❌failed to  send file to student ',groupstdntdetails[index],success_res.reason)
+          }
+  
+        });
+        
+        alert(`File uploaded: ${selectedFile.name}`);
+        setSelectedFile(null);
+        setIsOpen(false);
+        setClassCompleted(true)
+
+      }catch(e){
+        console.error('❌ errror in uploading file to student::',e)
+      }
+      
+
     }
   };
 
-const handleRescheduleDateTime =()=>{
+const handleRescheduleDateTime =async()=>{
    if (selectedDate && selectedTime) {
-      console.log(`[v0] Rescheduling to ${selectedDate} at ${selectedTime}`);
-      alert(`Rescheduled to ${selectedDate} at ${selectedTime}`);
-      setSelectedDate('');
-      setSelectedTime('');
-      setIsOpen(false);
+      // console.log(` Rescheduling to ${selectedDate} at ${selectedTime}`);
+      try{
+        
+        const selectedtimestamp=new Date(`${selectedDate}T${selectedTime}`).toISOString().slice(0,16)
+        console.log('rescheduling....',selectedtimestamp)
+  
+        const results=await axios.put(
+          manual_rescheduleAPI,
+          {
+          student_id:studentId,
+          date:selectedtimestamp
+         },
+         {
+          headers:{
+            'Authorization':`Bearer ${token}`
+          }
+         }
+      
+         );
+  
+        //  console.log('manual rescheduling results...',results)
+         if (results.status===200){
+           alert(`Rescheduled to ${selectedDate} at ${selectedTime} with timestamp==${selectedtimestamp}`);
+          //  console.log('selectedtimestamp..',selectedtimestamp)
+           setSelectedDate('');
+           setSelectedTime('');
+           setIsOpen(false);
+           navigate('/teacher/dashboard/Details')
+         }
+  
+        
+      }catch(e){
+        console.error('❌ error in rescheduling classes manually ...',e)
+      }
     }
 }
 
@@ -272,10 +360,35 @@ const handlemanualreschedule=()=>{
   setManualReschedule(true)
   setFooter(false)
 }
-const handleRescheduleNextClass = () => {
-    console.log('[v0] Rescheduling to next class on timetable');
-    alert('Rescheduled to next class on timetable');
-    setIsOpen(false);
+
+// console.log('TOKENNNNNN....👌👌',token)
+const handleRescheduleNextClass = async() => {
+    // console.log('[v0] Rescheduling to next class on timetable');
+
+    try{
+      console.log('..rescheduling class automaticallly...')
+      console.log('studentId..',studentId,'classType..',lessontype)
+      const results=await axios.put(
+        automatic_rescheduleAPI,
+        {
+          student_id:studentId,
+          lesson_type:lessontype
+        },
+        {
+          headers:{
+            'Authorization':`Bearer ${token}`
+          }
+        }
+      
+      );
+      // console.log('automatic reschedule results..',results)
+
+      alert('Rescheduled to next class on timetable');
+      setIsOpen(false);
+      navigate('/teacher/dashboard/Details')
+    }catch(e){
+      console.log('❌ error in automatic rescheduling',e)
+    }
   };
   return (
     <div className='EndClassWrapper flex flex-col items-center justify-center '>
@@ -506,7 +619,7 @@ const handleRescheduleNextClass = () => {
               </button>
               <button
                 onClick={handleRescheduleNextClass}
-                disabled={!selectedFile}
+                // disabled={!selectedFile}
                 className="flex-1 bg-[#0097b2] paddingone rounded-lg "
               >
                 Auto Reschedule
