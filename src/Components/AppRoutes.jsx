@@ -9,6 +9,7 @@ import ProtectedLayout from "./ProtectedRoute.jsx";
 //  Lazy-load all heavy pages
 // import ScheduleClasses from "../pages/students/ScheduleClasses.jsx";
 const Home = lazy(() => import("../pages/Home.jsx"));
+// const Home=lazy(()=> import ("../pages/Homepage.jsx"))
 const AttemptedQuizesDisplayer = lazy(() => import("../pages/students/AttemptedQuizesDisplayer.jsx"));
 const QuizDispplayer = lazy(() => import("../pages/students/QuizDispplayer.jsx"));
 const Register = lazy(() => import("../pages/Register.jsx"));
@@ -22,6 +23,7 @@ const StudentSignUp = lazy(() => import("../pages/StudentSignUp.jsx"));
 const WhyUs = lazy(() => import("../pages/WhyUs.jsx"));
 const ErrorPage = lazy(() => import("../pages/Error.jsx"));
 const ClassSchedule = lazy(() => import("../pages/students/ScheduleClasses.jsx"));
+const Courseblogs=lazy(()=>import("../pages/course-blogs.jsx"))
 //  Teacher dashboard
 const Teacher = lazy(() => import("../pages/Teacher.jsx"));
 const Dashboard = lazy(() => import("../pages/Dashboard.jsx"));
@@ -93,6 +95,7 @@ export default function AppRoutes() {
         <Route path="/StudentSignup/:token" element={<StudentSignUp />} />
         <Route path="/StudentSignup" element={<StudentSignUp />} />
         <Route path="/Why Us" element={<WhyUs />} />
+        <Route path="/course-blogs" element={<Courseblogs/>}/>
 
         {/* Protected Routes */}
         <Route element={<ProtectedLayout />}>
