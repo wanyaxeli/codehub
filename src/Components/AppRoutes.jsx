@@ -7,7 +7,8 @@ import ProtectedLayout from "./ProtectedRoute.jsx";
 
 //  Lazy-load all heavy pages
 // import ScheduleClasses from "../pages/students/ScheduleClasses.jsx";
-const Home = lazy(() => import("../pages/Home.jsx"));
+// const Home = lazy(() => import("../pages/Home.jsx"));
+const Home=lazy(()=> import ("../pages/Homepage.jsx"))
 const AttemptedQuizesDisplayer = lazy(() => import("../pages/students/AttemptedQuizesDisplayer.jsx"));
 const QuizDispplayer = lazy(() => import("../pages/students/QuizDispplayer.jsx"));
 const Register = lazy(() => import("../pages/Register.jsx"));

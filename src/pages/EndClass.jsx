@@ -34,14 +34,14 @@ export default function EndClass() {
   const[lessontype,setLessonType]=useState()
   const [lesid,setLesId]=useState()
 
-  console.log('groupId...',groupId)
-  console.log('lessonId...',classId)
+  // console.log('groupId...',groupId)
+  // console.log('lessonId...',classId)
 
   const group_vediosAPI=`https://api.codingscholar.com/student_class_videos/${groupId}`
   const automatic_rescheduleAPI=`https://api.codingscholar.com/forwardRescheduling/${lesid}`
   const manual_rescheduleAPI=`https://api.codingscholar.com/reschedulingClassToAnotherDay/${lesid}`
-  console.log('group api ',group_vediosAPI)
-  console.log('automatic api :: ',automatic_rescheduleAPI ,'\n manual reschedule::',manual_rescheduleAPI)
+  // console.log('group api ',group_vediosAPI)
+  // console.log('automatic api :: ',automatic_rescheduleAPI ,'\n manual reschedule::',manual_rescheduleAPI)
 
   function getClass(){
    if(classId && studentId){
@@ -144,25 +144,27 @@ export default function EndClass() {
   }
   const handleSubmit=()=>{
     if(classId && studentId){
-      setIsOpen(true)
-      // lesson.map(item=>{
-      //   if(item.is_completed===false && value && item.reason===''){
-      //     const code= classId
-      //     const url = `https://api.codingscholar.com/NotAttendedClass/${encodeURIComponent(code)}/${studentId}}`
-      //     axios.put(url,{data:value})
-      //     .then(res=>{
-      //       console.log(res.data)
-      //       const data = res.data.message
-      //       alert(data)
-      //       navigate('/teacher/dashboard/Details') 
-      //     })
-      //     .catch(error=>console.log(error))
-      //   }else{
-      //     setIsOpen(true)
-      //     alert('This Class is already marked')
-      //     navigate('/teacher/dashboard/Details')
-      //   }
-      // })
+      // console.log('lesson..')
+      lesson.map(item=>{
+        // if(item.is_completed===false && value && item.reason==='')
+        if(item.is_completed===false){
+          setIsOpen(true)
+          const code= classId
+          const url = `https://api.codingscholar.com/NotAttendedClass/${encodeURIComponent(code)}/${studentId}}`
+          axios.put(url,{data:value})
+          .then(res=>{
+            console.log(res.data)
+            const data = res.data.message
+            alert(data)
+            navigate('/teacher/dashboard/Details') 
+          })
+          .catch(error=>console.log(error))
+        }else{
+          // setIsOpen(true)
+          alert('This Class is already marked')
+          navigate('/teacher/dashboard/Details')
+        }
+      })
     }else{
       booking.map(item=>{
         if(item.joined===false && item.reason===''){
@@ -317,7 +319,7 @@ const handleFileChange = (event) => {
 
 const handleRescheduleDateTime =async()=>{
    if (selectedDate && selectedTime) {
-      console.log(` Rescheduling to ${selectedDate} at ${selectedTime}`);
+      // console.log(` Rescheduling to ${selectedDate} at ${selectedTime}`);
       try{
         
         const selectedtimestamp=new Date(`${selectedDate}T${selectedTime}`).toISOString().slice(0,16)
@@ -337,14 +339,14 @@ const handleRescheduleDateTime =async()=>{
       
          );
   
-         console.log('manual rescheduling results...',results)
+        //  console.log('manual rescheduling results...',results)
          if (results.status===200){
-
            alert(`Rescheduled to ${selectedDate} at ${selectedTime} with timestamp==${selectedtimestamp}`);
-           console.log('selectedtimestamp..',selectedtimestamp)
+          //  console.log('selectedtimestamp..',selectedtimestamp)
            setSelectedDate('');
            setSelectedTime('');
            setIsOpen(false);
+           navigate('/teacher/dashboard/Details')
          }
   
         
@@ -359,7 +361,7 @@ const handlemanualreschedule=()=>{
   setFooter(false)
 }
 
-console.log('TOKENNNNNN....👌👌',token)
+// console.log('TOKENNNNNN....👌👌',token)
 const handleRescheduleNextClass = async() => {
     // console.log('[v0] Rescheduling to next class on timetable');
 
@@ -379,10 +381,11 @@ const handleRescheduleNextClass = async() => {
         }
       
       );
-      console.log('automatic reschedule results..',results)
+      // console.log('automatic reschedule results..',results)
 
       alert('Rescheduled to next class on timetable');
       setIsOpen(false);
+      navigate('/teacher/dashboard/Details')
     }catch(e){
       console.log('❌ error in automatic rescheduling',e)
     }
