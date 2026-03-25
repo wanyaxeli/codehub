@@ -1,6 +1,9 @@
 // type courses {
 
 // }
+import animatedpic from '../assets/animatedstory.jpeg'
+import mazerunnerpic from '../assets/mazerunner.jpeg'
+import clickerpic from '../assets/clickerchallange.jpeg'
 const courses=
 [
     {
@@ -341,17 +344,17 @@ const courses=
         {
             title: 'Maze Runner Game',
             description: 'Guide a character through obstacles using keyboard controls.',
-            picture:''
+            picture:mazerunnerpic
         },
         {
             title: 'Animated Story',
-            description: 'Interactive storytelling with characters and sound effects.',
-            picture:''
+            description: 'Interactive storytelling with characters and sound effects. ',
+            picture:animatedpic
         },
         {
             title: 'Clicker Challenge',
             description: 'Fast-paced clicking game with score tracking.',
-            picture:''
+            picture:clickerpic
         },
         {
             title: 'Space Adventure',

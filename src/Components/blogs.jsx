@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { CheckCircle2, Users, Award, Code, Lightbulb, Zap, Star, PlayCircle, Image } from 'lucide-react'
-import courses from '../course-blogs'
+import courses from '../lib/course-blogs'
 import { useEffect, useState } from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 
@@ -358,7 +358,7 @@ export default function CourseDetailPage() {
                 <div className="h-48 bg-gradient-to-br from-blue-400 to-cyan-400 flex items-center justify-center relative overflow-hidden">
                   <div className="absolute inset-0 bg-black/5 group-hover:bg-black/10 transition-all" />
                   <Image className="h-12 w-12 text-white opacity-60 group-hover:opacity-100 group-hover:scale-110 transition-all" />
-                <img src="" alt="" className='object-cover'/>
+                <img src={project.picture} alt="" className='object-cover'/>
                 </div>
                 <div className="all-groups p-6">
                   <h3 className="marginbottom-two text-lg font-semibold text-gray-900 mb-2">{project.title}</h3>

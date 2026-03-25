@@ -553,7 +553,33 @@
   align-items:center;
   padding: 2px 0;
 }
-.logoContainer{
+
+.logoContainer {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px; /* smooth rounded corners */
+  overflow: hidden;   /* keeps image inside shape */
+  background: #f5f5f5; /* fallback background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08); /* subtle depth */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.logoContainer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Hover effect */
+.logoContainer:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* .logoContainer{
   width: 5rem;
   height:5rem;
   margin-right: 10px;
@@ -562,7 +588,7 @@
   width:100% ;
   height: 100% ;
   object-fit:contain;
-}
+} */
 .leftHeader select{
   width: 50%;
   height: 40px;
@@ -2221,9 +2247,9 @@ body{
   align-items: center;
   justify-content: flex-end;
 }
-.logoContainer {
-  /* height: 100%;
-  width: 70px; */
+/* .logoContainer {
+  height: 100%;
+  width: 70px;
   padding: 7px 0; 
 
 }
@@ -2231,8 +2257,8 @@ body{
   width: 100%;
   height: 100%;
   border-radius:100%;
-  cursor: pointer;
-}
+  cursor: pointer; */
+/* } */
 .endclassBtnwrapper button{
   padding: 14px 20px;
   border: none;
