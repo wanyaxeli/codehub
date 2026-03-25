@@ -108,6 +108,7 @@ const HeroSection = () => {
             </FadeIn>
 
             <FadeIn delay={0.4}>
+              <div className='flex items-start justify-between '>
               <ul className="spacing-y-three mb-ten space-y-3 mb-10">
                 {[
                   "Live teacher-led classes",
@@ -122,16 +123,20 @@ const HeroSection = () => {
                   </li>
                 ))}
               </ul>
+              <Button size="lg" className="paddingx-eight border-[var(--primarysec)]/20 text-white hover:text-[var(--primarysec)] bg-[var(--accentsec)] hover:bg-[var(--primarysec)]/5 font-heading text-lg h-14 px-8 rounded-xl transition-all">
+                Book Free Trial Class
+              </Button>
+              </div>
             </FadeIn>
 
-            <FadeIn delay={0.5} className="flex flex-col sm:flex-row gap-4">
+            {/* <FadeIn delay={0.2} className="flex flex-col sm:flex-row gap-4">
               <Button size="lg" className="paddingx-eight bg-[var(--accentsec)] hover:bg-[var(--accentsec)]/90 text-white font-heading text-lg h-14 px-8 rounded-xl shadow-lg shadow-[var(--accentsec)]/20 transition-all hover:scale-105">
                 Book Free Trial Class
               </Button>
               <Button size="lg" variant="outline" className="paddingx-eight border-[var(--primarysec)]/20 text-[var(--primarysec)] hover:bg-[var(--primarysec)]/5 font-heading text-lg h-14 px-8 rounded-xl transition-all">
                 View Courses
               </Button>
-            </FadeIn>
+            </FadeIn> */}
           </motion.div>
 
           {/* Right Image Composition */}

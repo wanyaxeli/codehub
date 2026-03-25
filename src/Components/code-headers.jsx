@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { Menu, X, Code2, ChevronDown } from 'lucide-react'
-import pic from '../assets/logoCodeHub.png'
+import pic from '../assets/codingscholarlogo.jpeg'
 
 export default function HeaderSection() {
   const [isCoursesOpen, setIsCoursesOpen] = useState(false)
@@ -44,10 +44,14 @@ export default function HeaderSection() {
             <Code2 className="w-6 h-6 text-white" />
           </div>
           <span className="font-bold text-lg text-gray-900">CodingScholar</span> */}
-           <div className='logoContainer w-20 h-20 rounded-full justify-center'>
-            <img  loading="lazy" src={pic}/>
-                        </div>
-                <h4 className='text-black font-bold'>codingscholar</h4>
+           <div className="flex items-center gap-3">
+            <div className="logoContainer">
+              <img loading="lazy" src={pic} alt="logo" />
+                </div>
+             <h4 className="text-black font-bold text-lg tracking-wide">
+                 codingscholar
+             </h4>
+              </div>
         </div>
 
         {/* Center: Navigation */}
