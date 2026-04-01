@@ -4,7 +4,7 @@ const howItWorksData={
             _id:"1",
             stepNumber:1,
             stepTitle:"Explore Our Courses",
-            stepDescription:"Browse our diverse catalog of classes, from beginner to advanced levels, and find the perfect fit for your learning goals."
+            stepDescription:"Browse our diverse catalog of courses, from coding explorer to advanced Math, and find the perfect fit for your learning goals."
         },
         {
             _id:"2",

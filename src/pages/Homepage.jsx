@@ -6,14 +6,16 @@ import testimonialsData from '@/lib/testimonials';
 import howItWorksData from '@/lib/howitworks';
 import coursesData from '@/lib/courses';
 import benefitsData from '@/lib/benefits';
-import { CheckCircle2, PlayCircle, ArrowRight, Star, BookOpen, Users, Target, Sparkles, ChevronDown, Code, Calculator, Laptop } from 'lucide-react';
+import { CheckCircle2, PlayCircle, ArrowRight, Star, BookOpen, Users, Target, Sparkles, ChevronDown, Code, Calculator, Laptop, ChevronLeft, ChevronRight, TerminalIcon, Terminal, GraduationCapIcon, User } from 'lucide-react';
 // import { Button } from '@/components/ui/button';
 import { Button } from '@/components/ui/button';
 import { Image } from '@/components/ui/image';
+import heropic from '../assets/black kids.jpg'
 // import HeaderDetails from '@/Components/HeaderDetails';
 import HeaderSection from '@/Components/code-headers'
 // import Footer from '@/components/Footer';
-import Footer from '@/Components/Footer';
+import Footer from '@/Components/newFooter';
+
 
 // --- Utility Components & Animations ---
 // : { children: React.ReactNode, delay?: number, className?: string, direction?: "up" | "down" | "left" | "right" | "none" }
@@ -97,7 +99,7 @@ const HeroSection = () => {
             
             <FadeIn delay={0.2}>
               <h1 className="privacy-infocollect-description text-5xl md:text-6xl lg:text-7xl font-heading font-bold text-[var(--foregroundsec)] leading-[1.1] tracking-tight mb-6 text-balance">
-                Fun Live <span className="text-[var(--primarysec)]">Coding</span> & <span className="text-[var(--accentsec)]">Math</span> Classes for Kids
+                Fun Live <span className="text-[var(--primarysec)]">Coding</span> & <span className="text-[var(--accentsec)]">Math</span> Classes 
               </h1>
             </FadeIn>
 
@@ -124,7 +126,7 @@ const HeroSection = () => {
                 ))}
               </ul>
               <Button size="lg" className="paddingx-eight border-[var(--primarysec)]/20 text-white hover:text-[var(--primarysec)] bg-[var(--accentsec)] hover:bg-[var(--primarysec)]/5 font-heading text-lg h-14 px-8 rounded-xl transition-all">
-                Book Free Trial Class
+                Get Free Trial Class
               </Button>
               </div>
             </FadeIn>
@@ -141,9 +143,9 @@ const HeroSection = () => {
 
           {/* Right Image Composition */}
           <FadeIn delay={0.3} direction="left" className="relative h-[60vh] lg:h-[80vh] w-full hidden md:block">
-            <div className="absolute inset-0 rounded-[2.5rem] overflow-hidden shadow-2xl shadow-[var(--primarysec)]/10 border-8 border-white">
+            <div className="absolute inset-0 rounded-[2.5rem] overflow-hidden shadow-2xl shadow-[var(--primarysec)]/10">
               <Image 
-                src="https://static.wixstatic.com/media/fc528a_079ca5276f07405cbe640ad7a933f3c6~mv2.png?originWidth=1280&originHeight=704" 
+                src="https://media.istockphoto.com/id/2236084141/photo/portrait-of-teenage-black-girl-smiling-while-learning-coding-in-classroom.jpg?s=612x612&w=0&k=20&c=qjhuZmS2uRgcR1MT-F7aNPBqcQPzccw-x1NfnAAywX8=" 
                 alt="Kids learning coding on laptops" 
                 className="w-full h-full object-cover"
               />
@@ -154,28 +156,28 @@ const HeroSection = () => {
             <motion.div 
               animate={{ y: [0, -15, 0] }} 
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -left-8 top-1/4 bg-white p-4 rounded-2xl shadow-xl border border-[var(--primarysec)]/10 flex items-center gap-4"
+              className="paddingone absolute -left-8 top-1/4 bg-white p-4 rounded-2xl shadow-xl border border-[var(--primarysec)]/10 flex items-center gap-4"
             >
               <div className="w-12 h-12 rounded-full bg-[var(--primarysec)]/10 flex items-center justify-center">
-                <Code className="w-6 h-6 text-[var(--primarysec)]" />
+                <Users className="w-6 h-6 text-[var(--primarysec)]" />
               </div>
               <div>
-                <p className="font-heading font-bold text-sm">Project Built</p>
-                <p className="font-paragraph text-xs text-[var(--foregroundsec)]/60">Game App</p>
+                <p className="font-heading font-bold text-sm">1000+</p>
+                <p className="font-paragraph text-xs text-[var(--foregroundsec)]/60">Active Students</p>
               </div>
             </motion.div>
 
             <motion.div 
               animate={{ y: [0, 15, 0] }} 
               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-              className="absolute -right-8 bottom-1/4 bg-white p-4 rounded-2xl shadow-xl border border-[var(--accentsec)]/10 flex items-center gap-4"
+              className="paddingone absolute -right-8 bottom-1/4 bg-white p-4 rounded-2xl shadow-xl border border-[var(--accentsec)]/10 flex items-center gap-4"
             >
               <div className="w-12 h-12 rounded-full bg-[var(--accentsec)]/10 flex items-center justify-center">
-                <Calculator className="w-6 h-6 text-[var(--accentsec)]" />
+                <Terminal className="w-6 h-6 text-[var(--accentsec)]" />
               </div>
               <div>
-                <p className="font-heading font-bold text-sm">Math Mastery</p>
-                <p className="font-paragraph text-xs text-[var(--foregroundsec)]/60">Level Up!</p>
+                <p className="font-heading font-bold text-sm">500+</p>
+                <p className="font-paragraph text-xs text-[var(--foregroundsec)]/60">Projects built</p>
               </div>
             </motion.div>
           </FadeIn>
@@ -210,9 +212,9 @@ const BenefitsSection = ({ data, isLoading }) => {
             return (
               <FadeIn key={benefit._id} delay={index * 0.1} className="h-full">
                 <div className="groupstdnt-container bg-white rounded-3xl p-8 h-full shadow-lg shadow-[var(--primarysec)]/5 border border-slate-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
-                  <div className="privacy-infocollect-description w-14 h-14  rounded-2xl bg-[var(--primarysec)]/5 flex items-center justify-center mb-6 group-hover:bg-[var(--primarysec)] group-hover:text-white transition-colors duration-300">
+                  <div className="privacy-infocollect-description w-16 h-16  rounded-2xl bg-[var(--primarysec)]/5 flex items-center justify-center mb-6 group-hover:bg-[var(--primarysec)] group-hover:text-white transition-colors duration-300">
                     {benefit.benefitImage ? (
-                       <Image src={benefit.benefitImage} alt={benefit.benefitTitle || "Benefit"} className="w-8 h-8 object-contain" />
+                       <Image src={benefit.benefitImage} alt={benefit.benefitTitle || "Benefit"} className="w-full h-full object-cover rounded-2xl" />
                     ) : (
                       <Icon className="w-7 h-7 text-[var(--primarysec)] group-hover:text-white transition-colors" />
                     )}
@@ -270,7 +272,7 @@ const CoursesSection = ({ data, isLoading }) => {
                       alt={course.courseTitle || "Course"} 
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />
-                    <div className="px-three py-one absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-heading font-bold text-[var(--primarysec)]">
+                    <div className="px-three py-one absolute top-4 left-4 bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full text-lg font-heading font-bold text-[var(--accentsec)]">
                       {course.targetAgeGroup || "All Ages"}
                     </div>
                   </div>
@@ -376,9 +378,9 @@ const ForParentsSection = () => {
           {/* Image Side */}
           <div className="w-full lg:w-1/2 h-[50vh] lg:h-auto lg:absolute lg:inset-y-0 lg:right-0">
             <Image 
-              src="https://static.wixstatic.com/media/fc528a_fad1da31921b4dbe86fbc5add8c44022~mv2.png?originWidth=960&originHeight=576" 
+              src="https://static.vecteezy.com/system/resources/thumbnails/070/384/192/small/smiling-african-american-mom-helping-her-studying-kid-looking-at-computer-screen-copy-space-happy-black-school-girl-using-laptop-having-online-lesson-while-coronavirus-pandemic-kitchen-interior-photo.jpg"
               alt="Child learning at home" 
-              className="w-full h-full object-cover"
+              className="w-full h-full items-center object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-[var(--primarysec)] via-[var(--primarysec)]/80 to-transparent lg:hidden" />
             <div className="absolute inset-0 bg-gradient-to-r from-[var(--primarysec)] via-transparent to-transparent hidden lg:block" />
@@ -411,8 +413,50 @@ const ForParentsSection = () => {
 
 // : { data: Testimonials[], isLoading: boolean }
 const TestimonialsSection = ({ data, isLoading }) => {
+  const testimonialData=data
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
+  // const testimoniallist=[...data,...data,...data]
+  const ITEMS_PER_SLIDE = 3;
+  const AUTO_SLIDE_DELAY = 8000;
+  const totalSlides = Math.ceil(testimonialData.length / ITEMS_PER_SLIDE);
+
+  useEffect(() => {
+    if (isHovered) return;
+
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % totalSlides);
+    }, AUTO_SLIDE_DELAY);
+
+    return () => clearInterval(timer);
+  }, [isHovered, totalSlides]);
+
+  const goToSlide = (index) => {
+    setCurrentIndex(index % totalSlides);
+  };
+
+  const goToPrevious = () => {
+    setCurrentIndex((prev) => (prev - 1 + totalSlides) % totalSlides);
+  };
+
+  const goToNext = () => {
+    setCurrentIndex((prev) => (prev + 1) % totalSlides);
+  };
+
+  const startIndex = currentIndex * ITEMS_PER_SLIDE;
+  const currentTestimonials = testimonialData.slice(
+    startIndex,
+    startIndex + ITEMS_PER_SLIDE
+  );
+
   return (
-    <section id="testimonials" className="py-thirtytwo py-32 bg-slate-50 overflow-hidden">
+    <section 
+    id="testimonials" 
+    className="py-thirtytwo py-32 bg-slate-50 overflow-hidden"
+    // onMouseEnter={()=>setIsHovered(true)}
+    // onMouseLeave={()=>setIsHovered(false)}
+    >
       <div className="mxauto homeheropadxsix container mx-auto px-6 md:px-12 max-w-[120rem]">
         <div className="mxauto mb-twenty text-center max-w-3xl mx-auto mb-20">
           <FadeIn>
@@ -424,9 +468,12 @@ const TestimonialsSection = ({ data, isLoading }) => {
             </p>
           </FadeIn>
         </div>
-
+        
+        {/* couresel */}
+        <div className='relative'>
         <div className={`flex flex-wrap justify-center gap-8 transition-opacity duration-500 ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
-          {data.map((testimonial, index) => (
+          
+          {currentTestimonials.map((testimonial, index) => (
             <FadeIn key={testimonial._id} delay={index * 0.1} className="w-full md:w-[calc(50%-2rem)] lg:w-[calc(33.333%-2rem)]">
               <div className="pad-eight-homsect bg-white p-8 md:p-10 rounded-[2rem] shadow-lg shadow-[var(--primarysec)]/5 border border-slate-100 h-full flex flex-col relative">
                 <div className="absolute top-8 right-8 text-[var(--accentsec)]/20">
@@ -435,13 +482,13 @@ const TestimonialsSection = ({ data, isLoading }) => {
                   </svg>
                 </div>
                 
-                <div className="flex gap-1 mb-6">
+                <div className="privacy-infocollect-description flex gap-1 mb-6">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="w-5 h-5 fill-[var(--accentsec)] text-[var(--accentsec)]" />
                   ))}
                 </div>
                 
-                <p className="text-[var(--foregroundsec)]/80 font-paragraph text-lg leading-relaxed mb-8 flex-grow italic">
+                <p className="group-header text-[var(--foregroundsec)]/80 font-paragraph text-lg leading-relaxed mb-8 flex-grow italic">
                   "{testimonial.quote}"
                 </p>
                 
@@ -463,6 +510,46 @@ const TestimonialsSection = ({ data, isLoading }) => {
               </div>
             </FadeIn>
           ))}
+        </div>
+
+        {/* indicator dots  */}
+        <div className="mt-twelve flex justify-center gap-2 mt-12">
+          <div>
+          <button
+            onClick={goToPrevious}
+            className="rounded-full bg-blue-600 text-white hover:bg-blue-700 transition-colors z-10 hidden lg:flex items-center justify-center"
+            aria-label="Previous testimonials"
+          >
+            <ChevronLeft className="w-6 h-6" />
+          </button>
+          </div>
+
+          <div className='flex gap-2 items-center '>
+          {Array.from({ length: totalSlides }).map((_, index) => (
+            <button
+              key={index}
+              onClick={() => goToSlide(index)}
+              className={`w-2 h-2 rounded-full transition-all ${index === currentIndex
+                  ? 'bg-blue-600 w-8'
+                  : 'bg-slate-300 hover:bg-slate-400'
+                }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+          </div>
+
+          <button
+            onClick={goToNext}
+            className=" p-2 rounded-full bg-blue-600 text-white hover:bg-blue-700 transition-colors z-10 hidden lg:flex items-center justify-center"
+            aria-label="Next testimonials"
+          >
+            <ChevronRight className="w-6 h-6" />
+          </button>
+
+        </div>
+
+
+
         </div>
       </div>
     </section>
@@ -612,6 +699,7 @@ export default function Home() {
         <CTASection />
         <FAQSection data={faqs} isLoading={isLoading} />
       </main>
+
       <Footer />
     </div>
   );

@@ -1,19 +1,38 @@
+import codeexplorerpic from '../assets/codingexplorer.webp'
+import codespecialistpic from '../assets/codingspecialist001.jpg'
+import codeinnovator from '../assets/codinginnovator001.jpg'
+import mathpic from '../assets/math.jpg'
 const coursesData = {
   items: [
     {
       _id: "1",
-      courseTitle: "Introduction to Scratch Programming",
-      targetAgeGroup: "5-10",
-      shortDescription: "Learn the basics of coding by creating interactive stories, games, and animations using Scratch.",
-      courseImage: "https://static.wixstatic.com/media/fc528a_bece61f1106047a58c4c9c8e427bb9ab~mv2.png/..."
+      courseTitle: "Coding Explorer",
+      targetAgeGroup: "$6",
+      shortDescription: "A fun, beginner-friendly coding program that teaches foundational skills through interactive stories, games, and animations.",
+      courseImage: codeexplorerpic
     },
     {
       _id: "2",
-      courseTitle: "Fun with Elementary Math",
-      targetAgeGroup: "6-10",
+      courseTitle: "Coding Innovator",
+      targetAgeGroup: "$12",
+      shortDescription: "A hands-on program for learners with basic experience, focused on building real apps and websites through guided projects.",
+      courseImage: codeinnovator
+    },
+     {
+      _id: "2",
+      courseTitle: "Coding Specialist",
+      targetAgeGroup: "$18",
+      shortDescription: "An advanced program that develops mastery in Python and JavaScript through real-world, innovation-driven projects.",
+      courseImage: codespecialistpic
+     },
+     {
+      _id: "2",
+      courseTitle: "Elementary Math",
+      targetAgeGroup: "$10",
       shortDescription: "Engaging activities and games to build a strong foundation in addition, subtraction, multiplication, and division.",
-      courseImage: "https://static.wixstatic.com/media/fc528a_ae224f54bce048cbbf71159f47e762dd~mv2.png/v1/fill/w_321,h_328,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/fc528a_ae224f54bce048cbbf71159f47e762dd~mv2.png"
-     }
+      courseImage: mathpic
+     },
+
 
   ]
 };
