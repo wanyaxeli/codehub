@@ -143,7 +143,7 @@ const HeroSection = () => {
               </ul>
               <Button 
               size="lg" 
-              className="paddingx-eight cursor-pointer border-[var(--primarysec)]/20 text-white hover:text-white bg-[var(--accentsec)] hover:bg-[var(--primarysec)]/55 font-heading text-lg h-14 px-8 rounded-xl transition-all"
+              className="paddingx-eight cursor-pointer border-![var(--primarysec)]/20 text-white hover:text-white !bg-[var(--accentsec)] hover:!bg-[var(--primarysec)]/55 font-heading text-lg h-14 px-8 rounded-xl transition-all"
               onClick={()=>{navigate('/register')}}>
                 Book Free Trial
               </Button>
@@ -273,7 +273,7 @@ const CoursesSection = ({ data, isLoading }) => {
                 <p className="group-header text-lg text-[var(--foregroundsec)]/70 font-paragraph mb-8">
                   Tailored curriculum designed to engage young minds, from block-based coding to advanced math concepts.
                 </p>
-                <Button className="group-stdtsection bg-[var(--primarysec)] hover:bg-[var(--primarysec)]/90 text-white font-heading rounded-xl h-12 px-6 hidden lg:inline-flex">
+                <Button className="group-stdtsection !bg-[var(--primarysec)] hover:!bg-[var(--primarysec)]/90 text-white font-heading rounded-xl h-12 px-6 hidden lg:inline-flex">
                   View All Courses
                 </Button>
               </FadeIn>

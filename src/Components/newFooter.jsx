@@ -34,35 +34,30 @@ export default function NewFooter() {
             <h4 className="nav-title text-lg font-heading font-semibold mb-4">Quick Links</h4>
             <ul className="spacing-y-two space-y-2 font-paragraph">
               <li>
-                <button
+                {/* <button
                 //   onClick={() => scrollToSection('courses')}
-                  className="text-gray-300 hover:text-white transition-colors"
-                >
-                 <a href='/Why Us'> why  codingscholar</a>
-                </button>
+                  
+                > */}
+                 <a 
+                 className="footer-link-color hover:text-white transition-colors"
+                 href='/Why Us'> why  codingscholar</a>
+                {/* </button> */}
               </li>
               <li>
-                <button
-                //   onClick={() => scrollToSection('how-it-works')}
-                  className="text-gray-300 hover:text-white transition-colors"
-                >
-                  <a href='/Privacy policy'>privacy policy</a>
-                </button>
+                  <a 
+                  className="footer-link-color hover:text-white transition-colors"
+                  href='/Privacy policy'>privacy policy</a>
+                
               </li>
               <li>
-                <button
-                //   onClick={() => scrollToSection('testimonials')}
-                  className="text-gray-300 hover:text-white transition-colors"
-                >
-                  <a href=''>Terms and conditions</a>
-                </button>
+                  <a 
+                  className="footer-link-color text-gray-300  hover:text-white transition-colors"
+                  href=''>Terms and conditions</a>
               </li>
               <li>
-                <button
-                //   onClick={() => scrollToSection('faq')}
-                  className="text-gray-300 hover:text-white transition-colors nav-title"
-                >
+                
                     <a
+                     className="footer-link-color hover:text-white transition-colors nav-title"
                      href="https://mail.google.com/mail/?view=cm&to=info@codingscholar.com"
                      target="_blank"
                      rel="noopener noreferrer"
@@ -71,7 +66,7 @@ export default function NewFooter() {
                      </a>
 
                   
-                </button>
+                
               </li>
             </ul>
           </div>
@@ -81,11 +76,12 @@ export default function NewFooter() {
             <h4 className="nav-title text-lg font-heading font-semibold mb-4">Contact Us</h4>
             <ul className="spacing-y-three space-y-3 font-paragraph">
               <li className="flex items-center gap-3 text-gray-300">
-                <Mail size={18} />
+                <Mail size={20} />
                 <span><a
                      href="https://mail.google.com/mail/?view=cm&to=info@codingscholar.com"
                      target="_blank"
                      rel="noopener noreferrer"
+                     className='footer-link-color'
                     // style={{ textDecoration: 'none', color: 'inherit' }}
                     >info@codingscholar.com
                      </a></span>
@@ -105,7 +101,7 @@ export default function NewFooter() {
                 href="https://facebook.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-primarysec hover:bg-primary/80 flex items-center justify-center transition-colors"
+                className="footer-link-color w-10 h-10 rounded-full bg-primarysec hover:bg-primary/80 flex items-center justify-center transition-colors"
                 aria-label="Facebook"
               >
                 <Facebook size={20} />
@@ -114,7 +110,7 @@ export default function NewFooter() {
                 href="https://twitter.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-primarysec hover:bg-primary/80 flex items-center justify-center transition-colors"
+                className="footer-link-color w-10 h-10 rounded-full bg-primarysec hover:bg-primary/80 flex items-center justify-center transition-colors"
                 aria-label="Twitter"
               >
                 <Twitter size={20} />
@@ -123,7 +119,7 @@ export default function NewFooter() {
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-primarysec hover:bg-primary/80 flex items-center justify-center transition-colors"
+                className="footer-link-color w-10 h-10 rounded-full bg-primarysec hover:bg-primary/80 flex items-center justify-center transition-colors"
                 aria-label="Instagram"
               >
                 <Instagram size={20} />
@@ -132,7 +128,7 @@ export default function NewFooter() {
                 href="https://linkedin.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-primarysec hover:bg-primary/80 flex items-center justify-center transition-colors"
+                className="footer-link-color w-10 h-10 rounded-full bg-primarysec hover:bg-primary/80 flex items-center justify-center transition-colors"
                 aria-label="LinkedIn"
               >
                 <Linkedin size={20} />

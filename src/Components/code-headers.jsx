@@ -67,7 +67,7 @@ export default function HeaderSection() {
             onMouseEnter={() => setIsCoursesOpen(true)}
             onMouseLeave={() => setIsCoursesOpen(false)}
           >
-            <button className=" header-text flex items-center gap-1 text-gray-700 hover:text-cyan-600 font-medium transition-colors group">
+            <button className="buttons-bg header-text flex items-center gap-1 bg-transparent text-gray-700 hover:text-cyan-600 font-medium transition-colors group focus:outline-none">
               Courses
               <ChevronDown className={`w-4 h-4 transition-transform duration-200 group-hover:text-cyan-600 ${isCoursesOpen ? 'rotate-180' : ''}`} />
             </button>
