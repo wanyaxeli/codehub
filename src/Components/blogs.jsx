@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 
 export const metadata = {
-  title: 'Python for Kids - CodingScholar',
+  title: ' CodingScholar courses',
   description: 'Learn Python programming with live online tutoring designed for kids and teens. Build projects, earn certificates, and discover the future of coding.',
 }
 
@@ -112,12 +112,14 @@ export default function CourseDetailPage() {
               </div>
 
               <div className="paddingtopfour flex flex-col sm:flex-row gap-3 pt-4">
-                <Button className="paddingxeight h-12 px-8 text-base font-semibold bg-[var(--blog-primary)] hover:bg-[var(--blog-primary)]/90 text-white rounded-lg">
+                <Button 
+                className="paddingxeight h-12 px-8 text-base font-semibold bg-[var(--blog-primary)] hover:bg-[var(--blog-primary)]/90 text-white rounded-lg"
+                onClick={()=>{navigate('/register')}}>
                   Try a Free Lesson
                 </Button>
-                <Button variant="outline" className="paddingxeight h-12 text-black px-8 text-base font-semibold border-2 border-gray-300 hover:border-[var(--blog-primary)] hover:text-[var(--blog-primary)] rounded-lg bg-transparent">
+                {/* <Button variant="outline" className="paddingxeight h-12 text-black px-8 text-base font-semibold border-2 border-gray-300 hover:border-[var(--blog-primary)] hover:text-[var(--blog-primary)] rounded-lg bg-transparent">
                   Learn More
-                </Button>
+                </Button> */}
               </div>
             </div>
 
@@ -548,11 +550,23 @@ export default function CourseDetailPage() {
             Join 1000+ students already learning at CodingScholar. Claim your free lesson and discover why kids love our courses.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Button className="h-12 padding-two  px-8 text-base font-semibold bg-white text-[var(--blog-primary)] hover:bg-gray-100">
+            <Button 
+            className="h-12 padding-two  px-8 text-base font-semibold bg-white text-[var(--blog-primary)] hover:bg-gray-100"
+            onClick={()=>{navigate('/register')}}>
               Start Free Lesson
             </Button>
-            <Button variant="outline" className="h-12 padding-two  px-8 text-base font-semibold border-2 border-white text-white hover:bg-white/10 bg-transparent">
-              Contact Us
+            <Button 
+            variant="outline" 
+            className="h-12 padding-two  px-8 text-base font-semibold border-2 border-white text-white hover:bg-white/70 bg-transparent"
+            >
+              <a
+                href="https://mail.google.com/mail/?view=cm&to=info@codingscholar.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className='hover:text-black'
+                // style={{ textDecoration: 'none', color: 'inherit' }}
+                >Contact Us
+              </a>
             </Button>
           </div>
         </div>

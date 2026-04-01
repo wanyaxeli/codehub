@@ -15,6 +15,7 @@ import heropic from '../assets/black kids.jpg'
 import HeaderSection from '@/Components/code-headers'
 // import Footer from '@/components/Footer';
 import Footer from '@/Components/newFooter';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 
 // --- Utility Components & Animations ---
@@ -68,6 +69,7 @@ const ParallaxImage = ({ src, alt, className }) => {
 
 const HeroSection = () => {
   const ref = useRef(null);
+  const navigate=useNavigate()
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"]
@@ -99,21 +101,21 @@ const HeroSection = () => {
             
             <FadeIn delay={0.2}>
               <h1 className="privacy-infocollect-description font-heading font-bold text-[var(--foregroundsec)] leading-[1.1] tracking-tight mb-6 text-balance">
-  <span className='text-3xl md:text-4xl lg:text-5xl'>
-    Think. Code. Solve. — Live
-  </span>{"  "}
-  <span className="text-[var(--primarysec)] text-5xl md:text-6xl lg:text-7xl">
-    Coding
-  </span>{"  "}
-  <span className='text-5xl md:text-6xl lg:text-6xl'>&</span>{" "}
-  <span className="text-[var(--accentsec)] text-5xl md:text-6xl lg:text-7xl">
-    Math
-  </span>{"  "}
-  <span className='text-3xl md:text-4xl lg:text-5xl'>
-  Classes for kids
+                <span className='text-3xl md:text-4xl lg:text-5xl'>
+                  Think. Code. Solve. — Live
+                </span>{"  "}
+                <span className="text-[var(--primarysec)] text-5xl md:text-6xl lg:text-7xl">
+                  Coding
+                </span>{"  "}
+                <span className='text-5xl md:text-6xl lg:text-6xl'>&</span>{" "}
+                <span className="text-[var(--accentsec)] text-5xl md:text-6xl lg:text-7xl">
+                  Math
+                </span>{"  "}
+                <span className='text-3xl md:text-4xl lg:text-5xl'>
+                Classes for kids
 
-  </span>
-</h1>
+                </span>
+              </h1>
 
             </FadeIn>
 
@@ -139,8 +141,11 @@ const HeroSection = () => {
                   </li>
                 ))}
               </ul>
-              <Button size="lg" className="paddingx-eight border-[var(--primarysec)]/20 text-white hover:text-[var(--primarysec)] bg-[var(--accentsec)] hover:bg-[var(--primarysec)]/5 font-heading text-lg h-14 px-8 rounded-xl transition-all">
-                Get Free Trial Class
+              <Button 
+              size="lg" 
+              className="paddingx-eight cursor-pointer border-[var(--primarysec)]/20 text-white hover:text-white bg-[var(--accentsec)] hover:bg-[var(--primarysec)]/55 font-heading text-lg h-14 px-8 rounded-xl transition-all"
+              onClick={()=>{navigate('/register')}}>
+                Book Free Trial
               </Button>
               </div>
             </FadeIn>
@@ -571,6 +576,7 @@ const TestimonialsSection = ({ data, isLoading }) => {
 };
 
 const CTASection = () => {
+  const navigate=useNavigate()
   return (
     <section className="py-twentyfour py-24 relative overflow-hidden">
       <div className="absolute inset-0 bg-[var(--accentsec)]" />
@@ -585,8 +591,10 @@ const CTASection = () => {
           <p className="mxauto mb-ten text-xl text-white/90 font-paragraph mb-10 max-w-2xl mx-auto">
             Book a free trial class and see how fun learning coding and math can be.
           </p>
-          <Button size="lg" className="paddingx-ten bg-white text-[var(--accentsec)] hover:bg-slate-100 font-heading text-xl h-16 px-10 rounded-2xl shadow-2xl transition-transform hover:scale-105">
-            Book Free Trial Class
+          <Button size="lg" 
+          className="paddingx-ten cursor-pointer bg-white text-[var(--accentsec)] hover:bg-slate-100 font-heading text-xl h-16 px-10 rounded-2xl shadow-2xl transition-transform hover:scale-105"
+          onClick={()=>{navigate('/register')}}>
+            Book Free Trial
           </Button>
         </FadeIn>
       </div>
@@ -703,7 +711,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background font-paragraph text-[var(--foregroundsec)] overflow-clip selection:bg-[var(--primarysec)]/20 selection:text-[var(--primarysec)]">
       <HeaderSection/>
-      <main>
+                    <main>
         <HeroSection />
         <BenefitsSection data={benefits} isLoading={isLoading} />
         <CoursesSection data={courses} isLoading={isLoading} />

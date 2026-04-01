@@ -17,7 +17,7 @@ const courses=
         highlights:[
             '100+ hands-on projects',
             'Live online tutoring',
-            '1000+ students enrolled'
+            'Real-world python skills'
         ],
         heropic:'https://i.pinimg.com/736x/9d/4a/a3/9d4aa33b953b1f6f4e3b4bdbac88d9de.jpg',
         aboutcourse:[
@@ -137,14 +137,14 @@ const courses=
                     id:2,
                     title: 'Web Development ',
                     description: 'Learn HTML, CSS, and JavaScript to build your own websites.',
-                    students: '850+ students',
+                    students: '400+ students',
                     pic:"https://codemithra.com/wp-content/uploads/2020/09/web-design-development-blog-2.jpg"
                 },
                 {
                     id:3,
                     title: 'Scratch Programming',
                     description: 'Visual programming for beginners. Create games and animations easily.',
-                    students: '1200+ students',
+                    students: '300+ students',
                     pic:'https://i.pinimg.com/1200x/31/ff/fd/31fffdabe3138384e736aafffd1cbe41.jpg'  
                 }
              ]
@@ -272,14 +272,14 @@ const courses=
             id:1,
             title: 'Python for kids',
             description: 'Learn Python concepts.increase your confidence in coding',
-            students: '1000+ students',
+            students: '350+ students',
             pic:'https://i.pinimg.com/1200x/e3/ec/36/e3ec3634eb041d7be4f23a4c84f3aa00.jpg'
         },
         {
             id:3,
             title: 'Scratch Programming',
             description: 'Visual programming for beginners. Create games and animations easily.',
-            students: '1200+ students',
+            students: '300+ students',
             pic:'https://i.pinimg.com/1200x/31/ff/fd/31fffdabe3138384e736aafffd1cbe41.jpg'
         }
              ]
@@ -405,14 +405,14 @@ const courses=
             id:1,
             title: 'Python for kids',
             description: 'Learn Python concepts.increase your confidence in coding',
-            students: '1000+ students',
+            students: '350+ students',
             pic:'https://i.pinimg.com/1200x/e3/ec/36/e3ec3634eb041d7be4f23a4c84f3aa00.jpg'
         },
         {
             id:2,
             title: 'Web Development ',
             description: 'Learn HTML, CSS, and JavaScript to build your own websites.',
-            students: '850+ students',
+            students: '400+ students',
             pic:"https://codemithra.com/wp-content/uploads/2020/09/web-design-development-blog-2.jpg"
         },
              ]
