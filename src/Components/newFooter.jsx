@@ -92,7 +92,7 @@ export default function NewFooter() {
               </li>
               <li className="flex items-center gap-3 text-gray-300">
                 <Phone size={18} />
-                <span>+254 (795) 962-808</span>
+                <span>+254 (738) 709-066</span>
               </li>
             </ul>
           </div>

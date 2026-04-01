@@ -65,32 +65,32 @@ const courses=
               {
                 title: 'Space Shooter Game',
                 description: 'An interactive game where players pilot a spaceship and dodge asteroids.',
-                picture:''
+                picture:'https://pyseek.com/wp-content/uploads/2025/04/space-shooter-animated-gameplay-1024x576.webp'
               },
               {
                 title: 'Todo List App',
                 description: 'A smart task management app with categories and priority levels.',
-                picture:''
+                picture:'https://tichung.com/blog/2021/20200323_flask/feature.png'
               },
               {
                 title: 'Hangman Game',
                 description: 'Classic word-guessing game with difficulty levels and score tracking.',
-                picture:''
+                picture:'https://i.ytimg.com/vi/TWLD2OKmSCQ/hqdefault.jpg'
               },
               {
                 title: 'Weather Dashboard',
                 description: 'Real-time weather app that fetches data from live APIs.',
-                picture:''
+                picture:'https://community-assets.home-assistant.io/original/4X/e/5/2/e521e30e91290c0edeb8516aacdf415370b1d908.jpeg'
               },
               {
                 title: 'Quiz Master',
                 description: 'Interactive quiz application with timed questions and instant scoring.',
-                picture:''
+                picture:'https://media.geeksforgeeks.org/wp-content/uploads/20250127101906800664/Screenshot-2025-01-27-101843.png'
               },
               {
                 title: 'Chat Bot',
                 description: 'AI-powered chatbot that learns from interactions and responds intelligently.',
-                picture:''
+                picture:'https://www.proprofschat.com/blog/wp-content/uploads/2023/07/Infuse-Emotions.webp'
               },
             ],
 
@@ -211,32 +211,32 @@ const courses=
         {
             title: 'Personal Portfolio Website',
             description: 'A modern personal website showcasing hobbies, skills, and projects.',
-            picture:''
+            picture:'https://marketplace.canva.com/EAFwcxYemaQ/2/0/1600w/canva-game-developer-resume-website-in-black-and-white-grey-simple-and-minimal-style-iW_fba1cdOE.jpg'
         },
         {
             title: 'Restaurant Website',
             description: 'A responsive restaurant website with menu and contact form.',
-            picture:''
+            picture:'https://screenshots.codesandbox.io/8xnhqn/0.png'
         },
         {
             title: 'School Club Website',
             description: 'An interactive website for a school club with event listings.',
-            picture:''
+            picture:'https://cdn.prod.website-files.com/62fb267a28adce7d62513eb8/6396b18f8f0837422093ecb5_XmaSFOPb_cets4NLwotYL6w_akPpsW5lP-S5LyxMcuY.webp'
         },
         {
             title: 'E-commerce Landing Page',
             description: 'Product showcase page with pricing and call-to-action sections.',
-            picture:''
+            picture:'https://s3-alpha.figma.com/hub/file/3089772221/e6c9dcbe-6ec4-45dc-b3c0-efc73896fbdb-cover.png'
         },
         {
             title: 'Interactive Quiz Page',
             description: 'JavaScript-powered quiz with instant scoring.',
-            picture:''
+            picture:'https://cdn.dribbble.com/userupload/42842001/file/original-43643e346ba367920aeb811b824addb9.png?format=webp&resize=400x300&vertical=center'
         },
         {
             title: 'Blog Website',
             description: 'A multi-page blog website with styled articles.',
-            picture:''
+            picture:'https://www.optimizepress.com/wp-content/uploads/2023/03/helpscout-blog-homepage.png   '
         },
     ],
 
@@ -359,17 +359,17 @@ const courses=
         {
             title: 'Space Adventure',
             description: 'Space-themed game with moving sprites and sound.',
-            picture:''
+            picture:'https://i.ytimg.com/vi/q7aP_W8y6fs/hqdefault.jpg'
         },
         {
             title: 'Math Quiz Game',
             description: 'Interactive quiz with score and timer.',
-            picture:''
+            picture:'https://lh7-us.googleusercontent.com/1pWMkq6lNREzC2biCHYaZihwPyloRkmLEXietU8hGbNwV-0gzInnLHINXNFIr4YYPjv2zMxP62t4uY_TmeMungIzFrfNB3KMsboa2Z7OwS0XWTJHdKAzUAsvgnvs4kRt_nnRcIpAriq2qEcitsrkoSg'
         },
         {
             title: 'Dance Party Animation',
             description: 'Fun animation with music and character movements.',
-            picture:''
+            picture:'https://contentful-images.code.org/90t6bu6vlf76/1wX4PuHvkQPcSlFcHEkqN4/108e9e9c12507f939c1e05cc4764fad7/dance-party-activity-01.png'
         },
     ],
 

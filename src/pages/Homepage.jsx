@@ -98,14 +98,28 @@ const HeroSection = () => {
             </FadeIn>
             
             <FadeIn delay={0.2}>
-              <h1 className="privacy-infocollect-description text-5xl md:text-6xl lg:text-7xl font-heading font-bold text-[var(--foregroundsec)] leading-[1.1] tracking-tight mb-6 text-balance">
-                Fun Live <span className="text-[var(--primarysec)]">Coding</span> & <span className="text-[var(--accentsec)]">Math</span> Classes 
-              </h1>
+              <h1 className="privacy-infocollect-description font-heading font-bold text-[var(--foregroundsec)] leading-[1.1] tracking-tight mb-6 text-balance">
+  <span className='text-3xl md:text-4xl lg:text-5xl'>
+    Think. Code. Solve. — Live
+  </span>{"  "}
+  <span className="text-[var(--primarysec)] text-5xl md:text-6xl lg:text-7xl">
+    Coding
+  </span>{"  "}
+  <span className='text-5xl md:text-6xl lg:text-6xl'>&</span>{" "}
+  <span className="text-[var(--accentsec)] text-5xl md:text-6xl lg:text-7xl">
+    Math
+  </span>{"  "}
+  <span className='text-3xl md:text-4xl lg:text-5xl'>
+  Classes for kids
+
+  </span>
+</h1>
+
             </FadeIn>
 
             <FadeIn delay={0.3}>
               <p className="group-header text-lg md:text-xl text-[var(--foregroundsec)]/70 font-paragraph mb-8 text-balance max-w-xl">
-                Interactive online sessions where children learn coding, build projects, and strengthen math skills with expert teachers.
+                Helping Students build real coding and math skills, confidence, and problem-solving ability through expert-led live classes.
               </p>
             </FadeIn>
 
@@ -114,7 +128,7 @@ const HeroSection = () => {
               <ul className="spacing-y-three mb-ten space-y-3 mb-10">
                 {[
                   "Live teacher-led classes",
-                  "Small interactive groups",
+                  "Project-based learning ",
                   "Beginner friendly"
                 ].map((item, i) => (
                   <li key={i} className="flex items-center gap-3 text-[var(--foregroundsec)]/80 font-paragraph font-medium">
