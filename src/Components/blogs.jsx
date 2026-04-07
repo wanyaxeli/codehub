@@ -113,7 +113,7 @@ export default function CourseDetailPage() {
 
               <div className="paddingtopfour flex flex-col sm:flex-row gap-3 pt-4">
                 <Button 
-                className="paddingxeight h-12 px-8 text-base font-semibold bg-[var(--blog-primary)] hover:bg-[var(--blog-primary)]/90 text-white rounded-lg"
+                className="paddingxeight h-12 px-8 text-base font-semibold !bg-[var(--blog-primary)] hover:!bg-[var(--blog-primary)]/70 text-white rounded-lg"
                 onClick={()=>{navigate('/register')}}>
                   Try a Free Lesson
                 </Button>
@@ -429,12 +429,12 @@ export default function CourseDetailPage() {
             </p>
           </div>
 
-          <Accordion type="single" collapsible className="w-full">
+          <Accordion type="single" collapsible className="w-full buttons-bg bg-white">
             {
               chosencourse.FAQs.map((faq)=>(
-            <AccordionItem value={faq.id} className="border-b border-gray-200">
-              <AccordionTrigger className="padding-yfour text-left hover:text-[var(--blog-primary)] py-4">
-                <span className="text-lg font-semibold text-gray-900">{faq.question}</span>
+            <AccordionItem value={faq.id} className=" border-b border-gray-200 ">
+              <AccordionTrigger className="padding-yfour text-left hover:text-[var(--blog-primary)] py-4 !bg-transparent hover:!bg-transparent ">
+                <span className="text-lg font-semibold text-gray-900 buttons-bg ">{faq.question}</span>
               </AccordionTrigger>
               <AccordionContent className="paddingbtmfour text-gray-600 pb-4">
                {faq.answer}
@@ -551,13 +551,13 @@ export default function CourseDetailPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Button 
-            className="h-12 padding-two  px-8 text-base font-semibold bg-white text-[var(--blog-primary)] hover:bg-gray-100"
+            className="h-12 padding-two  px-8 text-base font-semibold !bg-white !text-[var(--blog-primary)] hover:!bg-gray-100"
             onClick={()=>{navigate('/register')}}>
               Start Free Lesson
             </Button>
             <Button 
             variant="outline" 
-            className="h-12 padding-two  px-8 text-base font-semibold border-2 border-white text-white hover:bg-white/70 bg-transparent"
+            className="h-12 padding-two  px-8 text-base font-semibold border-2 !border-white !text-white hover:!bg-white/70 !bg-transparent"
             >
               <a
                 href="https://mail.google.com/mail/?view=cm&to=info@codingscholar.com"

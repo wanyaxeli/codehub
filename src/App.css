@@ -15,12 +15,22 @@
 .header-text{
   color:rgb(27, 27, 27)
 }
+.my-four{
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
 
+.pt-four{
+  padding-top: 1rem;
+}
 .paddingy-two{
   padding-bottom:0.25rem ;
   padding-top:0.25rem;
 }
-
+.paddingy-three{
+  padding-bottom:0.75rem ;
+  padding-top:0.75rem;
+}
 .homeherosect{
   padding-top: 2.5rem;
   padding-bottom: 4rem;
@@ -328,9 +338,16 @@
   cursor: pointer;
   margin-left:1rem;
 }
+.mt-two{
+  margin-top:0.25rem
+}
 
 .txtarea-padd{
   padding:0.75rem
+}
+
+.pl-four{
+  padding-left: 1rem;
 }
 
 .addstdnts-button{
@@ -4873,6 +4890,8 @@ a:hover{
 .link-blue:hover{
   color:#00fff2
 }
+
+
 
 .margin-btm-four{
   margin-bottom:1rem;

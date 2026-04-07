@@ -1,5 +1,5 @@
 import { Mail, Phone, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
-import pic from '../assets/codingscholarlogo.jpeg'
+import pic from '../assets/codingscholarlogo003.png'
 
 export default function NewFooter() {
   const scrollToSection = (sectionId) => {
@@ -15,12 +15,16 @@ export default function NewFooter() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* About Section */}
           <div>
-             <div className="flex items-center gap-3 nav-title">
-                <div className="logoContainer">
-                    <img loading="lazy" src={pic} alt="logo" />
-                            </div>
-                       <h3 className="text-white font-bold text-lg tracking-wide">
-                             codingscholar
+             <div className="flex-col items-center  nav-title">
+                <div className="w-24 h-24 flex items-center justify-center  rounded-lg overflow-hidden">
+                    <img
+                      src={pic}
+                      alt="logo"
+                      className="object-contain h-50 w-50 scale-200  "
+                      />
+                  </div>
+                       <h3 className="text-[var(--primarysec)] font-bold text-lg tracking-wide">
+                             Codingscholar
                          </h3>
              </div>
             {/* <h3 className="nav-title text-2xl font-heading font-bold mb-4">Coding Scholar</h3> */}

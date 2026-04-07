@@ -143,25 +143,26 @@ const HeroSection = () => {
               </ul>
               <Button 
               size="lg" 
-              className="paddingx-eight cursor-pointer border-![var(--primarysec)]/20 text-white hover:text-white !bg-[var(--accentsec)] hover:!bg-[var(--primarysec)]/55 font-heading text-lg h-14 px-8 rounded-xl transition-all"
+              className=" md:flex hidden paddingx-eight  cursor-pointer border-![var(--primarysec)]/20 text-white hover:text-white !bg-[var(--accentsec)] hover:!bg-[var(--primarysec)]/55 font-heading text-lg h-14 px-8 rounded-xl transition-all"
               onClick={()=>{navigate('/register')}}>
                 Book Free Trial
               </Button>
               </div>
             </FadeIn>
 
-            {/* <FadeIn delay={0.2} className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" className="paddingx-eight bg-[var(--accentsec)] hover:bg-[var(--accentsec)]/90 text-white font-heading text-lg h-14 px-8 rounded-xl shadow-lg shadow-[var(--accentsec)]/20 transition-all hover:scale-105">
+            <FadeIn delay={0.2} className="flex flex-col sm:flex-row gap-4 md:hidden ">
+              <Button size="lg" className="paddingx-eight bg-[var(--accentsec)] hover:bg-[var(--accentsec)]/90 text-white font-heading text-lg h-14 px-8 rounded-xl shadow-lg shadow-[var(--accentsec)]/20 transition-all hover:scale-105"
+              onClick={()=>{navigate('/register')}}>
                 Book Free Trial Class
               </Button>
-              <Button size="lg" variant="outline" className="paddingx-eight border-[var(--primarysec)]/20 text-[var(--primarysec)] hover:bg-[var(--primarysec)]/5 font-heading text-lg h-14 px-8 rounded-xl transition-all">
+              {/* <Button size="lg" variant="outline" className="paddingx-eight border-[var(--primarysec)]/20 text-[var(--primarysec)] hover:bg-[var(--primarysec)]/5 font-heading text-lg h-14 px-8 rounded-xl transition-all">
                 View Courses
-              </Button>
-            </FadeIn> */}
+              </Button> */}
+            </FadeIn>
           </motion.div>
 
           {/* Right Image Composition */}
-          <FadeIn delay={0.3} direction="left" className="relative h-[60vh] lg:h-[80vh] w-full hidden md:block">
+          <FadeIn delay={0.3} direction="left" className="relative h-[60vh] lg:h-[80vh] w-full  md:block">
             <div className="absolute inset-0 rounded-[2.5rem] overflow-hidden shadow-2xl shadow-[var(--primarysec)]/10">
               <Image 
                 src="https://media.istockphoto.com/id/2236084141/photo/portrait-of-teenage-black-girl-smiling-while-learning-coding-in-classroom.jpg?s=612x612&w=0&k=20&c=qjhuZmS2uRgcR1MT-F7aNPBqcQPzccw-x1NfnAAywX8=" 
