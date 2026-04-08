@@ -41,6 +41,11 @@
   padding-bottom: 1rem;
 }
 
+.py-twelve{
+  padding-bottom: 3rem;
+  padding-top:3rem;
+}
+
 .paddingbtmfour{
   padding-bottom: 1rem;
 }
@@ -48,7 +53,9 @@
   padding-bottom:4rem;
   padding-top:4rem
 }
-
+.mb-four{
+  margin-bottom: 1rem;
+}
 
 
 .pt-eight{
@@ -92,7 +99,16 @@
   padding:2.5rem
 }
 
+.aboutsection{
+  padding-bottom: 1rem;
+  padding-top:1rem
+}
+
 @media (min-width:768px){
+  .aboutsection{
+  padding-bottom: 2rem;
+  padding-top:2rem
+}
   .home-p-ten{
   padding:4rem
 }
@@ -114,7 +130,7 @@
   padding-left: 3rem;
   padding-right: 3rem;
 }
-  .paddingysxtn{
+  .paddingy-twentyfour{
     padding-bottom:6rem;
     padding-top: 6rem;
   }
@@ -404,6 +420,9 @@
 
 .spacing-y-three>*+*{
   margin-top:0.75rem
+}
+.mb-eight{
+  margin-bottom: 2rem;
 }
 
 .mb-ten{
@@ -4842,9 +4861,22 @@ a:hover{
   padding-left: 2rem;
   padding-right: 2rem;
 }
+
+.py-seven{
+  padding-top: 1.75rem;
+  padding-bottom: 1.75rem;
+}
 .paddingx-ten{
   padding-left: 2.5rem;
   padding-right: 2.5rem;
+}
+
+.p-twelve{
+  padding:3rem;
+}
+
+.p-sxtn{
+  padding:4rem;
 }
 
 .pb-six{
@@ -4871,7 +4903,10 @@ a:hover{
 .paddin-ten{
   padding:2.5rem
 }
-
+.py-twenty{
+  padding-top:5rem;
+  padding-bottom: 5rem;
+}
 .py-one{
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
@@ -4899,6 +4934,10 @@ a:hover{
 .privacy-contactsection{
   margin-bottom: 3rem;
   padding:2rem;
+}
+
+.p-eight{
+  padding:2rem
 }
 
 .mtauto{

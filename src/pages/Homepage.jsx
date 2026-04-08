@@ -390,6 +390,7 @@ const HowItWorksSection = ({ data, isLoading }) => {
 };
 
 const ForParentsSection = () => {
+  const navigate=useNavigate()
   return (
     <section className="py-twentyfour py-24 bg-white relative overflow-hidden">
       <div className="homeheropadxsix mxauto container mx-auto px-6 md:px-12 max-w-[120rem]">
@@ -419,7 +420,12 @@ const ForParentsSection = () => {
               <p className="mb-ten text-lg md:text-xl font-paragraph text-white/90 leading-relaxed mb-10">
                 “Coding and strong math skills help children develop logical thinking, creativity, and problem-solving abilities. At Coding Scholar, our live online classes create a supportive learning environment where students build confidence while developing valuable skills for the future.”
               </p>
-              <Button className="paddingx-eight bg-white text-[var(--primarysec)] hover:bg-slate-100 font-heading text-lg h-14 px-8 rounded-xl shadow-xl">
+              <Button
+               className="paddingx-eight bg-white text-[var(--primarysec)] hover:bg-slate-100 font-heading text-lg h-14 px-8 rounded-xl shadow-xl"
+               onClick={()=>{
+                navigate('/about-us#our-approach')
+               }}
+               >
                 Learn About Our Methodology
               </Button>
             </FadeIn>

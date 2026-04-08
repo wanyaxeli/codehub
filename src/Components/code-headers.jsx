@@ -54,7 +54,7 @@ export default function HeaderSection() {
             <img
               src={pic}
               alt="logo"
-              className="object-contain h-50 w-50 scale-200  "
+              className="object-contain h-50 w-50 scale-200 hover:scale-220 "
             />
           </div>
             {/* <img loading="lazy" src={pic} alt="logo" className='flex  object-contain h-24 w-24 bg-green-300 items-center justify-center' /> */}
@@ -76,7 +76,7 @@ export default function HeaderSection() {
             onMouseEnter={() => setIsCoursesOpen(true)}
             onMouseLeave={() => setIsCoursesOpen(false)}
           >
-            <button className="buttons-bg header-text flex items-center gap-1 bg-transparent text-gray-700 hover:text-cyan-600 font-medium transition-colors group focus:outline-none">
+            <button className="buttons-bg header-text flex items-center gap-1 bg-transparent text-gray-700 hover:!text-cyan-600 font-medium transition-colors group focus:outline-none">
               Courses
               <ChevronDown className={`w-4 h-4 transition-transform duration-200 group-hover:text-cyan-600 ${isCoursesOpen ? 'rotate-180' : ''}`} />
             </button>
@@ -101,15 +101,16 @@ export default function HeaderSection() {
           <Link href="/pricing" className="header-text text-gray-700 hover:text-cyan-600 font-medium transition-colors">
             Pricing
           </Link>
-
-          <Link href="/about" className="header-text text-gray-700 hover:text-cyan-600 font-medium transition-colors">
+          <div 
+          className="header-text text-gray-700 hover:!text-cyan-600 font-medium transition-colors cursor-pointer"
+          onClick={()=>{navigate('/about-us')}}>
             About
-          </Link>
+          </div>
         </nav>
 
         {/* Right: Actions */}
         <div className="flex items-center gap-6">
-          <div className="header-text text-gray-700 hover:text-cyan-600 font-medium transition-colors cursor-pointer" 
+          <div className="header-text text-gray-700 hover:!text-cyan-600 font-medium transition-colors cursor-pointer" 
             onClick={()=>{navigate('/Login')}}>
             Login
           </div>
@@ -120,7 +121,7 @@ export default function HeaderSection() {
 
           <Button
             asChild
-            className="padding-yfour paddingx-six bg-cyan-600 hover:bg-cyan-700 text-white font-semibold rounded-lg px-6 py-2 h-auto transition-colors cursor-pointer"
+            className="!py-4 paddingx-six bg-cyan-600 hover:!bg-cyan-700 text-white font-semibold rounded-lg px-6 py-2 h-auto transition-colors cursor-pointer hover:scale-110"
             onClick={()=>{navigate('/register')}}
           >
             <div>Book Free Trial</div>
@@ -229,12 +230,11 @@ export default function HeaderSection() {
             </Link>
 
             {/* About */}
-            <Link
-              href="/about"
-              className="block  px-three paddingy-three !text-gray-700 hover:!text-cyan-600 font-medium text-base transition-colors rounded-lg hover:bg-cyan-50"
-            >
-              About
-            </Link>
+             <div 
+          className="header-text !px-3 !py-3 !text-gray-700 hover:!text-cyan-600 font-medium transition-colors cursor-pointer"
+          onClick={()=>{navigate('/about-us')}}>
+            About
+          </div>
 
             {/* Divider */}
             <div className="my-four border-t !border-gray-200" />
