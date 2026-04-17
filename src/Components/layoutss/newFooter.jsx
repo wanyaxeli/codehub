@@ -1,5 +1,5 @@
 import { Mail, Phone, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
-import pic from '../assets/codingscholarlogo003.png'
+import pic from '@/assets/codingscholarlogo003.png'
 
 export default function NewFooter() {
   const scrollToSection = (sectionId) => {

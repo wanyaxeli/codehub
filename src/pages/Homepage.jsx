@@ -11,10 +11,11 @@ import { CheckCircle2, PlayCircle, ArrowRight, Star, BookOpen, Users, Target, Sp
 import { Button } from '@/components/ui/button';
 import { Image } from '@/components/ui/image';
 import heropic from '../assets/black kids.jpg'
+import PricingComparison from '@/Components/curriculum/pricingcomparison';
 // import HeaderDetails from '@/Components/HeaderDetails';
-import HeaderSection from '@/Components/code-headers'
+import HeaderSection from '@/Components/layoutss/code-headers'
 // import Footer from '@/components/Footer';
-import Footer from '@/Components/newFooter';
+import Footer from '@/Components/layoutss/newFooter';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 
@@ -292,9 +293,9 @@ const CoursesSection = ({ data, isLoading }) => {
                       alt={course.courseTitle || "Course"} 
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />
-                    <div className="px-three py-one absolute top-4 left-4 bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full text-lg font-heading font-bold text-[var(--accentsec)]">
+                    {/* <div className="px-three py-one absolute top-4 left-4 bg-white/80 backdrop-blur-sm px-3 py-1 rounded-full text-lg font-heading font-bold text-[var(--accentsec)]">
                       {course.targetAgeGroup || "All Ages"}
-                    </div>
+                    </div> */}
                   </div>
                   <div className="paddin-ten md:w-3/5 p-8 md:p-10 flex flex-col justify-center">
                     <h3 className="text-2xl md:text-3xl font-heading font-bold text-[var(--foregroundsec)] mb-4 group-hover:text-[var(--primarysec)] transition-colors">
@@ -722,6 +723,7 @@ export default function Home() {
         <HeroSection />
         <BenefitsSection data={benefits} isLoading={isLoading} />
         <CoursesSection data={courses} isLoading={isLoading} />
+        <PricingComparison />
         <HowItWorksSection data={howItWorks} isLoading={isLoading} />
         <ForParentsSection />
         <TestimonialsSection data={testimonials} isLoading={isLoading} />

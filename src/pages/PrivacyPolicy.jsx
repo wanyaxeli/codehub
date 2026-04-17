@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import '../index.css'
-import Footer from '@/Components/newFooter';
+import Footer from '@/Components/layoutss/newFooter';
 // import Footer from '../Components/Footer'
-import Header from '../Components/code-headers'
+import Header from '../Components/layoutss/code-headers'
 import HeaderDetails from '../Components/HeaderDetails'
 import Cookies from 'js-cookie'
 

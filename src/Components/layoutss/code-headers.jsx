@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { Menu, X, Code2, ChevronDown } from 'lucide-react'
-import pic from '../assets/codingscholarlogo003.png'
+import pic from '@/assets/codingscholarlogo003.png'
 
 export default function HeaderSection() {
   const [isCoursesOpen, setIsCoursesOpen] = useState(false)
@@ -98,9 +98,10 @@ export default function HeaderSection() {
             )}
           </div>
 
-          <Link href="/pricing" className="header-text text-gray-700 hover:text-cyan-600 font-medium transition-colors">
-            Pricing
-          </Link>
+          <div  className="header-text text-gray-700 hover:!text-cyan-600 font-medium transition-colors cursor-pointer"
+          onClick={()=>{navigate('curriculum-page')}}>
+            Curriculum
+          </div>
           <div 
           className="header-text text-gray-700 hover:!text-cyan-600 font-medium transition-colors cursor-pointer"
           onClick={()=>{navigate('/about-us')}}>

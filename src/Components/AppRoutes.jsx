@@ -5,12 +5,14 @@ import { Routes, Route } from "react-router-dom";
 // import AttemptedQuizesDisplayer from "../pages/students/AttemptedQuizesDisplayer.jsx";
 // import QuizDispplayer from "../pages/students/QuizDispplayer.jsx";
 import ProtectedLayout from "./ProtectedRoute.jsx";
+// import CurriculumPage from "@/pages/curriculumpage.jsx";
 
 //  Lazy-load all heavy pages
 // import ScheduleClasses from "../pages/students/ScheduleClasses.jsx";
 // const Home = lazy(() => import("../pages/Home.jsx"));
 const Home=lazy(()=> import ("../pages/Homepage.jsx"))
 const Aboutpage=lazy(()=>import("../pages/aboutpage.jsx"))
+const CurriculumPage=lazy(()=>import("@/pages/curriculumpage.jsx"))
 const AttemptedQuizesDisplayer = lazy(() => import("../pages/students/AttemptedQuizesDisplayer.jsx"));
 const QuizDispplayer = lazy(() => import("../pages/students/QuizDispplayer.jsx"));
 const Register = lazy(() => import("../pages/Register.jsx"));
@@ -56,6 +58,7 @@ const UploadVids = lazy(() => import("../pages/UploadVids.jsx"));
 const QuestionSetter = lazy(() => import("../pages/QuestionSetter.jsx"));
 const Certificates = lazy(() => import("../pages/Certificates.jsx"));
 
+
 //  Student dashboard
 const StudentDashboard = lazy(() => import("../pages/StudentDashboard.jsx"));
 const StudentDetails = lazy(() => import("../pages/students/StudentDetails.jsx"));
@@ -98,6 +101,7 @@ export default function AppRoutes() {
         <Route path="/Why Us" element={<WhyUs />} />
         <Route path="/course-blogs" element={<Courseblogs/>}/>
         <Route path="/about-us" element={<Aboutpage/>}/>
+        <Route path="/curriculum-page" element={<CurriculumPage/>}/>
 
         {/* Protected Routes */}
         <Route element={<ProtectedLayout />}>

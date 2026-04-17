@@ -11,7 +11,7 @@ import CourseSection from '@/Components/c-courses'
 // import CookieConsent from '../Components/cookie-consent'
 import ParentsComments from '../Components/ParentsComments'
 import { Helmet } from 'react-helmet-async';
-import HeaderSection from '@/Components/code-headers'
+import HeaderSection from '@/Components/layoutss/code-headers'
 export default function Home() {
 
   // useEffect(()=>{

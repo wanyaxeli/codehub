@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion';
 import { Image } from '@/components/ui/image';
 import { Button } from '@/components/ui/button';
-import Header from '@/Components/code-headers';
-import Footer from '@/Components/newFooter';
+import Header from '@/Components/layoutss/code-headers';
+import Footer from '@/Components/layoutss/newFooter';
 import { Zap, Brain, Lightbulb, Users, Code, CheckCircle, Rocket, ChevronDown } from 'lucide-react';
 import { Navigate, useNavigate,useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
