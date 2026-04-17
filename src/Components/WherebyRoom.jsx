@@ -3,15 +3,15 @@ import { useRoomConnection } from '@whereby.com/browser-sdk/react';
 
 export default function WherebyRoom({ roomUrl }) {
   const url = roomUrl
-  // 🛡️ Before anything: prevent hook usage on invalid URL
+  //  Before anything: prevent hook usage on invalid URL
   const isValidRoomUrl = url && url.startsWith('https://');
 
-  // ⛔ Return early to avoid calling the hook with an invalid value
+  //  Return early to avoid calling the hook with an invalid value
   // if (!isValidRoomUrl) {
   //   return <p>Loading room or invalid URL...</p>;
   // }
 
-  // ✅ Only executed when `roomUrl` is valid — no conditional hook call
+  //  Only executed when `roomUrl` is valid — no conditional hook call
   // const {
   //   state,
   //   actions,
