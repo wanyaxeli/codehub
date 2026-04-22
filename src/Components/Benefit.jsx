@@ -1,4 +1,5 @@
 import React from 'react'
+import {Button} from '@/components/ui/button'
 
 export default function Benefit() {
   return (
@@ -40,6 +41,12 @@ export default function Benefit() {
                </div>
              </div>
             </div>
+            <div className="rounded-2xl  p-10 text-center md:p-16">
+          
+          <Button className="paddingy-six paddingx-ten rounded-full bg-gradient-to-r from-[#0097b2] to-cyan-600 px-10 py-6 text-base font-semibold text-white transition-all hover:shadow-xl hover:scale-105 active:scale-95">
+            Book Free Trial
+          </Button>
+        </div>
         </div>
     </div>
   )

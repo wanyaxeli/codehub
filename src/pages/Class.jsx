@@ -89,6 +89,9 @@ export default function Class() {
     const [groupname,setGroupName]=useState('')
     const [groupstdntdetails,setGroupStudentDetails]=useState([])
     const [showStudents, setShowStudents] = useState(false);
+    const [group_id,setGroupId]=useState()
+    const [lessontype,setLessonType]=useState()
+    const [lesid,setLesId]=useState()
     const {classEndedfully}=useContext(context)
     const handleOpenChat=()=>{
         if(toggleChat===false){
@@ -100,6 +103,8 @@ export default function Class() {
     const handleSubmitProject =()=>{
         setopenSubmitModal(true)
     }
+
+    console.log('lesid...',lesid)
     async function getToken(){
         try{
             const token= localStorage.getItem('token') // No need to await
@@ -310,6 +315,8 @@ useEffect(() => {
             console.log("WebSocket not connected");
         }
     }
+
+    console.log('lessontype...',lessontype)
     useEffect(()=>{
     if (localStream &&peerConnected &&  userVideo.current){
         userVideo.current.srcObject = localStream;
@@ -443,10 +450,12 @@ useEffect(() => {
     },[bookingId])
     useEffect(()=>{
         const { state } = location || {}; // Ensure location is not undefined
-        const { id, time,typeOfClass ,student,studentPic,title,studentName,groupName,studentUserId,classType,notes,studentDetails} = state || {};
+        const { id, time,typeOfClass ,student,studentPic,title,studentName,groupName,studentUserId,classType,notes,studentDetails,groupId,lessontype,lesid} = state || {};
         if (state && classType==='NormalClass') {
+            setLesId(lesid)
             setCode(id);  // Set the state if it exists
             setStartingTime(time);
+            setLessonType(lessontype)
             settypeOfClass(typeOfClass)
             if(notes){
                 setNotes(notes)
@@ -464,6 +473,7 @@ useEffect(() => {
            if (groupName){
               setGroupName(groupName)
               setGroupStudentDetails(studentDetails)
+              setGroupId(groupId)
 
               
            }
@@ -504,7 +514,9 @@ useEffect(() => {
       }, []); // This runs on mount
      const handleEndClass=()=>{
         if(StudentId){
-            navigate('/End Class',{state:{code:code,StudentId:StudentId,classTypes:'normal'}})
+            navigate('/End Class',{state:{code:code,StudentId:StudentId,classTypes:'normal',lessontype,lesid}})
+        } else if(groupstdntdetails){
+            navigate('/End Class',{state:{code:code,groupstdntdetails:groupstdntdetails,classTypes:'normal',groupId:group_id,lesid}})
         }
      }
     useEffect(()=>{
@@ -656,7 +668,8 @@ useEffect(() => {
   )
 )}
 {trailClass &&  <RegisterStudentModal setNewStudent={setNewStudent}  trailClass={trailClass}  openStudentRegistrationform={openStudentRegistrationform} setopenStudentRegistrationform={setopenStudentRegistrationform}/>}
-   {/* Modal Popup */}
+
+   {/* Modal Popup for group*/}
       {showStudents && (
         <div className='fixed inset-0 z-50 flex items-start justify-end p-4 classgrouppop'>
           <div className='bg-white rounded-2xl shadow-2xl max-w-md w-[65%] max-h-[90vh] overflow-hidden flex flex-col'>
@@ -683,8 +696,8 @@ useEffect(() => {
                     {/* Profile Picture */}
                     <div className='flex-shrink-0'>
                       <img
-                         src={student.profilePic ? student.profilePic : "/placeholder.png"}
-                        alt={student.name}
+                         src={student.studentpic ? `https://res.cloudinary.com/dbxsncq5r/${student.studentpic}` : "/placeholder.png"}
+                        alt={student.first_name}
                         className="w-14 h-14 rounded-full object-cover border-2 border-cyan-500"
                     />
 

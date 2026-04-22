@@ -5,10 +5,14 @@ import { Routes, Route } from "react-router-dom";
 // import AttemptedQuizesDisplayer from "../pages/students/AttemptedQuizesDisplayer.jsx";
 // import QuizDispplayer from "../pages/students/QuizDispplayer.jsx";
 import ProtectedLayout from "./ProtectedRoute.jsx";
+// import CurriculumPage from "@/pages/curriculumpage.jsx";
 
 //  Lazy-load all heavy pages
 // import ScheduleClasses from "../pages/students/ScheduleClasses.jsx";
-const Home = lazy(() => import("../pages/Home.jsx"));
+// const Home = lazy(() => import("../pages/Home.jsx"));
+const Home=lazy(()=> import ("../pages/Homepage.jsx"))
+const Aboutpage=lazy(()=>import("../pages/aboutpage.jsx"))
+const CurriculumPage=lazy(()=>import("@/pages/curriculumpage.jsx"))
 const AttemptedQuizesDisplayer = lazy(() => import("../pages/students/AttemptedQuizesDisplayer.jsx"));
 const QuizDispplayer = lazy(() => import("../pages/students/QuizDispplayer.jsx"));
 const Register = lazy(() => import("../pages/Register.jsx"));
@@ -22,6 +26,7 @@ const StudentSignUp = lazy(() => import("../pages/StudentSignUp.jsx"));
 const WhyUs = lazy(() => import("../pages/WhyUs.jsx"));
 const ErrorPage = lazy(() => import("../pages/Error.jsx"));
 const ClassSchedule = lazy(() => import("../pages/students/ScheduleClasses.jsx"));
+const Courseblogs=lazy(()=>import("../pages/course-blogs.jsx"))
 //  Teacher dashboard
 const Teacher = lazy(() => import("../pages/Teacher.jsx"));
 const Dashboard = lazy(() => import("../pages/Dashboard.jsx"));
@@ -52,6 +57,7 @@ const VideoPlayer = lazy(() => import("../pages/VideoPlayer.jsx"));
 const UploadVids = lazy(() => import("../pages/UploadVids.jsx"));
 const QuestionSetter = lazy(() => import("../pages/QuestionSetter.jsx"));
 const Certificates = lazy(() => import("../pages/Certificates.jsx"));
+
 
 //  Student dashboard
 const StudentDashboard = lazy(() => import("../pages/StudentDashboard.jsx"));
@@ -93,6 +99,9 @@ export default function AppRoutes() {
         <Route path="/StudentSignup/:token" element={<StudentSignUp />} />
         <Route path="/StudentSignup" element={<StudentSignUp />} />
         <Route path="/Why Us" element={<WhyUs />} />
+        <Route path="/course-blogs" element={<Courseblogs/>}/>
+        <Route path="/about-us" element={<Aboutpage/>}/>
+        <Route path="/curriculum-page" element={<CurriculumPage/>}/>
 
         {/* Protected Routes */}
         <Route element={<ProtectedLayout />}>
