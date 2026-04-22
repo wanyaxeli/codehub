@@ -155,7 +155,7 @@ export default function PathwayCards({ selectedPathway, setSelectedPathway }) {
                   <button
                     className={`w-full !py-3 !px-4 rounded-lg font-heading font-semibold transition-all duration-300 ${
                       isSelected
-                        ? `bg-[rgb(210,65,19)] text-white hover:bg-[rgb(180,55,15)] shadow-md`
+                        ? `!bg-[rgb(210,65,19)] text-white hover:!bg-[rgb(180,55,15)] shadow-md`
                         : `bg-gray-100 text-gray-900 hover:bg-gray-200`
                     }`}
 

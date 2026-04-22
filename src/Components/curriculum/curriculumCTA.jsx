@@ -56,7 +56,7 @@ export default function CurriculumCTA() {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="inline-block bg-[rgb(210,65,19)] hover:bg-[rgb(180,55,15)] text-white font-heading font-bold text-lg !px-8 !py-4 rounded-lg shadow-lg transition-all duration-300"
+              className="inline-block !bg-[rgb(210,65,19)] hover:!bg-[rgb(180,55,15)] text-white font-heading font-bold text-lg !px-8 !py-4 rounded-lg shadow-lg transition-all duration-300"
             >
               Book Free Trial Class
             </motion.button>

@@ -11,9 +11,9 @@ const pricingPlans = [
     period: '/session',
     description: 'Personalized 1-on-1 lessons with a dedicated tutor',
     features: [
-      { label: 'Classes', value: '48' },
-      { label: 'Projects', value: '100+' },
-      { label: 'Quizzes', value: '100+' },
+      // { label: 'Classes', value: '48' },
+      { label: 'Unlimited Projects', value: '✔' },
+      // { label: 'Quizzes', value: '100+' },
       { label: 'Certificates', value: '✔' },
       { label: 'Community Access', value: '✔' },
       { label: 'Live Support', value: '✔' },
@@ -34,15 +34,15 @@ const pricingPlans = [
     period: '/session',
     description: 'Personalized live group classes ',
     features: [
-      { label: 'Classes', value: '96' },
-      { label: 'Projects', value: '200+' },
-      { label: 'Quizzes', value: '100+' },
+      // { label: 'Classes', value: '96' },
+      { label: 'Unlimited Projects', value: '✔' },
+      // { label: 'Quizzes', value: '100+' },
       { label: 'Certificates', value: '✔' },
       { label: 'Community Access', value: '✔' },
       { label: 'Priority Support', value: '✔' },
       { label: 'Coordinate class reschedule', value: '✔' },
     ],
-    cta: 'Enroll Now',
+    cta: 'Book Free Trial',
     highlighted: true,
     highlight:'30% off',
     color: 'from-purple-400 to-purple-600',
@@ -56,15 +56,15 @@ const pricingPlans = [
     period: '/session',
     description: 'Interactive live group learning with other students',
     features: [
-      { label: 'Classes', value: '144' },
-      { label: 'Projects', value: '300+' },
-      { label: 'Quizzes', value: '100+' },
+      // { label: 'Classes', value: '144' },
+      { label: 'Unlimited Projects', value: '✔' },
+      // { label: 'Quizzes', value: '100+' },
       { label: 'Certificates', value: '✔' },
       { label: 'Community Access', value: '✔' },
       { label: 'Group support', value: '✔' },
       { label: 'class rescheduling', value: '❌' },
     ],
-    cta: 'Enroll Now',
+    cta: 'book Free Trial',
     highlighted: true,
     highlight:'25% off',
     colorFrom: 'from-orange-400',
@@ -220,7 +220,7 @@ export default function PricingComparison() {
                   whileTap={{ scale: 0.95 }}
                   className={`w-full !py-3 !px-4 rounded-lg font-heading font-semibold transition-all duration-300 ${
                     plan.highlighted
-                      ? 'bg-[rgb(210,65,19)] text-white hover:bg-[rgb(180,55,15)] shadow-md'
+                      ? '!bg-[rgb(210,65,19)] text-white hover:bg-[rgb(180,55,15)] shadow-md'
                       : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
                   }`}
                 >

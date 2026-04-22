@@ -321,7 +321,7 @@ export default function CurriculumTabs({ selectedPathway, setSelectedPathway }) 
                 onClick={() => setSelectedPathway(key)}
                 className={`!px-6 !py-3 rounded-lg font-heading font-semibold whitespace-nowrap transition-all duration-300 ${
                   selectedPathway === key
-                    ? 'bg-[rgb(0,151,178)] text-white shadow-lg'
+                    ? '!bg-[rgb(0,151,178)] text-white shadow-lg'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                 }`}
                 whileHover={{ scale: 1.05 }}

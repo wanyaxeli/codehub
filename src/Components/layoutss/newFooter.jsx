@@ -20,7 +20,7 @@ export default function NewFooter() {
                     <img
                       src={pic}
                       alt="logo"
-                      className="object-contain h-50 w-50 scale-200  "
+                      className="object-contain h-50 w-50 scale-180  "
                       />
                   </div>
                        <h3 className="text-[var(--primarysec)] font-bold text-lg tracking-wide">

@@ -99,7 +99,7 @@ export default function HeaderSection() {
           </div>
 
           <div  className="header-text text-gray-700 hover:!text-cyan-600 font-medium transition-colors cursor-pointer"
-          onClick={()=>{navigate('curriculum-page')}}>
+          onClick={()=>{navigate('/curriculum-page')}}>
             Curriculum
           </div>
           <div 
