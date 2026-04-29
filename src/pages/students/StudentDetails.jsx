@@ -45,9 +45,18 @@ export default function StudentDetails() {
     const [profilePic,setProfilePic]=useState('')
     const handleToJoinClass =(les,Lessonid,time,title)=>{
         if(les.group_class){
-            const studentUserId=les.student.user.id
-            const id=`${les.group_class.group_name}-${Lessonid}`
-            navigate(`/class/${id}`,{state:{id,typeOfClass:'group',classType:'NormalClass',time,title,studentUserId } });
+            
+            const group=les.group_students
+            const student=group.filter(std=>std.user.id===studentId)
+            console.log(student)
+            if(student.length>0){
+                student.map(item=>{
+               const studentUserId=item.user.id
+              const id=`${les.group_class.group_name}-${Lessonid}`
+               navigate(`/class/${id}`,{state:{id,typeOfClass:'group',classType:'NormalClass',time,title,studentUserId } });
+                })
+            }
+           
         }else{
         const lessonTime = new Date(les.date_time);       
         const studentUserId=les.student.user.id

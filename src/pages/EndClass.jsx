@@ -15,6 +15,7 @@ export default function EndClass() {
   const [teacherId,setTeacherId]=useState('')
   const [booking,setBooking]=useState([])
   const [value,setValue]=useState()
+  const [isLoading,setLoading]=useState(false)
   const [token,setToken]=useState('')
   const [role,setRole]=useState('')
   const [classEnded,setClassEnded]=useState('')
@@ -37,7 +38,7 @@ export default function EndClass() {
   // console.log('groupId...',groupId)
   // console.log('lessonId...',classId)
 
-  const group_vediosAPI=`https://api.codingscholar.com/student_class_videos/${groupId}`
+
   const automatic_rescheduleAPI=`https://api.codingscholar.com/forwardRescheduling/${lesid}`
   const manual_rescheduleAPI=`https://api.codingscholar.com/reschedulingClassToAnotherDay/${lesid}`
   // console.log('group api ',group_vediosAPI)
@@ -47,7 +48,7 @@ export default function EndClass() {
    if(classId && studentId){
     const code= classId
     const url = `https://api.codingscholar.com/currentClass/${(code)}/${studentId}`
-      console.log('group api  urlll ',url)
+    
     axios.get(url)
     .then(res=>{
       setLesson([res.data])
@@ -86,7 +87,7 @@ export default function EndClass() {
       const url = `https://api.codingscholar.com/ClassAttendedFully/${encodeURIComponent(code)}`
       axios.put(url,data)
       .then(res=>{
-        console.log('class res',res.data)
+       
         const data = res.data.message
         setClassEndedfully(true)
         alert(data)
@@ -129,7 +130,7 @@ export default function EndClass() {
         const url = `https://api.codingscholar.com/TrailClassAttendedFully/${code}/${teacherId}}`
         axios.put(url)
         .then(res=>{
-          console.log(res.data)
+         
           const data = res.data.message
           alert(data)
           navigate('/student/dashboard/Details')
@@ -153,7 +154,7 @@ export default function EndClass() {
           const url = `https://api.codingscholar.com/NotAttendedClass/${encodeURIComponent(code)}/${studentId}}`
           axios.put(url,{data:value})
           .then(res=>{
-            console.log(res.data)
+           
             const data = res.data.message
             alert(data)
             navigate('/teacher/dashboard/Details') 
@@ -172,7 +173,7 @@ export default function EndClass() {
           const url = `https://api.codingscholar.com/NotAttendedTrailClass/${code}/${teacherId}`
           axios.put(url,{data:value})
           .then(res=>{
-            console.log(res.data)
+        
             const data = res.data.message
             alert(res.data.message)
             if(data==='Class marked '){
@@ -220,7 +221,7 @@ useEffect(()=>{
       try {
         const decode = jwtDecode(token);
         const {role,user_id}=decode
-        console.log("Decoded Token:", role);
+        
         setTeacherId(user_id)
         setRole(role)
       } catch (error) {
@@ -231,7 +232,7 @@ useEffect(()=>{
   useEffect(()=>{
     const { state } = location || {}; // Ensure location is not undefined
     // const { id } = state || {};\
-    console.log('state ',state)
+    
     const {code,StudentId,classTypes,groupstdntdetails,groupId,lessontype,lesid}=state
     if (classTypes==='trial'){
      setBookingId(code)
@@ -250,6 +251,7 @@ useEffect(()=>{
     // }
     // startLocalStream()
 },[location])
+
 useEffect(()=>{
   getClass()
 },[classId,bookingId,studentId])
@@ -268,23 +270,94 @@ const handleFileChange = (event) => {
       setSelectedFile(file);
     }
   };
-
+  const uploadFileToS3 = async (file, token) => {
+    const chunkSize = 5 * 1024 * 1024; // 5MB
+    const totalChunks = Math.ceil(file.size / chunkSize);
+    const cleanName = file.name.replace(/[^a-zA-Z0-9.-]/g, "_");
+    // 1. Start upload
+    const startRes = await axios.post(
+      "https://api.codingscholar.com/start-upload/",
+      { filename: cleanName},
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+  
+    const { uploadId, key } = startRes.data;
+  
+    let parts = [];
+  
+    // 2. Upload chunks
+    for (let i = 0; i < totalChunks; i++) {
+      const chunk = file.slice(i * chunkSize, (i + 1) * chunkSize);
+  
+      const urlRes = await axios.post(
+        "https://api.codingscholar.com/get-chunk-url/",
+        {
+          uploadId,
+          key,
+          partNumber: i + 1,
+        },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+  
+      const { url } = urlRes.data;
+  
+      const uploadRes = await fetch(url, {
+        method: "PUT",
+        body: chunk,
+      });
+  
+      const etag = uploadRes.headers.get("ETag");
+  
+      parts.push({
+        ETag: etag,
+        PartNumber: i + 1,
+      });
+    }
+  
+    // 3. Complete upload
+    const completeRes = await axios.post(
+      "https://api.codingscholar.com/complete-upload/",
+      {
+        uploadId,
+        key,
+        parts,
+      },
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+  
+    return completeRes.data.url;
+  };
  const handleUpload = async() => {
     if (selectedFile) {
-      console.log('Uploading file:', selectedFile.name);
+      setLoading(true)
       try{
-        console.log('sending file⏩⏩')
+        
+        const id = lesid
+        const lessonId=classId.replace(/^[^-]+-/, "");
+       
+        const group_vediosAPI=`https://api.codingscholar.com/student_class_videos/${id}`
+        // 1. upload to S3
+        const fileUrl = await uploadFileToS3(selectedFile, token);
+       
         const sendfile_res=await Promise.allSettled(
           groupstdntdetails.map((student)=>{
+            const data={
+              lessonId:lessonId,
+              studentId:student.id,
+              video_url: fileUrl,
+            }
+           
             const formdata=new FormData()
             formdata.append('vid',selectedFile)
-            formdata.append('lessonId',classId)
+            formdata.append('lessonId',lessonId)
             formdata.append('studentId',student.id)
-  
-            return axios.post(group_vediosAPI,formdata,
+            // for (let [key, value] of formdata.entries()) {
+            //   console.log(key, value);
+            // }
+            return axios.post(group_vediosAPI,data,
           {
             headers:{
-              "Content-Type":"multipart/form-data",
+
               "Authorization":`Bearer ${token}`
             }
   
@@ -293,24 +366,26 @@ const handleFileChange = (event) => {
           })
         );
 
-        console.log('sendingfile response...',sendfile_res)
-  
+      
         sendfile_res.forEach((success_res,index)=>{
+          
           if(success_res.status=='fulfilled'){
-           console.log( '✅ file sent to student successfully', groupstdntdetails[index].name)
+            setLoading(false)
+            setIsOpen(false)
+           console.log( ' file sent to student successfully', groupstdntdetails[index].name)
           }else{
-            console.error('❌failed to  send file to student ',groupstdntdetails[index],success_res.reason)
+            alert('Error Occured while uploading vidoe please try again  ')
           }
   
         });
         
-        alert(`File uploaded: ${selectedFile.name}`);
-        setSelectedFile(null);
-        setIsOpen(false);
-        setClassCompleted(true)
+        // alert(`File uploaded: ${selectedFile.name}`);
+        // setSelectedFile(null);
+        // setIsOpen(false);
+        // setClassCompleted(true)
 
       }catch(e){
-        console.error('❌ errror in uploading file to student::',e)
+        console.error('errror in uploading file to student::',e)
       }
       
 
@@ -323,7 +398,7 @@ const handleRescheduleDateTime =async()=>{
       try{
         
         const selectedtimestamp=new Date(`${selectedDate}T${selectedTime}`).toISOString().slice(0,16)
-        console.log('rescheduling....',selectedtimestamp)
+       
   
         const results=await axios.put(
           manual_rescheduleAPI,
@@ -351,7 +426,7 @@ const handleRescheduleDateTime =async()=>{
   
         
       }catch(e){
-        console.error('❌ error in rescheduling classes manually ...',e)
+        console.error('error in rescheduling classes manually ...',e)
       }
     }
 }
@@ -361,13 +436,12 @@ const handlemanualreschedule=()=>{
   setFooter(false)
 }
 
-// console.log('TOKENNNNNN....👌👌',token)
+// console.log('TOKENNNNNN....',token)
 const handleRescheduleNextClass = async() => {
     // console.log('[v0] Rescheduling to next class on timetable');
 
     try{
-      console.log('..rescheduling class automaticallly...')
-      console.log('studentId..',studentId,'classType..',lessontype)
+
       const results=await axios.put(
         automatic_rescheduleAPI,
         {
@@ -387,7 +461,7 @@ const handleRescheduleNextClass = async() => {
       setIsOpen(false);
       navigate('/teacher/dashboard/Details')
     }catch(e){
-      console.log('❌ error in automatic rescheduling',e)
+      console.log(' error in automatic rescheduling',e)
     }
   };
   return (
@@ -504,22 +578,25 @@ const handleRescheduleNextClass = async() => {
             </div>
 
             {/* Footer */}
-            <div className="flex gap-3 p-6 all-groups border-t border-slate-100">
-              <button
-                // variant="outline"
-                onClick={handleCancel}
-                className="flex-1 bg-slate-300 text-black paddingone rounded-lg"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleUpload}
-                disabled={!selectedFile}
-                className="flex-1 bg-[#0097b2] paddingone rounded-lg "
-              >
-                Upload
-              </button>
-            </div>
+            {isLoading===false?<div className="flex gap-3 p-6 all-groups border-t border-slate-100">
+            <button
+              // variant="outline"
+              onClick={handleCancel}
+              className="cancelUploadBtn flex-1 bg-slate-300 text-black paddingone rounded-lg"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleUpload}
+              disabled={!selectedFile}
+              className="uploadBtn flex-1 bg-[#0097b2] paddingone rounded-lg "
+            >
+              Upload
+            </button>
+          </div>:<div className='loaderWrapper'>
+          <i className="fa fa-spinner spinner" aria-hidden="true"></i>
+           <p>Uploading ...</p>
+          </div>}
           </div>
         </div>
       )}

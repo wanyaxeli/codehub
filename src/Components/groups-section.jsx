@@ -19,6 +19,7 @@ export default function GroupSection({onViewGroup}) {
     const [currentPage,setCurrentPage]=useState(1)
     const [isModalOpen,setIsModalOpen]=useState()
     const [gotentoken,setGotenToken]=useState()
+    const [token,setToken]=useState('')
     const [groups, setGroups] = useState([
     // {
     //   id: '1',
@@ -81,72 +82,82 @@ export default function GroupSection({onViewGroup}) {
     // }
     const groupurl="https://api.codingscholar.com/class_groups/"
     const fetchgroups=async(gottoken)=>{
+     if(token){
       const allgroups=await axios.get(groupurl,
         { headers: {
-          "Authorization":`Bearer ${gottoken}`
+          "Authorization":`Bearer ${token}`
         }}
       )
 
       const sortedgroups=allgroups.data.sort((a,b)=>new Date(b.created_at)-new Date(a.created_at))
       setGroups(sortedgroups)
+     }
     }
 
-
+    async function getToken(){
+      try{
+          const token= localStorage.getItem('token') // No need to await
+          if (token){
+              setToken(token);
+          }
+      } catch(error) {
+          console.log(error);
+  }
+  }
+   useEffect(()=>{
+    fetchgroups()
+   },[token])
     useEffect(()=>{
-      const gotentoken=localStorage.getItem('token')
-      setGotenToken(gotentoken)
+     getToken()
 
-      fetchgroups(gotentoken)
-      
-
-
-
-
+    
     },[])
 
   
     const handleaddGroup = async() => {
-    if (groupName.trim()) {
-      const newGroup = { 
-        // id: Date.now().toString(),
-        name: groupName,
-        studentCount: 0,
-        status: 'Inactive',
-      };
-
-      const gotentoken=localStorage.getItem('token')
-
-      const gradeName=groupName
-      
-      const savegroup=await axios.post(groupurl,{gradeName},
-       { headers: {
-          "Authorization":`Bearer ${gotentoken}`
-        }}
+    if(token){
+      if (groupName.trim()) {
+        const newGroup = { 
+          // id: Date.now().toString(),
+          name: groupName,
+          studentCount: 0,
+          status: 'Inactive',
+        };
+  
+        // const gotentoken=localStorage.getItem('token')
+  
+        const gradeName=groupName
         
-      )
-      const savedgroup=savegroup.data
-
-     
-// {message: 'Class group successfully created'}
-      if (savedgroup.status===200){
-        alert("Group created successfully")
-        fetchgroups(gotentoken)
-        setGroupName('');
-        setCurrentPage(1);
-
-      }else{
-        console.error('error in creating the group')
+        const savegroup=await axios.post(groupurl,{gradeName},
+         { headers: {
+            "Authorization":`Bearer ${token}`
+          }}
+          
+        )
+        const savedgroup=savegroup.data
+      console.log('res',savedgroup)
+       
+  // {message: 'Class group successfully created'}
+        if (savedgroup.message==='Class group successfully created'){
+          alert("Group created successfully")
+          fetchgroups()
+          setGroupName('');
+          setCurrentPage(1);
+  
+        }else{
+          console.error('error in creating the group')
+        }
+  
+        // if (savedgroup){
+        //   fetchgroups(gotentoken)
+        //   // setGroups([newGroup, ...groups]);
+        //   setGroupName('');
+        //   setCurrentPage(1);
+        // }else{
+        //   console.log('group not saved')
+        // }
+  
       }
-
-      // if (savedgroup){
-      //   fetchgroups(gotentoken)
-      //   // setGroups([newGroup, ...groups]);
-      //   setGroupName('');
-      //   setCurrentPage(1);
-      // }else{
-      //   console.log('group not saved')
-      // }
-
     }
   };
   const handleKeyPress = (e) => {

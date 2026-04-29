@@ -52,6 +52,7 @@ export default function GroupDetails({group,onBack}){
     const [lessonName,setLessonName]=useState('')
     const [classDate,setClassDate]=useState('')
     const [starttime,setStartTime]=useState('')
+    const [token,setToken]=useState('')
     const [room,setRoom]=useState({
         grade:'',
         gradetype:'',
@@ -68,6 +69,7 @@ export default function GroupDetails({group,onBack}){
     const [originalClassSchedule,setOriginalClassSchedule]=useState([])
     const [classDay,setClassDay]=useState()
     const [scheduleDays,setScheduleDays]=useState([])
+    const [lessons,setLessons]=useState([])
     const [changedTeacher,setChangedTeacher]=useState()
     const [got_t, setGot_t]=useState()
 
@@ -79,16 +81,17 @@ export default function GroupDetails({group,onBack}){
     // const scheduleclasses_url=''
     const deletegroup=`https://api.codingscholar.com/DeleteGroupclass/${group.id}`
     const students_in_group_url=`https://api.codingscholar.com/studentInGroup/${group.id}`
-    const group_lesson_url=`https://api.codingscholar.com/teacherGroupClass`
+    const group_lesson_url=`https://api.codingscholar.com/Get_SpecificGroup_ClassSchedule/${group.id}`
     const group_details=`https://api.codingscholar.com/Get_class_group_room/${group.id}`
     const remove_student=`https://api.codingscholar.com/RemoveStudentInGroupClass/${group.id}`
 
 
     const fetchgroup_students=async(goten_token)=>{
+    if(token){
       try{
         const students=await axios.get(students_in_group_url,{
           headers:{
-            Authorization:`Bearer ${goten_token}`
+            Authorization:`Bearer ${token}`
           }
         })
 
@@ -99,6 +102,7 @@ export default function GroupDetails({group,onBack}){
       }catch(e){
         console.log('error in getting all students in agroup',e)
       }
+    }
     }
 
     const formatdates=(dates)=>{
@@ -111,43 +115,56 @@ export default function GroupDetails({group,onBack}){
         minute:'2-digit'
       })
     }
-
-    const grouplessons=async(goten_token)=>{
+    async function getToken(){
       try{
-        const {data}=await axios.get(group_lesson_url,{
-          headers:{
-            Authorization:`Bearer ${goten_token}`
+          const token= localStorage.getItem('token') // No need to await
+          if (token){
+              setToken(token);
           }
-        })
-
-        const group_classes=data.filter((lesson)=> lesson.group_class.id==group.id && new Date(lesson.date_time).getTime() >= Date.now())
-        setscheduledClasses(group_classes)
-        setOriginalClassSchedule(group_classes)
-        // const grouped_lessons=Object.values(
-        //   group_classes.reduce((acc,lesson)=>{
-        //     const classType=lesson.lessontype
-
-        //     if(!acc[classType]){
-        //       acc[classType]={
-        //         classType:classType,
-        //         lessonNumber:[],
-        //         lessonTitle:[],
-        //         scheduleddates:[]
-        //       }
-        //     }
-
-        //     acc[classType].lessonNumber.push()
-        //   })  
-        // )
-
-
-
-      // const 
-      // const upcoming_classes=group_classes.filter()
-
-
-      }catch(e){
-        console.error('error in getting group lessons',e)
+      } catch(error) {
+          console.log(error);
+  }
+  }
+    const grouplessons=async(goten_token)=>{
+      // alert('hello')
+      if(token ){
+        try{
+          const {data}=await axios.get(group_lesson_url,{
+            headers:{
+              Authorization:`Bearer ${token}`
+            }
+          })
+  
+          const group_classes=data.filter((lesson)=> lesson.group_class.id==group.id && new Date(lesson.date_time).getTime() >= Date.now())
+          console.log('fffdd',data)
+          // setscheduledClasses(group_classes)
+          // setOriginalClassSchedule(group_classes)
+          // const grouped_lessons=Object.values(
+          //   group_classes.reduce((acc,lesson)=>{
+          //     const classType=lesson.lessontype
+  
+          //     if(!acc[classType]){
+          //       acc[classType]={
+          //         classType:classType,
+          //         lessonNumber:[],
+          //         lessonTitle:[],
+          //         scheduleddates:[]
+          //       }
+          //     }
+  
+          //     acc[classType].lessonNumber.push()
+          //   })  
+          // )
+  
+  
+  
+        // const 
+        // const upcoming_classes=group_classes.filter()
+  
+  
+        }catch(e){
+          console.error('error in getting group lessons',e)
+        }
       }
     }
 
@@ -190,12 +207,19 @@ export default function GroupDetails({group,onBack}){
       }
     }
     useEffect(()=>{
+    getToken()
+    },[])
+    useEffect(()=>{
+      grouplessons()
+      fetchgroup_students()
+    },[token])
+    useEffect(()=>{
       const got_t=localStorage.getItem('token')
       setGot_t(got_t)
-      fetchgroup_students(got_t)
+      
       fetchData()
       fetch_groupdetails()
-      grouplessons(got_t)
+      
       
     },[])
 
@@ -283,7 +307,7 @@ export default function GroupDetails({group,onBack}){
         day: classDay,
         time: starttime,
       };
-      setScheduleDays([...scheduleDays, newDay]);
+      setScheduleDays(pre=>([...pre, newDay]));
       setClassDay('');
       setStartTime('');
     }
@@ -291,11 +315,11 @@ export default function GroupDetails({group,onBack}){
 
   // Remove a day and time from the schedule
   const handleRemoveScheduleDay = (id) => {
-    setScheduleDays(scheduleDays.filter((d) => d.id !== id));
+    setScheduleDays([]);
   };
 
     const handleAddRoom=async ()=>{
-        if (room.grade && room.module && room.teacher){
+        if (room.grade && room.module && room.teacher && token){
             const newRoom={
                 // id:
                 grade:room.grade,
@@ -315,7 +339,7 @@ export default function GroupDetails({group,onBack}){
               },
               {
                 headers:{
-                  "Authorization":`Bearer ${got_t}`
+                  "Authorization":`Bearer ${token}`
                 }
               }
             
@@ -370,7 +394,9 @@ export default function GroupDetails({group,onBack}){
     }
     // const students=[]
     const removeclass=(classId)=>{
-        setscheduledClasses(scheduledClasses.filter((cls)=>cls.id!==classId))
+        // setscheduledClasses(scheduledClasses.filter((cls)=>cls.id!==classId))
+        // setscheduledClasses([])
+        setLessons([])
     }
 
      // Handle student selection in modal
@@ -397,20 +423,41 @@ export default function GroupDetails({group,onBack}){
 
 //   handle scheduling class
    const handleScheduleClass=()=>{
-    if (lessonNumber && scheduleDays.length > 0 && classType){
+    if (lessonNumber && scheduleDays.length > 0 && classType && token){
         const newClass ={
             id:Date.now().toString(),
             lessonNumber,
             classType,
             scheduleDays
         }
-        setscheduledClasses([...scheduledClasses,newClass])
+        setLessons([newClass])
+        console.log('ada',newClass)
+         axios.post(
+                    scheduleclasses_url,
+                    {
+                      "lesson_schedule":newClass.scheduleDays,
+                      "roomType":newClass.classType,
+                      "lesson_number":newClass.lessonNumber
+                    },
+                    {
+                      headers:{
+                        "Authorization":`Bearer ${token}`
+                      }
+                    }
+                  )
+        .then(res=>{
+          console.log('resasa',res.data)
+         
         setLessonNumber('')
         setClassDate('')
         setScheduleDays([]);
         setStartTime('')
         setClassType('')
-        setShowScheduleClassModal(false)
+        // setShowScheduleClassModal(false)
+        })
+        .then(error=>console.log(error))
+        // setscheduledClasses([...scheduledClasses,newClass])
+        
     }
    }
 
@@ -426,81 +473,71 @@ export default function GroupDetails({group,onBack}){
    }
    
    const saveclassChange =async()=>{
-    setIsSaving(true)
-    try{
-        const {addedclasses,removedclasses}=getclassScheduleChanges()
-
-        
-      //  addedclasses.map(addclass=>console.log('class data', {
-      //           "lesson_schedule":addclass.scheduleDays,
-      //           "roomType":addclass.classType,
-      //           "lesson_number":Number(addclass.lessonNumber)
-      //         }))
-
-        if (addedclasses.length>0){
-           const addclass_results=await Promise.allSettled(
-            addedclasses.map(addclass=>axios.post(
-              scheduleclasses_url,
-              {
-                "lesson_schedule":addclass.scheduleDays,
-                "roomType":addclass.classType,
-                "lesson_number":addclass.lessonNumber
-              },
-              {
-                headers:{
-                  "Authorization":`Bearer ${got_t}`
-                }
-              }
-            )
+    if(token){
+    //   setIsSaving(true)
+    // try{
+    //     const {addedclasses,removedclasses}=getclassScheduleChanges()
+          console.log('jeje',lessons)
+    //     if (addedclasses.length>0){
+    //        const addclass_results=await Promise.allSettled(
+    //         lessons.map(addclass=>axios.post(
+    //           scheduleclasses_url,
+    //           {
+    //             "lesson_schedule":addclass.scheduleDays,
+    //             "roomType":addclass.classType,
+    //             "lesson_number":addclass.lessonNumber
+    //           },
+    //           {
+    //             headers:{
+    //               "Authorization":`Bearer ${token}`
+    //             }
+    //           }
+    //         )
 
           
-          )
+    //       )
 
-           )
+    //        )
+    //        console.log('saved',addclass_results)
+    //        addclass_results.forEach((addc_res,index)=>{
+    //        })
+    //     }
 
-           addclass_results.forEach((addc_res,index)=>{
-            if(addc_res.status=="fulfilled"){
-              alert('classes added succesfully')
-            }else{
-              console.error("error in  add class::",addedclasses[index],addc_res.value.data)
-            }
-           })
-        }
+    //     if (removedclasses.length>0){
+    //        const removeclass_results=await Promise.allSettled(
+    //         removedclasses.map(removeclass=>axios.post(
+             
+    //           {
+    //             class:removeclass.id
+    //           },
+    //           {
+    //             headers:{
+    //               "Authorization":`Bearer ${token}`
+    //             }
+    //           }
+    //         ))
 
-        if (removedclasses.length>0){
-           const removeclass_results=await Promise.allSettled(
-            removedclasses.map(removeclass=>axios.post(
-              // scheduleclasses_url,
-              {
-                class:removeclass.id
-              },
-              {
-                headers:{
-                  "Authorization":`Bearer ${got_t}`
-                }
-              }
-            ))
+    //        )
 
-           )
+    //        removeclass_results.forEach((removec_res,index)=>{
+    //         if(removec_res.status=="fulfilled"){
+    //           alert("success in removing classs::")
+    //         }else{
+    //           console.error("error in  add class::",removedclasses[index],removec_res.value.data)
+    //         }
+    //        })
+    //     }
 
-           removeclass_results.forEach((removec_res,index)=>{
-            if(removec_res.status=="fulfilled"){
-              alert("success in removing classs::")
-            }else{
-              console.error("error in  add class::",removedclasses[index],removec_res.value.data)
-            }
-           })
-        }
-
-        await new Promise((sending)=>setTimeout(sending,1000))
-        setOriginalClassSchedule(scheduledClasses)
+    //     await new Promise((sending)=>setTimeout(sending,1000))
+    //     setOriginalClassSchedule(scheduledClasses)
    
 
-    }catch(e){
-        console.error('error saving class Change ', e)
-    }finally{
-        setIsSaving(false)
-        setShowSaveConfirmModal(false)
+    // }catch(e){
+    //     console.error('error saving class Change ', e)
+    // }finally{
+    //     setIsSaving(false)
+    //     setShowSaveConfirmModal(false)
+    // }
     }
    }
 
@@ -532,15 +569,17 @@ export default function GroupDetails({group,onBack}){
   };
 
   const handleDeleteGroup = async() => {
-    setShowDeleteConfirmModal(false);
-    // const {addedstudents,removedstudents} =getStudentchanges()
-    const deletinggroup=await axios.delete(deletegroup,{
-      headers:{
-        Authorization:`Bearer ${got_t}`
-      }
-    }) 
-
-    onBack();
+    if(token){
+      setShowDeleteConfirmModal(false);
+      // const {addedstudents,removedstudents} =getStudentchanges()
+      const deletinggroup=await axios.delete(deletegroup,{
+        headers:{
+          Authorization:`Bearer ${token}`
+        }
+      }) 
+  
+      onBack();
+    }
   };
 
     return(
@@ -601,7 +640,7 @@ export default function GroupDetails({group,onBack}){
                                             <button 
                                             onClick={()=>{setIsRoomModule(true)}}
                                             disabled={students.length===0}
-                                            className="input-button bg-[#06b6d4] hover:bg-blue-600 text-white font-semibold px-6 rounded-lg transition-colors" >
+                                            className="addclassBtn input-button bg-[#06b6d4] hover:bg-blue-600 text-white font-semibold px-6 rounded-lg transition-colors" >
                                                 set room
                                             </button>
                                             </div>
@@ -626,7 +665,7 @@ export default function GroupDetails({group,onBack}){
                      <div className="flex gap-2">
                     <button
                     onClick={()=>setshowaddStudentsModal(true)}
-                    className="addstdnts-button rounded-lg bg-cyan-600 hover:bg-cyan-700 gap-2 flex items-center justify-center">
+                    className="addclassBtn addstdnts-button rounded-lg bg-cyan-600 hover:bg-cyan-700 gap-2 flex items-center justify-center">
                         <Plus className="w-5 h-5"/>
                         Add Students
                     </button>
@@ -716,7 +755,7 @@ export default function GroupDetails({group,onBack}){
                             </div>
                             <button 
                             onClick={()=>setshowAssignTeacherModal(true)}
-                            className=" addstdnts-button bg-slate-700 rounded-lg border-slate-600 text-slate-300 hover:bg-slate-700">
+                            className=" addclassBtn addstdnts-button bg-slate-700 rounded-lg border-slate-600 text-slate-300 hover:bg-slate-700">
                                 Change Teacher
                             </button>
                         </div>
@@ -725,7 +764,7 @@ export default function GroupDetails({group,onBack}){
                             <p className="text-slate-400">No teacher assigned yet. create Room for the Group first</p>
                             <button 
                             onClick={() => setIsRoomModule(true)}
-                             className="addstdnts-button rounded-lg bg-cyan-600 hover:bg-cyan-700 "
+                             className="addclassBtn addstdnts-button rounded-lg bg-cyan-600 hover:bg-cyan-700 "
                             >
                                 Assign Teacher
                             </button>
@@ -746,7 +785,7 @@ export default function GroupDetails({group,onBack}){
                     <div className="flex gap-2">
                     <button
                     onClick={() => setShowScheduleClassModal(true)}
-                    className="addstdnts-button rounded-lg bg-cyan-600 hover:bg-cyan-700 gap-2 flex"
+                    className="addclassBtn addstdnts-button rounded-lg bg-cyan-600 hover:bg-cyan-700 gap-2 flex"
                     >
                         <Plus className="w-5 h-5" />
                         Schedule Class
@@ -764,14 +803,14 @@ export default function GroupDetails({group,onBack}){
               </div>
                </div>
                {
-                scheduledClasses.length===0?(
+                scheduledClasses&& scheduledClasses.length===0?(
                      <div className="text-center py-8">
                         <p className="text-slate-400">No scheduled classes yet.</p>
                      </div>
                 ):(
                     <div className="scheduleclass-modalspacing">
                         {
-                            scheduledClasses.map((cls)=>(
+                            scheduledClasses && scheduledClasses.map((cls)=>(
                                 <div
                                 key={cls.id}
                                  className="paddingfour bg-[#f5f5f7]/50 rounded-lg border border-[#d5d5dd] hover:border-[#666680] transition-colors">
@@ -839,7 +878,7 @@ export default function GroupDetails({group,onBack}){
                 <h2 className="margin-btm-four text-lg font-semibold text-[#1a1a2e] mb-4">Danger Zone</h2>
                 <button 
                 onClick={() => setShowDeleteConfirmModal(true)}
-                className="addstdnts-button rounded-lg flex justify-center items-center bg-red-600 hover:bg-red-700 gap-2"
+                className="deleteGroupBtn addstdnts-button rounded-lg flex justify-center items-center bg-red-600 hover:bg-red-700 gap-2"
                 >
                     <Trash2 className="w-4 h-4"/>
                     Delete Group
@@ -1052,7 +1091,7 @@ export default function GroupDetails({group,onBack}){
                 <button
                   onClick={handleAddRoom}
                   disabled={ !room.grade || !room.module || !room.teacher || !room.gradetype}
-                  className="rounded-lg newgrouppadding flex-1 bg-[#06b6d4] hover:bg-blue-600 disabled:bg-[#d5d5dd] disabled:cursor-not-allowed text-white font-semibold"
+                  className="addclassBtn rounded-lg newgrouppadding flex-1 bg-[#06b6d4] hover:bg-blue-600 disabled:bg-[#d5d5dd] disabled:cursor-not-allowed text-white font-semibold"
                 >
                   Create Group
                 </button>
@@ -1096,18 +1135,18 @@ export default function GroupDetails({group,onBack}){
                                         <label className="marginbottom-two block text-[#1a1a2e] font-medium mb-2">
                                             Lesson Number
                                         </label>
-                                        <select name="" id=""
+                                        <input type='text' name="" id=""
                                         value={lessonNumber}
                                         onChange={(e)=>{setLessonNumber(e.target.value)}}
                                         className="marginbottom-two scheduleclassinput-field bg-white border border-[#d5d5dd]">
-                                            <option value="">select lesson</option>
+                                            {/* <option value="">select lesson</option>
                                             {[1,2,3,4,5,6].map((lesson)=>(
                                                 <option key={lesson} value={lesson}>
                                                     Lesson {lesson}
 
                                                 </option>
-                                            ))}
-                                        </select>
+                                            ))} */}
+                                        </input>
                                         </div>
 
                                         {/* Day and Time Selection */}
@@ -1153,7 +1192,7 @@ export default function GroupDetails({group,onBack}){
                                                  <button
                                                   onClick={handleAddScheduleDay}
                                                     //  disabled={!selectedDay || !selectedTime}
-                                                   className="padding-two w-full bg-[#06b6d4] rounded-lg  flex items-center justify-center  hover:bg-blue-600 text-white gap-2"
+                                                   className="addclassBtn padding-two w-full bg-[#06b6d4] rounded-lg  flex items-center justify-center  hover:bg-blue-600 text-white gap-2"
                                                              >
                                                   <Plus className="w-4 h-4" />
                                                         Add
@@ -1163,7 +1202,7 @@ export default function GroupDetails({group,onBack}){
                                           </div>
                                         </div>
                                              {/* Selected Schedule Display */}
-              {scheduleDays.length > 0 && (
+              {scheduleDays && scheduleDays.length > 0 && (
                 <div className="spacing-y-three">
                   <h4 className="font-medium text-[#1a1a2e]">Selected Schedule</h4>
                   <div className="modal-y-spacing max-h-40 overflow-y-auto">
@@ -1192,8 +1231,7 @@ export default function GroupDetails({group,onBack}){
 
 
                                         
-                                        
-                                        {/* <input
+                                      {/* <input
                                         type="text" 
                                         placeholder="e.g Introduction to python"
                                         value={lessonName} 
@@ -1232,7 +1270,7 @@ export default function GroupDetails({group,onBack}){
                                     </button>
                                     <button
                                     onClick={handleScheduleClass}
-                                    className="paddingone rounded-lg flex-1 text-white bg-cyan-600 hover:bg-cyan-700"
+                                    className="scheduleClassBtn paddingone rounded-lg flex-1 text-white bg-cyan-600 hover:bg-cyan-700"
                                     disabled={!lessonNumber || scheduleDays.length === 0|| !classType}>
                                         Schedule
                                     </button>
@@ -1262,14 +1300,14 @@ export default function GroupDetails({group,onBack}){
                   Do you want to save these changes?
                 </p>
 
-                {addedclasses.length > 0 && (
+                {lessons.length > 0 && (
                   <div>
                     <p className="marginbottom-two text-sm font-medium text-green-700 mb-2">
-                      ✓ {addedclasses.length} scheduled Class{addedstudents.length !== 1 ? 'es' : ''} added
+                      ✓ {lessons.length} scheduled Class{addedstudents.length !== 1 ? 'es' : ''} added
                     </p>
                     <div className="paddingthree bg-green-50 border border-green-200 rounded-lg p-3 max-h-32 overflow-y-auto">
                       <ul className="spacing-y-one">
-                        {addedclasses.map((clas) => (
+                        {lessons.map((clas) => (
                           <li key={clas.id} className="text-sm text-[#1a1a2e]">
                             • {clas.classType} on {clas.date}
                           </li>
@@ -1330,7 +1368,7 @@ export default function GroupDetails({group,onBack}){
                   </div>
                 )}
 
-               {addedclasses.length>0 || removedclasses.length>0 ? (
+               {lessons.length>0 || removedclasses.length>0 ? (
                  <p className="allgroups text-xs text-[#666680] mt-4">
                   Total changes: {totalclasschanges} scheduled class{totalclasschanges !== 1 ? 's' : ''}
                 </p>
@@ -1352,7 +1390,7 @@ export default function GroupDetails({group,onBack}){
                 </button>
                 <button
                   onClick={ ()=>{
-                    if(addedclasses.length>0 || removedclasses.length>0){
+                    if(lessons.length>0 || removedclasses.length>0){
                       saveclassChange()
                     } else{
                       handleSaveStudentChanges()
@@ -1360,7 +1398,7 @@ export default function GroupDetails({group,onBack}){
                   } 
                 }
                   disabled={isSaving}
-                  className={` ${isSaving ? "bg-green-300":"bg-green-600 hover:bg-green-700"} addstdnts-button flex-1 rounded-lg text-white `}
+                  className={` ${isSaving ? "bg-green-300":"bg-green-600 hover:bg-green-700"} addclassBtn addstdnts-button flex-1 rounded-lg text-white `}
                 >
                   {isSaving ? 'Saving...' : 'Confirm Save'}
                 </button>

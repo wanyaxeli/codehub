@@ -17,19 +17,47 @@ export default function MyLessons() {
       }})
       .then(res=>{
         const data =res.data
-        console.log('res hello',res.data)
+        
         // setLessons(data)
         if(Array.isArray(data) && data.length > 0){
           setData(data)
-          // data.forEach(lessons=>{
-          //   const now = new Date(lessons.date_time)
-          //   const time = now.toLocaleTimeString();
-          //   const date=now.toLocaleDateString()
-          //   // const{lesson}=lessons
-          //   const newData={...lessons,...{time:time},...{date:date}}
-          //   setLessons(pre=>([...pre,newData]))
-          //   console.log('newdarsa',newData)
-          // })
+          data.forEach(lessons=>{
+            const now = new Date(lessons.date_time)
+            const time = now.toLocaleTimeString();
+            const date=now.toLocaleDateString()
+            // const{lesson}=lessons
+            const newData={...lessons,...{time:time},...{date:date}}
+            setLessons(pre=>([...pre,newData]))
+         
+          })
+        }else{
+          setLessons(pre=>[])
+        }
+      })
+      .catch(error=>console.log(error))
+    }
+  }
+  function GetGroupClassMyLessons(){
+    if(token){
+      const url ='https://api.codingscholar.com/student_class_groups/'
+      axios.get(url,{headers:{
+        'Authorization':`Bearer ${token}`
+      }})
+      .then(res=>{
+        const data =res.data
+       
+        // setLessons(data)
+        if(Array.isArray(data) && data.length > 0){
+          setData(data)
+          data.forEach(lessons=>{
+            const now = new Date(lessons.date_time)
+            const time = now.toLocaleTimeString();
+            const date=now.toLocaleDateString()
+            // const{lesson}=lessons
+            const newData={...lessons,...{time:time},...{date:date}}
+            setLessons(pre=>([...pre,newData]))
+            
+          })
         }else{
           setLessons(pre=>[])
         }
@@ -93,20 +121,21 @@ function getMathsLessons() {
 
 useEffect(()=>{
   GetMyLessons()
+  GetGroupClassMyLessons()
 },[token])
 useEffect(()=>{
   if(fullData.length>0){
     const lessonTypes = fullData.map(item => item.lessonType);
-    console.log('type',lessonTypes)
+  
     if (lessonTypes.includes('coding') && lessonTypes.includes('math')) {
       getcodingLessons();
-      console.log('both',lessonTypes)
+      
     } else if (lessonTypes.includes('coding')) {
       getcodingLessons();
-      console.log('coding',lessonTypes)
+   
     } else if (lessonTypes.includes('math')) {
       getMathsLessons();
-      console.log('math',lessonTypes)
+      
     }
   }
 },[fullData])
