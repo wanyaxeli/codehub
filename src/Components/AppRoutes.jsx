@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
-
+// import About from "@/pages/About.jsx";
 // import ScheduleClasses from "../pages/students/ScheduleClasses.jsx";
 // import AttemptedQuizesDisplayer from "../pages/students/AttemptedQuizesDisplayer.jsx";
 // import QuizDispplayer from "../pages/students/QuizDispplayer.jsx";
@@ -18,7 +18,7 @@ const QuizDispplayer = lazy(() => import("../pages/students/QuizDispplayer.jsx")
 const Register = lazy(() => import("../pages/Register.jsx"));
 const Laptop = lazy(() => import("../pages/Laptop.jsx"));
 const Login = lazy(() => import("../pages/Login.jsx"));
-const About = lazy(() => import("../pages/About.jsx"));
+const About = lazy(() => import("@/pages/About.jsx"));
 const PrivacyPolicy = lazy(() => import("../pages/PrivacyPolicy.jsx"));
 const FeesPayment = lazy(() => import("../pages/FeesPayment.jsx"));
 const SignUp = lazy(() => import("../pages/SignUp.jsx"));
