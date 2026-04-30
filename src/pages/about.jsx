@@ -5,7 +5,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Zap, Brain, Lightbulb, Users, Code, CheckCircle, Rocket, ChevronDown } from 'lucide-react';
 
-export default function AboutPage() {
+export default function About() {
   const fadeInUp = {
     initial: { opacity: 0, y: 20 },
     whileInView: { opacity: 1, y: 0 },
