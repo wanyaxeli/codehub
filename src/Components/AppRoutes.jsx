@@ -18,7 +18,7 @@ const QuizDispplayer = lazy(() => import("../pages/students/QuizDispplayer.jsx")
 const Register = lazy(() => import("../pages/Register.jsx"));
 const Laptop = lazy(() => import("../pages/Laptop.jsx"));
 const Login = lazy(() => import("../pages/Login.jsx"));
-const About = lazy(() => import("../pages/About.jsx"));
+// const About = lazy(() => import("../pages/About.jsx"));
 const PrivacyPolicy = lazy(() => import("../pages/PrivacyPolicy.jsx"));
 const FeesPayment = lazy(() => import("../pages/FeesPayment.jsx"));
 const SignUp = lazy(() => import("../pages/SignUp.jsx"));
@@ -91,7 +91,7 @@ export default function AppRoutes() {
         <Route path="/register" element={<Register />} />
         <Route path="/laptop" element={<Laptop />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/about us" element={<About />} />
+        {/* <Route path="/about us" element={<About />} /> */}
         <Route path="/Privacy policy" element={<PrivacyPolicy />} />
         <Route path="/Fee Payment" element={<FeesPayment />} />
         <Route path="/SignUp/:token" element={<SignUp />} />
