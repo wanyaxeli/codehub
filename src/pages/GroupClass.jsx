@@ -1,7 +1,7 @@
 import React,{useState,useEffect, useMemo} from 'react'
 
-import GroupSection from '../Components/groups-section'
-import GroupDetails from '../Components/group-details'
+import GroupSection from '../Components/Group-class/groups-section'
+import GroupDetails from '../Components/Group-class/group-details'
 const ITEMS_PER_PAGE=7
 export default function GroupClass() {
   const [selectedGroup,setSelectedGroup]=useState(null)

@@ -1,6 +1,8 @@
-import React ,{useState,useEffect}from 'react'
+import React ,{useState,useEffect, useMemo}from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { Input } from '@/components/ui/input'
+import { Search } from 'lucide-react'
 export default function MyLessons() {
   const [token,setToken]=useState('')
   const [fullData,setData]=useState([])
@@ -8,6 +10,7 @@ export default function MyLessons() {
   const [activelesson,setActiveLesson]=useState('')
   const [mathlessonactive,setMathLessonActive]=useState(false)
   const [codinglessonactive,setCodingLessonActive]=useState(true)
+  const [searchvalue,setSearchValue]=useState('')
   const navigate=useNavigate()
   function GetMyLessons(){
     if(token){
@@ -37,6 +40,8 @@ export default function MyLessons() {
       .catch(error=>console.log(error))
     }
   }
+
+  console.log("lessons...",lessons)
   function GetGroupClassMyLessons(){
     if(token){
       const url ='https://api.codingscholar.com/student_class_groups/'
@@ -75,8 +80,13 @@ export default function MyLessons() {
         console.log(error);
 }
 }
-const handleToNotes =(notes)=>{
-  navigate(`/student/dashboard/StudentNotes/`, { state: notes });
+const handleToNotes =(notesurl,videourl)=>{
+  const resources={
+    notesurl,
+    videourl
+  }
+  
+  navigate(`/student/dashboard/StudentNotes/`, { state: resources });
 }
 function getcodingLessons() {
   if (fullData.length>0) {
@@ -119,6 +129,18 @@ function getMathsLessons() {
   }
 }
 
+const sortedlessons=lessons.sort((a,b)=>{
+
+  return a.lesson.lesson_number-b.lesson.lesson_number
+})
+const filteredlessons=useMemo(()=>{
+  return sortedlessons.filter((lesson)=>{
+    return lesson.lesson.title.toLowerCase().includes(searchvalue.toLowerCase())
+  })
+},[searchvalue,lessons])
+
+console.log('filteredlessons', sortedlessons)
+
 useEffect(()=>{
   GetMyLessons()
   GetGroupClassMyLessons()
@@ -152,7 +174,18 @@ useEffect(()=>{
       </ul>
         )}
       </div>
-      {lessons && lessons.length >0? lessons.map(lesson=>{
+       <div className="flex-1 max-w-md hidden sm:flex  !p-3">
+        <div className="relative w-full ">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+          <Input
+            placeholder="Search lessons..."
+            value={searchvalue}
+            onChange={(e)=>setSearchValue(e.target.value)}
+            className="!pl-10 bg-white border-border rounded-lg text-foreground placeholder:text-muted-foreground"
+          />
+        </div>
+      </div>
+      {filteredlessons && filteredlessons.length >0? filteredlessons.map(lesson=>{
         return(
         <div key={lesson.id} className='MyLessonContainer'>
         <div className='lessonModuleWrapper'>
@@ -163,8 +196,8 @@ useEffect(()=>{
           <p>date:<span>{lesson.date}</span></p>
           <p>time:<span>{lesson.time?.replace(/:\d{2}(?= )/, '')}</span></p>
           <p>status:{lesson.is_completed===true?<span className='lessonStatus'>complete</span>:<span className='lessonStatus'>Incomplete</span>}</p>
-          <div onClick={()=>handleToNotes(lesson.lesson.pdf_notes)}>
-          {lesson.is_completed===true?<button onClick={()=>handleToNotes()}>View notes</button>:null}
+          <div onClick={()=>handleToNotes(lesson.lesson.pdf_notes,lesson.video_url)}>
+          {lesson.is_completed===true?<button onClick={()=>handleToNotes()}>View class</button>:null}
           </div>
         </div>
       </div>
