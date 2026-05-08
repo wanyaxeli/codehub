@@ -1,6 +1,7 @@
 import React ,{useEffect,useState}from 'react'
 import { useLocation ,useNavigate} from 'react-router-dom'
 import axios from 'axios'
+import VideoPlayer from '@/Components/videoPlayer/VideoPlayer'
 export default function TeacherDetails() {
     const location =useLocation()
     const [teacherID,setTeacherId]=useState()
@@ -10,10 +11,16 @@ export default function TeacherDetails() {
     const [groupClassvideos,setGroupClassvideos]=useState([])
     const [error,setError]=useState('')
     const [credit,setCredit]=useState('')
+    const [videoUrl,setUrl]=useState('')
+    const [videoTitle,setTitle]=useState('')
+    const [togglePlayer,setOpenPlayer]=useState(false)
     const navigate=useNavigate()
-    const handleToVideo=(url)=>{
+    const handleToVideo=(url,title)=>{
     // navigate('/teacher/dashboard/videos')
-    window.open(url, "_blank");
+    // window.open(url, "_blank");
+    setUrl(url)
+    setTitle(title)
+    setOpenPlayer(true)
     }
     const handleCredit =(e)=>{
       setError('')
@@ -224,7 +231,7 @@ export default function TeacherDetails() {
                 <td>{vid.lesson.title}</td> 
                 <td>{vid.student.user.first_name} {vid.student.user.last_name}</td> 
                 {/* <td>introduction</td> */}
-                 <td><button onClick={()=>handleToVideo(vid.video_url)}>play</button></td> 
+                 <td><button onClick={()=>handleToVideo(vid.video_url,vid.lesson.title)}>play</button></td> 
                 </tr>  
               )
              })}
@@ -255,7 +262,7 @@ export default function TeacherDetails() {
                 <td>{vid.lesson.title}</td> 
                 <td>{vid.student.user.first_name} {vid.student.user.last_name}</td> 
                 {/* <td>introduction</td> */}
-                 <td><button onClick={()=>handleToVideo(vid.video_url)}>play</button></td> 
+                 <td><button onClick={()=>handleToVideo(vid.video_url,vid.lesson.title)}>play</button></td> 
                 </tr>  
               )
              })}
@@ -265,6 +272,7 @@ export default function TeacherDetails() {
           </div>
         )
       }):<p>No group class videos at the moment</p>}
+      {videoUrl && videoTitle &&togglePlayer===true && <VideoPlayer videoTitle={videoTitle} setOpenPlayer={setOpenPlayer} videoUrl={videoUrl}/>}
     </div>
   )
 }

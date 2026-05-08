@@ -81,18 +81,20 @@ export function VideoPlayer({ videoUrl, title }: VideoPlayerProps) {
           className="w-full aspect-video bg-black"
           onTimeUpdate={handleTimeUpdate}
           onLoadedMetadata={handleLoadedMetadata}
+          src={videoUrl}
         >
-          <source src={videoUrl} type="video/mp4" />
+          {/* <source src={videoUrl} /> */}
           Your browser does not support the video tag.
         </video>
 
         {/* Controls Overlay */}
         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex flex-col justify-between opacity-0 group-hover:opacity-100 transition-opacity">
           {/* Play Button Center */}
-          <div className="flex items-center justify-center flex-1">
+          <div className="playBtnWrapper flex   items-center justify-center flex-1">
             <button
               onClick={togglePlay}
-              className="bg-white/80 hover:bg-white !p-4 rounded-full transition-all transform hover:scale-110"
+              
+              className="playBtnhover:bg-white !p-4 rounded-full transition-all transform hover:scale-110"
               aria-label={isPlaying ? 'Pause' : 'Play'}
             >
               {isPlaying ? (

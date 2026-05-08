@@ -2659,6 +2659,53 @@ body{
 .deleteGroupBtn{
   background-color: red;
 }
+.playBtn,.playBtnWrapper{
+  background-color: red;
+}
+.VideoPlayerwrapper{
+  width: 60%;
+  height: 80vh;
+  position: absolute;
+  top:15%;
+  right: 10%;
+  padding: 10px;
+  background-color:#fff;
+  border-radius: 10px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.VideoPlayerCloseBtnWRapper{
+  width: 100%;
+  height:auto;
+  display: flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.videoheader{
+  width: 85%;
+  height: auto;
+  text-align: center;
+  text-transform: capitalize;
+}
+.videoContainer{
+  width: 100%;
+  height: 85%;
+  margin-top: 20px;
+}
+.videoContainer video{
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+.VideoPlayerCloseBtn{
+  width: 40px;
+  height: 40px;
+  background-color: red;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
 .TodayClassContainer p span:hover{
   text-decoration: underline;
 }
