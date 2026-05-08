@@ -78,7 +78,9 @@ export function VideoPlayer({ videoUrl, title }: VideoPlayerProps) {
       <div className="relative group">
         <video
           ref={videoRef}
-          className="w-full aspect-video bg-black"
+          autoPlay
+          controls
+          className="w-full !aspect-video bg-black"
           onTimeUpdate={handleTimeUpdate}
           onLoadedMetadata={handleLoadedMetadata}
           src={videoUrl}
@@ -88,13 +90,20 @@ export function VideoPlayer({ videoUrl, title }: VideoPlayerProps) {
         </video>
 
         {/* Controls Overlay */}
-        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex flex-col justify-between opacity-0 group-hover:opacity-100 transition-opacity">
+        {/* <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex flex-col justify-between opacity-0 group-hover:opacity-100 transition-opacity"> */}
           {/* Play Button Center */}
+<<<<<<< HEAD
           <div className="playBtnWrapper flex   items-center justify-center flex-1">
             <button
               onClick={togglePlay}
               
               className="playBtnhover:bg-white !p-4 rounded-full transition-all transform hover:scale-110"
+=======
+          {/* <div className="flex items-center justify-center flex-1">
+            <button
+              onClick={togglePlay}
+              className="!bg-white/80 hover:!bg-white !p-4 !rounded-full transition-all transform hover:!scale-110"
+>>>>>>> 17eebf47705994896f0c35aeb1746e4d8a44624e
               aria-label={isPlaying ? 'Pause' : 'Play'}
             >
               {isPlaying ? (
@@ -103,23 +112,23 @@ export function VideoPlayer({ videoUrl, title }: VideoPlayerProps) {
                 <Play className="w-8 h-8 text-black ml-1" />
               )}
             </button>
-          </div>
+          </div> */}
 
           {/* Bottom Controls */}
-          <div className="!p-4 !space-y-2">
+          {/* <div className="!p-4 !space-y-2"> */}
             {/* Progress Bar */}
-            <input
+            {/* <input
               type="range"
               min="0"
               max={duration || 0}
               value={currentTime}
               onChange={handleProgressChange}
-              className="w-full h-1 bg-white/30 rounded cursor-pointer accent-blue-500"
+              className="w-full h-1 !bg-white/30 !rounded !cursor-pointer !accent-blue-500"
               aria-label="Video progress"
-            />
+            /> */}
 
             {/* Control Buttons */}
-            <div className="flex items-center justify-between">
+            {/* <div className="flex items-center !justify-between">
               <div className="flex items-center gap-2">
                 <button
                   onClick={togglePlay}
@@ -154,9 +163,9 @@ export function VideoPlayer({ videoUrl, title }: VideoPlayerProps) {
               >
                 <Maximize2 className="w-5 h-5" />
               </button>
-            </div>
-          </div>
-        </div>
+            </div> */}
+          {/* </div> */}
+        {/* </div> */}
       </div>
 
      

@@ -107,6 +107,11 @@ export default function HeaderSection() {
           onClick={()=>{navigate('/about-us')}}>
             About
           </div>
+          {/* <div 
+          className="header-text text-gray-700 hover:!text-cyan-600 font-medium transition-colors cursor-pointer"
+          onClick={()=>{navigate('/course-blogs')}}>
+            Blogs
+          </div> */}
         </nav>
 
         {/* Right: Actions */}

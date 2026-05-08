@@ -81,6 +81,7 @@ export default function MyLessons() {
 }
 }
 const handleToNotes =(notesurl,videourl)=>{
+  // console.log('resources001...',vediourl)
   const resources={
     notesurl,
     videourl
@@ -139,7 +140,7 @@ const filteredlessons=useMemo(()=>{
   })
 },[searchvalue,lessons])
 
-console.log('filteredlessons', sortedlessons)
+console.log('filteredlessons', lessons)
 
 useEffect(()=>{
   GetMyLessons()

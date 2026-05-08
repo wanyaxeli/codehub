@@ -26,7 +26,8 @@ const StudentSignUp = lazy(() => import("../pages/StudentSignUp.jsx"));
 const WhyUs = lazy(() => import("../pages/WhyUs.jsx"));
 const ErrorPage = lazy(() => import("../pages/Error.jsx"));
 const ClassSchedule = lazy(() => import("../pages/students/ScheduleClasses.jsx"));
-const Courseblogs=lazy(()=>import("../pages/course-blogs.jsx"))
+const Courseblogs=lazy(()=>import("../pages/blogs/bloglists.js"))
+const Blogdetails=lazy(()=>import('../pages/blogs/blog-details.js'))
 //  Teacher dashboard
 const Teacher = lazy(() => import("../pages/Teacher.jsx"));
 const Dashboard = lazy(() => import("../pages/Dashboard.jsx"));
@@ -57,6 +58,7 @@ const VideoPlayer = lazy(() => import("../pages/VideoPlayer.jsx"));
 const UploadVids = lazy(() => import("../pages/UploadVids.jsx"));
 const QuestionSetter = lazy(() => import("../pages/QuestionSetter.jsx"));
 const Certificates = lazy(() => import("../pages/Certificates.jsx"));
+
 
 
 //  Student dashboard
@@ -100,6 +102,7 @@ export default function AppRoutes() {
         <Route path="/StudentSignup" element={<StudentSignUp />} />
         <Route path="/Why Us" element={<WhyUs />} />
         <Route path="/course-blogs" element={<Courseblogs/>}/>
+        <Route path="/course-blog/:id" element={<Blogdetails/>}/>
         <Route path="/about-us" element={<Aboutpage/>}/>
         <Route path="/curriculum-page" element={<CurriculumPage/>}/>
 

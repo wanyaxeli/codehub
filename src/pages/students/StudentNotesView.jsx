@@ -23,7 +23,8 @@ export default function StudentNotesView() {
     <div>
       {notes ? (
         <div className="flex !px-3  w-full bg-gray-200 gap-1 ">
-        <div className=" flex-col  w-170 !space-y-3  ">
+        {/* <div className=" flex-col  w-170 !space-y-3  "> */}
+          <div className=" flex-col  w-full !space-y-3  ">
           <section>
             <VideoPlayer videoUrl={videoUrl} title="lesson video"/>
           </section>
@@ -34,8 +35,8 @@ export default function StudentNotesView() {
           </section>
         </div>
         <div className="  top-0 sticky ">
-
-        <AssignmentsSidebar />
+  {/* commented side bar */}
+        {/* <AssignmentsSidebar /> */}
         </div>
         </div>
       ) : (
