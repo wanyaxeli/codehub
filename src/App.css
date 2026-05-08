@@ -2649,6 +2649,13 @@ body{
   color: #0097b2;
   font-size: 2rem;
 }
+.progressWRapper{
+  width: 90%;
+  height: 50px;
+  background-color: #e8e8ee;
+  margin:10px auto 15px auto ;
+  border-radius: 15px;
+}
 .loaderWrapper p{
   color: #0097b2;
   padding-bottom: 10px;

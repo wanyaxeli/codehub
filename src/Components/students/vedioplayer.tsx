@@ -87,8 +87,6 @@ export function VideoPlayer({ videoUrl, title }: VideoPlayerProps) {
         >
         </video>
       </div>
-
-     
     </div>
   );
 }

@@ -20,7 +20,7 @@ export default function TeacherClassDetails() {
     const [lessonId,setLessonId]=useState('')
     const [studentPic,setStudentPic]=useState('')
     const [groupName,setGroupName]=useState('')
-    
+    const [progress, setProgress] = useState(0)
     const [openPortal,setopenPortal]=useState(false)
     const [selectedFile, setSelectedFile] = useState(null);
     const [RescheduleBtn,setRescheduleBtn]=useState(false)
@@ -208,11 +208,22 @@ export default function TeacherClassDetails() {
   
       const { url } = urlRes.data;
   
-      const uploadRes = await fetch(url, {
-        method: "PUT",
-        body: chunk,
-      });
-  
+      // const uploadRes = await fetch(url, {
+      //   method: "PUT",
+      //   body: chunk,
+      // });
+      const uploadRes = await axios.put(url, chunk, {
+        onUploadProgress: (progressEvent) => {
+     
+           const chunkProgress =
+             progressEvent.loaded / progressEvent.total
+     
+           const overallProgress =
+             ((i + chunkProgress) / totalChunks) * 100
+     
+           setProgress(Math.round(overallProgress))
+        }
+     });
       const etag = uploadRes.headers.get("ETag");
   
       parts.push({
@@ -263,8 +274,7 @@ export default function TeacherClassDetails() {
             headers:{
 
               "Authorization":`Bearer ${token}`
-            }
-  
+            },
           }
           )
           .then(res=>{
@@ -272,9 +282,10 @@ export default function TeacherClassDetails() {
                 if(res.data=='Video uploaded successfully'){
                   setIsLoading(false)
                   setIsOpen(false)
-                 console.log( ' file sent to student successfully', groupstdntdetails[index].name)
+                 alert( ' file sent to student successfully')
+                 GetClassVideo()
                 }else{
-                  console.error('failed to  send file to student ',groupstdntdetails[index],success_res.reason)
+                 alert ('failed to  send file to student ')
                 }
                 if(res.status!==200){
                   alert('An Error Occured while uploading')
@@ -331,6 +342,7 @@ export default function TeacherClassDetails() {
   const handleDateInputs =(e)=>{
    setDates(e.target.value)
   }
+  
   async function getToken(){
     try{
         const token= localStorage.getItem('token') // No need to await
@@ -341,6 +353,7 @@ export default function TeacherClassDetails() {
         console.log(error);
 }
 }
+
  useEffect(()=>{
   GetClassVideo()
  },[lessonId,studentUserId])
@@ -359,6 +372,7 @@ export default function TeacherClassDetails() {
   useEffect(()=>{
    getToken()
   },[])
+  console.log('progress',progress)
   return (
     <div className='DetailsWrapper'>
          <div className='TeacherDetailsWrapper'>
@@ -547,9 +561,11 @@ export default function TeacherClassDetails() {
 
           {/* Content */}
           <div className="all-groups p-6">
-            <p className="privacy-infocollect-description text-blue-300 mb-6 text-center">
+            {progress>0?<p className="privacy-infocollect-description text-blue-300 mb-6 text-center">
+              Uploading file...
+            </p>:<p className="privacy-infocollect-description text-blue-300 mb-6 text-center">
               Please upload your recording
-            </p>
+            </p>}
 
             {/* File Input Area */}
             <div
@@ -615,8 +631,22 @@ export default function TeacherClassDetails() {
               Upload
             </button>
           </div>:<div className='loaderWrapper'>
-          <i className="fa fa-spinner spinner" aria-hidden="true"></i>
-           <p>Uploading ...</p>
+           <div className={'progressWRapper'}>
+               <div
+                  style={{
+                    width: `${progress}%`,
+                    height: '100%',
+                    background: '#0097b2',
+                    borderRadius:20,
+                    textAlign:'center',
+                    paddingTop:10
+                  }}
+               >
+              {progress>0?  <p style={{color:"#fff"}}>
+                {`${progress}%`}
+                  </p>:''}
+               </div>
+           </div>
           </div>}
         </div>
       </div>}
