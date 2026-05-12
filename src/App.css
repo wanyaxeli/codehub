@@ -2950,14 +2950,7 @@ body{
   text-transform: capitalize;
   padding: 10px 0;
 }
-.quizContainer{
-  width: 60%;
-  height: auto;
-  margin: auto;
-}
-.quizContainer p{
-  font-size: 1.1rem;
-}
+
 .quizInputWrapper{
   width: 100%;
   height: auto;
@@ -3009,18 +3002,23 @@ body{
   text-align: center;
   padding: 10px 0;
 }
+
+.quizContainer p{
+  font-size: 1.1rem;
+}
 .quizContainer{
   width: 60%;
   height: auto;
   margin: auto;
 }
-.quizContainer input ,.quizContainer textarea{
+.quizContainer input,.quizContainer select ,.quizContainer textarea{
   width: 100%;
   border: none;
   outline: none;
   border-radius: 10px;
+  border: 2px solid #0097b2;
 }
-.quizContainer input{
+.quizContainer input,.quizContainer select{
   height: 50px;
   padding: 0 10px;
   margin-bottom: 20px;
@@ -5290,16 +5288,16 @@ a:hover{
   height: auto;
   margin: auto;
 }
-.questionsInputContainer input,.questionsInputContainer textarea{
+.questionsInputContainer input,.questionsInputContainer textarea,.questionsInputContainer select{
   width: 100%;
   height: 50px;
   margin-bottom: 10px;
   padding: 0 10px;
-  border: 1px solid #0097b2;
+  border: 2px solid #0097b2;
   background-color: transparent;
   outline: none;
 }
-.questionsInputContainer input:not(.optionsInputWrapper input) {
+.questionsInputContainer input:not(.optionsInputWrapper input),.questionsInputContainer select {
   border-radius: 10px;
 }
 .optionsInputWrapper input{
