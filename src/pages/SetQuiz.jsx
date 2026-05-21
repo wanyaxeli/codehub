@@ -12,10 +12,10 @@ export default function SetQuiz() {
    setValues({...values,[name]:value})
   }
   const handleSubmit =()=>{
-    if(values.module && lesson && values.name && values.quiz && values.title){
+    if(values.module && lesson &&values.deadline && values.name && values.quiz && values.title){
       const url = 'https://api.codingscholar.com/Quizes/';
       const data={module:values.module,
-      lessonId:lesson,name:values.name,
+      lessonId:lesson,deadline:values.deadline,name:values.name,
       quiz:values.quiz,title:values.title}
       axios.post(url,data,{headers:{
         'Authorization':`Bearer ${token}`
@@ -23,6 +23,7 @@ export default function SetQuiz() {
       .then(res=>{
         console.log(res.data)
         setValues(initialState)
+        setLesson('')
       })
       .catch(error=>{console.log(error)})
     }else{

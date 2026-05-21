@@ -5943,8 +5943,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   .commentHolder,.classesShowModuleWrapper h4,.classesShowModuleWrapper table{
     color: #000;
   }
-  input{
+  input,.quizContainer select,.questionsInputContainer select,.questionsInputContainer input,.questionsInputContainer textarea{
     color: #000;
+    background-color: #fff;
+  }
+  .quizContainer select::placeholder{
+    color: #fff;
   }
   .formBtnwrapper button:hover,.classBtnContainer button:hover,.QuizBtnWrapper button:hover{
     color: #fff;
