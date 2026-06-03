@@ -29,6 +29,9 @@ export default function Details() {
     const handleToAddStudent=()=>{
         navigate('/teacher/dashboard/Add Students')
     }
+    const handleFees =()=>{
+      navigate('/teacher/dashboard/fees')
+    }
     const handleJoinClass =(data)=>{
       console.log('asd',data)
        if(userId){
@@ -227,6 +230,9 @@ export default function Details() {
     const handleBookingManager=()=>{
         navigate('/teacher/dashboard/Booking Manager')
     }
+    const handleMarketing =()=>{
+      navigate('/teacher/dashboard/Marketing')
+    }
     const handleUploadVids=()=>{
       navigate('/teacher/dashboard/upload video')
     }
@@ -324,6 +330,15 @@ export default function Details() {
     </div>
     <div onClick={handleBookingManager} className='actionBtnContainer bookingsManagerBtn'>
       <p>Bookings</p>
+    </div>
+    <div onClick={handleFees} className='actionBtnContainer bookingsManagerBtn'>
+      <p>Fees</p>
+    </div>
+    <div onClick={handleBookingManager} className='actionBtnContainer bookingsManagerBtn'>
+      <p>Curriculum</p>
+    </div>
+    <div onClick={handleMarketing} className='actionBtnContainer bookingsManagerBtn'>
+      <p>Marketer</p>
     </div>
     <div onClick={handleTrialNotes} className='actionBtnContainer bookingsManagerBtn'>
       <p>Trial Notes</p>

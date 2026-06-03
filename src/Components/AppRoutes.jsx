@@ -1,3 +1,5 @@
+
+ 
 import React, { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 // import About from "@/pages/About.jsx";
@@ -12,12 +14,14 @@ import ProtectedLayout from "./ProtectedRoute.jsx";
 // const Home = lazy(() => import("../pages/Home.jsx"));
 const Home=lazy(()=> import ("../pages/Homepage.jsx"))
 const Aboutpage=lazy(()=>import("../pages/aboutpage.jsx"))
+const Fees=lazy(()=>import("@/pages/Fees/Fees.jsx"))
 const CurriculumPage=lazy(()=>import("@/pages/curriculumpage.jsx"))
 const AttemptedQuizesDisplayer = lazy(() => import("../pages/students/AttemptedQuizesDisplayer.jsx"));
 const QuizDispplayer = lazy(() => import("../pages/students/QuizDispplayer.jsx"));
 const Register = lazy(() => import("../pages/Register.jsx"));
 const Laptop = lazy(() => import("../pages/Laptop.jsx"));
 const Login = lazy(() => import("../pages/Login.jsx"));
+const Marketer = lazy(() => import("@/pages/marketing/Marketer.jsx"));
 // const About = lazy(() => import("../pages/About.jsx"));
 const PrivacyPolicy = lazy(() => import("../pages/PrivacyPolicy.jsx"));
 const FeesPayment = lazy(() => import("../pages/FeesPayment.jsx"));
@@ -114,9 +118,11 @@ export default function AppRoutes() {
             <Route index element={<Details />} />
             <Route path="class schedule" element={<ClassSchedule />} />
             <Route path="Details" element={<Details />} />
+            <Route path="Fees" element={<Fees />} />
             <Route path="Booking Manager" element={<BookingsManager />} />
             <Route path="Calendar" element={<Calendar />} />
             <Route path="My students" element={<MyStudents />} />
+            <Route path="Marketing" element={<Marketer />} />
             <Route path="Projects" element={<Projects />} />
             <Route path="All Teachers" element={<AllTeachers />} />
             <Route path="All Students" element={<AllStudents />} />
