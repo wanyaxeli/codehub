@@ -1,5 +1,4 @@
 
- 
 import React, { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 // import About from "@/pages/About.jsx";
@@ -8,11 +7,12 @@ import { Routes, Route } from "react-router-dom";
 // import QuizDispplayer from "../pages/students/QuizDispplayer.jsx";
 import ProtectedLayout from "./ProtectedRoute.jsx";
 // import CurriculumPage from "@/pages/curriculumpage.jsx";
-
 //  Lazy-load all heavy pages
 // import ScheduleClasses from "../pages/students/ScheduleClasses.jsx";
 // const Home = lazy(() => import("../pages/Home.jsx"));
 const Home=lazy(()=> import ("../pages/Homepage.jsx"))
+const MarketerDashboard=lazy(()=> import ("@/pages/marketing/MarketerDashboard.jsx"))
+const MarketingStaff=lazy(()=> import ("@/pages/marketing/MarketingStaff.jsx"))
 const Aboutpage=lazy(()=>import("../pages/aboutpage.jsx"))
 const Fees=lazy(()=>import("@/pages/Fees/Fees.jsx"))
 const CurriculumPage=lazy(()=>import("@/pages/curriculumpage.jsx"))
@@ -171,6 +171,11 @@ export default function AppRoutes() {
 
             <Route path="certificate" element={<StudentCertificate />} />
             <Route path="display-questions" element={<DisplayAttemptedQuiz />} />
+          </Route>
+          <Route path="marketingStaff" element={<MarketingStaff/>}>
+
+            <Route path="marketerDashboard" element={<MarketerDashboard/>}/>
+            <Route index element={<MarketerDashboard />} />
           </Route>
         </Route>
 

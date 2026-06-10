@@ -1800,14 +1800,14 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   border-bottom-left-radius: 10px;
   border-top-left-radius: 10px;
 }
-.dashBoardContainer{
+.dashBoardContainer,.marketingWrapper{
   width: 100%;
   height: auto;
   display: flex;
   align-items: center;
   overflow-y: auto;
 }
-.dashBoardContainer aside{
+.dashBoardContainer aside,.marketingWrapper aside{
   flex:.2;
   height: 88vh;
   position: sticky;
@@ -1816,34 +1816,58 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   padding: 10px 10px 10px 45px;
 }
 .dashBoardContainer aside ul{
+  height: 60%;
+}
+.marketingWrapper aside ul{
+  height: auto;
+}
+.dashBoardContainer aside ul,.marketingWrapper aside ul{
   list-style: none;
   width: 100%;
-  height: 60%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
 }
-.dashBoardContainer aside ul li{
+.dashBoardContainer aside ul li,.marketingWrapper aside ul li{
   text-transform: capitalize;
   cursor: pointer;
   width: 100%;
   padding: 15px 10px ;
 }
-.dashBoardContainer aside ul .active{
+.dashBoardContainer aside ul .active,.marketingWrapper aside ul .active{
   background-color: #0097b2;
   color: #fff;
   padding: 15px 10px ;
   border-radius: 10px;
 }
-.dashBoardContainer aside ul li:hover{
+.dashBoardContainer aside ul li:hover,.marketingWrapper aside ul li:hover{
   background-color: #c1dfe5;
   color: #fff;
   padding: 15px 10px ;
   border-radius: 10px;
   color: #000;
 }
-.dashBoardContainer main{
+.BlogManagerWrapper{
+  width: 100%;
+  height: auto;
+  padding: 10px;
+}
+.BlogManagerContainer{
+  width: 200px;
+  height: 100px;
+  background-color:orange ;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  cursor: pointer;
+}
+.BlogManagerContainer:hover{
+  transform: scale(1.01);
+}
+.dashBoardContainer main,.marketingWrapper main{
   flex: .8;
   height: 88vh;
   overflow-y: auto;
@@ -5755,6 +5779,7 @@ a:hover{
   border-top-right-radius: 10px;
   padding:15px 10px ;
 }
+
 .FeesHeaderContainer h2{
   text-transform: capitalize;
 }

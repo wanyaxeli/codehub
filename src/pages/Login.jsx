@@ -38,6 +38,8 @@ export default function Login() {
                           navigate('/student/dashboard/Details')
                       }else if(role==='teacher'){
                           navigate('/teacher/dashboard',{state:access})
+                      }else if(role==='marketer'){
+                        navigate('/marketingStaff',{state:access})
                       }
                     })
                     .catch(error=>{
