@@ -1818,14 +1818,14 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   border-bottom-left-radius: 10px;
   border-top-left-radius: 10px;
 }
-.dashBoardContainer{
+.dashBoardContainer,.marketingWrapper{
   width: 100%;
   height: auto;
   display: flex;
   align-items: center;
   overflow-y: auto;
 }
-.dashBoardContainer aside{
+.dashBoardContainer aside,.marketingWrapper aside{
   flex:.2;
   height: 88vh;
   position: sticky;
@@ -1834,34 +1834,58 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   padding: 10px 10px 10px 45px;
 }
 .dashBoardContainer aside ul{
+  height: 60%;
+}
+.marketingWrapper aside ul{
+  height: auto;
+}
+.dashBoardContainer aside ul,.marketingWrapper aside ul{
   list-style: none;
   width: 100%;
-  height: 60%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
 }
-.dashBoardContainer aside ul li{
+.dashBoardContainer aside ul li,.marketingWrapper aside ul li{
   text-transform: capitalize;
   cursor: pointer;
   width: 100%;
   padding: 15px 10px ;
 }
-.dashBoardContainer aside ul .active{
+.dashBoardContainer aside ul .active,.marketingWrapper aside ul .active{
   background-color: #0097b2;
   color: #fff;
   padding: 15px 10px ;
   border-radius: 10px;
 }
-.dashBoardContainer aside ul li:hover{
+.dashBoardContainer aside ul li:hover,.marketingWrapper aside ul li:hover{
   background-color: #c1dfe5;
   color: #fff;
   padding: 15px 10px ;
   border-radius: 10px;
   color: #000;
 }
-.dashBoardContainer main{
+.BlogManagerWrapper{
+  width: 100%;
+  height: auto;
+  padding: 10px;
+}
+.BlogManagerContainer{
+  width: 200px;
+  height: 100px;
+  background-color:orange ;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  cursor: pointer;
+}
+.BlogManagerContainer:hover{
+  transform: scale(1.01);
+}
+.dashBoardContainer main,.marketingWrapper main{
   flex: .8;
   height: 88vh;
   overflow-y: auto;
@@ -2667,6 +2691,13 @@ body{
   color: #0097b2;
   font-size: 2rem;
 }
+.progressWRapper{
+  width: 90%;
+  height: 50px;
+  background-color: #e8e8ee;
+  margin:10px auto 15px auto ;
+  border-radius: 15px;
+}
 .loaderWrapper p{
   color: #0097b2;
   padding-bottom: 10px;
@@ -2676,6 +2707,53 @@ body{
 }
 .deleteGroupBtn{
   background-color: red;
+}
+.playBtn,.playBtnWrapper{
+  background-color: red;
+}
+.VideoPlayerwrapper{
+  width: 60%;
+  height: 80vh;
+  position: absolute;
+  top:15%;
+  right: 10%;
+  padding: 10px;
+  background-color:#fff;
+  border-radius: 10px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.VideoPlayerCloseBtnWRapper{
+  width: 100%;
+  height:auto;
+  display: flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.videoheader{
+  width: 85%;
+  height: auto;
+  text-align: center;
+  text-transform: capitalize;
+}
+.videoContainer{
+  width: 100%;
+  height: 85%;
+  margin-top: 20px;
+}
+.videoContainer video{
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+.VideoPlayerCloseBtn{
+  width: 40px;
+  height: 40px;
+  background-color: red;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 .TodayClassContainer p span:hover{
   text-decoration: underline;
@@ -2914,14 +2992,7 @@ body{
   text-transform: capitalize;
   padding: 10px 0;
 }
-.quizContainer{
-  width: 60%;
-  height: auto;
-  margin: auto;
-}
-.quizContainer p{
-  font-size: 1.1rem;
-}
+
 .quizInputWrapper{
   width: 100%;
   height: auto;
@@ -2973,18 +3044,23 @@ body{
   text-align: center;
   padding: 10px 0;
 }
+
+.quizContainer p{
+  font-size: 1.1rem;
+}
 .quizContainer{
   width: 60%;
   height: auto;
   margin: auto;
 }
-.quizContainer input ,.quizContainer textarea{
+.quizContainer input,.quizContainer select ,.quizContainer textarea{
   width: 100%;
   border: none;
   outline: none;
   border-radius: 10px;
+  border: 2px solid #0097b2;
 }
-.quizContainer input{
+.quizContainer input,.quizContainer select{
   height: 50px;
   padding: 0 10px;
   margin-bottom: 20px;
@@ -5254,16 +5330,16 @@ a:hover{
   height: auto;
   margin: auto;
 }
-.questionsInputContainer input,.questionsInputContainer textarea{
+.questionsInputContainer input,.questionsInputContainer textarea,.questionsInputContainer select{
   width: 100%;
   height: 50px;
   margin-bottom: 10px;
   padding: 0 10px;
-  border: 1px solid #0097b2;
+  border: 2px solid #0097b2;
   background-color: transparent;
   outline: none;
 }
-.questionsInputContainer input:not(.optionsInputWrapper input) {
+.questionsInputContainer input:not(.optionsInputWrapper input),.questionsInputContainer select {
   border-radius: 10px;
 }
 .optionsInputWrapper input{
@@ -5708,7 +5784,46 @@ a:hover{
 .layer:nth-child(8)  { transform: translateZ(-14px); opacity: 0.65; }
 .layer:nth-child(9)  { transform: translateZ(-16px); opacity: 0.6; }
 .layer:nth-child(10) { transform: translateZ(-18px); opacity: 0.55; }
+.FeesWrapper{
+  width: 100%;
+  height: auto;
+  padding: 10px;
+}
+.FeesHeaderContainer{
+  width: 100%;
+  height: 60px;
+  background-color: #0097b2;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  padding:15px 10px ;
+}
 
+.FeesHeaderContainer h2{
+  text-transform: capitalize;
+}
+.feesStudentWrapper{
+  width: 100%;
+  height: auto;
+  background-color: #fff;
+}
+.feesStudentWrapper table{
+  width: 100%;
+  height: auto;
+  color: #000;
+}
+.feesStudentWrapper table th{
+  padding: 10px;
+  border-bottom: 2px solid #0097b2;
+  text-transform: capitalize;
+}
+.feesStudentWrapper table td{
+  padding: 10px;
+  text-transform: capitalize;
+  text-align: center;
+}
+.feesStudentWrapper table tr:nth-child(even) td{
+  background-color: #e8e8ee;
+}
 /* Rotation Animation */
 @keyframes spin {
   0% {
@@ -5909,8 +6024,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   .commentHolder,.classesShowModuleWrapper h4,.classesShowModuleWrapper table{
     color: #000;
   }
-  input{
+  input,.quizContainer select,.questionsInputContainer select,.questionsInputContainer input,.questionsInputContainer textarea{
     color: #000;
+    background-color: #fff;
+  }
+  .quizContainer select::placeholder{
+    color: #fff;
   }
   .formBtnwrapper button:hover,.classBtnContainer button:hover,.QuizBtnWrapper button:hover{
     color: #fff;

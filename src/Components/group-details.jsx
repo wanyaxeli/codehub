@@ -1008,18 +1008,18 @@ export default function GroupDetails({group,onBack}){
                   <label className="marginbottom-two block text-sm font-medium text-[#1a1a2e] mb-2">
                     Grade
                   </label>
-                  <select
+                  <input
                     value={room.grade}
                     onChange={(e) => {handleRoomChange('grade', e.target.value)}}
                     className=" newgrouppadding w-full bg-white border border-[#d5d5dd] text-[#1a1a2e] rounded-lg px-3 py-2 focus:border-[#2563eb] focus:ring-[#2563eb] focus:outline-none"
                   >
-                    <option value="">Select Grade</option>
+                    {/* <option value="">Select Grade</option>
                     {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((grade) => (
                       <option key={grade} value={grade}>
                         Grade {grade}
                       </option>
-                    ))}
-                  </select>
+                    ))} */}
+                  </input>
                 </div>
 
                 <div>

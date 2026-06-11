@@ -99,7 +99,7 @@ function getcodingLessons() {
         const date = now.toLocaleDateString();
         return { ...lesson, time, date };
       })
-      .sort((a, b) => a.lesson.lesson_number - b.lesson.lesson_number); // Sort ascending by lesson number
+      // .sort((a, b) => a.lesson.lesson_number - b.lesson.lesson_number); // Sort ascending by lesson number
 
     setLessons(codingLessons);
   }
@@ -124,7 +124,7 @@ function getMathsLessons() {
         const date = now.toLocaleDateString();
         return { ...lesson, time, date };
       })
-      .sort((a, b) => a.lesson.lesson_number - b.lesson.lesson_number);
+      // .sort((a, b) => a.lesson.lesson_number - b.lesson.lesson_number);
 
     setLessons(mathsLessons);
   }

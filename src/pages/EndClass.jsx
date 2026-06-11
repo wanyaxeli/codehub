@@ -34,7 +34,7 @@ export default function EndClass() {
   const[classType,setClassType]=useState()
   const[lessontype,setLessonType]=useState()
   const [lesid,setLesId]=useState()
-
+  const [progress, setProgress] = useState(0)
   // console.log('groupId...',groupId)
   // console.log('lessonId...',classId)
 
@@ -301,11 +301,22 @@ const handleFileChange = (event) => {
   
       const { url } = urlRes.data;
   
-      const uploadRes = await fetch(url, {
-        method: "PUT",
-        body: chunk,
-      });
-  
+      // const uploadRes = await fetch(url, {
+      //   method: "PUT",
+      //   body: chunk,
+      // });
+      const uploadRes = await axios.put(url, chunk, {
+        onUploadProgress: (progressEvent) => {
+     
+           const chunkProgress =
+             progressEvent.loaded / progressEvent.total
+     
+           const overallProgress =
+             ((i + chunkProgress) / totalChunks) * 100
+     
+           setProgress(Math.round(overallProgress))
+        }
+     });
       const etag = uploadRes.headers.get("ETag");
   
       parts.push({
@@ -526,9 +537,11 @@ const handleRescheduleNextClass = async() => {
 
             {/* Content */}
             <div className="all-groups p-6">
-              <p className="privacy-infocollect-description text-blue-300 mb-6 text-center">
-                Please upload your recording
-              </p>
+            {progress>0?<p className="privacy-infocollect-description text-blue-300 mb-6 text-center">
+              Uploading file...
+            </p>:<p className="privacy-infocollect-description text-blue-300 mb-6 text-center">
+              Please upload your recording
+            </p>}
 
               {/* File Input Area */}
               <div
@@ -594,8 +607,20 @@ const handleRescheduleNextClass = async() => {
               Upload
             </button>
           </div>:<div className='loaderWrapper'>
-          <i className="fa fa-spinner spinner" aria-hidden="true"></i>
-           <p>Uploading ...</p>
+          <div className={'progressWRapper'}>
+               <div
+                  style={{
+                    width: `${progress}%`,
+                    height: '100%',
+                    background: '#0097b2',
+                    borderRadius:20,
+                    textAlign:'center',
+                    paddingTop:12
+                  }}
+               >
+                <p style={{color:"#fff"}}>  {`${progress}%`}</p>
+               </div>
+           </div>
           </div>}
           </div>
         </div>

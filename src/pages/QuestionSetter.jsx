@@ -6,8 +6,10 @@ export default function QuestionSetter() {
   const [questions,setQuestions]=useState([])
   const [optionsValue,setOptionsValue]=useState('')
   const [error,setError]=useState('')
-  const initialState={question:'',quiztype:'',date:'',name:'',grade:'',module:'',answer:''}
+  const initialState={question:'',lesson:'',quiztype:'',date:'',name:'',grade:'',module:'',answer:''}
   const [Value,setValue]=useState(initialState)
+  // const [lesson,setLesson]=useState('')
+  const [notes,setNotes]=useState([])
   const handleAddOptions =()=>{
    if(optionsValue){
     setOptions(pre=>[...pre,optionsValue])
@@ -26,8 +28,8 @@ export default function QuestionSetter() {
    setValue({...Value,[name]:value})
   }
   const handleNextQuiz =()=>{
-   if(Value.quiztype &&Value.name && Value.date && Value.grade&&Value.module &&Value.question && options.length ===4 && Value.answer){
-    const data={quiztype:Value.quiztype,name:Value.name,date:Value.date,grade:Value.grade,module:Value.module,question:Value.question,options:options,answer:Value.answer}
+   if(Value.quiztype &&Value.name &&Value.lesson && Value.date && Value.grade&&Value.module &&Value.question && options.length ===4 && Value.answer){
+    const data={quiztype:Value.quiztype,lessonId:Value.lesson,name:Value.name,date:Value.date,grade:Value.grade,module:Value.module,question:Value.question,options:options,answer:Value.answer}
     console.log(data)
     setQuestions(pre=>[...pre,data])
     setValue(initialState)
@@ -36,6 +38,20 @@ export default function QuestionSetter() {
     setError('Please fill all fields')
    }
   }
+  // const handleCourseChange=(e)=>{
+  //   console.log(e)
+  //   setLesson(e)
+  //  }
+   function getNotes(){
+    const url ='https://api.codingscholar.com/classNotes/'
+    axios.get(url)
+    .then(res=>{
+        console.log('res notes',res.data)
+        const data= res.data
+        setNotes(data)
+    })
+    .catch(error=>console.log(error))
+}
   const handleSubmitQuiz = () => {
     if (questions.length === 5) {
       const url = 'https://api.codingscholar.com/questionSetter/';
@@ -50,7 +66,8 @@ export default function QuestionSetter() {
           answer: question.answer,
           options: question.options,
           date:question.date,
-          name:question.name
+          name:question.name,
+          lessonId:question.lessonId
         };
         return axios.post(url,data);
       });
@@ -71,7 +88,9 @@ export default function QuestionSetter() {
       setError("Please make sure you have five questions");
     }
   };
-  
+  useEffect(()=>{
+    getNotes()
+   },[])
   return (
     <div className='QuestionSetterWrapper'>
          <h2>Create daily questions for students</h2>
@@ -92,6 +111,27 @@ export default function QuestionSetter() {
             <input type='text' value={Value.quiztype} name='quiztype' onChange={handleChange} placeholder='Enter Question type coding/math'/><br/>
             <input type='text' value={Value.grade} name='grade' onChange={handleChange} placeholder='Enter grade'/><br/>
             <input type='text' value={Value.module} name='module' onChange={handleChange} placeholder='Enter module'/><br/>
+            <select
+            value={Value.lesson}
+            name='lesson'
+            onChange={handleChange}
+            className="courseInput"
+          >
+            <option value="">Select Course</option>
+
+                  {notes.map((note, i) =>
+                    note.modules.map((item, j) =>
+                      item.lessons.map((lesson, k) => (
+                        <option
+                          key={`${i}-${j}-${k}`}
+                          value={lesson.lessonId}
+                        >
+                          Grade {note.grade} Notes {lesson.title}
+                        </option>
+                      ))
+                    )
+                  )}
+              </select>
             <textarea value={Value.question} name='question' onChange={handleChange} placeholder='Enter question'/><br/>
             <input type='text' value={Value.answer} name='answer' onChange={handleChange} placeholder='Enter answer'/><br/>
             <input type='date' value={Value.date} name='date' onChange={handleChange} placeholder='Enter answer'/><br/>
