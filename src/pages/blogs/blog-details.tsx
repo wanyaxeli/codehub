@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { motion, useInView } from 'framer-motion';
 // import { BaseCrudService } from '@/integrations';
@@ -8,160 +8,32 @@ import { Image } from '@/components/ui/image';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import HeaderSection from '@/Components/layoutss/code-headers';
 import NewFooter from '@/Components/layoutss/newFooter';
+import { generateHTML } from '@tiptap/html';
+import StarterKit from '@tiptap/starter-kit';
+import Underline from '@tiptap/extension-underline';
+import Link from '@tiptap/extension-link';
+import BulletList from '@tiptap/extension-bullet-list';
+import OrderedList from '@tiptap/extension-ordered-list';
+import ListItem from '@tiptap/extension-list-item';
+import useStore from '@/lib/storage';
 
 interface Blog {
-  _id: string;
+  id: string;
   _createdDate?: Date;
   _updatedDate?: Date;
   title?: string;
-  shortDescription?: string;
-  content?: string;
+  summary?: string;
+  content: any;
   featuredImage?: string;
   category?: string;
-  readTimeMinutes?: number;
+  reading_time?: number;
   isFeatured?: boolean;
   author?: string;
+  image?:string
   publishDate?: Date | string;
 }
 
-const codescholarblogs = [
-  {
-    _id:'1',
-    featuredImage: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4",
-    title: "Understanding Variables Through Real-World Analogies",
-    category: "Beginner Guides",
-    shortDescription: "Learn how variables work in programming using simple real-world comparisons and visual thinking techniques inspired by modern coding tutorials.",
-    readMinutes: 5,
-    author: "Kevin Pettit",
-    isFeatured: true,
-    content: [
-      "# Understanding Variables Through Real-World Analogies",
-      "Variables are one of the most fundamental concepts in programming. At their core, they act as containers that store information which can later be used or modified. A helpful way to understand them is by imagining labeled boxes where each box holds a value such as a number or text.",
-      "Think of variables like labeled drawers in real life. Each drawer has a name, and inside it you store something specific. This analogy helps beginners quickly grasp how programs remember and manipulate information.",
-      "## Why Variables Matter",
-      "- Store user input like names or scores\n- Track application state\n- Perform calculations and logic"
-    ]
-  },
-  {
-    _id:'2',
-    featuredImage: "https://images.unsplash.com/photo-1555949963-aa79dcee981c",
-    title: "Building a 3D Renderer from Scratch (Math + Code)",
-    category: "Math Tips",
-    shortDescription: "Explore how mathematics powers 3D graphics by building a simple renderer using geometry, transformations, and linear algebra.",
-    readMinutes: 12,
-    author: "Astro Driss",
-    isFeatured: false,
-    content: [
-      "# Building a 3D Renderer from Scratch",
-      "3D rendering combines programming with mathematics to create visual scenes. Concepts like vectors and matrices allow objects to exist and move in virtual space.",
-      "By applying transformations such as rotation, scaling, and translation, developers can manipulate objects and project them onto a 2D screen.",
-      "## Key Mathematical Concepts",
-      "- Vectors represent position and direction\n- Matrices handle transformations\n- Projection converts 3D to 2D"
-    ]
-  },
-  {
-    _id:'3',
-    featuredImage: "https://images.unsplash.com/photo-1519389950473-47ba0277781c",
-    title: "Beginner’s Guide to Web Hosting and Deployment",
-    category: "Beginner Guides",
-    shortDescription: "A practical introduction to hosting websites, understanding servers, and deploying your first coding project online.",
-    readMinutes: 6,
-    author: "Douiri Blog",
-    isFeatured: false,
-    content: [
-      "# Beginner’s Guide to Web Hosting and Deployment",
-      "After building your application, the next step is making it accessible online. Hosting stores your app on a server, while deployment ensures it runs correctly for users.",
-      "Modern platforms simplify deployment, but understanding the basics helps you manage performance, scalability, and reliability.",
-      "## Key Concepts",
-      "- Servers host your application\n- Domains provide access via URLs\n- Deployment automates updates"
-    ]
-  },
-  {
-    _id:'4',
-    featuredImage: "https://images.unsplash.com/photo-1509228468518-180dd4864904",
-    title: "Teaching Kids How to Code Using Visual Thinking",
-    category: "Coding for Kids",
-    shortDescription: "Discover engaging ways to introduce children to coding concepts using diagrams, storytelling, and interactive examples.",
-    readMinutes: 7,
-    author: "Happy Coding",
-    isFeatured: false,
-    content: [
-      "# Teaching Kids How to Code Using Visual Thinking",
-      "Teaching coding to kids becomes easier when using visual tools. Instead of abstract syntax, children can learn using diagrams, blocks, and storytelling.",
-      "Visual thinking allows kids to connect logic with creativity, making coding both fun and educational.",
-      "## Effective Strategies",
-      "- Use block-based tools\n- Incorporate storytelling\n- Encourage experimentation"
-    ]
-  },
-  {
-    _id:'5',
-    featuredImage: "https://images.unsplash.com/photo-1537432376769-00a4c8d5c8b7",
-    title: "Big O Notation Made Simple",
-    category: "Math Tips",
-    shortDescription: "Break down algorithm complexity using simple math explanations and intuitive visualizations to improve problem-solving skills.",
-    readMinutes: 8,
-    author: "CoderSite",
-    isFeatured: false,
-    contentSections: [
-      "# Big O Notation Made Simple",
-      "Big O notation describes how efficient an algorithm is as input size grows. It helps developers predict performance and scalability.",
-      "Instead of exact timing, Big O focuses on trends, making it easier to compare algorithms.",
-      "## Common Complexities",
-      "- O(1): Constant time\n- O(n): Linear time\n- O(n²): Quadratic time"
-    ]
-  },
-  {
-    _id:'6',
-    featuredImage: "https://images.unsplash.com/photo-1518779578993-ec3579fee39f",
-    title: "CSS Layouts Explained with Practical Examples",
-    category: "Beginner Guides",
-    shortDescription: "Learn modern CSS layout techniques like Flexbox and Grid through real-world UI examples and hands-on practice.",
-    readMinutes: 6,
-    author: "CodeHal",
-    isFeatured: false,
-    content: [
-      "# CSS Layouts Explained with Practical Examples",
-      "CSS layouts are essential for building responsive web designs. Flexbox and Grid provide powerful tools to structure content effectively.",
-      "Flexbox works well for one-dimensional layouts, while Grid is ideal for more complex two-dimensional designs.",
-      "## Choosing the Right Layout",
-      "- Use Flexbox for simple alignment\n- Use Grid for complex layouts\n- Combine both when needed"
-    ]
-  },
-  {
-    _id:'7',
-    featuredImage: "https://images.unsplash.com/photo-1526378722484-cc5c6b5f6d4c",
-    title: "How AI is Changing the Way We Write Code",
-    category: "Parenting & Learning",
-    shortDescription: "An educational look at how AI tools are transforming coding workflows and how learners can adapt effectively.",
-    readMinutes: 9,
-    author: "Vibe Coding",
-    isFeatured: false,
-    content: [
-      "# How AI is Changing the Way We Write Code",
-      "AI tools are transforming development by automating repetitive tasks and assisting in writing code faster and more efficiently.",
-      "Developers can now focus more on problem-solving while AI handles suggestions, debugging, and optimization.",
-      "## Impact on Learning",
-      "- Faster development cycles\n- Better debugging support\n- New learning opportunities"
-    ]
-  },
-  {
-    _id:'8',
-    featuredImage: "https://images.unsplash.com/photo-1509228627152-72ae9ae6848d",
-    title: "Fun Math Tricks for Young Programmers",
-    category: "Coding for Kids",
-    shortDescription: "Introduce kids to essential math concepts like patterns, logic, and sequences through fun coding exercises.",
-    readMinutes: 4,
-    author: "STEM Learning Hub",
-    isFeatured: false,
-    content: [
-      "# Fun Math Tricks for Young Programmers",
-      "Mathematics is a key part of programming, and making it fun helps young learners stay engaged. Simple tricks can build confidence and curiosity.",
-      "By combining math with coding exercises, kids develop logical thinking and problem-solving skills.",
-      "## Easy Tricks to Start With",
-      "- Recognizing patterns\n- Using simple formulas\n- Solving logic puzzles"
-    ]
-  }
-];
+
 
 const FadeIn = ({ children, delay = 0, className = "" }: { children: React.ReactNode, delay?: number, className?: string }) => {
   const ref = useRef(null);
@@ -182,7 +54,7 @@ const FadeIn = ({ children, delay = 0, className = "" }: { children: React.React
 
 const CATEGORY_COLORS: Record<string, { bg: string; text: string; border: string }> = {
   'Coding for Kids': { bg: 'bg-blue-50', text: 'text-blue-700', border: 'border-blue-200' },
-  'Math Tips': { bg: 'bg-purple-50', text: 'text-purple-700', border: 'border-purple-200' },
+  'technology': { bg: 'bg-purple-50', text: 'text-purple-700', border: 'border-purple-200' },
   'Beginner Guides': { bg: 'bg-green-50', text: 'text-green-700', border: 'border-green-200' },
   'Parenting & Learning': { bg: 'bg-orange-50', text: 'text-orange-700', border: 'border-orange-200' },
 };
@@ -191,14 +63,14 @@ const BlogHeader = ({ blog }: { blog: Blog }) => {
   const publishDate = blog.publishDate ? new Date(blog.publishDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : '';
 
   return (
-    <section className="relative !pt-20 !pb-12 bg-white">
+    <section className="relative !pt-12 !pb-12 bg-white">
       <div className="container !mx-auto !px-6 md:!px-12 max-w-[100rem]">
         {/* Breadcrumb */}
         <FadeIn delay={0.1}>
           <div className="flex items-center gap-2 text-sm text-foreground/60 font-paragraph !mb-8">
             <a href="/course-blogs" className="hover:!text-[var(--primarysec)] !text-slate-700  transition-colors">Blogs</a>
             <ChevronRight className="w-4 h-4" />
-            <span className="text-foreground">{blog.category}</span>
+            <span className="text-foreground">{blog.category?.toLocaleUpperCase()}</span>
           </div>
         </FadeIn>
 
@@ -221,7 +93,7 @@ const BlogHeader = ({ blog }: { blog: Blog }) => {
             {/* Read Time */}
             <div className="flex items-center gap-2">
               <Clock className="w-4 h-4 text-bg-[var(--primarysec)] " />
-              <span>{blog.readTimeMinutes || 5} min read</span>
+              <span>{blog.reading_time || 5} min read</span>
             </div>
 
             {/* Date */}
@@ -245,8 +117,8 @@ const BlogHeader = ({ blog }: { blog: Blog }) => {
         {/* Featured Image */}
         <FadeIn delay={0.4}>
           <div className="relative rounded-2xl overflow-hidden h-[300px] md:h-[400px] lg:h-[500px] shadow-2xl shadow-slate-200/50">
-            <Image
-              src={blog.featuredImage || 'https://static.wixstatic.com/media/fc528a_f371dd29bdb0473faafe630e7f89f392~mv2.png?originWidth=896&originHeight=448'}
+            <img
+              src={blog.image || 'https://static.wixstatic.com/media/fc528a_f371dd29bdb0473faafe630e7f89f392~mv2.png?originWidth=896&originHeight=448'}
               alt={blog.title || 'Blog featured image'}
               className="w-full h-full object-cover"
             />
@@ -259,7 +131,24 @@ const BlogHeader = ({ blog }: { blog: Blog }) => {
 };
 
 const BlogContent = ({ blog, relatedBlogs }: { blog: Blog, relatedBlogs: Blog[] }) => {
-  const contentSections = blog.content|| [];
+  // const contentSections = blog.content|| [];
+
+  console.log(blog.content)
+  let html;
+  html = useMemo(() => generateHTML(blog.content, [StarterKit]), [blog.content])
+
+    
+  ;
+  // const editor = useEditor({
+  //   extensions: [StarterKit],
+  //   content: blog.content,   // ✅ TipTap JSON from backend
+  //   editable: false,       // ✅ read-only mode
+  //   editorProps: {
+  //   attributes: {
+  //     class: 'prose prose-lg max-w-none focus:outline-none',
+  //   },}
+  // })
+  // if (!editor) return null
 
   return (
     <section className="!py-16 bg-white">
@@ -267,49 +156,17 @@ const BlogContent = ({ blog, relatedBlogs }: { blog: Blog, relatedBlogs: Blog[] 
         <div className="grid lg:grid-cols-3 gap-12">
           {/* Main Content */}
           <div className="lg:col-span-2">
-            <FadeIn className="prose prose-lg max-w-none font-paragraph text-foreground/80 leading-relaxed">
-              <div className="!space-y-8">
-                {contentSections.map((section, index) => {
-                  // Check if section is a heading (starts with # or ##)
-                  if (section.startsWith('##')) {
-                    return (
-                      <h3 key={index} className="text-2xl font-heading font-bold text-foreground !mt-8 !mb-4">
-                        {section.replace(/^##\s*/, '')}
-                      </h3>
-                    );
-                  }
-                  if (section.startsWith('#')) {
-                    return (
-                      <h2 key={index} className="text-3xl font-heading font-bold text-foreground !mt-10 !mb-4">
-                        {section.replace(/^#\s*/, '')}
-                      </h2>
-                    );
-                  }
+            {/* Blog Summary */}
+            <div className="relative !mb-10 !p-6 rounded-2xl bg-[var(--primarysec)]/5 border-l-4 border-[var(--accentsec)] shadow-sm">
+              <span className="inline-block text-xs font-heading font-bold uppercase tracking-widest text-[var(--primarysec)] !mb-3">
+                Synopsis
+              </span>
+              <p className="text-md font-paragraph text-foreground/80 leading-relaxed " style={{ fontStyle: 'italic' }}>
+                {blog.summary}
+              </p>
+            </div>
 
-                  // Check if section contains bullet points
-                  if (section.includes('•') || section.includes('-')) {
-                    const items = section.split('\n').filter(line => line.trim());
-                    return (
-                      <ul key={index} className="!space-y-3 !ml-6">
-                        {items.map((item, i) => (
-                          <li key={i} className="flex gap-3">
-                            <span className="text-bg-[var(--primarysec)]  font-bold !mt-1">•</span>
-                            <span>{item.replace(/^[•-]\s*/, '')}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    );
-                  }
-
-                  // Regular paragraph
-                  return (
-                    <p key={index} className="text-lg text-foreground/80 leading-relaxed">
-                      {section}
-                    </p>
-                  );
-                })}
-              </div>
-            </FadeIn>
+            <div className="blog-content" dangerouslySetInnerHTML={{ __html: html }} />
 
             {/* Mid-Content CTA */}
             <FadeIn delay={0.2} className="!mt-16 !mb-16">
@@ -339,7 +196,7 @@ const BlogContent = ({ blog, relatedBlogs }: { blog: Blog, relatedBlogs: Blog[] 
                 <div className="grid md:grid-cols-2 gap-8">
                   {relatedBlogs.slice(0, 4).map((relatedBlog, index) => (
                     <motion.div
-                      key={relatedBlog._id}
+                      key={relatedBlog.id}
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.1 }}
@@ -348,8 +205,8 @@ const BlogContent = ({ blog, relatedBlogs }: { blog: Blog, relatedBlogs: Blog[] 
                     >
                       {/* Image */}
                       <div className="relative h-40 overflow-hidden bg-slate-100">
-                        <Image
-                          src={relatedBlog.featuredImage || 'https://static.wixstatic.com/media/fc528a_64e7de35adba4bf387d45c95e2b9ccf0~mv2.png?originWidth=256&originHeight=128'}
+                        <img
+                          src={relatedBlog.image}
                           alt={relatedBlog.title || 'Related blog'}
                           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                         />
@@ -367,15 +224,15 @@ const BlogContent = ({ blog, relatedBlogs }: { blog: Blog, relatedBlogs: Blog[] 
                         </h3>
 
                         <p className="text-foreground/70 font-paragraph text-sm !mb-4 line-clamp-2 flex-grow">
-                          {relatedBlog.shortDescription}
+                          {relatedBlog.summary}
                         </p>
 
                         <div className="flex items-center gap-2 text-xs text-foreground/60 font-paragraph !mb-4">
                           <Clock className="w-3 h-3" />
-                          <span>{relatedBlog.readTimeMinutes || 5} min read</span>
+                          <span>{relatedBlog.reading_time || 5} min read</span>
                         </div>
 
-                        <a href={`/course-blog/${relatedBlog._id}`} className="!text-[var(--accentsec)] font-heading font-bold hover:text-[var(--accentsec)]/80 transition-colors inline-flex items-center gap-1 group/link">
+                        <a href={`/course-blog/${relatedBlog.id}`} className="!text-[var(--accentsec)] font-heading font-bold hover:text-[var(--accentsec)]/80 transition-colors inline-flex items-center gap-1 group/link">
                           Read More
                           <ChevronRight className="w-4 h-4 group-hover/link:translate-x-1 transition-transform" />
                         </a>
@@ -477,40 +334,65 @@ export default function BlogDetailPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
 
+  const {allblogs,fetchblogs}=useStore()
+
   useEffect(() => {
-    loadBlog();
+    fetchblogs()
   }, [id]);
 
-  const loadBlog = async () => {
-    if (!id) return;
-    setIsLoading(true);
-    try {
-      const blogData = codescholarblogs.find(cs=>cs._id===id);
-      console.log('id...',id,'conteent..',blogData)
-      setBlog(blogData);
-      if (blogData) {
-        setBlog(blogData);
-        // Load related blogs from same category
-        const allBlogs = codescholarblogs
-        const related = codescholarblogs.filter(
-          b => b.category === blogData.category && b._id !== id
-        );
-        setRelatedBlogs(related);
-      } else {
-        setNotFound(true);
-      }
-    } catch (error) {
-      console.error('Error loading blog:', error);
-      setNotFound(true);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  console.log("id:----", id, typeof id);
+
+allblogs.forEach(blog => {
+  console.log(blog.id, typeof blog.id);
+});
+
+  useEffect(() => {
+  if (allblogs.length === 0) return;
+  setIsLoading(true)
+  const blogData = allblogs.find((cs: any) => cs.id === Number(id));
+  if (blogData) {
+    setBlog(blogData);
+    const related = allblogs.filter(
+      (b: any) => b.category === blogData.category && b.id !== Number(id)
+    );
+    setRelatedBlogs(related);
+    setIsLoading(false)
+  } else {
+      setIsLoading(false)
+    setNotFound(true);
+  }
+}, [allblogs, id]);
+
+  // const loadBlog = async () => {
+  //   if (!id) return;
+  //   setIsLoading(true);
+  //   try {
+  //     const blogData = codescholarblogs.find(cs=>cs.id===id);
+  //     console.log('id...',id,'conteent..',blogData)
+  //     setBlog(blogData);
+  //     if (blogData) {
+  //       setBlog(blogData);
+  //       // Load related blogs from same category
+  //       const allBlogs = codescholarblogs
+  //       const related = codescholarblogs.filter(
+  //         b => b.category === blogData.category && b.id !== id
+  //       );
+  //       setRelatedBlogs(related);
+  //     } else {
+  //       setNotFound(true);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error loading blog:', error);
+  //     setNotFound(true);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
 
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background font-paragraph text-foreground flex items-center justify-center">
-        <HeaderSection />
+        {/* <HeaderSection /> */}
         <LoadingSpinner />
       </div>
     );

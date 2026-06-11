@@ -17,6 +17,7 @@ import HeaderSection from '@/Components/layoutss/code-headers'
 // import Footer from '@/components/Footer';
 import Footer from '@/Components/layoutss/newFooter';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
+import axios from 'axios'
 
 
 // --- Utility Components & Animations ---
@@ -689,8 +690,33 @@ export default function Home() {
   const [faqs, setFaqs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+ 
+   const [localpricing,setPricing]=useState(null)
+
+   const apiurl = process.env.NEXT_PUBLIC_API_URL || " https://untawed-overheady-tony.ngrok-free.dev";
+    console.log('api url',apiurl)
+     const pricing=async()=>{
+    try{
+      const res=await axios.get(`${apiurl}/get_pricing/`,
+        {
+          headers:{
+            "ngrok-skip-browser-warning": "true"
+          }
+        }
+      )
+      const response=res.data.country_iso
+      console.log('response...',response)
+      setPricing(response)
+      
+    }catch(e){
+      console.error('error in getting the pricing...',e)
+    }
+  }
+
+
   useEffect(() => {
     loadData();
+    pricing();
   }, []);
 
   const loadData = async () => {
@@ -715,6 +741,8 @@ export default function Home() {
       setIsLoading(false);
     }
   };
+
+
 
   return (
     <div className="min-h-screen bg-background font-paragraph text-[var(--foregroundsec)] overflow-clip selection:bg-[var(--primarysec)]/20 selection:text-[var(--primarysec)]">

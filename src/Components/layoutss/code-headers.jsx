@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { Menu, X, Code2, ChevronDown } from 'lucide-react'
-import pic from '@/assets/codingscholarlogo003.png'
+import pic from '@/assets/codingscholarlogo00v2.png'
 
 export default function HeaderSection() {
   const [isCoursesOpen, setIsCoursesOpen] = useState(false)
@@ -41,27 +41,27 @@ export default function HeaderSection() {
   return (
     <>
     {/* desktop header */}
-    <header className="sticky top-0 z-50 border-b border-gray-200 bg-white md:h-[12vh]  ">
+    <header className="sticky top-0 z-50 border-b border-gray-200 bg-white md:h-[15vh]  ">
       {/* Desktop Header */}
-      <div className="headercontainer hidden md:flex items-center justify-between h-[12vh] px-6 lg:px-12 shadow-sm">
+      <div className="headercontainer hidden md:flex items-center justify-between h-[15vh] px-6 lg:px-12 shadow-sm">
         {/* Left: Logo & Brand */}
         <div  className="flex items-center  hover:opacity-80 transition-opacity"
         onClick={()=>{navigate('/')}}>
           
            <div className="flex items-center gap-3">
             {/* <div className="logoContainer"> */}
-            <div className="w-24 h-24 flex items-center justify-center  rounded-full overflow-hidden">
+            <div className="w-29 h-29 flex items-center justify-center  overflow-hidden">
             <img
               src={pic}
               alt="logo"
-              className="object-contain h-50 w-50 scale-200 hover:scale-220 "
+              className="object-contain h-32 w-32 scale-130 hover:scale-135 "
             />
           </div>
             {/* <img loading="lazy" src={pic} alt="logo" className='flex  object-contain h-24 w-24 bg-green-300 items-center justify-center' /> */}
            {/* </div> */}
-          <h4 className="!text-[var(--headingsec)] font-bold text-xl   tracking-wide">
+          {/* <h4 className="!text-[var(--headingsec)] font-bold text-xl   tracking-wide">
                  codingscholar
-                   </h4>
+                   </h4> */}
           </div>
         </div>
 
@@ -107,11 +107,11 @@ export default function HeaderSection() {
           onClick={()=>{navigate('/about-us')}}>
             About
           </div>
-          {/* <div 
+          <div 
           className="header-text text-gray-700 hover:!text-cyan-600 font-medium transition-colors cursor-pointer"
           onClick={()=>{navigate('/course-blogs')}}>
             Blogs
-          </div> */}
+          </div>
         </nav>
 
         {/* Right: Actions */}

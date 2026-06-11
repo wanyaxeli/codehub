@@ -42,7 +42,7 @@ export function ConfirmationModal({
           <AlertDialogDescription className='!text-gray-800'>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <div className="flex justify-end gap-3">
-          <AlertDialogCancel className="!p-4" disabled={isLoading} onClick={onCancel}>
+          <AlertDialogCancel className="!p-4 text-gray-600" disabled={isLoading} onClick={onCancel}>
             {cancelLabel}
           </AlertDialogCancel>
           <AlertDialogAction

@@ -2,14 +2,17 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, useInView } from 'framer-motion';
 // import { BaseCrudService } from '@/integrations';
-import { Search, ChevronRight, Clock, Tag, ArrowRight } from 'lucide-react';
+import { Search, ChevronRight, Clock, Tag, ArrowRight, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Image } from '@/components/ui/image';
 import HeaderSection from '@/Components/layoutss/code-headers';
 import NewFooter from '@/Components/layoutss/newFooter';
+import axios from 'axios';
+import useStore from '@/lib/storage';
+import { Card } from '@/components/ui/card';
 
 interface Blog {
-  _id: string;
+  id: string;
   _createdDate?: Date;
   _updatedDate?: Date;
   title?: string;
@@ -22,144 +25,7 @@ interface Blog {
   author?: string;
   publishDate?: Date | string;
 }
-const codescholarblogs = [
-  {
-    _id:'1',
-    featuredImage: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4",
-    title: "Understanding Variables Through Real-World Analogies",
-    category: "Beginner Guides",
-    shortDescription: "Learn how variables work in programming using simple real-world comparisons and visual thinking techniques inspired by modern coding tutorials.",
-    readMinutes: 5,
-    author: "Kevin Pettit",
-    isFeatured: true,
-    content: [
-      "# Understanding Variables Through Real-World Analogies",
-      "Variables are one of the most fundamental concepts in programming. At their core, they act as containers that store information which can later be used or modified. A helpful way to understand them is by imagining labeled boxes where each box holds a value such as a number or text.",
-      "Think of variables like labeled drawers in real life. Each drawer has a name, and inside it you store something specific. This analogy helps beginners quickly grasp how programs remember and manipulate information.",
-      "## Why Variables Matter",
-      "- Store user input like names or scores\n- Track application state\n- Perform calculations and logic"
-    ]
-  },
-  {
-    _id:'2',
-    featuredImage: "https://images.unsplash.com/photo-1555949963-aa79dcee981c",
-    title: "Building a 3D Renderer from Scratch (Math + Code)",
-    category: "Math Tips",
-    shortDescription: "Explore how mathematics powers 3D graphics by building a simple renderer using geometry, transformations, and linear algebra.",
-    readMinutes: 12,
-    author: "Astro Driss",
-    isFeatured: false,
-    content: [
-      "# Building a 3D Renderer from Scratch",
-      "3D rendering combines programming with mathematics to create visual scenes. Concepts like vectors and matrices allow objects to exist and move in virtual space.",
-      "By applying transformations such as rotation, scaling, and translation, developers can manipulate objects and project them onto a 2D screen.",
-      "## Key Mathematical Concepts",
-      "- Vectors represent position and direction\n- Matrices handle transformations\n- Projection converts 3D to 2D"
-    ]
-  },
-  {
-    _id:'3',
-    featuredImage: "https://images.unsplash.com/photo-1519389950473-47ba0277781c",
-    title: "Beginner’s Guide to Web Hosting and Deployment",
-    category: "Beginner Guides",
-    shortDescription: "A practical introduction to hosting websites, understanding servers, and deploying your first coding project online.",
-    readMinutes: 6,
-    author: "Douiri Blog",
-    isFeatured: false,
-    content: [
-      "# Beginner’s Guide to Web Hosting and Deployment",
-      "After building your application, the next step is making it accessible online. Hosting stores your app on a server, while deployment ensures it runs correctly for users.",
-      "Modern platforms simplify deployment, but understanding the basics helps you manage performance, scalability, and reliability.",
-      "## Key Concepts",
-      "- Servers host your application\n- Domains provide access via URLs\n- Deployment automates updates"
-    ]
-  },
-  {
-    _id:'4',
-    featuredImage: "https://images.unsplash.com/photo-1509228468518-180dd4864904",
-    title: "Teaching Kids How to Code Using Visual Thinking",
-    category: "Coding for Kids",
-    shortDescription: "Discover engaging ways to introduce children to coding concepts using diagrams, storytelling, and interactive examples.",
-    readMinutes: 7,
-    author: "Happy Coding",
-    isFeatured: false,
-    content: [
-      "# Teaching Kids How to Code Using Visual Thinking",
-      "Teaching coding to kids becomes easier when using visual tools. Instead of abstract syntax, children can learn using diagrams, blocks, and storytelling.",
-      "Visual thinking allows kids to connect logic with creativity, making coding both fun and educational.",
-      "## Effective Strategies",
-      "- Use block-based tools\n- Incorporate storytelling\n- Encourage experimentation"
-    ]
-  },
-  {
-    _id:'5',
-    featuredImage: "https://images.unsplash.com/photo-1537432376769-00a4c8d5c8b7",
-    title: "Big O Notation Made Simple",
-    category: "Math Tips",
-    shortDescription: "Break down algorithm complexity using simple math explanations and intuitive visualizations to improve problem-solving skills.",
-    readMinutes: 8,
-    author: "CoderSite",
-    isFeatured: false,
-    contentSections: [
-      "# Big O Notation Made Simple",
-      "Big O notation describes how efficient an algorithm is as input size grows. It helps developers predict performance and scalability.",
-      "Instead of exact timing, Big O focuses on trends, making it easier to compare algorithms.",
-      "## Common Complexities",
-      "- O(1): Constant time\n- O(n): Linear time\n- O(n²): Quadratic time"
-    ]
-  },
-  {
-    _id:'6',
-    featuredImage: "https://images.unsplash.com/photo-1518779578993-ec3579fee39f",
-    title: "CSS Layouts Explained with Practical Examples",
-    category: "Beginner Guides",
-    shortDescription: "Learn modern CSS layout techniques like Flexbox and Grid through real-world UI examples and hands-on practice.",
-    readMinutes: 6,
-    author: "CodeHal",
-    isFeatured: false,
-    content: [
-      "# CSS Layouts Explained with Practical Examples",
-      "CSS layouts are essential for building responsive web designs. Flexbox and Grid provide powerful tools to structure content effectively.",
-      "Flexbox works well for one-dimensional layouts, while Grid is ideal for more complex two-dimensional designs.",
-      "## Choosing the Right Layout",
-      "- Use Flexbox for simple alignment\n- Use Grid for complex layouts\n- Combine both when needed"
-    ]
-  },
-  {
-    _id:'7',
-    featuredImage: "https://images.unsplash.com/photo-1526378722484-cc5c6b5f6d4c",
-    title: "How AI is Changing the Way We Write Code",
-    category: "Parenting & Learning",
-    shortDescription: "An educational look at how AI tools are transforming coding workflows and how learners can adapt effectively.",
-    readMinutes: 9,
-    author: "Vibe Coding",
-    isFeatured: false,
-    content: [
-      "# How AI is Changing the Way We Write Code",
-      "AI tools are transforming development by automating repetitive tasks and assisting in writing code faster and more efficiently.",
-      "Developers can now focus more on problem-solving while AI handles suggestions, debugging, and optimization.",
-      "## Impact on Learning",
-      "- Faster development cycles\n- Better debugging support\n- New learning opportunities"
-    ]
-  },
-  {
-    _id:'8',
-    featuredImage: "https://images.unsplash.com/photo-1509228627152-72ae9ae6848d",
-    title: "Fun Math Tricks for Young Programmers",
-    category: "Coding for Kids",
-    shortDescription: "Introduce kids to essential math concepts like patterns, logic, and sequences through fun coding exercises.",
-    readMinutes: 4,
-    author: "STEM Learning Hub",
-    isFeatured: false,
-    content: [
-      "# Fun Math Tricks for Young Programmers",
-      "Mathematics is a key part of programming, and making it fun helps young learners stay engaged. Simple tricks can build confidence and curiosity.",
-      "By combining math with coding exercises, kids develop logical thinking and problem-solving skills.",
-      "## Easy Tricks to Start With",
-      "- Recognizing patterns\n- Using simple formulas\n- Solving logic puzzles"
-    ]
-  }
-];
+
 
 const FadeIn = ({ children, delay = 0, className = "" }: { children: React.ReactNode, delay?: number, className?: string }) => {
   const ref = useRef(null);
@@ -188,7 +54,7 @@ const CATEGORIES = [
 
 const CATEGORY_COLORS: Record<string, { bg: string; text: string; border: string }> = {
   'Coding for Kids': { bg: 'bg-blue-50', text: 'text-blue-700', border: 'border-blue-200' },
-  'Math Tips': { bg: 'bg-purple-50', text: 'text-purple-700', border: 'border-purple-200' },
+  'technology': { bg: 'bg-purple-50', text: 'text-purple-700', border: 'border-purple-200' },
   'Beginner Guides': { bg: 'bg-green-50', text: 'text-green-700', border: 'border-green-200' },
   'Parenting & Learning': { bg: 'bg-orange-50', text: 'text-orange-700', border: 'border-orange-200' },
 };
@@ -242,6 +108,7 @@ const HeroSection = () => {
 const FilterSection = ({ selectedCategory, onCategoryChange }: { selectedCategory: string, onCategoryChange: (cat: string) => void }) => {
   return (
     <section className="!py-8 bg-white border-b border-slate-100 sticky !top-20 z-40">
+     
       <div className="container !mx-auto !px-6 md:!px-12 max-w-[120rem]">
         <div className="flex flex-wrap gap-3 items-center">
           <span className="text-sm font-heading font-semibold text-foreground/60">Filter by:</span>
@@ -266,20 +133,21 @@ const FilterSection = ({ selectedCategory, onCategoryChange }: { selectedCategor
   );
 };
 
-const FeaturedBlogCard = ({ blog }: { blog: Blog }) => {
+const FeaturedBlogCard = ({ blog }: { blog: any }) => {
   const navigate = useNavigate();
 
   return (
     <section className="!py-16 bg-white">
+    
       <div className="container !mx-auto !px-6 md:!px-12 max-w-[120rem]">
         <FadeIn>
           <div className="relative rounded-[2.5rem] overflow-hidden bg-gradient-to-br from-[var(--primarysec)]/10 to-[var(--accentsec)]/10 border-2 border-[var(--primarysec)]/20 shadow-2xl shadow-[var(--primarysec)]/10">
             <div className="grid lg:grid-cols-2 gap-0">
               {/* Image */}
               <div className="relative h-[400px] lg:h-[500px] overflow-hidden">
-                <Image
-                  src={blog.featuredImage || 'https://static.wixstatic.com/media/fc528a_a689b8157de34f989603582131ca0ac5~mv2.png?originWidth=768&originHeight=448'}
-                  alt={blog.title || 'Featured blog'}
+                <img
+                  src={blog.image}
+                  alt={blog?.title }
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-[var(--primarysec)]/20 to-transparent" />
@@ -295,7 +163,7 @@ const FeaturedBlogCard = ({ blog }: { blog: Blog }) => {
                   </div>
                   <div className={`inline-flex items-center gap-2 !px-3 !py-1 rounded-full text-xs font-heading font-semibold ${CATEGORY_COLORS[blog.category || '']?.bg || 'bg-slate-100'} ${CATEGORY_COLORS[blog.category || '']?.text || 'text-slate-700'}`}>
                     <Tag className="w-3 h-3" />
-                    {blog.category}
+                    {blog?.category?.toLocaleUpperCase()}
                   </div>
                 </div>
 
@@ -304,13 +172,13 @@ const FeaturedBlogCard = ({ blog }: { blog: Blog }) => {
                 </h2>
 
                 <p className="text-foreground/70 font-paragraph text-lg !mb-8 line-clamp-3">
-                  {blog.shortDescription}
+                  {blog.summary}
                 </p>
 
                 <div className="flex items-center gap-6 !mb-8 text-sm text-foreground/60 font-paragraph">
                   <div className="flex items-center gap-2">
                     <Clock className="w-4 h-4" />
-                    <span>{blog.readTimeMinutes || 5} min read</span>
+                    <span>{blog.reading_time || 5} min read</span>
                   </div>
                   {blog.author && (
                     <div>
@@ -320,7 +188,7 @@ const FeaturedBlogCard = ({ blog }: { blog: Blog }) => {
                 </div>
 
                 <Button 
-                  onClick={() => navigate(`/course-blog/${blog._id}`)}
+                  onClick={() => navigate(`/course-blog/${blog.id}`)}
                   className="bg-[var(--accentsec)] hover:bg-[var(--accentsec)]/90 text-white font-heading rounded-xl h-12 !px-6 w-fit shadow-lg shadow-[var(--accentsec)]/30 transition-all hover:scale-105"
                 >
                   Read More
@@ -335,21 +203,22 @@ const FeaturedBlogCard = ({ blog }: { blog: Blog }) => {
   );
 };
 
-const BlogCard = ({ blog, index }: { blog: Blog, index: number }) => {
+const BlogCard = ({ blog, index }: { blog: any, index: number }) => {
   const navigate = useNavigate();
+  console.log('blog',blog)
 
   return (
     <FadeIn delay={index * 0.05}>
       <motion.div
         whileHover={{ y: -8 }}
-        onClick={() => navigate(`/course-blog/${blog._id}`)}
+        onClick={() => navigate(`/course-blog/${blog.id}`)}
         className="group bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-lg shadow-slate-100/50 hover:shadow-2xl hover:shadow-[var(--primarysec)]/20 transition-all duration-300 h-full flex flex-col cursor-pointer"
       >
         {/* Image Container */}
         <div className="relative h-48 overflow-hidden bg-slate-100">
-          <Image
-            src={blog.featuredImage || 'https://static.wixstatic.com/media/fc528a_dad737f9cff747d8a41c398381bea3f1~mv2.png?originWidth=320&originHeight=192'}
-            alt={blog.title || 'Blog post'}
+          <img
+            src={blog.image}
+            alt={blog.title }
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -361,7 +230,7 @@ const BlogCard = ({ blog, index }: { blog: Blog, index: number }) => {
           <div className="!mb-4">
             <span className={`inline-flex items-center gap-1 !px-3 !py-1 rounded-full text-xs font-heading font-semibold ${CATEGORY_COLORS[blog.category || '']?.bg || 'bg-slate-100'} ${CATEGORY_COLORS[blog.category || '']?.text || 'text-slate-700'} border ${CATEGORY_COLORS[blog.category || '']?.border || 'border-slate-200'}`}>
               <Tag className="w-3 h-3" />
-              {blog.category}
+              {blog.category.toLocaleUpperCase()}
             </span>
           </div>
 
@@ -372,20 +241,20 @@ const BlogCard = ({ blog, index }: { blog: Blog, index: number }) => {
 
           {/* Description */}
           <p className="text-foreground/70 font-paragraph text-sm !mb-6 line-clamp-2 flex-grow">
-            {blog.shortDescription}
+            {blog.summary}
           </p>
 
           {/* Meta Info */}
           <div className="flex items-center gap-4 text-xs text-foreground/60 font-paragraph !mb-6 !pb-6 border-b border-slate-100">
             <div className="flex items-center gap-1">
               <Clock className="w-4 h-4" />
-              <span>{blog.readTimeMinutes || 5} min</span>
+              <span>{blog.reading_time || 5} min</span>
             </div>
-            {blog.author && (
+            
               <div>
-                <span>{blog.author}</span>
+                <span>{blog.author??'Coding Scholar'}</span>
               </div>
-            )}
+            
           </div>
 
           {/* Read More Button */}
@@ -399,26 +268,33 @@ const BlogCard = ({ blog, index }: { blog: Blog, index: number }) => {
   );
 };
 
-const BlogGridSection = ({ blogs, isLoading, selectedCategory, searchQuery }: { blogs: Blog[], isLoading: boolean, selectedCategory: string, searchQuery: string }) => {
+const BlogGridSection = ({ blogs, isLoading, selectedCategory, searchQuery }: { blogs: any[], isLoading: boolean, selectedCategory: string, searchQuery: string }) => {
+  
   const filteredBlogs = blogs.filter(blog => {
     const matchesCategory = selectedCategory === 'All' || blog.category === selectedCategory;
     const matchesSearch = !searchQuery || 
-      blog.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      blog.shortDescription?.toLowerCase().includes(searchQuery.toLowerCase());
+      blog.title?.toLowerCase().includes(searchQuery.toLowerCase()) 
     return matchesCategory && matchesSearch;
   });
+
+  console.log('filtered blogs...',filteredBlogs)
 
   return (
     <section className="!py-16 bg-white">
       <div className="container !mx-auto !px-6 md:!px-12 max-w-[120rem]">
-        {filteredBlogs.length === 0 ? (
+        
+        {isLoading?(<Card className="!p-12 text-center">
+              <Loader2 className="animate-spin !mx-auto !mb-2 text-muted-foreground" />
+              <p className="text-muted-foreground">Loading blogs...</p>
+            </Card>)
+        :filteredBlogs.length === 0 ? (
           <div className="text-center !py-16">
             <p className="text-lg text-foreground/60 font-paragraph">No articles found. Try adjusting your filters.</p>
           </div>
         ) : (
           <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 transition-opacity duration-500 ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
             {filteredBlogs.map((blog, index) => (
-              <BlogCard key={blog._id} blog={blog} index={index} />
+              <BlogCard key={blog.id} blog={blog} index={index} />
             ))}
           </div>
         )}
@@ -451,29 +327,67 @@ const CTASection = () => {
 };
 
 export default function BlogListingPage() {
-  const [blogs, setBlogs] = useState([]);
+  const [blogs, setBlogs] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
+  const [featuredBlog,setFeaturedBlog]=useState([])
+  const [otherBlogs,setOtherBlogs]=useState([])
+  const {allblogs,fetchblogs}=useStore()
 
-  useEffect(() => {
-    loadBlogs();
-  }, []);
+   const handlegetBlogs= async() => {
+        try{
+        // setIsAiLoading(true)
+         setIsLoading(true);
+        console.log('getblogs...')
+  
+        const res=await axios.get('http://127.0.0.1:8000/fetch_blogs/')
+        const blogsres=await res.data
+        console.log('saving response...',blogsres)
+        if(blogsres.length>0){
+           const publishedblogs=blogsres.filter((blog:any)=>blog.status==='published')
+          //  console.log()
+           setBlogs(publishedblogs)
+           const featured = publishedblogs?.find((blog:any) => blog.featured);
+           const others = publishedblogs?.filter((blog:any) => !blog.featured);
 
-  const loadBlogs = async () => {
-    setIsLoading(true);
-    try {
-      // const result = await BaseCrudService.getAll<Blog>('blogs', [], { limit: 50 });
-      setBlogs(codescholarblogs);
-    } catch (error) {
-      console.error('Error loading blogs:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+           setFeaturedBlog(featured)
+           setOtherBlogs(others);
+        // setDraftAiSuccess(true)
+    
+        }
+        }catch(e){
+          console.log('error..',e)
+        }finally{
+       setIsLoading(false);
+        }  
+      }
+  
+      useEffect(()=>{
+        handlegetBlogs()
+        fetchblogs()
+      },[])
 
-  const featuredBlog = blogs.find(blog => blog.isFeatured);
-  const otherBlogs = blogs.filter(blog => !blog.isFeatured);
+      console.log('allblogs..',allblogs)
+
+  // useEffect(() => {
+  //   loadBlogs();
+  // }, []);
+
+  // const loadBlogs = async () => {
+  //   setIsLoading(true);
+  //   try {
+  //     // const result = await BaseCrudService.getAll<Blog>('blogs', [], { limit: 50 });
+  //     setBlogs(codescholarblogs);
+  //   } catch (error) {
+  //     console.error('Error loading blogs:', error);
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
+
+  console.log('otherblogs...',otherBlogs)
 
   return (
     <div className="min-h-screen bg-background font-paragraph text-foreground overflow-clip selection:bg-[var(--primarysec)]/20 selection:text-[var(--primarysec)]">
@@ -481,7 +395,7 @@ export default function BlogListingPage() {
       <main>
         <HeroSection />
         <FilterSection selectedCategory={selectedCategory} onCategoryChange={setSelectedCategory} />
-        {featuredBlog && <FeaturedBlogCard blog={featuredBlog} />}
+        {featuredBlog?.length>0 && <FeaturedBlogCard blog={featuredBlog} />}
         <BlogGridSection blogs={otherBlogs} isLoading={isLoading} selectedCategory={selectedCategory} searchQuery={searchQuery} />
         <CTASection />
       </main>

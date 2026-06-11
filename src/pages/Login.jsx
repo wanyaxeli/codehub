@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react'
-import Header from '../Components/Header'
+import Header from '../Components/layoutss/Header'
 import { useNavigate } from 'react-router-dom'
 import pic from '../assets/student.jpg'
 import axios from 'axios'

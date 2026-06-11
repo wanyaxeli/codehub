@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react'
-import Header from '../Components/Header'
+import Header from '../Components/layoutss/Header'
 import pic from '../assets/student.jpg'
 import { useParams, useNavigate } from "react-router-dom";
 import {  parsePhoneNumber } from 'react-phone-number-input';

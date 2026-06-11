@@ -1,10 +1,10 @@
 import React,{useState,useEffect,useContext} from 'react'
-import pic from '../assets/logoCodeHub.png'
-import { context } from '../App'
+import pic from '@/assets/codingscholarlogo00v2.png'
+import { context } from '../../App'
 import {useNavigate,useLocation} from 'react-router-dom'
-import pic2 from '../assets/codehubImage.jpeg'
-import HeaderDetails from './HeaderDetails';
-import Sidebar from './sideBar'
+import pic2 from '@/assets/codehubImage.jpeg'
+import HeaderDetails from '../HeaderDetails';
+import Sidebar from '../sideBar'
 import { jwtDecode } from 'jwt-decode'
 export default function Header() {
     const [selectedValue, setSelectedValue] = useState('');
@@ -117,10 +117,13 @@ export default function Header() {
             <div className='leftHeader'>
                 {/* //logo */}
                 <div onClick={handleHome} className='logoWRapper'>
-                    <div className='logoContainer'>
-                    <img  loading="lazy" src={pic}/>
+                    <div className='w-20 h-20 flex items-center top-0'>
+                    <img  loading="lazy" 
+                    src={pic}
+                    className="object-contain h-32 w-32 scale-130 scale-138 "
+                    />
                     </div>
-                    <h4>codingscholar</h4>
+                    {/* <h4>codingscholar</h4> */}
                 </div>
                 <select value={selectedValue} onChange={handleChange}>
                 <option value="" disabled>

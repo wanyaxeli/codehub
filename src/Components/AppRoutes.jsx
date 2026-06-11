@@ -58,6 +58,7 @@ const VideoPlayer = lazy(() => import("../pages/VideoPlayer.jsx"));
 const UploadVids = lazy(() => import("../pages/UploadVids.jsx"));
 const QuestionSetter = lazy(() => import("../pages/QuestionSetter.jsx"));
 const Certificates = lazy(() => import("../pages/Certificates.jsx"));
+const AdminBlogs=lazy(()=>import ("../pages/blogs/Blogs.js"))
 
 
 
@@ -139,6 +140,7 @@ export default function AppRoutes() {
             <Route path="upload video" element={<UploadVids />} />
             <Route path="Set Question" element={<QuestionSetter />} />
             <Route path="TrailNotes" element={<TrailNotes />} />
+            <Route path="blogs" element={<AdminBlogs/>}/>
           </Route>
 
           {/*  Student Dashboard */}

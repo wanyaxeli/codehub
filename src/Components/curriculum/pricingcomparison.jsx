@@ -1,13 +1,14 @@
 import { motion } from 'framer-motion';
 import { Check } from 'lucide-react';
-
-const pricingPlans = [
+import { useEffect,useState } from 'react';
+import axios from 'axios';
+const Plans = [
   {
     id: 'Prime',
     title: 'Prime',
     subtitle: 'Private 1-on-1 tutoring ',
-    price: '$7.74',
-    originalprice:'$11.90',
+    price: 7.74,
+    originalprice:11.90,
     period: '/session',
     description: 'Personalized 1-on-1 lessons with a dedicated tutor',
     features: [
@@ -29,8 +30,8 @@ const pricingPlans = [
     id: 'Premier',
     title: 'Premier',
     subtitle: 'Micro group (2–3 students)',
-    price: '$6.19',
-    originalprice:'$8.83',
+    price: 6.19,
+    originalprice:8.83,
     period: '/session',
     description: 'Personalized live group classes ',
     features: [
@@ -51,8 +52,8 @@ const pricingPlans = [
     id: 'Plus',
     title: 'Plus ',
     subtitle: 'Small group (4–5 students)',
-    price: '$4.64',
-    originalprice:'$6.18',
+    price: 4.64,
+    originalprice:6.18,
     period: '/session',
     description: 'Interactive live group learning with other students',
     features: [
@@ -74,51 +75,55 @@ const pricingPlans = [
 ];
 
 export default function PricingComparison() {
-    const formatPrice=(amount,currency,locale)=>{
-        return new Intl.NumberFormat(locale ||"en-US",{
-            style:"currency",
-            currency
-        }).format(amount)
+
+  const [localpricing,setPricing]=useState(null)
+
+   const apiurl = process.env.NEXT_PUBLIC_API_URL || " https://untawed-overheady-tony.ngrok-free.dev";
+    console.log('api url',apiurl)
+     const pricing=async()=>{
+    try{
+      const res=await axios.get(`${apiurl}/get_pricing/`,
+        {
+          headers:{
+            "ngrok-skip-browser-warning": "true"
+          }
+        }
+      )
+      const response=res.data.country_iso
+      console.log('response...',response)
+      setPricing(response)
+      
+    }catch(e){
+      console.error('error in getting the pricing...',e)
     }
+  }
 
-    // const loadprice=async(usdPrice)=>{
-    //     const locale=navigator.language
-    //     console.log('country',locale)
 
-    //     let currency="USD"
-    //     let finalPrice=usdPrice
-    //     try{
-    //         const res=await fetch("https://ipwho.is/")
-    //         const data=await res.json()
-    //         console.log("currency data",data)
+  useEffect(() => {
+    pricing();
+  }, []);
+  
+   
+   const normalize = (str) => str.toLowerCase().trim();
 
-    //         currency=data.currency?.code||"USD"
 
-    //         const rateRes=await fetch("https://open.er-api.com/v6/latest/USD")
-    //         const rateData=await rateRes.json()
+const pricingMap = Object.fromEntries(
+  (localpricing??[]).map(p => [normalize(p.name), p])
+);
 
-    //         console.log("rateData..",rateData)
+const pricingPlans = Plans.map(plan => {
+  const match = pricingMap[normalize(plan.id)];
 
-    //         const rate=rateData.rates[currency]
-    //         if (rate){
-    //             finalPrice=usdPrice* rate
-    //         }
+  return {
+    ...plan,
+    currency:match?.currency??'$',
+    price: match?.now ?? plan.price,                 // fallback to original $
+    originalprice: match?.before ?? plan.originalprice // fallback to original $
+  };
+});
 
-    //     }catch(e){
-    //          console.error("Price conversion failed, falling back to USD", e);
-    //     }
 
-    //     return formatPrice(finalPrice,currency,locale)
 
-    // }
-
-    // const pricingPlans=pricePlans.map((pp)=>{
-    //     return {
-    //         ...pp,
-    //         price:loadprice(pp.price)
-
-    //     }
-    // })
 
 
   return (
@@ -178,20 +183,30 @@ export default function PricingComparison() {
                 </p>
 
                 {/* Price */}
-                <div className="!mb-8 !pb-8 border-b border-gray-200">
-                  <div className="flex items-baseline gap-1">
-                    <span className="font-heading text-5xl font-bold text-gray-900">
-                      {plan.price}
-                    </span>
-                    <span className="font-paragraph text-gray-600">
-                      {plan.period}
-                    </span>
+                <div className="!mb-8 !pb-8 !border-b border-gray-200">
+                    {/* Current price row */}
+               <div className="flex items-baseline gap-1.5">
+                 <span className="text-md font-medium text-gray-500 tracking-wide">
+                   {plan.currency??'$'}
+                 </span>
+                 <span className="text-5xl font-bold text-gray-900 tracking-tight leading-none">
+                   {plan.price}
+                 </span>
+                 <span className="text-sm text-gray-500 ml-0.5">
+                   {plan.period}
+                 </span>
+               </div>
 
-                 <span className="font-heading !ml-8 text-lg line-through font-bold text-gray-500">
-                {plan.originalprice}/session
-               </span>
-                  </div>
+               {/* Original price row — sits below, left-aligned */}
+               <div className="flex items-center gap-2 !mt-3.5 !ml-5">
+                 <span className="text-sm text-gray-400 line-through">
+                   {plan.currency ?? '$'} {plan.originalprice}{plan.period}
+                </span>
+                <span className="text-sm text-green-600 font-medium">
+                  Save {plan.currency ?? '$'} {(plan.originalprice - plan.price).toFixed(2)}
+                </span>
                 </div>
+             </div>
 
                 {/* Features */}
                 <div className="!space-y-4 !mb-8 flex-grow">
