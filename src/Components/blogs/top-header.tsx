@@ -44,7 +44,7 @@ export function TopHeader({
         {/* Left: Title */}
         <div className="flex-1">
           <h1 className="text-2xl font-bold text-foreground">
-            Blog Admin
+            Blog Management
           </h1>
         </div>
 

@@ -81,6 +81,7 @@ export function UploadEditSection({
   const [editorContent, setEditorContent] = useState<any>()
   const [draftaisuccess,setDraftAiSuccess]=useState(false)
   const { toasts, addToast, resolveToast, removeToast } = useToast()
+  const apiurl = process.env.NEXT_PUBLIC_API_URL || "https://api.codingscholar.com";
   
 
   
@@ -256,7 +257,7 @@ const editorRef = useRef<HTMLDivElement>(null);
     const form_data=new FormData()
     if(uploadedFile) form_data.append('file',uploadedFile)
    
-    const res=await axios.post('http://127.0.0.1:8000/blog_contents/',form_data,{
+    const res=await axios.post(`${apiurl}/blog_contents/`,form_data,{
       headers:{
         'Content-Type': 'multipart/form-data'
       }
@@ -305,9 +306,10 @@ const editorRef = useRef<HTMLDivElement>(null);
     form_data.append('status',status)
     form_data.append('reading_time',String(formData.readingTime))
     form_data.append('content',JSON.stringify(editorContent))
+    
 
    
-    const res=await axios.post(`http://127.0.0.1:8000/create_blogs/`,form_data,{
+    const res=await axios.post(`${apiurl}/create_blogs/`,form_data,{
       headers:{
         'Content-Type': 'multipart/form-data'
       }

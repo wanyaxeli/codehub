@@ -13,8 +13,9 @@ const useStore=create<BillsStore>((set,get)=>({
     allblogs:[],
     fetchblogs:async()=>{
         try{
+            const apiurl = process.env.NEXT_PUBLIC_API_URL || "https://api.codingscholar.com";
             console.log('fetching..')
-            const res=await axios.get('http://127.0.0.1:8000/fetch_blogs/')
+            const res=await axios.get(`${apiurl}/fetch_blogs/`)
             console.log('res...',res)
             const blogdata=await res.data
              // Remove duplicates using _id

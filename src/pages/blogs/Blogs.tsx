@@ -44,13 +44,15 @@ export default function BlogAdminPage() {
   // Sample blog data
   const [blogs, setBlogs] = useState<any>([])
   const {allblogs,fetchblogs}=useStore()
+   const apiurl = process.env.NEXT_PUBLIC_API_URL || "https://api.codingscholar.com";
+    console.log('api url',apiurl)
 
       const handlegetBlogs= async() => {
       try{
       // setIsAiLoading(true)
       console.log('getblogs...')
 
-      const res=await axios.get('http://127.0.0.1:8000/fetch_blogs/')
+      const res=await axios.get(`${apiurl}/fetch_blogs/`)
       const blogsres=await res.data
       console.log('saving response...',blogsres)
       if(blogsres.length>0){
@@ -94,7 +96,7 @@ export default function BlogAdminPage() {
   )
 
     console.log('feature....',feature)
-    const res=await axios.post('http://127.0.0.1:8000/feature_blog/',{blogId,feature})
+    const res=await axios.post(`${apiurl}/feature_blog/`,{blogId,feature})
     
     const savingres=await res.data
     
@@ -140,7 +142,7 @@ export default function BlogAdminPage() {
     `"${currentBlog?.title}"`
   )
 
-    const res=await axios.post('http://127.0.0.1:8000/blog_delete/',{blogId})
+    const res=await axios.post(`${apiurl}/blog_delete/`,{blogId})
     
     const savingres=await res.data
     
@@ -192,7 +194,7 @@ export default function BlogAdminPage() {
   }))
  
 
-  const res = await axios.post('http://127.0.0.1:8000/bulkupdate/', payload, {
+  const res = await axios.post(`${apiurl}/bulkupdate/`, payload, {
     headers: { 'Content-Type': 'application/json' }
   })
 

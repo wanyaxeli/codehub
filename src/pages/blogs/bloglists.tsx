@@ -335,13 +335,15 @@ export default function BlogListingPage() {
   const [otherBlogs,setOtherBlogs]=useState([])
   const {allblogs,fetchblogs}=useStore()
 
+  const apiurl = process.env.NEXT_PUBLIC_API_URL || "https://api.codingscholar.com";
+
    const handlegetBlogs= async() => {
         try{
         // setIsAiLoading(true)
          setIsLoading(true);
         console.log('getblogs...')
   
-        const res=await axios.get('http://127.0.0.1:8000/fetch_blogs/')
+        const res=await axios.get(`${apiurl}/fetch_blogs/`)
         const blogsres=await res.data
         console.log('saving response...',blogsres)
         if(blogsres.length>0){

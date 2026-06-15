@@ -691,32 +691,8 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
 
  
-   const [localpricing,setPricing]=useState(null)
-
-   const apiurl = process.env.NEXT_PUBLIC_API_URL || " https://untawed-overheady-tony.ngrok-free.dev";
-    console.log('api url',apiurl)
-     const pricing=async()=>{
-    try{
-      const res=await axios.get(`${apiurl}/get_pricing/`,
-        {
-          headers:{
-            "ngrok-skip-browser-warning": "true"
-          }
-        }
-      )
-      const response=res.data.country_iso
-      console.log('response...',response)
-      setPricing(response)
-      
-    }catch(e){
-      console.error('error in getting the pricing...',e)
-    }
-  }
-
-
   useEffect(() => {
     loadData();
-    pricing();
   }, []);
 
   const loadData = async () => {

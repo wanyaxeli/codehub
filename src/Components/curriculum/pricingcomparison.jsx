@@ -78,7 +78,7 @@ export default function PricingComparison() {
 
   const [localpricing,setPricing]=useState(null)
 
-   const apiurl = process.env.NEXT_PUBLIC_API_URL || " https://untawed-overheady-tony.ngrok-free.dev";
+   const apiurl = process.env.NEXT_PUBLIC_API_URL || "https://api.codingscholar.com";
     console.log('api url',apiurl)
      const pricing=async()=>{
     try{

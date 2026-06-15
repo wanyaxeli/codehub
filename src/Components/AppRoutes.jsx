@@ -174,10 +174,11 @@ export default function AppRoutes() {
             <Route path="certificate" element={<StudentCertificate />} />
             <Route path="display-questions" element={<DisplayAttemptedQuiz />} />
           </Route>
-          <Route path="marketingStaff" element={<MarketingStaff/>}>
+          <Route path="/marketingStaff" element={<MarketingStaff/>}>
 
             <Route path="marketerDashboard" element={<MarketerDashboard/>}/>
             <Route index element={<MarketerDashboard />} />
+             <Route path="blogs" element={<AdminBlogs/>}/>
           </Route>
         </Route>
 
