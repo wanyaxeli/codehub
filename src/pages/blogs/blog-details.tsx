@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { motion, useInView } from 'framer-motion';
 // import { BaseCrudService } from '@/integrations';
 import { Clock, Tag, Calendar, User, ChevronRight, ArrowRight } from 'lucide-react';
@@ -134,6 +134,7 @@ const BlogContent = ({ blog, relatedBlogs }: { blog: Blog, relatedBlogs: Blog[] 
   // const contentSections = blog.content|| [];
 
   console.log(blog.content)
+  const navigate=useNavigate()
   let html;
   html = useMemo(() => generateHTML(blog.content, [StarterKit]), [blog.content])
 
@@ -179,7 +180,8 @@ const BlogContent = ({ blog, relatedBlogs }: { blog: Blog, relatedBlogs: Blog[] 
                   <p className="text-lg text-foreground/70 font-paragraph !mb-8">
                     Join Coding Scholar and give your child the foundation they need to succeed in the digital world. Our expert instructors make learning fun, engaging, and effective.
                   </p>
-                  <Button className="!bg-[var(--accentsec)] hover:!bg-[var(--accentsec)]/90 text-white font-heading rounded-xl h-12 !px-8 shadow-lg shadow-!bg-[var(--accentsec)]/30 transition-all hover:scale-105">
+                  <Button className="!bg-[var(--accentsec)] hover:!bg-[var(--accentsec)]/90 text-white font-heading rounded-xl h-12 !px-8 shadow-lg shadow-!bg-[var(--accentsec)]/30 transition-all hover:scale-105"
+                   onClick={()=>navigate('/register')}>
                     Book Free Trial Class
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
@@ -256,7 +258,8 @@ const BlogContent = ({ blog, relatedBlogs }: { blog: Blog, relatedBlogs: Blog[] 
                   <p className="text-white/90 font-paragraph text-sm !mb-6">
                     Book a free trial class and see how Coding Scholar can help your child thrive.
                   </p>
-                  <Button className="w-full bg-white text-[var(--primarysec)]  hover:bg-slate-100 font-heading rounded-xl h-11 shadow-lg transition-all hover:scale-105">
+                  <Button className="w-full bg-white text-[var(--primarysec)]  hover:bg-slate-100 font-heading rounded-xl h-11 shadow-lg transition-all hover:scale-105"
+                   onClick={()=>navigate('/register')}>
                     Book Free Trial
                   </Button>
                 </div>
@@ -304,6 +307,8 @@ const BlogContent = ({ blog, relatedBlogs }: { blog: Blog, relatedBlogs: Blog[] 
 };
 
 const FinalCTA = () => {
+  const navigate=useNavigate()
+  
   return (
     <section className="!py-24 relative overflow-hidden">
       <div className="absolute inset-0 bg-[var(--accentsec)]" />
@@ -317,7 +322,8 @@ const FinalCTA = () => {
           <p className="text-lg text-white/90 font-paragraph !mb-10 max-w-2xl !mx-auto">
             Give your child the gift of coding skills. Our expert instructors create a supportive, engaging learning environment where every child can thrive.
           </p>
-          <Button size="lg" className="bg-white text-[var(--accentsec)] hover:bg-slate-100 font-heading text-lg h-14 !px-8 rounded-xl shadow-2xl transition-transform hover:scale-105">
+          <Button size="lg" className="bg-white text-[var(--accentsec)] hover:bg-slate-100 font-heading text-lg h-14 !px-8 rounded-xl shadow-2xl transition-transform hover:scale-105"
+           onClick={()=>navigate('/register')}>
             Book Free Trial Class
             <ArrowRight className="w-4 h-4 ml-2" />
           </Button>

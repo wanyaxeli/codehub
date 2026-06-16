@@ -304,6 +304,7 @@ const BlogGridSection = ({ blogs, isLoading, selectedCategory, searchQuery }: { 
 };
 
 const CTASection = () => {
+   const navigate=useNavigate()
   return (
     <section className="!py-24 relative overflow-hidden">
       <div className="absolute inset-0 bg-[var(--accentsec)]" />
@@ -317,7 +318,8 @@ const CTASection = () => {
           <p className="text-lg text-white/90 font-paragraph !mb-10 max-w-2xl !mx-auto">
             Explore our courses and discover how your child can develop essential skills in coding and math through interactive, engaging classes.
           </p>
-          <Button size="lg" className="bg-white text-[var(--accentsec)] hover:bg-slate-100 font-heading text-lg h-14 !px-8 rounded-xl shadow-2xl transition-transform hover:scale-105">
+          <Button size="lg" className="bg-white text-[var(--accentsec)] hover:bg-slate-100 font-heading text-lg h-14 !px-8 rounded-xl shadow-2xl transition-transform hover:scale-105"
+          onClick={()=>navigate('/register')}>
             Book Free Trial Class
           </Button>
         </FadeIn>
@@ -334,6 +336,7 @@ export default function BlogListingPage() {
   const [featuredBlog,setFeaturedBlog]=useState([])
   const [otherBlogs,setOtherBlogs]=useState([])
   const {allblogs,fetchblogs}=useStore()
+ 
 
   const apiurl = process.env.NEXT_PUBLIC_API_URL || "https://api.codingscholar.com";
 
