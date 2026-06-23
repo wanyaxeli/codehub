@@ -1,6 +1,7 @@
 import React,{useState,useEffect,useRef,useContext} from 'react'
 import { useLocation,useParams,useNavigate } from 'react-router-dom'
-import pic from '../assets/logoCodeHub.png'
+// import pic from '../assets/logoCodeHub.png'
+import pic from '@/assets/codingscholarlogo00v2i.jpeg'
 import SubmitProjectModal from '../Components/SubmitProjectModal'
 import Peer from "simple-peer";
 import WherebyClass from './WherebyClass';

@@ -115,7 +115,7 @@ export default function BlogAdminPage() {
   setDeleteModalOpen(true)
 }
 
- const handleDeleteConfirm = async () => {
+ const handleDeleteConfirm = async ():Promise<void> => {
   if (!deletingId) return
   setIsDeleting(true)
   await handleDelete(deletingId)

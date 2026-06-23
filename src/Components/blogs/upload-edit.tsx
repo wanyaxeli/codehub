@@ -84,17 +84,6 @@ export function UploadEditSection({
   const apiurl = process.env.NEXT_PUBLIC_API_URL || "https://api.codingscholar.com";
   
 
-  
-  // Auto-calculate reading time
-  // useEffect(() => {
-  //   const words = formData.content
-  // .join(" ")
-  // .trim()
-  // .split(/\s+/)
-  // .length;
-  //   const readTime = Math.ceil(words / 200)
-  //   setFormData(prev => ({ ...prev, readingTime: Math.max(1, readTime) }))
-  // }, [formData.content])
 
   // Load blog data if editing
   useEffect(() => {
@@ -113,97 +102,11 @@ export function UploadEditSection({
   }, [editingBlog])
 
 
-// convert raw string → HTML
-function parseToHTML(content: string|string[]): string {
-  const lines = Array.isArray(content) ? content : content.split("\n");
-  let html = "";
-  let inUl = false;
-  let inOl = false;
-
-  for (const line of lines) {
-    if (line.startsWith("# ")) {
-      if (inUl) { html += "</ul>"; inUl = false; }
-      if (inOl) { html += "</ol>"; inOl = false; }
-      html += `<h2 class="text-base font-medium my-2">${line.slice(2)}</h2>`;
-    } else if (line.startsWith("• ")) {
-      if (inOl) { html += "</ol>"; inOl = false; }
-      if (!inUl) { html += `<ul class="list-disc pl-5 my-1">`; inUl = true; }
-      html += `<li>${line.slice(2)}</li>`;
-    } else if (/^\d+\.\s/.test(line)) {
-      if (inUl) { html += "</ul>"; inUl = false; }
-      if (!inOl) { html += `<ol class="list-decimal pl-5 my-1">`; inOl = true; }
-      html += `<li>${line.replace(/^\d+\.\s/, "")}</li>`;
-    } else if (line.trim()) {
-      if (inUl) { html += "</ul>"; inUl = false; }
-      if (inOl) { html += "</ol>"; inOl = false; }
-      html += `<p class="my-1">${line}</p>`;
-    }
-  }
-  if (inUl) html += "</ul>";
-  if (inOl) html += "</ol>";
-  return html;
-}
-
-// convert HTML back → raw markdown string
-// function parseToRaw(el: HTMLElement): string[] {
-//   let text = "";
-//   el.childNodes.forEach((node) => {
-//     if (node.nodeType === Node.TEXT_NODE) {
-//       text += node.textContent + "\n";
-//     } else if (node.nodeName === "H2" || node.nodeName === "H1") {
-//       text += "# " + (node as HTMLElement).innerText + "\n";
-//     } else if (node.nodeName === "P") {
-//       text += (node as HTMLElement).innerText + "\n";
-//     } else if (node.nodeName === "UL") {
-//       (node as HTMLElement).querySelectorAll("li").forEach((li) => {
-//         text += "• " + li.innerText + "\n";
-//       });
-//     } else if (node.nodeName === "OL") {
-//       let idx = 1;
-//       (node as HTMLElement).querySelectorAll("li").forEach((li) => {
-//         text += idx++ + ". " + li.innerText + "\n";
-//       });
-//     } else if (node.nodeName === "BR") {
-//       text += "\n";
-//     } else {
-//       text += (node as HTMLElement).innerText + "\n";
-//     }
-//   });
-//   return text.trim();
-// }
-
-function parseToRaw(el: HTMLElement): string[] {
-  const lines: string[] = [];
-
-  el.childNodes.forEach((node) => {
-    if (node.nodeType === Node.TEXT_NODE) {
-      const text = node.textContent?.trim();
-      if (text) lines.push(text);
-    } else if (node.nodeName === "H2" || node.nodeName === "H1") {
-      const text = (node as HTMLElement).innerText.trim();
-      if (text) lines.push(`# ${text}`);
-    } else if (node.nodeName === "P") {
-      const text = (node as HTMLElement).innerText.trim();
-      if (text) lines.push(text);
-    } else if (node.nodeName === "UL") {
-      (node as HTMLElement).querySelectorAll("li").forEach((li) => {
-        const text = li.innerText.trim();
-        if (text) lines.push(`• ${text}`);
-      });
-    } else if (node.nodeName === "OL") {
-      let idx = 1;
-      (node as HTMLElement).querySelectorAll("li").forEach((li) => {
-        const text = li.innerText.trim();
-        if (text) lines.push(`${idx++}. ${text}`);
-      });
-    }
-  });
-
-  return lines;
-}
-
     // inside your component
 const editorRef = useRef<HTMLDivElement>(null);
+console.log('EDiting blog...',editingBlog)
+
+
 
 
 
@@ -309,6 +212,56 @@ const editorRef = useRef<HTMLDivElement>(null);
     
 
    
+    const res=await axios.post(`${apiurl}/create_blogs/`,form_data,{
+      headers:{
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+
+    const savingres=await res.data
+
+    console.log('saving response...',savingres)
+    if(savingres.success){
+      
+      status=='draft'?resolveToast(toastId, `${formData.title} saved`, 'Go to all blogs to publish it'):resolveToast(toastId, 'Blog saved', `${formData.title} saved and published`)
+      onViewModeChange('all-posts')
+      onBackToAllPosts()
+    // setDraftAiSuccess(true)
+
+    }else{
+      alert('Saving failed , Please try again..')
+    }
+
+    }catch(e){
+      console.log('error..',e)
+      alert('Saving failed , Please  Ensure All Fields are provided then try again..')
+    }finally{
+      setIsAiLoading(false)
+      
+    }
+  
+    
+  }
+
+    const handlesaveEdit= async (status:string) => {
+    try{
+
+    // setIsAiLoading(true)
+    console.log('saving...')
+    const toastId = addToast('Editing Blog', 'Updating Edited Blog')
+    const form_data=new FormData()
+    if(coverImage) form_data.append('file',coverImage)
+    form_data.append('title',formData.title)
+    form_data.append('author',formData.author)
+    form_data.append('summary',formData.summary)
+    form_data.append('category',formData.category)
+    form_data.append('reading_time',String(formData.readingTime))
+    form_data.append('content',JSON.stringify(editorContent))
+     if (editingBlog){
+      form_data.append('status',editingBlog?.status)
+      form_data.append('blog_id',String(editingBlog.id))
+    }
+
     const res=await axios.post(`${apiurl}/create_blogs/`,form_data,{
       headers:{
         'Content-Type': 'multipart/form-data'
