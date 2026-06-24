@@ -45,16 +45,16 @@ export default function HeaderSection() {
       {/* Desktop Header */}
       <div className="headercontainer hidden md:flex items-center justify-between h-[15vh] px-6 lg:px-12 shadow-sm">
         {/* Left: Logo & Brand */}
-        <div  className="flex items-center  hover:opacity-80 transition-opacity"
+        <div  className="flex items-center min-w-50  hover:opacity-80 transition-opacity"
         onClick={()=>{navigate('/')}}>
           
-           <div className="flex items-center gap-3">
+           <div className="flex items-center gap-3 ">
             {/* <div className="logoContainer"> */}
-            <div className="w-29 h-29 flex items-center justify-center  overflow-hidden">
+            <div className="w-30 h-29 flex items-center justify-center ">
             <img
               src={pic}
               alt="logo"
-              className="object-contain h-32 w-32 scale-130 hover:scale-135 "
+              className="object-contain h-35 w-35 scale-140 hover:scale-120 "
             />
           </div>
             {/* <img loading="lazy" src={pic} alt="logo" className='flex  object-contain h-24 w-24 bg-green-300 items-center justify-center' /> */}

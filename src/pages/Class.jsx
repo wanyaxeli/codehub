@@ -610,9 +610,10 @@ useEffect(() => {
             </div> */}
             <div className='ClassHeader'>
               <div className='ClassHeaderWrapper'>
-                <div className='classHeaderLogowrapper'>
-                    <div className='logoContainer'>
-                        <img src={pic}/>
+                <div className='flex items-center gap-6'>
+                    <div className=''>
+                        <img src={pic}
+                        className="object-contain h-34 w-34 "/>
                     </div>
                     <div className='ClassnotesDisplayerWrapper'>
                        {notes && <span onClick={()=>handletoNotes(notes.url)}>{notes.title}</span>}

@@ -117,10 +117,10 @@ export default function Header() {
             <div className='leftHeader'>
                 {/* //logo */}
                 <div onClick={handleHome} className='logoWRapper'>
-                    <div className='w-20 h-20 flex items-center top-0'>
+                    <div className='w-23 h-20 flex items-center top-0'>
                     <img  loading="lazy" 
                     src={pic}
-                    className="object-contain h-32 w-32 scale-130 scale-138 "
+                    className="object-contain h-35 w-35 scale-140"
                     />
                     </div>
                     {/* <h4>codingscholar</h4> */}
