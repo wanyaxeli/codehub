@@ -10,7 +10,7 @@ import { CheckCircle2, PlayCircle, ArrowRight, Star, BookOpen, Users, Target, Sp
 // import { Button } from '@/components/ui/button';
 import { Button } from '@/components/ui/button';
 import { Image } from '@/components/ui/image';
-import heropic from '../assets/black kids.jpg'
+import heropic from '@/assets/black kids.jpg'
 import PricingComparison from '@/Components/curriculum/pricingcomparison';
 // import HeaderDetails from '@/Components/HeaderDetails';
 import HeaderSection from '@/Components/layoutss/code-headers'
@@ -259,7 +259,7 @@ const BenefitsSection = ({ data, isLoading }) => {
 
 const CoursesSection = ({ data, isLoading }) => {
   const containerRef = useRef(null);
-
+  const navigate=useNavigate()
   return (
     <section id="courses" ref={containerRef} className="py-thirtytwo py-32 bg-white relative">
       <div className="mxauto homeheropadxsix container mx-auto px-6 md:px-12 max-w-[120rem]">
@@ -276,7 +276,9 @@ const CoursesSection = ({ data, isLoading }) => {
                 <p className="group-header text-lg text-[var(--foregroundsec)]/70 font-paragraph mb-8">
                   Tailored curriculum designed to engage young minds, from block-based coding to advanced math concepts.
                 </p>
-                <Button className="group-stdtsection !bg-[var(--primarysec)] hover:!bg-[var(--primarysec)]/90 text-white font-heading rounded-xl h-12 px-6 hidden lg:inline-flex">
+                <Button className="group-stdtsection !bg-[var(--primarysec)] hover:!bg-[var(--primarysec)]/90 text-white font-heading rounded-xl h-12 px-6 hidden lg:inline-flex"
+                onClick={()=>{navigate('/courses',{state:1})}}    
+                >
                   View All Courses
                 </Button>
               </FadeIn>
@@ -616,7 +618,7 @@ const FAQSection = ({ data, isLoading }) => {
   const [openIndex, setOpenIndex] = useState(0);
 
   return (
-    <section id="faq" className="py-thirtytwo py-32 bg-white">
+    <section id="faq" className=" !py-27 bg-white">
       <div className="mxauto homeheropadxsix container mx-auto px-6 md:px-12 max-w-[120rem]">
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-24">
           

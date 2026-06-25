@@ -41,29 +41,36 @@ export default function HeaderSection() {
   return (
     <>
     {/* desktop header */}
-    <header className="sticky top-0 z-50 border-b border-gray-200 bg-white md:h-[15vh]  ">
+    <header className="sticky top-0 z-50 border-b border-gray-200 bg-white md:h-[12vh]  ">
       {/* Desktop Header */}
-      <div className="headercontainer hidden md:flex items-center justify-between h-[15vh] px-6 lg:px-12 shadow-sm">
+      <div className="headercontainer hidden md:flex items-center justify-between h-[12vh] px-6 lg:px-12 shadow-sm">
         {/* Left: Logo & Brand */}
-        <div  className="flex items-center min-w-50  hover:opacity-80 transition-opacity"
-        onClick={()=>{navigate('/')}}>
-          
-           <div className="flex items-center gap-3 ">
-            {/* <div className="logoContainer"> */}
-            <div className="w-30 h-29 flex items-center justify-center ">
-            <img
-              src={pic}
-              alt="logo"
-              className="object-contain h-35 w-35 scale-140 hover:scale-120 "
-            />
-          </div>
-            {/* <img loading="lazy" src={pic} alt="logo" className='flex  object-contain h-24 w-24 bg-green-300 items-center justify-center' /> */}
-           {/* </div> */}
-          {/* <h4 className="!text-[var(--headingsec)] font-bold text-xl   tracking-wide">
-                 codingscholar
-                   </h4> */}
-          </div>
-        </div>
+       <div
+  className="flex items-center min-w-50 hover:opacity-80 transition-opacity"
+  onClick={() => { navigate('/') }}
+>
+  <div className="flex items-center">
+    <div className="w-21 h-21 flex items-center justify-center">
+      <img
+        src={pic}
+        alt="logo"
+        className="object-contain h-30 w-30 scale-120 hover:scale-125"
+      />
+    </div>
+
+    {/* Brand name + underline */}
+    <div className="flex flex-col">
+  <span className="text-[var(--primary)] font-bold text-xl tracking-wide leading-tight">
+    Coding<span className="text-[var(--primarysec)]">Scholar</span>
+  </span>
+  <div className="flex items-center gap-1 mt-0.5">
+    <div className="h-[2px] !ml-0.5 w-16 bg-[var(--accentsec)]" />
+    <div className="w-1.5 h-1.5 rounded-full bg-[var(--accentsec)]" />
+    <div className="h-[2px] w-17 bg-[var(--accentsec)]" />
+  </div>
+</div>
+  </div>
+</div>
 
         {/* Center: Navigation */}
         <nav className="flex items-center gap-8 text-black">
@@ -87,7 +94,7 @@ export default function HeaderSection() {
                 {courses.map((course) => (
                   <span
                     key={course.href}
-                    onClick={()=>{navigate('/course-blogs',{state:course.id})}}
+                    onClick={()=>{navigate('/courses',{state:course.id})}}
                     className="header-text paddingx-four  padding-yfour cursor-pointer flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-cyan-50 hover:text-cyan-600 transition-all duration-150 first:rounded-t-lg last:rounded-b-lg group/item"
                   >
                     {/* <div className="w-2 h-2 rounded-full bg-cyan-600 group-hover/item:scale-150 transition-transform duration-200" /> */}
@@ -142,28 +149,31 @@ export default function HeaderSection() {
       <header className="paddingx-four md:hidden flex items-center justify-between h-16 px-4 bg-white shadow-sm border-b border-gray-100">
         {/* Logo */}
         <div
-          className="flex items-center gap-3 hover:opacity-80 transition-opacity"
-           onClick={()=>{navigate('/')}}
-        >
-          <div className="flex items-center gap-3">
-            <div className="w-24 h-24 flex items-center justify-center  rounded-full overflow-hidden">
-            <img
-              src={pic}
-              alt="logo"
-              className="object-contain h-50 w-50 scale-200  "
-            />
-          </div>
-          <h4 className="!text-[var(--headingsec)] font-bold text-xl tracking-wide">
-                 codingscholar
-                   </h4>
-          </div>
-          {/* <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-cyan-500 to-cyan-600 flex items-center justify-center flex-shrink-0">
-            <img loading={lazy} src={pic} alt="CS" />
-          </div> */}
-          {/* <span className="font-bold text-lg text-gray-900 tracking-tight">
-            CodingScholar
-          </span> */}
-        </div>
+  className="flex items-center hover:opacity-80 transition-opacity"
+  onClick={() => { navigate('/') }}
+>
+  <div className="flex items-center">
+    <div className="w-16 h-16  flex items-center justify-center">
+      <img
+        src={pic}
+        alt="logo"
+        className="object-contain h-22 w-22 sm:h-30 sm:w-30 scale-120 hover:scale-125"
+      />
+    </div>
+
+    {/* Brand name + underline */}
+    <div className="flex flex-col">
+      <span className="text-[var(--primary)] font-bold text-base sm:text-xl tracking-wide leading-tight">
+        Coding<span className="text-[var(--primarysec)]">Scholar</span>
+      </span>
+      <div className="flex items-center gap-1 mt-0.5">
+        <div className="h-[2px] !ml-0.5 w-12 sm:w-16 bg-[var(--accentsec)]" />
+        <div className="w-1.5 h-1.5 rounded-full bg-[var(--accentsec)]" />
+        <div className="h-[2px] w-13 sm:w-17 bg-[var(--accentsec)]" />
+      </div>
+    </div>
+  </div>
+</div>
 
         {/* Hamburger Menu Button */}
         <button
@@ -190,7 +200,7 @@ export default function HeaderSection() {
           <div className="paddingx-four paddingy-six spacing-y-one px-4 py-6 space-y-1 h-[calc(100vh-64px)] overflow-y-auto">
             {/* Home */}
             <div 
-              className="px-three paddingy-three block px-3 py-3 !text-gray-700 hover:!text-cyan-600 font-medium text-base transition-colors rounded-lg hover:bg-cyan-50"
+              className="px-three paddingy-three block px-3 py-3 !text-gray-700 hover:!text-cyan-600 font-medium text-base transition-colors rounded-lg cursor-pointer"
                onClick={()=>{navigate('/')}}
             >
               Home
@@ -217,8 +227,8 @@ export default function HeaderSection() {
                   {courses.map((course) => (
                     <span
                       key={course.href}
-                      onClick={()=>{navigate('/course-blogs',{state:course.id})}}
-                      className="paddingy-two block py-2 !text-gray-600 hover:!text-cyan-600 text-sm transition-colors"
+                      onClick={()=>{navigate('/courses',{state:course.id})}}
+                      className="paddingy-two block py-2 !text-gray-600 hover:!text-cyan-600 text-sm transition-colors cursor-pointer"
                     >
                       {course.name}
                     </span>
@@ -228,18 +238,23 @@ export default function HeaderSection() {
             </div>
 
             {/* Pricing */}
-            <Link
-              href="/pricing"
-              className="block px-three paddingy-three px-3 py-3 !text-gray-700 hover:!text-cyan-600 font-medium !text-base transition-colors rounded-lg hover:bg-cyan-50"
+            <div
+              className="block px-three paddingy-three px-3 py-3 !text-gray-700 hover:!text-cyan-600 font-medium !text-base transition-colors rounded-lg cursor-pointer"
+              onClick={()=>{navigate('/curriculum-page')}}
             >
-              Pricing
-            </Link>
+              Curriculum
+            </div>
 
             {/* About */}
              <div 
           className="header-text !px-3 !py-3 !text-gray-700 hover:!text-cyan-600 font-medium transition-colors cursor-pointer"
           onClick={()=>{navigate('/about-us')}}>
             About
+          </div>
+           <div 
+          className="header-text !px-3 !py-3  text-gray-700 hover:!text-cyan-600 font-medium transition-colors cursor-pointer"
+          onClick={()=>{navigate('/course-blogs')}}>
+            Blogs
           </div>
 
             {/* Divider */}

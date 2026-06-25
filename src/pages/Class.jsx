@@ -1,7 +1,7 @@
 import React,{useState,useEffect,useRef,useContext} from 'react'
 import { useLocation,useParams,useNavigate } from 'react-router-dom'
 // import pic from '../assets/logoCodeHub.png'
-import pic from '@/assets/codingscholarlogo00v2i.jpeg'
+import pic from '@/assets/codingscholarlogo00v2.png'
 import SubmitProjectModal from '../Components/SubmitProjectModal'
 import Peer from "simple-peer";
 import WherebyClass from './WherebyClass';
@@ -119,6 +119,9 @@ export default function Class() {
 const handleShowBarges =()=>{
     setOpenBadge(true)
 } 
+ const handleHome =()=>{
+      navigate('/')
+    }
 useEffect(()=>{
     getToken()
     setToggleCam(true)
@@ -611,10 +614,25 @@ useEffect(() => {
             <div className='ClassHeader'>
               <div className='ClassHeaderWrapper'>
                 <div className='flex items-center gap-6'>
-                    <div className=''>
-                        <img src={pic}
-                        className="object-contain h-34 w-34 "/>
-                    </div>
+                     <div onClick={handleHome} className="flex items-center cursor-pointer hover:opacity-80 transition-opacity">
+                          <div className="w-16 h-16 flex items-center justify-center">
+                            <img
+                              loading="lazy"
+                              src={pic}
+                              className="object-contain h-22 w-22 scale-120"
+                            />
+                          </div>
+                          <div className="flex flex-col">
+                            <span className="text-[var(--primary)] font-bold text-xl tracking-wide leading-tight">
+                              Coding<span className="text-[var(--primarysec)]">Scholar</span>
+                            </span>
+                            <div className="flex items-center gap-1 mt-0.5">
+                              <div className="h-[2px] w-12 bg-[var(--accentsec)]" />
+                              <div className="w-1.5 h-1.5 rounded-full bg-[var(--accentsec)]" />
+                              <div className="h-[2px] w-13 bg-[var(--accentsec)]" />
+                            </div>
+                          </div>
+                        </div>
                     <div className='ClassnotesDisplayerWrapper'>
                        {notes && <span onClick={()=>handletoNotes(notes.url)}>{notes.title}</span>}
                     </div>

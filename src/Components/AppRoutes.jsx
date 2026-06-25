@@ -10,7 +10,7 @@ import ProtectedLayout from "./ProtectedRoute.jsx";
 //  Lazy-load all heavy pages
 // import ScheduleClasses from "../pages/students/ScheduleClasses.jsx";
 // const Home = lazy(() => import("../pages/Home.jsx"));
-const Home=lazy(()=> import ("../pages/Homepage.jsx"))
+const Home=lazy(()=> import ("../pages/website/Homepage.jsx"))
 const MarketerDashboard=lazy(()=> import ("@/pages/marketing/MarketerDashboard.jsx"))
 const MarketingStaff=lazy(()=> import ("@/pages/marketing/MarketingStaff.jsx"))
 const Aboutpage=lazy(()=>import("../pages/aboutpage.jsx"))
@@ -32,6 +32,7 @@ const ErrorPage = lazy(() => import("../pages/Error.jsx"));
 const ClassSchedule = lazy(() => import("../pages/students/ScheduleClasses.jsx"));
 const Courseblogs=lazy(()=>import("../pages/blogs/bloglists.js"))
 const Blogdetails=lazy(()=>import('../pages/blogs/blog-details.js'))
+const Courses=lazy(()=>import("../pages/website/courses.jsx"))
 //  Teacher dashboard
 const Teacher = lazy(() => import("../pages/Teacher.jsx"));
 const Dashboard = lazy(() => import("../pages/Dashboard.jsx"));
@@ -107,7 +108,8 @@ export default function AppRoutes() {
         <Route path="/StudentSignup" element={<StudentSignUp />} />
         <Route path="/Why Us" element={<WhyUs />} />
         <Route path="/course-blogs" element={<Courseblogs/>}/>
-        <Route path="/course-blog/:id" element={<Blogdetails/>}/>
+        <Route path="/course-blogs/:id" element={<Blogdetails/>}/>
+        <Route path="/courses" element={<Courses/>}/>
         <Route path="/about-us" element={<Aboutpage/>}/>
         <Route path="/curriculum-page" element={<CurriculumPage/>}/>
 
