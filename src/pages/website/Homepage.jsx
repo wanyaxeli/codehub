@@ -217,24 +217,24 @@ const VideosSection = () => {
   const videos = [
     {
       id: 1,
-      title: "Python for Kids — First Class Highlights",
-      description: "See how our young learners tackle real Python projects in a live session.",
+      title: "Preparing Kids for the Future with Coding",
+      description: "See how young learners develop critical thinking, computational skills, and the confidence to create with technology.",
       // thumbnail: "https://img.youtube.com/vi/YOUR_VIDEO_ID_1/maxresdefault.jpg",
       video: "https://4s2ziyskbnnsx3d5.public.blob.vercel-storage.com/coding%20vedio001.mp4", // YouTube video ID
     },
     {
       id: 2,
-      title: "Web Development Bootcamp in Action",
-      description: "Watch students build their first websites from scratch with our expert teachers.",
+      title: "Why Coding Scholar?",
+      description: "Watch how Coding Scholar empowers young learners with practical coding skills and the confidence to thrive in a digital world.",
       // thumbnail: "https://img.youtube.com/vi/YOUR_VIDEO_ID_2/maxresdefault.jpg",
-      video: "https://4s2ziyskbnnsx3d5.public.blob.vercel-storage.com/coding%20vedio001.mp4",
+      video: "https://4s2ziyskbnnsx3d5.public.blob.vercel-storage.com/WhatsApp%20Video%202026-06-29%20at%2022.22.07.mp4",
     },
     {
       id: 3,
-      title: "Math Problem Solving — Live Session",
-      description: "Our unique approach to making math intuitive and fun for every child.",
+      title: "Why Coding",
+      description: "Discover how coding helps children develop problem-solving, creativity, critical thinking, and confidence—skills that prepare them for success in a technology-driven world.",
       // thumbnail: "https://img.youtube.com/vi/mds0yWa8B5U/maxresdefault.jpg",
-      video: "https://4s2ziyskbnnsx3d5.public.blob.vercel-storage.com/coding%20vedio001.mp4",
+      video: "https://4s2ziyskbnnsx3d5.public.blob.vercel-storage.com/WhatsApp%20Video%202026-06-29%20at%2022.23.01.mp4",
     },
   ];
 
@@ -259,10 +259,11 @@ const VideosSection = () => {
               <span>See Us In Action</span>
             </div>
             <h2 className="text-3xl md:text-5xl font-heading font-bold text-[var(--foregroundsec)] !mb-6">
-              Watch Our <span className="text-[var(--primarysec)]">Classes</span> Come Alive
+              {/* Watch Our <span className="text-[var(--primarysec)]">Classes</span> Come Alive */}
+                Explore the <span className="text-[var(--primarysec)]">CodingScholar</span> Experience
             </h2>
             <p className="text-lg text-[var(--foregroundsec)]/70 font-paragraph">
-              Get a real feel for how we teach, mentor, and inspire learners through engaging lessons and interactive sessions.
+             Discover what makes CodingScholar unique and how we're helping young learners build the skills and confidence to thrive in a digital world.
             </p>
           </FadeIn>
         </div>
@@ -326,7 +327,7 @@ const VideosSection = () => {
                   {/* Watch / close toggle */}
                   <button
                     onClick={() => setActiveVideo(activeVideo === video.id ? null : video.id)}
-                    className="!mt-4 flex items-center gap-2 text-[var(--accentsec)] font-heading font-semibold text-sm hover:gap-3 transition-all"
+                    className="!mt-4 flex items-center gap-2 !text-[var(--accentsec)] font-heading font-semibold text-sm hover:gap-3 transition-all"
                   >
                     {activeVideo === video.id ? (
                       <>Close video</>
@@ -346,7 +347,7 @@ const VideosSection = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center gap-2 !px-8 !py-4 bg-[var(--primarysec)] text-white font-heading font-semibold text-lg rounded-full shadow-lg 
+              className="inline-flex items-center gap-2 !px-8 !py-4 !bg-[var(--primarysec)] text-white font-heading font-semibold text-lg rounded-full shadow-lg 
               cursor-pointer hover:shadow-[var(--primarysec)]/30 hover:shadow-2xl transition-all duration-300"
               onClick={()=>{navigate('/register')}}
             >
