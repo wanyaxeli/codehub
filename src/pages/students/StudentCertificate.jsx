@@ -2,7 +2,7 @@
 import React, { useState,useEffect } from 'react';
 import jsPDF from "jspdf";
 import { useLocation,useNavigate } from 'react-router-dom'
-import cert from '../../assets/cert.png'
+import cert from '../../assets/certificate.jpeg'
 import axios from 'axios';
 export default function StudentCertificate() {
   const [courseName, setCourseName] = useState('');
@@ -70,8 +70,8 @@ export default function StudentCertificate() {
     doc.addImage(cert, "JPG", 0, 0, pageWidth, pageHeight);
 
     const centerX = pageWidth / 2;
-    const Datecenter = pageWidth / 1.8;
-    const Certcenter = pageWidth / 1.6;
+    const Datecenter = pageWidth / 1.9;
+    const Certcenter = pageWidth / 1.7;
     // Title
     // doc.setFont("helvetica", "bold");
     // doc.setFontSize(32);
@@ -81,26 +81,26 @@ export default function StudentCertificate() {
     doc.setFont("helvetica", "bold");
     doc.setTextColor(0, 153, 204); // teal-blue like your template
     doc.setFontSize(54);
-    doc.text(name, centerX, pageHeight * 0.50, { align: "center" });
+    doc.text(name, centerX, pageHeight * 0.55, { align: "center" });
 
     // Course line
     doc.setFont("helvetica", "bold");
     doc.setTextColor(0, 153, 204);
-    doc.setFontSize(40);
+    doc.setFontSize(30);
     doc.text(
       `${courseName}`,
       centerX,
-      pageHeight * 0.35,
+      pageHeight * 0.42,
       { align: "center" }
     );
 
     // Date
     doc.setFontSize(18);
-    doc.text(fulldate, Datecenter, pageHeight * 0.66, { align: "center" });
+    doc.text(fulldate, Datecenter, pageHeight * 0.71, { align: "center" });
     //certificate id
 
     doc.setFontSize(18);
-    doc.text(certificateId, Certcenter, pageHeight * 0.91, { align: "center" });
+    doc.text(certificateId, Certcenter, pageHeight * 0.94, { align: "center" });
     const blob = doc.output("blob");
     const url = URL.createObjectURL(blob);
     setPreviewUrl(url);

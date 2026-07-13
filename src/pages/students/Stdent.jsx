@@ -3,16 +3,21 @@ import pic from '../../assets/hubImage.png'
 import { useLocation,useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import ScheduleClasses from './ScheduleClasses'
+import Portal from '@/Components/Portal'
 export default function Stdent() {
   const initialState={grade:'',teacher:'',module:""}
+  const initialEditState={name:'',email:'',password:'',phone_number:""}
   const FeesinitialState={amount:'',amountPerClass:''}
   const promteInstialState={promoteclass:'',promotemodule:'',promoteclassType:'',lessonNumber:''}
   const initialStateforLessonAttendace={first_day:'',second_day:'',
   first_time:'',second_time:''}
   const [fees,setFees]=useState(FeesinitialState)
+  const [editDatails,setEditDatails]=useState(initialEditState)
   const [promoteValues,setPromoteValues]=useState(promteInstialState)
   const [studentId,setStudentId]=useState('')
   const [student,setStudent]=useState('')
+  const [openPortal,setPortal]=useState(false)
+  const [token,setToken]=useState(null)
   const [lessonNumber,setLessonNumber]=useState('')
   const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday","Sunday"];
   const [selectedTimes, setSelectedTimes] = useState({});
@@ -88,7 +93,7 @@ export default function Stdent() {
    const {name,value}=e.target
    SetClassLesson({...classLesson,[name]:value})
   }
-  console.log(classLesson)
+  console.log('assrr',editDatails)
   function GetStudent(){
     if(studentId){
       const id = studentId
@@ -132,6 +137,16 @@ export default function Stdent() {
    useEffect(()=>{
     GetStudent()
    },[studentId])
+   async function getToken(){
+    try{
+        const token= localStorage.getItem('token') // No need to await
+        if (token){
+            setToken(token);
+        }
+    } catch(error) {
+        console.log(error);
+}
+}
    const handlePromoteValue=(e)=>{
      const {name,value}=e.target
      setPromoteValues({...promoteValues,[name]:value})
@@ -193,6 +208,41 @@ export default function Stdent() {
   const handleLessonNumber =(e)=>{
   setLessonNumber(e.target.value)
   }
+  const handleEdit =(e)=>{
+   const {value,name}=e.target
+   setEditDatails({...editDatails,[name]:value})
+  }
+  const handleClose =()=>{
+    setPortal(false)
+  }
+  const handleOpenPortal =()=>{
+    setPortal(true)
+  }
+  const handleEditProfile =(e)=>{
+    e.preventDefault()
+   if(studentId && token){
+    const id=studentId
+    const url=`https://api.codingscholar.com/UpdateStudentDetails/${id}`
+    const splitName = editDatails.name.trim().split(/\s+/);
+
+    const first_name = splitName[0];
+    const last_name = splitName.slice(1).join(" ");
+    const newData={password:editDatails.password,email:editDatails.email,phone_number:editDatails.phone_number,first_name:first_name,last_name:last_name}
+    console.log(newData)
+    axios.put(url,newData,{headers:{
+      'Authorization':`Bearer ${token}`
+    }})
+    .then(res=>{
+      console.log(res.data)
+    })
+    .catch(error=>{
+      console.log(error)
+    })
+  }
+  }
+  useEffect(()=>{
+  getToken()
+  },[])
   return (
     <div className='StudentWrapper'>
         <div className='studentDetailsWrapper'>
@@ -203,6 +253,26 @@ export default function Stdent() {
                 <p>{student.user.first_name} {student.user.last_name}</p>
                 <p>Recent fee Paid:<span>{student.paymentMade}</span></p>
                 <p>Total fees :<span>{student.TotalpaymentMade}</span></p>
+                <button onClick={handleOpenPortal}>Edit Details</button>
+                  {openPortal && <Portal>
+                  <div className='editWrapper'>
+                     <div className='editContainer'>
+
+                       <form>
+                           <div onClick={handleClose} className='closeEditer'>
+                           <div  className='closeEdit'>
+                            &times;
+                           </div>
+                           </div>
+                          <input  name='name'  type='text' value={editDatails.name}  onChange={handleEdit} placeholder='Enter Student Name'/><br/>
+                          <input name='email'  type='text' value={editDatails.email} onChange={handleEdit} placeholder='Enter Student Email'/><br/>
+                          <input name='phone_number'  type='text' value={editDatails.phone_number} onChange={handleEdit} placeholder='Enter Student Phone Number'/><br/>
+                          <input name='password'  type='text' value={editDatails.password} onChange={handleEdit} placeholder='Enter Student Password'/><br/>
+                          <button onClick={handleEditProfile}>Submit</button>
+                       </form>
+                     </div>
+                  </div>
+                </Portal>}
             </div>:<i className="fa fa-spinner spinner" aria-hidden="true"></i>}
         </div>
         <div className="studentDetails">
