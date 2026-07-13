@@ -1,6 +1,6 @@
 import React,{useState,useEffect,useContext} from 'react'
 import { context } from '../App'
-import Header from '../Components/Header'
+import Header from '../Components/layoutss/Header'
 import { Outlet,useNavigate ,useLocation} from 'react-router-dom'
 import axios from 'axios'
 import { jwtDecode } from 'jwt-decode'

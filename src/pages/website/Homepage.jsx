@@ -6,17 +6,18 @@ import testimonialsData from '@/lib/testimonials';
 import howItWorksData from '@/lib/howitworks';
 import coursesData from '@/lib/courses';
 import benefitsData from '@/lib/benefits';
-import { CheckCircle2, PlayCircle, ArrowRight, Star, BookOpen, Users, Target, Sparkles, ChevronDown, Code, Calculator, Laptop, ChevronLeft, ChevronRight, TerminalIcon, Terminal, GraduationCapIcon, User } from 'lucide-react';
+import { CheckCircle2, PlayCircle, ArrowRight, Star, BookOpen, Users, Target, Sparkles, ChevronDown, Code, Calculator, Laptop, ChevronLeft, ChevronRight, TerminalIcon, Terminal, GraduationCapIcon, User, Play } from 'lucide-react';
 // import { Button } from '@/components/ui/button';
 import { Button } from '@/components/ui/button';
 import { Image } from '@/components/ui/image';
-import heropic from '../assets/black kids.jpg'
+import heropic from '@/assets/black kids.jpg'
 import PricingComparison from '@/Components/curriculum/pricingcomparison';
 // import HeaderDetails from '@/Components/HeaderDetails';
 import HeaderSection from '@/Components/layoutss/code-headers'
 // import Footer from '@/components/Footer';
 import Footer from '@/Components/layoutss/newFooter';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
+import axios from 'axios'
 
 
 // --- Utility Components & Animations ---
@@ -209,6 +210,157 @@ const HeroSection = () => {
   );
 };
 
+const VideosSection = () => {
+  const [activeVideo, setActiveVideo] = useState(null);
+  const navigate=useNavigate()
+
+  const videos = [
+    {
+      id: 1,
+      title: "Preparing Kids for the Future with Coding",
+      description: "See how young learners develop critical thinking, computational skills, and the confidence to create with technology.",
+      // thumbnail: "https://img.youtube.com/vi/YOUR_VIDEO_ID_1/maxresdefault.jpg",
+      video: "https://4s2ziyskbnnsx3d5.public.blob.vercel-storage.com/coding%20vedio001.mp4", // YouTube video ID
+    },
+    {
+      id: 2,
+      title: "Why Coding Scholar?",
+      description: "Watch how Coding Scholar empowers young learners with practical coding skills and the confidence to thrive in a digital world.",
+      // thumbnail: "https://img.youtube.com/vi/YOUR_VIDEO_ID_2/maxresdefault.jpg",
+      video: "https://4s2ziyskbnnsx3d5.public.blob.vercel-storage.com/WhatsApp%20Video%202026-06-29%20at%2022.22.07.mp4",
+    },
+    {
+      id: 3,
+      title: "Why Coding",
+      description: "Discover how coding helps children develop problem-solving, creativity, critical thinking, and confidence—skills that prepare them for success in a technology-driven world.",
+      // thumbnail: "https://img.youtube.com/vi/mds0yWa8B5U/maxresdefault.jpg",
+      video: "https://4s2ziyskbnnsx3d5.public.blob.vercel-storage.com/WhatsApp%20Video%202026-06-29%20at%2022.23.01.mp4",
+    },
+  ];
+
+
+  
+
+// Usage
+
+// `thumbnail` is a base64 JPEG you can use as an <img src>
+
+  return (
+    <section id="videos" className="!py-16 bg-white relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:24px_24px]" />
+
+      <div className="container !mx-auto !px-6 md:px-12 max-w-[120rem] relative z-10">
+        {/* Header */}
+        <div className="text-center max-w-3xl !mx-auto !mb-16">
+          <FadeIn>
+            <div className="inline-flex items-center gap-2 !px-4 !py-2 rounded-full bg-[var(--accentsec)]/10 text-[var(--accentsec)] font-heading text-sm font-semibold !mb-6">
+              <PlayCircle className="w-4 h-4" />
+              <span>See Us In Action</span>
+            </div>
+            <h2 className="text-3xl md:text-5xl font-heading font-bold text-[var(--foregroundsec)] !mb-6">
+              {/* Watch Our <span className="text-[var(--primarysec)]">Classes</span> Come Alive */}
+                Explore the <span className="text-[var(--primarysec)]">CodingScholar</span> Experience
+            </h2>
+            <p className="text-lg text-[var(--foregroundsec)]/70 font-paragraph">
+             Discover what makes CodingScholar unique and how we're helping young learners build the skills and confidence to thrive in a digital world.
+            </p>
+          </FadeIn>
+        </div>
+
+        {/* Video Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {videos?.map((video, index) => (
+            <FadeIn key={video.id} delay={index * 0.1}>
+              <div className="group bg-slate-50 rounded-3xl overflow-hidden border border-slate-100 hover:shadow-2xl hover:shadow-[var(--primarysec)]/10 transition-all duration-500">
+                
+                {/* Thumbnail / Player */}
+                <div className="relative aspect-video overflow-hidden bg-slate-900">
+                  {activeVideo === video.id ? (
+                    /* Inline YouTube embed — stays on page */
+                    <iframe
+                      className="w-full h-full"
+                      src={video.video}
+                      title={video.title}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  ) : (
+                    /* Thumbnail with play button overlay */
+                    <div
+                      className="w-full h-full cursor-pointer relative"
+                      onClick={() => setActiveVideo(video.id)}
+                    >
+                      <video src={video.video}
+                      preload='metadata'/>
+                      {/* <img
+                        src={video.thumbnail}
+                        alt={video.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      /> */}
+                      {/* Dark overlay */}
+                      <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors" />
+
+                      {/* Play button */}
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <motion.div
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-2xl"
+                        >
+                          <Play className="w-8 h-8 text-[var(--accentsec)] fill-[var(--accentsec)]" />
+                        </motion.div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Card info */}
+                <div className="!p-6">
+                  <h3 className="font-heading font-bold text-lg text-[var(--foregroundsec)] !mb-2 group-hover:text-[var(--primarysec)] transition-colors">
+                    {video.title}
+                  </h3>
+                  <p className="text-sm text-[var(--foregroundsec)]/60 font-paragraph leading-relaxed">
+                    {video.description}
+                  </p>
+
+                  {/* Watch / close toggle */}
+                  <button
+                    onClick={() => setActiveVideo(activeVideo === video.id ? null : video.id)}
+                    className="!mt-4 flex items-center gap-2 !text-[var(--accentsec)] font-heading font-semibold text-sm hover:gap-3 transition-all"
+                  >
+                    {activeVideo === video.id ? (
+                      <>Close video</>
+                    ) : (
+                      <>Watch now <ArrowRight className="w-4 h-4" /></>
+                    )}
+                  </button>
+                </div>
+              </div>
+            </FadeIn>
+          ))}
+        </div>
+
+        {/* CTA Button */}
+        <FadeIn>
+          <div className="flex justify-center !mt-15">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="inline-flex items-center gap-2 !px-8 !py-4 !bg-[var(--primarysec)] text-white font-heading font-semibold text-lg rounded-full shadow-lg 
+              cursor-pointer hover:shadow-[var(--primarysec)]/30 hover:shadow-2xl transition-all duration-300"
+              onClick={()=>{navigate('/register')}}
+            >
+              <PlayCircle className="w-5 h-5" />
+              Try a Free Class
+            </motion.button>
+          </div>
+        </FadeIn>
+      </div>
+    </section>
+  );
+};
+
 // : { data: Benefits[], isLoading: boolean }
 const BenefitsSection = ({ data, isLoading }) => {
   const icons = [Users, Laptop, Target, BookOpen]; // Fallback icons
@@ -258,9 +410,9 @@ const BenefitsSection = ({ data, isLoading }) => {
 
 const CoursesSection = ({ data, isLoading }) => {
   const containerRef = useRef(null);
-
+  const navigate=useNavigate()
   return (
-    <section id="courses" ref={containerRef} className="py-thirtytwo py-32 bg-white relative">
+    <section id="courses" ref={containerRef} className="!py-20 bg-white relative">
       <div className="mxauto homeheropadxsix container mx-auto px-6 md:px-12 max-w-[120rem]">
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-24">
           
@@ -275,7 +427,9 @@ const CoursesSection = ({ data, isLoading }) => {
                 <p className="group-header text-lg text-[var(--foregroundsec)]/70 font-paragraph mb-8">
                   Tailored curriculum designed to engage young minds, from block-based coding to advanced math concepts.
                 </p>
-                <Button className="group-stdtsection !bg-[var(--primarysec)] hover:!bg-[var(--primarysec)]/90 text-white font-heading rounded-xl h-12 px-6 hidden lg:inline-flex">
+                <Button className="group-stdtsection !bg-[var(--primarysec)] hover:!bg-[var(--primarysec)]/90 text-white font-heading rounded-xl h-12 px-6 hidden lg:inline-flex"
+                onClick={()=>{navigate('/courses',{state:1})}}    
+                >
                   View All Courses
                 </Button>
               </FadeIn>
@@ -615,7 +769,7 @@ const FAQSection = ({ data, isLoading }) => {
   const [openIndex, setOpenIndex] = useState(0);
 
   return (
-    <section id="faq" className="py-thirtytwo py-32 bg-white">
+    <section id="faq" className=" !py-27 bg-white">
       <div className="mxauto homeheropadxsix container mx-auto px-6 md:px-12 max-w-[120rem]">
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-24">
           
@@ -688,9 +842,12 @@ export default function Home() {
   const [testimonials, setTestimonials] = useState([]);
   const [faqs, setFaqs] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [allvideos,setAllvideos]=useState([])
 
+ 
   useEffect(() => {
     loadData();
+   
   }, []);
 
   const loadData = async () => {
@@ -716,12 +873,15 @@ export default function Home() {
     }
   };
 
+
+
   return (
     <div className="min-h-screen bg-background font-paragraph text-[var(--foregroundsec)] overflow-clip selection:bg-[var(--primarysec)]/20 selection:text-[var(--primarysec)]">
       <HeaderSection/>
                     <main>
         <HeroSection />
         <BenefitsSection data={benefits} isLoading={isLoading} />
+        <VideosSection/>
         <CoursesSection data={courses} isLoading={isLoading} />
         <PricingComparison />
         <HowItWorksSection data={howItWorks} isLoading={isLoading} />

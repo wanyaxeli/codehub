@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Image } from '@/components/ui/image';
 import { Button } from '@/components/ui/button';
-import Header from '../Components/Header';
+import Header from '../Components/layoutss/Header';
 import Footer from '../Components/Footer';
 import { Zap, Brain, Lightbulb, Users, Code, CheckCircle, Rocket, ChevronDown } from 'lucide-react';
 

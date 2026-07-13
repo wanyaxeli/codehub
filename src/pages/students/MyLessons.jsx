@@ -136,7 +136,9 @@ const sortedlessons=lessons.sort((a,b)=>{
 })
 const filteredlessons=useMemo(()=>{
   return sortedlessons.filter((lesson)=>{
-    return lesson.lesson.title.toLowerCase().includes(searchvalue.toLowerCase())
+    const by_lessonnumber=lesson.lesson.lesson_number.toString().includes(searchvalue.toLowerCase())
+    const by_title=lesson.lesson.title.toLowerCase().includes(searchvalue.toLowerCase())
+    return  by_title || by_lessonnumber
   })
 },[searchvalue,lessons])
 

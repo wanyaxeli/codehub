@@ -245,6 +245,9 @@ export default function Details() {
     const handleTrialNotes=()=>{
       navigate('/teacher/dashboard/TrailNotes')
     }
+    const handleBlogManagement=()=>{
+      navigate('/teacher/dashboard/blogs')
+    }
     useEffect(()=>{
     getToken()
     },[])
@@ -343,6 +346,10 @@ export default function Details() {
     <div onClick={handleTrialNotes} className='actionBtnContainer bookingsManagerBtn'>
       <p>Trial Notes</p>
     </div>
+    <div onClick={handleBlogManagement} className='actionBtnContainer bookingsManagerBtn'>
+      <p>Blog Management</p>
+    </div>
+
   </div>
 ) :(
   <div className='nonadminWrapper'>
