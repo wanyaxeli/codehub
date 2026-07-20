@@ -218,28 +218,67 @@ export default function Stdent() {
   const handleOpenPortal =()=>{
     setPortal(true)
   }
-  const handleEditProfile =(e)=>{
-    e.preventDefault()
-   if(studentId && token){
-    const id=studentId
-    const url=`https://api.codingscholar.com/UpdateStudentDetails/${id}`
+  const handleEditProfile = async (e) => {
+    e.preventDefault();
+
+    if (!studentId || !token) {
+        return;
+    }
+
+    const url = `https://api.codingscholar.com/UpdateStudentDetails/${studentId}`;
+
     const splitName = editDatails.name.trim().split(/\s+/);
 
-    const first_name = splitName[0];
+    const first_name = splitName[0] || "";
     const last_name = splitName.slice(1).join(" ");
-    const newData={password:editDatails.password,email:editDatails.email,phone_number:editDatails.phone_number,first_name:first_name,last_name:last_name}
-    console.log(newData)
-    axios.put(url,newData,{headers:{
-      'Authorization':`Bearer ${token}`
-    }})
-    .then(res=>{
-      console.log(res.data)
-    })
-    .catch(error=>{
-      console.log(error)
-    })
-  }
-  }
+
+    const newData = {};
+
+if (editDatails.email?.trim()) {
+    newData.email = editDatails.email.trim();
+}
+
+if (editDatails.phone_number?.trim()) {
+    newData.phone_number = editDatails.phone_number.trim();
+}
+
+if (first_name) {
+    newData.first_name = first_name;
+}
+
+if (last_name) {
+    newData.last_name = last_name;
+}
+
+if (editDatails.password?.trim()) {
+    newData.password = editDatails.password;
+}
+
+    console.log(newData);
+
+    try {
+        const res = await axios.patch(
+            url,
+            newData,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+
+        console.log(res.data);
+        const data=res.data
+        setPortal(false)
+        if(data.message='Student updated successfully'){
+          alert(data.message)
+
+        }
+    } catch (error) {
+        console.log(error.response?.data || error.message);
+    }
+};
   useEffect(()=>{
   getToken()
   },[])
