@@ -81,13 +81,12 @@ export default function MyLessons() {
 }
 }
 const handleToNotes =(notesurl,videourl)=>{
-  // console.log('resources001...',vediourl)
   const resources={
     notesurl,
     videourl
   }
   
-  navigate(`/student/dashboard/StudentNotes/`, { state: resources });
+  navigate(`/student/dashboard/StudentNotes/`,{ state: resources });
 }
 function getcodingLessons() {
   if (fullData.length>0) {
@@ -199,8 +198,8 @@ useEffect(()=>{
           <p>date:<span>{lesson.date}</span></p>
           <p>time:<span>{lesson.time?.replace(/:\d{2}(?= )/, '')}</span></p>
           <p>status:{lesson.is_completed===true?<span className='lessonStatus'>complete</span>:<span className='lessonStatus'>Incomplete</span>}</p>
-          <div onClick={()=>handleToNotes(lesson.lesson.pdf_notes,lesson.video_url)}>
-          {lesson.is_completed===true?<button onClick={()=>handleToNotes()}>View class</button>:null}
+          <div>
+          {lesson.is_completed===true?<button onClick={()=>handleToNotes(lesson.lesson.pdf_notes,lesson.video_url)}>View class</button>:null}
           </div>
         </div>
       </div>

@@ -19,6 +19,7 @@ export default function StudentNotesView() {
   // const vedioUrl='https://codingschoolbucket.s3.amazonaws.com/videos/whereby-53-spider-man-143b4d384a5be9-b1ae-4aee-8622-34fcd4f61bc4-09-Apr-2026-1734-GMT_2B3.webm'
 
   console.log('notesm...', videoUrl)
+  console.log('notesm...', location)
   return (
     <div>
       {notes ? (
