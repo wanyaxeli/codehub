@@ -49,6 +49,9 @@ export default function Details() {
     const handleSetQuiz=()=>{
         navigate('/teacher/dashboard/Set Quiz')
     }
+    const handleLeads=()=>{
+      navigate('/teacher/dashboard/leads')
+    }
     const handleSetLessons=()=>{
         navigate('/teacher/dashboard/Lessons')
     }
@@ -324,6 +327,9 @@ export default function Details() {
     </div>
     <div onClick={handleSetQuiz} className='actionBtnContainer quiz'>
       <p>Quiz</p>
+    </div>
+    <div onClick={handleLeads} className='actionBtnContainer quiz'>
+      <p>Leads</p>
     </div>
     <div onClick={handleSettodayQuiz} className='actionBtnContainer quiz'>
       <p>Set Question</p>

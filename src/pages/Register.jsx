@@ -12,6 +12,7 @@ import {useNavigate}from 'react-router-dom'
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
+import axios from 'axios';
 export default function Register() {
     const [selectedValue, setSelectedValue] = useState('');
     const [error,setErrors]=useState('')
@@ -97,7 +98,22 @@ export default function Register() {
                   const country=countryName||'Unknown'
                 //   const data ={...teacherValues,...{phone_number:phone_number},...country}
                   setCountryName(country) 
-                  navigate('/laptop')      
+                  const url ='https://api.codingscholar.com/leads/'
+                  const data={phone_number:value,email:email,course:course,name:name,grade:grade,country:country}
+                    axios.post(url,data)
+                    .then(res=>{
+                        console.log(res.data)
+                        if(res.data==='Lead created successfully'){
+                          navigate("/Class booking")
+                        }else{
+                          alert('We exprienced an error please try again')
+                        }
+                        
+                    })
+                    .catch(error=>{
+                        console.log(error)
+                    })
+                  // navigate('/laptop')      
            }
         }else{
              setErrors('Invalid email')

@@ -20,6 +20,7 @@ const AttemptedQuizesDisplayer = lazy(() => import("../pages/students/AttemptedQ
 const QuizDispplayer = lazy(() => import("../pages/students/QuizDispplayer.jsx"));
 const Register = lazy(() => import("../pages/Register.jsx"));
 const Laptop = lazy(() => import("../pages/Laptop.jsx"));
+const Leads = lazy(() => import("@/pages/leads/Leads.jsx"));
 const Login = lazy(() => import("../pages/Login.jsx"));
 const Marketer = lazy(() => import("@/pages/marketing/Marketer.jsx"));
 // const About = lazy(() => import("../pages/About.jsx"));
@@ -124,6 +125,7 @@ export default function AppRoutes() {
             <Route path="Fees" element={<Fees />} />
             <Route path="Booking Manager" element={<BookingsManager />} />
             <Route path="Calendar" element={<Calendar />} />
+            <Route path="Leads" element={<Leads/>}/>
             <Route path="My students" element={<MyStudents />} />
             <Route path="Marketing" element={<Marketer />} />
             <Route path="Projects" element={<Projects />} />

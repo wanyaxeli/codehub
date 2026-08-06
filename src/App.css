@@ -3222,6 +3222,29 @@ body{
   justify-content: center;
   align-items: center;
 }
+.LeadsWrapper{
+  width: 100%;
+  height: auto;
+  padding: 10px;
+}
+.LeadsWrapper table{
+  width: 100%;
+  height: auto;
+  border-collapse: collapse;
+}
+.LeadsWrapper table tr th{
+  text-transform: capitalize;
+  padding-bottom: 10px;
+ 
+  border-bottom: 2px solid gray;
+}
+.LeadsWrapper table tr  td{
+  text-align: center;
+  padding: 10px 0;
+}
+.LeadsWrapper table tr:nth-child(even)  td{
+  background-color: #fff;
+}
 .custom_container{
   /* width: 100%;
   height: 50px; */
@@ -6030,6 +6053,12 @@ a:hover{
 .reviewHolder{
   position: relative;
 }
+.check{
+ height: 25px;
+ width: 25px;
+ border-radius: 5px;
+  background-color: #0097b2;
+}
 @media (prefers-color-scheme: dark) {
   .leftHeader select {
     background-color: #fff;
@@ -6040,7 +6069,7 @@ a:hover{
   .registerstudentFormwrapper form input::placeholder,a,input{
     color: #fff;
   }
-  .registerstudentFormwrapper form input{
+  .registerstudentFormwrapper form input,.LeadsWrapper table{
     color: #fff;
   }
   .footerAboutus ul li:first-child a{
@@ -6049,7 +6078,7 @@ a:hover{
   .todayLessonWrapper{
     padding: 10px;
   }
-  .lessonsDetailsWrapper,.MyProjectsContainer,.ProjectsHolder p,.QuizzCard,.StudentProfilePopUp,.studentInformationWrapper,.ClassnotesDisplayerWrapper span,.ProjectsHolder p,.questionsofthedayWrapper p,.classHeaderBtnwrapper ul li,.TodayClassContainer,.markClass,.EndClassContainer{
+  .lessonsDetailsWrapper,.LeadsWrapper table tr:nth-child(even) td ,.MyProjectsContainer,.ProjectsHolder p,.QuizzCard,.StudentProfilePopUp,.studentInformationWrapper,.ClassnotesDisplayerWrapper span,.ProjectsHolder p,.questionsofthedayWrapper p,.classHeaderBtnwrapper ul li,.TodayClassContainer,.markClass,.EndClassContainer{
     color: #000;
   }
   .ProjectsHolder p{
