@@ -8,13 +8,18 @@ import PhoneInput from 'react-phone-number-input'
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 import countries from "i18n-iso-countries";
 import en from "i18n-iso-countries/langs/en.json"
-import {useNavigate}from 'react-router-dom'
+import {useNavigate, useSearchParams}from 'react-router-dom'
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
+import axios from 'axios';
 export default function Register() {
     const [selectedValue, setSelectedValue] = useState('');
     const [error,setErrors]=useState('')
+    const [referralcode,setReferralCode]=useState()
+    const [searchParams]=useSearchParams()
+    const [isSaving,setIsSaving]=useState(false)
+    const [wasReferred, setWasReferred] = useState(false)
     countries.registerLocale(en); // Register country names in English
     const africanCountries = [
         'DZ', 'AO', 'BJ', 'BW', 'BF', 'BI', 'CM', 'CV', 'CF', 'TD', 'KM', 'CG', 'CD', 
@@ -23,7 +28,84 @@ export default function Register() {
         'NG', 'RW', 'RE', 'SH', 'ST', 'SN', 'SC', 'SL', 'SO', 'ZA', 'SS', 'SD', 'TZ', 
         'TG', 'TN', 'UG', 'EH', 'ZM', 'ZW'
       ];
+
       const {value,setValue,email,setEmail,CountryCode,setCountryName,setCountryCode,grade,setGrade,setName,name,course, setCourse}=useContext(context)
+    //  const API_URL = import.meta.env.VITE_API_URL;
+    const API_URL='http://127.0.0.1:8000'
+    console.log('VITE_API_URL...',API_URL)
+    // const validateCode=async()=>{
+    //     // validateCode()
+    //       await 
+    // }
+    
+
+        useEffect(() => {
+          console.log('hellloo....')
+          const ref = searchParams.get('ref')
+          console.log('referral code...',ref)
+          // const existing = localStorage.getItem('referral_code');
+          // if (!ref) return;
+    
+          const existing_code= localStorage.getItem('referral_code');
+          const existingValid = existing_code && Date.now() < Number(localStorage.getItem('referral_expiry'));
+          console.log('existing..jj..',existing_code)
+          setReferralCode(existing_code)
+          setWasReferred(true)
+          if (existingValid) return; // first valid touch wins, don't overwrite
+          
+           fetch(`${API_URL}/referrals/validate?code=${ref}`)
+            .then(res => res.json())
+            .then(({ valid }) => {
+              if (valid) {
+                console.log('valid....',valid)
+                localStorage.setItem('referral_code', ref);
+                localStorage.setItem('referral_expiry', String(Date.now() + 1 * 864e5));
+                setReferralCode(ref)
+                setWasReferred(true)
+              }
+                 // if invalid, store NOTHING — leaves room for a real one to land later
+            });
+           
+        }, [searchParams]);
+
+        const handleReferredToggle = (e) => {
+           const checked = e.target.checked
+           setWasReferred(checked)
+           if (!checked) setReferralCode('') // clear code if unchecked
+            }
+          const existing_code= localStorage.getItem('referral_code');
+          // setReferralCode(existing_code)
+
+        const handleReferralCodeChange = (e) => {
+          setReferralCode(e.target.value)
+        }
+
+        const registerLead=async()=>{
+          try{
+            setIsSaving(true)
+            const leaddata={
+              name,
+              email,
+              phoneNumber,
+              grade,
+              course,
+              referralcode
+            }
+            console.log('Register_data',leaddata)
+            const res=await axios.post(`${API_URL}/save-lead`,leaddata)
+            if (res.status==200){
+              setIsSaving(false)
+            }
+
+          }catch(e){
+            console.error("error in registering lead..")
+          }finally{
+            setIsSaving(false)
+          }
+        }
+
+
+      
       const handlePhoneChange = (phone) => {
         setErrors('')
         if (phone) {
@@ -66,26 +148,53 @@ export default function Register() {
     // const handleToTeacherLogin=()=>{
     //     navigate('/teacher') 
     // }
-    const handleToLapTop=()=>{
-    // navigate('/laptop')
-    if(grade && value && email  && name && course){
-      if (isValidPhoneNumber(value)) {
-        if(grade){
-             if(email){
-                isValidEmail(email)
-             }else{
-                setErrors('Please Enter your email')
-             }
-        }else{
-            setErrors('please grade cannot be empty');
-        }
-      } else {
-        setErrors('Invalid phone number');
-      }
-    }else{
-      setErrors('Please all fields are required.')
+  const handleToLapTop = async () => {
+  setErrors('')
+
+  if (!(grade && value && email && name && course)) {
+    setErrors('Please fill in all fields.')
+    return
+  }
+
+  if (!isValidPhoneNumber(value)) {
+    setErrors('Invalid phone number')
+    return
+  }
+
+  if (!isValidemail(email)) {
+    setErrors('Invalid email address')
+    return
+  }
+
+  try {
+    setIsSaving(true)
+    const ref_code=referralcode?referralcode:localStorage.getItem('referral_code')?localStorage.getItem('referral_code'):''
+    const leaddata = {
+      name,
+      email,
+      phoneNumber: value,   // was `phoneNumber`, which didn't exist
+      grade,
+      course,
+      ref_code          // make sure this is defined/sourced somewhere
     }
+    console.log('Register_data', leaddata)
+    const res = await axios.post(`${API_URL}/save_lead`, leaddata)
+    if (res.status === 200) {
+      navigate('/laptop')
+      // handle success — e.g. navigate('/laptop'), reset form, show confirmation
     }
+  } catch (e) {
+    console.error("error in registering lead:", e)
+    setErrors('Something went wrong. Please try again.')
+  } finally {
+    setIsSaving(false)
+  }
+}
+
+    function isValidemail(email) {
+  const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  return pattern.test(email);
+}
     function isValidEmail(email) {
         const pattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         if(pattern.test(email)){
@@ -97,7 +206,7 @@ export default function Register() {
                   const country=countryName||'Unknown'
                 //   const data ={...teacherValues,...{phone_number:phone_number},...country}
                   setCountryName(country) 
-                  navigate('/laptop')      
+                  // navigate('/laptop')      
            }
         }else{
              setErrors('Invalid email')
@@ -230,8 +339,32 @@ export default function Register() {
                     <option value="mathematics">mathematics</option>
                     </select>
                  </div>
+                 <div className='flex flex-col gap-2.5 !my-3.5'>
+  <label className='flex items-center gap-2 !text-sm cursor-pointer select-none'>
+    <input
+      type='checkbox'
+      checked={wasReferred}
+      onChange={handleReferredToggle}
+      className='h-4 w-4 cursor-pointer accent-[#0097B2]'
+    />
+    <span>I was referred by someone</span>
+  </label>
+
+  {wasReferred && (
+    <input
+      onChange={handleReferralCodeChange}
+      value={referralcode}
+      type='text'
+      placeholder='Enter referral code'
+      className='w-full !px-3 !py-2.5 !text-sm rounded-lg border border-[#D0D5DD] outline-none focus:border-[#0097B2] focus:ring-1 focus:ring-[#0097B2]'
+    />
+  )}
+</div>
                  <div className='formBtnwrapper'>
-                    <button onClick={handleToLapTop}>proceed to take a free lesson</button>
+                    <button 
+                    onClick={handleToLapTop}
+                    disabled={isSaving}
+                    >proceed to take a free lesson</button>
                  </div>
                  <div className='registerPromptWrapper'>
                     <p><span><i className="fa fa-pencil" aria-hidden="true"></i></span> Grab your free slot for coding class on our platform!</p>

@@ -34,7 +34,7 @@ import RichTextEditor from './editor'
 import axios from 'axios'
 import { generateJSON } from '@tiptap/html'
 import StarterKit from '@tiptap/starter-kit'
-import { ToastNotification } from '../layoutss/toastNotification'
+import { ToastNotification } from '../global-layoutss/toastNotification'
 import { useToast } from '@/hooks/useToast'
 
 interface Blog {

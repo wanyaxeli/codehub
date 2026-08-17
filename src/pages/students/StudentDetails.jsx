@@ -27,6 +27,7 @@ import badge18 from '../../assets/badge18.png'
 import badge19 from '../../assets/badge19.png'
 import badge20 from '../../assets/badge20.png'
 import badge21 from '../../assets/bagde21.png'
+import ReferralPopup from '@/Components/global-layoutss/referral-popup';
 
 
 export default function StudentDetails() {
@@ -43,6 +44,7 @@ export default function StudentDetails() {
     const [studentId,setStudentId]=useState('')
     const {student,proPic,getProfilePic}=useContext(context)
     const [profilePic,setProfilePic]=useState('')
+    const [isreferralpop,setIsReferralpop]=useState(true)
     const handleToJoinClass =(les,Lessonid,time,title)=>{
         if(les.group_class){
             
@@ -67,7 +69,11 @@ export default function StudentDetails() {
         }
        
     }
-    async function getToken(){
+
+    // useEffect(()=>{
+
+    // },[])
+        async function getToken(){
         try{
             const token= localStorage.getItem('token') // No need to await
             if (token){
@@ -293,10 +299,19 @@ useEffect(()=>{
 },[token])
 useEffect(()=>{
  getToken()
+ setIsReferralpop(false)
+ localStorage.getItem('refpopup_open')?setIsReferralpop(false):setIsReferralpop(true)
 },[])
  
   return (
     <div className='DetailsWrapper'>
+        {isreferralpop &&<ReferralPopup 
+        refCode='1234'
+        onClose={()=>{
+            setIsReferralpop(false)
+            localStorage.setItem('refpopup_open',false)
+        }}
+        />}
          <div className='TeacherDetailsWrapper'>
             <div className='TeacherImageWrapper'>
                 <div className='TeacherImageContainer'>

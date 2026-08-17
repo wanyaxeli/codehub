@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import HeaderSection from '@/Components/layoutss/code-headers';
-import Footer from '@/Components/layoutss/newFooter';
+import HeaderSection from '@/Components/global-layoutss/code-headers';
+import Footer from '@/Components/global-layoutss/newFooter';
 import CurriculumHero from '@/Components/curriculum/curriculumHero';
 import PathwayCards from '@/Components/curriculum/pathwaycards';
 import CurriculumTabs from '@/Components/curriculum/curriculumTabs';

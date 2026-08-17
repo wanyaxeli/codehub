@@ -3,7 +3,7 @@ import Banner from '../Components/Banner'
 import Benefit from '../Components/Benefit'
 import Courses from '../Components/Courses'
 import Footer from '../Components/Footer'
-import Header from '../Components/layoutss/Header'
+import Header from '../Components/global-layoutss/Header'
 import CookieConsent from "react-cookie-consent";
 import Cookies from "js-cookie"
 import CourseSection from '@/Components/c-courses'
@@ -11,7 +11,7 @@ import CourseSection from '@/Components/c-courses'
 // import CookieConsent from '../Components/cookie-consent'
 import ParentsComments from '../Components/ParentsComments'
 import { Helmet } from 'react-helmet-async';
-import HeaderSection from '@/Components/layoutss/code-headers'
+import HeaderSection from '@/Components/global-layoutss/code-headers'
 export default function Home() {
 
   // useEffect(()=>{

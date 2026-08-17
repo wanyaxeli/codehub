@@ -6,8 +6,8 @@ import { Clock, Tag, Calendar, User, ChevronRight, ArrowRight } from 'lucide-rea
 import { Button } from '@/components/ui/button';
 import { Image } from '@/components/ui/image';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
-import HeaderSection from '@/Components/layoutss/code-headers';
-import NewFooter from '@/Components/layoutss/newFooter';
+import HeaderSection from '@/Components/global-layoutss/code-headers';
+import NewFooter from '@/Components/global-layoutss/newFooter';
 import { generateHTML } from '@tiptap/html';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';

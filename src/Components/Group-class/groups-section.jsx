@@ -4,7 +4,7 @@ import axios from 'axios'
 import { GroupTable } from './group-table'
 import { ChevronLeft,ChevronRight,X } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { ConfirmationModal } from '../layoutss/confirmationmodal'
+import { ConfirmationModal } from '../global-layoutss/confirmationmodal'
 const ITEMS_PER_PAGE=7
 const TEACHERS = [
   'John Smith',
