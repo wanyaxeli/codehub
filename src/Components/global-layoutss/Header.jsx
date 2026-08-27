@@ -106,6 +106,7 @@ export default function Header() {
   },[])
   const handleLogout =()=>{
     localStorage.removeItem('token')
+    localStorage.removeItem('refpopup_open')
     navigate('/')
   }
   // useEffect(()=>{

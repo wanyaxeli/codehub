@@ -13,9 +13,9 @@ import { Image } from '@/components/ui/image';
 import heropic from '@/assets/black kids.jpg'
 import PricingComparison from '@/Components/curriculum/pricingcomparison';
 // import HeaderDetails from '@/Components/HeaderDetails';
-import HeaderSection from '@/Components/layoutss/code-headers'
+import HeaderSection from '@/Components/global-layoutss/code-headers'
 // import Footer from '@/components/Footer';
-import Footer from '@/Components/layoutss/newFooter';
+import Footer from '@/Components/global-layoutss/newFooter';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import axios from 'axios'
 
@@ -263,6 +263,7 @@ const VideosSection = () => {
                 Explore the <span className="text-[var(--primarysec)]">CodingScholar</span> Experience
             </h2>
             <p className="text-lg text-[var(--foregroundsec)]/70 font-paragraph">
+{/*           Get a real feel for how we teach, mentor, and inspire learners through engaging lessons and interactive sessions. */}
              Discover what makes CodingScholar unique and how we're helping young learners build the skills and confidence to thrive in a digital world.
             </p>
           </FadeIn>

@@ -17,6 +17,9 @@ export default function RegisterStudentModal({trailClass,openStudentRegistration
     const [error,setError]=useState('')
     const [studentValues,setStudentValues]=useState(initialState)
     // const [phone_number,setPhone_number]=useState('')
+   
+
+    
  useEffect(()=>{
   if(trailClass){
     trailClass.forEach(booking=>{

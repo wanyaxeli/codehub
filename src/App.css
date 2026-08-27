@@ -1327,11 +1327,14 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  overflow: hidden;
 }
 .RegisterContainer main{
   flex: .5;
   height: 100%;
   padding-right: 35px;
+  overflow-y: auto;
+  padding-bottom: 10px;
 }
 .RegisterContainer aside{
   flex: .5;
@@ -1561,7 +1564,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   border-top-right-radius: 10px;
 }
 
-.formInputWrapper input[type='email'],.formInputWrapper input[type='text']{
+.formInputWrapper input[type='email'],.formInputWrapper input[type='text'],.refarralInput{
   margin-bottom: 10px;
   border-radius: 10px;
   padding:0 10px;

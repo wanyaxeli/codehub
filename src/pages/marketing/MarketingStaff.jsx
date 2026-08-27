@@ -1,4 +1,4 @@
-import Header from '@/Components/layoutss/Header'
+import Header from '@/Components/global-layoutss/Header'
 import React from 'react'
 import { useLocation,useNavigate ,Outlet} from 'react-router-dom'
 export default function MarketingStaff() {
