@@ -145,7 +145,7 @@ export default function ReferralPopup({
                   color: '#D24113',
                 }}
               >
-                <span>3 free classes</span>
+                <span>5 free classes</span>
                 <span className="text-[#D24113]/50">·</span>
                 <span className="text-[#D24113]/80">
                   after 16 classes completed

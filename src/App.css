@@ -1827,6 +1827,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   display: flex;
   align-items: center;
   overflow-y: auto;
+  
 }
 .dashBoardContainer aside,.marketingWrapper aside{
   flex:.2;
@@ -1836,6 +1837,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   background-color: #fff;
   padding: 10px 10px 10px 45px;
 }
+
 .dashBoardContainer aside ul{
   height: 60%;
 }
