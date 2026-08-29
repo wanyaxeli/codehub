@@ -29,13 +29,13 @@ interface ReferralPopupProps {
 export default function ReferralPopup({
   refCode,
   onClose,
-  baseUrl = 'https://www.codingscholar.com/register',
+  baseUrl = 'https://www.codingscholar.com/referral/',
 }: ReferralPopupProps) {
   const [visible, setVisible] = useState(false);
   const [copiedField, setCopiedField] = useState<'link' | 'code' | null>(null);
   const copyTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const referralLink = `${baseUrl}?ref=${refCode}`;
+  const referralLink = `${baseUrl}${refCode}`;
 
   // Appears shortly after mount — i.e. right after login
   useEffect(() => {

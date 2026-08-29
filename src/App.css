@@ -9,6 +9,35 @@
   height: auto;
 }
 
+.phone-input-wrapper .PhoneInput {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.phone-input-wrapper .PhoneInput:focus-within {
+  border-color: var(--accentsec) !important;
+}
+
+.phone-input-wrapper .PhoneInputInput {
+  border: none;
+  outline: none;
+  flex: 1;
+
+}
+
+.phone-input-wrapper .PhoneInputCountrySelect {
+  cursor: pointer;
+}
+
+.phone-input-wrapper .PhoneInputCountryIcon {
+  border-radius: 0.2rem;
+  /* paddin */
+}
+
 .blog-content h1 { font-size: 2rem; font-weight: bold;margin: 0.75rem 0; }
 .blog-content h2 { font-size: 1.5rem; font-weight: bold;margin: 0.75rem 0; }
 .blog-content h3 { font-size: 1.25rem; font-weight: bold;margin: 0.75rem 0; }
