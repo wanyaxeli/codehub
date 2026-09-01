@@ -30,7 +30,7 @@ export default function StudentDashboard() {
   const refCode = student?.share_token || ''
   // NOTE: your original `baseUrl` was set to '' — using window.location.origin instead.
   // Swap this for your actual signup route.
-  const referralLink = refCode ? `${window.location.origin}/register?ref=${refCode}` : ''
+  const referralLink = refCode ? `${window.location.origin}/referral/${refCode}` : ''
    console.log('aaa code',refCode)
   const handleCopy = (field) => {
     const value = field === 'link' ? referralLink : refCode

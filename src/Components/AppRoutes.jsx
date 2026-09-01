@@ -10,7 +10,7 @@ import ProtectedLayout from "./ProtectedRoute.jsx";
 //  Lazy-load all heavy pages
 // import ScheduleClasses from "../pages/students/ScheduleClasses.jsx";
 // const Home = lazy(() => import("../pages/Home.jsx"));
-const Home=lazy(()=> import ("../pages/website/Homepage.jsx"))
+const Home=lazy(()=> import ("../pages/public/Homepage.jsx"))
 const MarketerDashboard=lazy(()=> import ("@/pages/marketing/MarketerDashboard.jsx"))
 const MarketingStaff=lazy(()=> import ("@/pages/marketing/MarketingStaff.jsx"))
 const Aboutpage=lazy(()=>import("../pages/aboutpage.jsx"))
@@ -23,6 +23,7 @@ const Laptop = lazy(() => import("../pages/Laptop.jsx"));
 const Leads = lazy(() => import("@/pages/leads/Leads.jsx"));
 const Login = lazy(() => import("../pages/Login.jsx"));
 const Marketer = lazy(() => import("@/pages/marketing/Marketer.jsx"));
+const ReferralPage=lazy(()=>import("@/pages/public/referrals.tsx"));
 // const About = lazy(() => import("../pages/About.jsx"));
 const PrivacyPolicy = lazy(() => import("../pages/PrivacyPolicy.jsx"));
 const FeesPayment = lazy(() => import("../pages/FeesPayment.jsx"));
@@ -33,7 +34,7 @@ const ErrorPage = lazy(() => import("../pages/Error.jsx"));
 const ClassSchedule = lazy(() => import("../pages/students/ScheduleClasses.jsx"));
 const Courseblogs=lazy(()=>import("../pages/blogs/bloglists.js"))
 const Blogdetails=lazy(()=>import('../pages/blogs/blog-details.js'))
-const Courses=lazy(()=>import("../pages/website/courses.jsx"))
+const Courses=lazy(()=>import("../pages/public/courses.jsx"))
 //  Teacher dashboard
 const Teacher = lazy(() => import("../pages/Teacher.jsx"));
 const Dashboard = lazy(() => import("../pages/Dashboard.jsx"));
@@ -113,6 +114,7 @@ export default function AppRoutes() {
         <Route path="/courses" element={<Courses/>}/>
         <Route path="/about-us" element={<Aboutpage/>}/>
         <Route path="/curriculum-page" element={<CurriculumPage/>}/>
+        <Route path="/referral/:id" element={<ReferralPage/>}/>
 
         {/* Protected Routes */}
         <Route element={<ProtectedLayout />}>
