@@ -40,15 +40,15 @@ export default function Register() {
     
 
         useEffect(() => {
-          console.log('hellloo....')
+        
           const ref = searchParams.get('ref')
-          console.log('referral code...',ref)
+         
           // const existing = localStorage.getItem('referral_code');
           // if (!ref) return;
     
           const existing_code= localStorage.getItem('referral_code');
           const existingValid = existing_code && Date.now() < Number(localStorage.getItem('referral_expiry'));
-          console.log('existing..jj..',existing_code)
+         
           
           if (existingValid){
           setReferralCode(existing_code)
@@ -58,7 +58,7 @@ export default function Register() {
           
            fetch(`${API_URL}/validate_referrals/?code=${ref}`)
             .then(res => res.json())
-            .then(({ valid }) => {
+            .then(({ valid,referrer }) => {
               if (valid) {
                 console.log('valid....',valid)
                 localStorage.setItem('referral_code', ref);
@@ -127,7 +127,7 @@ export default function Register() {
               const country=countryName||'Unknown'
             //   const data ={...teacherValues,...{phone_number:phone_number},...country}
               setCountryName(country) 
-              console.log('phone',number,'code',countryName)
+             
             
           }
         //   setValue({ countryCode, phoneNumber }); // Update state with both values

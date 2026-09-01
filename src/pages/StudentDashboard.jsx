@@ -95,12 +95,7 @@ export default function StudentDashboard() {
             <li className={lessonLikns.includes(pathname)?'active':""} onClick={handleToLessons} >my lessons</li>
             <li className={pathname==='/student/dashboard/My%20projects'?'active':""} onClick={handleToMyProjects}>my classwork projects</li>
             <li className={quizLinks.includes( pathname)?'active':""} onClick={handleToMyQuizzes}>my quizzes</li>
-          </ul>
-
-          {/* ---- Referral card ---- */}
-        
-
-         
+          </ul>     
         </aside>
         <main>
            <div className='mainInnerWrapper'>

@@ -15,6 +15,7 @@ export default function Header() {
     const navigate=useNavigate()
     const {teacher,student,proPic}=useContext(context)
     const {pathname}=location
+    
     const handleChange = (event) => {
         setSelectedValue(event.target.value);
         const chosencourse=event.target.value
@@ -195,15 +196,16 @@ export default function Header() {
       {/* Profile pic */}
       <div
         // onClick={handleToStudentDashboard}
-        className="w-9 h-9 rounded-full overflow-hidden cursor-pointer ring-2 ring-[var(--accentsec)]/80 hover:ring-[var(--primarysec)] transition-all"
+        className="dpholder"
       >
-        {proPic
+        {/* {proPic
           ? <img src={proPic} alt="profile" className="w-full h-full object-cover" />
           : <div className="w-full h-full bg-[var(--primarysec)] flex items-center justify-center text-white font-bold text-sm">
-              {/* Fallback initial */}
+             
               U
             </div>
-        }
+        } */}
+            {proPic?<img loading="lazy" src={`https://res.cloudinary.com/dbxsncq5r/${proPic}`}/>:<img src={pic2}/>}
       </div>
 
       {/* Logout */}

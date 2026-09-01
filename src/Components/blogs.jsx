@@ -20,14 +20,13 @@ export default function CourseDetailPage() {
 
   useEffect(()=>{
     // const state=location.state
-    console.log('state',location.state)
+    
     setChosenCourseId(location.state)
     window.scrollTo(0,0)
 
   },[location.state])
 
-  console.log('courses ',courses)
-  console.log('location state', chosencourseid)
+
 
   // useEffect(()=>{
   //   console.log('findinf courses')
@@ -38,7 +37,7 @@ export default function CourseDetailPage() {
    
   // },[chosencourseid,courses])
   
-  console.log('chosencourse..',chosencourse)
+
   // console.
 
 

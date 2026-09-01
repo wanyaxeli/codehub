@@ -171,7 +171,7 @@ export default function TeacherClassDetails() {
     axios.get(url)
     .then(res=>{
       const data=res.data
-      console.log('dsd',res.data)
+      console.log('vid',res.data)
       setVideo(data.video_url)
     })
     .catch(error=>console.log(error))
@@ -372,7 +372,7 @@ export default function TeacherClassDetails() {
   useEffect(()=>{
    getToken()
   },[])
-  console.log('progress',progress)
+  console.log('progress',todayClass)
   return (
     <div className='DetailsWrapper'>
          <div className='TeacherDetailsWrapper'>
@@ -434,7 +434,7 @@ export default function TeacherClassDetails() {
                        {video!==''?  <span >{video.length > 20 ? video.slice(0, 20) + '...' : video}</span>:  <span onClick={handleOpenUploadPortal}>Upload</span>}
                         </p>
                          :' '}
-                        <button onClick={()=>handleToJoinClass(lesson,lesson.student.id,lesson.lesson.lessonId,lesson.date_time)}>join</button>
+                        {lesson.is_completed===false?<button onClick={()=>handleToJoinClass(lesson,lesson.student.id,lesson.lesson.lessonId,lesson.date_time)}>join</button>:<button>Completed</button>}
                          {todayclassobj?.classType==='oneOnone'?
                           <div onClick={handleOpenSchedule} className='showMoreWrapper'>
                           <span ><i className="fa fa-ellipsis-v" aria-hidden="true"></i></span>

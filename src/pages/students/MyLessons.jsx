@@ -41,7 +41,7 @@ export default function MyLessons() {
     }
   }
 
-  console.log("lessons...",lessons)
+ 
   function GetGroupClassMyLessons(){
     if(token){
       const url ='https://api.codingscholar.com/student_class_groups/'

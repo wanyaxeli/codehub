@@ -25,7 +25,7 @@ export default function Banner() {
         //   }
         navigate('/register')
     }
-    console.log('va',value)
+   
      // Handle phone number change
   const handlePhoneChange = (phone) => {
     setError('')
