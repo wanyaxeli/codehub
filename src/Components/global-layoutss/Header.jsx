@@ -173,9 +173,9 @@ export default function Header() {
           Coding<span className="text-[var(--primarysec)]">Scholar</span>
         </span>
         <div className="flex items-center gap-1 mt-0.5">
-          <div className="h-[2px] w-12 bg-[var(--accentsec)]" />
+          <div className="h-[2px] w-16 bg-[var(--accentsec)]" />
           <div className="w-1.5 h-1.5 rounded-full bg-[var(--accentsec)]" />
-          <div className="h-[2px] w-13 bg-[var(--accentsec)]" />
+          <div className="h-[2px] w-16 bg-[var(--accentsec)]" />
         </div>
       </div>
     </div>
@@ -184,13 +184,13 @@ export default function Header() {
     <div className="flex items-center gap-4">
       
       {/* Notifications */}
-      <div className="relative cursor-pointer hover:opacity-70 transition-opacity">
+      {/* <div className="relative cursor-pointer hover:opacity-70 transition-opacity">
         <i className="fa fa-bell text-[var(--headingsec)] text-xl" aria-hidden="true" />
-        {/* Unread badge — remove if not needed */}
+       
         <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">
           3
         </span>
-      </div>
+      </div> */}
 
       {/* Profile pic */}
       <div
@@ -198,13 +198,15 @@ export default function Header() {
         className="w-9 h-9 rounded-full overflow-hidden cursor-pointer ring-2 ring-[var(--accentsec)]/80 hover:ring-[var(--primarysec)] transition-all"
       >
         {proPic
-          ? <img src={proPic} alt="profile" className="w-full h-full object-cover" />
-          : <div className="w-full h-full bg-[var(--primarysec)] flex items-center justify-center text-white font-bold text-sm">
+        
+           ? <img src={`https://res.cloudinary.com/dbxsncq5r/${proPic}`} alt="profile" className="w-full h-full object-cover" /> 
+          : <div className="w-full h-full bg-[var(--primarysec)] flex items-center justify-center text-white font-bold text-sm"> 
               {/* Fallback initial */}
               U
             </div>
-        }
+}
       </div>
+
 
       {/* Logout */}
       {pathname !== '/' && (

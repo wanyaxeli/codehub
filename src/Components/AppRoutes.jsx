@@ -70,7 +70,7 @@ const AdminBlogs=lazy(()=>import ("../pages/blogs/Blogs.js"))
 
 
 //  Student dashboard
-const StudentDashboard = lazy(() => import("../pages/StudentDashboard.jsx"));
+const StudentDashboard = lazy(() => import("../pages/students/StudentDashboard.jsx"));
 const StudentDetails = lazy(() => import("../pages/students/StudentDetails.jsx"));
 const MyLessons = lazy(() => import("../pages/students/MyLessons.jsx"));
 const MyProjects = lazy(() => import("../pages/MyProjects.jsx"));
@@ -79,6 +79,7 @@ const StudentNotesView = lazy(() => import("../pages/students/StudentNotesView.j
 const Quiz = lazy(() => import("../pages/students/Quiz.jsx"));
 const TodaysQuestions = lazy(() => import("../pages/students/TodaysQuestions.jsx"));
 const Questions = lazy(() => import("../pages/students/Questions.jsx"));
+const StudentReferral=lazy(()=> import("../pages/students/studentReferrals.tsx"))
 // import Questions from "../pages/students/Questions.jsx";
 const StudentQuestionPage = lazy(() => import("../pages/students/StudentQuestionPage.jsx"));
 const AttemptedQuizPage = lazy(() => import("../pages/students/AttemptedQuizPage.jsx"));
@@ -159,6 +160,7 @@ export default function AppRoutes() {
           <Route path="/student/dashboard" element={<StudentDashboard />}>
             <Route index element={<StudentDetails />} />
             <Route path="Details" element={<StudentDetails />} />
+            <Route path="Referrals" element={<StudentReferral />} />
             <Route path="Today Questions" element={<TodaysQuestions />} />
             <Route path="My lessons" element={<MyLessons />} />
             <Route path="My projects" element={<MyProjects />} />
