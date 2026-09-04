@@ -1,10 +1,10 @@
 import React,{useState,useEffect,useContext} from 'react'
-import { context } from '../App'
-import Header from '../Components/global-layoutss/Header'
+import { context } from '../../App'
+import Header from '../../Components/global-layoutss/Header'
 import { Outlet,useNavigate ,useLocation} from 'react-router-dom'
 import axios from 'axios'
 import { jwtDecode } from 'jwt-decode'
-import { Link2, Copy, Check, Gift, Sparkles } from 'lucide-react'
+import { Link2, Copy, Check, Gift, Sparkles, LayoutDashboard, BookOpen, FolderKanban, ListChecks } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 export default function StudentDashboard() {
@@ -24,12 +24,11 @@ export default function StudentDashboard() {
   const handleToMyQuizzes=()=>{ navigate('My quizzes') }
   const handleToMyProjects=()=>{ navigate('My projects') }
   const handleToDashboard=()=>{ navigate('Details') }
+  const handleToReferrals=()=>{ navigate('Referrals') } 
 
   // ---- Referral state ----
   const [copiedField, setCopiedField] = useState(null)
   const refCode = student?.share_token || ''
-  // NOTE: your original `baseUrl` was set to '' — using window.location.origin instead.
-  // Swap this for your actual signup route.
   const referralLink = refCode ? `${window.location.origin}/referral/${refCode}` : ''
    console.log('aaa code',refCode)
   const handleCopy = (field) => {
@@ -39,6 +38,16 @@ export default function StudentDashboard() {
     setCopiedField(field)
     setTimeout(() => setCopiedField(null), 2000)
   }
+
+  // ---- Nav items (drives sidebar UI below) ----
+  const navItems = [
+    { label: 'dashboard', icon: LayoutDashboard, active: dashboardLinks.includes(pathname), onClick: handleToDashboard },
+    { label: 'my lessons', icon: BookOpen, active: lessonLikns.includes(pathname), onClick: handleToLessons },
+    { label: 'my classwork projects', icon: FolderKanban, active: pathname==='/student/dashboard/My%20projects', onClick: handleToMyProjects },
+    { label: 'my quizzes', icon: ListChecks, active: quizLinks.includes(pathname), onClick: handleToMyQuizzes },
+    { label: 'refer and earn ', icon: Gift, active: pathname==='/student/dashboard/Referrals', onClick: handleToReferrals },
+ 
+  ]
 
    useEffect(() => {
           if (token) {
@@ -88,17 +97,29 @@ export default function StudentDashboard() {
   return (
     <div className='StudentDashboardWrapper'>
         <Header/>
-        <div className='dashBoardContainer  '>
+        {/* <div className='dashBoardContainer  '>
         <aside className='flex flex-col bg-green-300 !text-black'>
           <ul>
             <li className={dashboardLinks.includes(pathname)?'active':""} onClick={handleToDashboard} >dashboard</li>
             <li className={lessonLikns.includes(pathname)?'active':""} onClick={handleToLessons} >my lessons</li>
             <li className={pathname==='/student/dashboard/My%20projects'?'active':""} onClick={handleToMyProjects}>my classwork projects</li>
             <li className={quizLinks.includes( pathname)?'active':""} onClick={handleToMyQuizzes}>my quizzes</li>
-          </ul>     
+          </ul>      */}
+        <div className='dashBoardContainer '>
+        <aside className='sidebar'>
+          <ul className='sidebarNav'>
+            {navItems.map(({label, icon:Icon, active, onClick}) => (
+              <li key={label} className={active ? 'active' : ''} onClick={onClick}>
+                <Icon size={18} strokeWidth={2} className='sidebarIcon' />
+                <span>{label}</span>
+              </li>
+            ))}
+          </ul>
+
+      
         </aside>
         <main>
-           <div className='mainInnerWrapper'>
+           <div className='mainInnerWrapper '>
            <Outlet/>
            </div>
         </main>
@@ -107,3 +128,4 @@ export default function StudentDashboard() {
     
   )
 }
+

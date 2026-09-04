@@ -302,11 +302,12 @@ useEffect(()=>{
 useEffect(()=>{
  getToken()
  setIsReferralpop(false)
+// localStorage.clear();
  localStorage.getItem('refpopup_open')?setIsReferralpop(false):setIsReferralpop(true)
 },[])
  
   return (
-    <div className='DetailsWrapper'>
+    <div className='DetailsWrapper '>
         {isreferralpop &&<ReferralPopup 
         refCode={studentRefarralCode}
         onClose={()=>{

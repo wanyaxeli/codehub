@@ -411,7 +411,7 @@ function RegisterModal({ isOpen, onClose, referrerName, referralCode, defaultCou
     <div className="bg-[var(--accentsec)]/10 border border-[var(--accentsec)]/20 rounded-2xl !px-4 !py-3 !mb-6">
       <p className="font-paragraph text-sm text-foreground">
         ✦ Thanks to you, <span className="font-semibold">{referrerName}</span> will earn{" "}
-        <span className="font-semibold">3 free classes</span>!
+        <span className="font-semibold">5 free classes</span>!
       </p>
     </div>
 
@@ -434,7 +434,7 @@ function RegisterModal({ isOpen, onClose, referrerName, referralCode, defaultCou
           <div className="bg-[var(--accentsec)]/10 border border-[var(--accentsec)]/20 rounded-2xl !px-4 !py-3 !mb-6">
             <p className="font-paragraph text-sm text-foreground">
               ✦ By registering, <span className="font-semibold">{referrerName}</span> earns{" "}
-              <span className="font-semibold">3 free classes</span> — thank them by joining!
+              <span className="font-semibold">5 free classes</span> — thank them by joining!
             </p>
           </div>
 
