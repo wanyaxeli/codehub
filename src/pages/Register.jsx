@@ -40,15 +40,15 @@ export default function Register() {
     
 
         useEffect(() => {
-          console.log('hellloo....')
+        
           const ref = searchParams.get('ref')
-          console.log('referral code...',ref)
+         
           // const existing = localStorage.getItem('referral_code');
           // if (!ref) return;
     
           const existing_code= localStorage.getItem('referral_code');
           const existingValid = existing_code && Date.now() < Number(localStorage.getItem('referral_expiry'));
-          console.log('existing..jj..',existing_code)
+         
           
           if (existingValid){
           setReferralCode(existing_code)
@@ -58,7 +58,7 @@ export default function Register() {
           
            fetch(`${API_URL}/validate_referrals/?code=${ref}`)
             .then(res => res.json())
-            .then(({ valid }) => {
+            .then(({ valid,referrer }) => {
               if (valid) {
                 console.log('valid....',valid)
                 localStorage.setItem('referral_code', ref);
@@ -127,7 +127,7 @@ export default function Register() {
               const country=countryName||'Unknown'
             //   const data ={...teacherValues,...{phone_number:phone_number},...country}
               setCountryName(country) 
-              console.log('phone',number,'code',countryName)
+             
             
           }
         //   setValue({ countryCode, phoneNumber }); // Update state with both values
@@ -194,7 +194,7 @@ export default function Register() {
           phone_number: value,
           grade,
           course,
-          referral_code: ref_code,
+          referral_code: '',
           country: CountryName
         };
     
@@ -380,7 +380,7 @@ function isValidemail(email) {
                  </div>
                  <div className='flex flex-col gap-2.5 !my-3.5'>
                  <div>
-                 <label className='flex items-center gap-2 !text-sm cursor-pointer select-none'>
+                 {/* <label className='flex items-center gap-2 !text-sm cursor-pointer select-none'>
                 <input
                   type='checkbox'
                   checked={wasReferred}
@@ -388,10 +388,10 @@ function isValidemail(email) {
                   className='h-4 w-4 cursor-pointer accent-[#0097B2]'
                 />
                 <span>I was referred by someone</span>
-              </label>
+              </label> */}
                  </div>
 
-  {wasReferred && (
+  {/* {wasReferred && (
     <input
       onChange={handleReferralCodeChange}
       value={referralcode}
@@ -399,7 +399,7 @@ function isValidemail(email) {
       placeholder='Enter referral code'
       className='refarralInput w-full !px-3 !py-2.5 !text-sm rounded-lg border border-[#D0D5DD] outline-none focus:border-[#0097B2] focus:ring-1 focus:ring-[#0097B2]'
     />
-  )}
+  )} */}
 </div>
                  <div className='formBtnwrapper'>
                     <button 

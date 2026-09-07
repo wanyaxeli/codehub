@@ -15,6 +15,7 @@ export default function Header() {
     const navigate=useNavigate()
     const {teacher,student,proPic}=useContext(context)
     const {pathname}=location
+    
     const handleChange = (event) => {
         setSelectedValue(event.target.value);
         const chosencourse=event.target.value
@@ -221,7 +222,7 @@ export default function Header() {
       {/* Profile pic */}
       <div
         // onClick={handleToStudentDashboard}
-        className="w-9 h-9 rounded-full overflow-hidden cursor-pointer ring-2 ring-[var(--accentsec)]/80 hover:ring-[var(--primarysec)] transition-all"
+        className="dpholder"
       >
         {proPic
         

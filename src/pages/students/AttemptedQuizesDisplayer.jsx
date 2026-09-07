@@ -16,7 +16,7 @@ export default function AttemptedQuizesDisplayer() {
       
         return url;
       }
-      console.log('ss',attemptedquiz)
+  
   return (
     <div className='AttemptedQuizesDisplayer'>
         {attemptedquiz && attemptedquiz.length>0?attemptedquiz.map((item,i)=>{

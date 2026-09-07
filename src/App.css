@@ -2025,6 +2025,18 @@ input[type="time"]::-webkit-calendar-picker-indicator {
 .shareRefaral{
   width: 70%;
 }
+.dpholder{
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background-color: red;
+}
+.dpholder img{
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
 .TeacherDetailsWrapper{
   width: 100%;
   height: 200px;

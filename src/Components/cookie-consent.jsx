@@ -12,9 +12,9 @@ export default function CookieConsent(){
     },[])
 
     const declineCookies=()=>{
-      console.log('the cookies declined...')
+    
        const declining= localStorage.setItem('cookie_consent','declined')
-        console.log('declined from localstorage ;;',declining)
+       
         setShow(false)
     }
 

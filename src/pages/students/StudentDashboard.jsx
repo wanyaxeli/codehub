@@ -97,6 +97,14 @@ export default function StudentDashboard() {
   return (
     <div className='StudentDashboardWrapper'>
         <Header/>
+        {/* <div className='dashBoardContainer  '>
+        <aside className='flex flex-col bg-green-300 !text-black'>
+          <ul>
+            <li className={dashboardLinks.includes(pathname)?'active':""} onClick={handleToDashboard} >dashboard</li>
+            <li className={lessonLikns.includes(pathname)?'active':""} onClick={handleToLessons} >my lessons</li>
+            <li className={pathname==='/student/dashboard/My%20projects'?'active':""} onClick={handleToMyProjects}>my classwork projects</li>
+            <li className={quizLinks.includes( pathname)?'active':""} onClick={handleToMyQuizzes}>my quizzes</li>
+          </ul>      */}
         <div className='dashBoardContainer '>
         <aside className='sidebar'>
           <ul className='sidebarNav'>

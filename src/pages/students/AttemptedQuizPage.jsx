@@ -11,7 +11,7 @@ export default function AttemptedQuizPage() {
         // })
         
     }
-    console.log('ss',Attemptedquestions)
+
   return (
     <div className='questionHolder'>
     {Attemptedquestions &&Attemptedquestions.length>0 ? Attemptedquestions.map((item,i)=>{
