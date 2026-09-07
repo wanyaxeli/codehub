@@ -2,7 +2,16 @@ import React, { useContext, useState } from 'react'
 import { Share2, Copy, Check, MessageCircle, Gift, Users, ArrowRight, Calendar, Clock } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { context } from '../../App';
+import YourReferralsTab from '@/Components/students/referrals/referralstab';
 type Tab = 'about' | 'yours'
+
+export interface Referral {
+  id: string
+  name: string
+  dateReferred: string // ISO date string
+  modulesCompleted: 0 | 1 | 2
+}
+
 
 export default function ReferralPage() {
   const [tab, setTab] = useState<Tab>('about')
@@ -24,6 +33,24 @@ export default function ReferralPage() {
     window.open(`https://wa.me/?text=${msg}`, '_blank')
   }
 
+  const referrals:Referral[]= [
+  { id: '1', name: 'Brian Otieno', dateReferred: '2026-08-28', modulesCompleted: 2 },
+  { id: '2', name: 'Faith Wanjiru', dateReferred: '2026-08-20', modulesCompleted: 2 },
+  { id: '3', name: 'Kevin Mwangi', dateReferred: '2026-08-15', modulesCompleted: 2 },
+  { id: '4', name: 'Grace Achieng', dateReferred: '2026-08-10', modulesCompleted: 1 },
+  { id: '5', name: 'Dennis Kiplagat', dateReferred: '2026-07-29', modulesCompleted: 1 },
+  { id: '6', name: 'Sharon Njeri', dateReferred: '2026-07-22', modulesCompleted: 0 },
+  { id: '7', name: 'Peter Mutua', dateReferred: '2026-07-14', modulesCompleted: 0 },
+  { id: '8', name: 'Kevin Mwangi', dateReferred: '2026-08-15', modulesCompleted: 2 },
+  { id: '9', name: 'Grace Achieng', dateReferred: '2026-08-10', modulesCompleted: 1 },
+  { id: '10', name: 'Dennis Kiplagat', dateReferred: '2026-07-29', modulesCompleted: 1 },
+  { id: '11', name: 'Sharon Njeri', dateReferred: '2026-07-22', modulesCompleted: 0 },
+  { id: '12', name: 'Peter Mutua', dateReferred: '2026-07-14', modulesCompleted: 0 },
+]
+
+const freeClassesRemaining = 10
+const totalClassesGained = 15
+
   return (
     <div className='!w-full !p-2'>
       {/* ---- Tabs ---- */}
@@ -38,7 +65,7 @@ export default function ReferralPage() {
         >
           About the Referral
         </button>
-        {/* <button
+        <button
           onClick={() => setTab('yours')}
           className={`!pb-3 text-sm font-semibold border-b-2 transition-colors ${
             tab === 'yours'
@@ -47,7 +74,7 @@ export default function ReferralPage() {
           }`}
         >
           Your Referrals
-        </button> */}
+        </button>
       </div>
 
       <AnimatePresence mode='wait'>
@@ -74,10 +101,11 @@ export default function ReferralPage() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
-            {/* TODO: build out — list of invites + status */}
-            <div className='text-gray-400 text-sm !py-20 text-center'>
-              Your referrals will show here soon.
-            </div>
+            <YourReferralsTab
+  referrals={referrals}                       // Referral[] from your API
+  freeClassesRemaining={freeClassesRemaining}  // from student/context
+  totalClassesGained={totalClassesGained}
+/>
           </motion.div>
         )}
       </AnimatePresence>

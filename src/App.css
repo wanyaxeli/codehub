@@ -3750,7 +3750,24 @@ video{
 .CalendarWrapper{
   width: 100%;
   height: 100%;
+  padding:20px
 }
+
+.CalendarWrapper {
+  --fc-page-bg-color: #ffffff;
+  --fc-neutral-text-color: #1a1a1a;
+  --fc-border-color: #e5e7eb;
+}
+
+.CalendarWrapper .fc-toolbar-title,
+.CalendarWrapper .fc-daygrid-day-number,
+.CalendarWrapper .fc-col-header-cell-cushion,
+.CalendarWrapper .fc-event-title,
+.CalendarWrapper .fc-event-time,
+.CalendarWrapper a.fc-daygrid-event {
+  color: #1a1a1a !important;
+}
+
 .TodayClassContainer p{
   cursor: pointer;
 }

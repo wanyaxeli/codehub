@@ -25,6 +25,32 @@ export default function Header() {
     const handleToFreeClass =()=>{
     navigate('/register')
     }
+
+    console.log('___teacher....___',teacher?.user)
+  
+  let nameInitials;
+  function getInitials(fname, sname) {
+  fname = fname?.trim();
+  sname = sname?.trim();
+
+  if (fname && sname) {
+    return (fname[0] + sname[0]).toUpperCase();
+  }
+  if (fname) {
+    return fname.slice(0, 2).toUpperCase();
+  }
+  if (sname) {
+    return sname.slice(0, 2).toUpperCase();
+  }
+  return "";
+} 
+  const firstname=teacher?teacher.user?.first_name:student?.user?.first_name
+  const lastname=teacher?teacher.user?.last_name:student?.user?.last_name
+
+ nameInitials=getInitials(firstname,lastname)
+  
+  
+   
    
     const handleToLogin=()=>{
      
@@ -202,7 +228,7 @@ export default function Header() {
            ? <img src={`https://res.cloudinary.com/dbxsncq5r/${proPic}`} alt="profile" className="w-full h-full object-cover" /> 
           : <div className="w-full h-full bg-[var(--primarysec)] flex items-center justify-center text-white font-bold text-sm"> 
               {/* Fallback initial */}
-              U
+              {nameInitials}
             </div>
 }
       </div>
