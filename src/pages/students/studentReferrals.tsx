@@ -65,7 +65,7 @@ const totalClassesGained = 15
         >
           About the Referral
         </button>
-        <button
+        {/* <button
           onClick={() => setTab('yours')}
           className={`!pb-3 text-sm font-semibold border-b-2 transition-colors ${
             tab === 'yours'
@@ -74,7 +74,7 @@ const totalClassesGained = 15
           }`}
         >
           Your Referrals
-        </button>
+        </button> */}
       </div>
 
       <AnimatePresence mode='wait'>
