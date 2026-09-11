@@ -10,6 +10,7 @@ import NewFooter from '@/Components/global-layoutss/newFooter';
 import axios from 'axios';
 import useStore from '@/lib/storage';
 import { Card } from '@/components/ui/card';
+import { formatDateOnly } from '@/utils/date_formats';
 
 interface Blog {
   id: string;
@@ -178,7 +179,8 @@ const FeaturedBlogCard = ({ blog }: { blog: any }) => {
                 <div className="flex items-center gap-6 !mb-8 text-sm text-foreground/60 font-paragraph">
                   <div className="flex items-center gap-2">
                     <Clock className="w-4 h-4" />
-                    <span>{blog.reading_time || 5} min read</span>
+                    {/* <span>{blog.reading_time || 5} min read</span> */}
+                    <span>{formatDateOnly(blog.edited_at) || 5} </span>
                   </div>
                   {blog.author && (
                     <div>
@@ -188,7 +190,7 @@ const FeaturedBlogCard = ({ blog }: { blog: any }) => {
                 </div>
 
                 <Button 
-                  onClick={() => navigate(`/course-blog/${blog.id}`)}
+                  onClick={() => navigate(`/course-blogs/${blog.id}`)}
                   className="bg-[var(--accentsec)] hover:bg-[var(--accentsec)]/90 text-white font-heading rounded-xl h-12 !px-6 w-fit shadow-lg shadow-[var(--accentsec)]/30 transition-all hover:scale-105"
                 >
                   Read More
@@ -211,7 +213,7 @@ const BlogCard = ({ blog, index }: { blog: any, index: number }) => {
     <FadeIn delay={index * 0.05}>
       <motion.div
         whileHover={{ y: -8 }}
-        onClick={() => navigate(`/course-blog/${blog.id}`)}
+        onClick={() => navigate(`/course-blogs/${blog.id}`)}
         className="group bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-lg shadow-slate-100/50 hover:shadow-2xl hover:shadow-[var(--primarysec)]/20 transition-all duration-300 h-full flex flex-col cursor-pointer"
       >
         {/* Image Container */}
@@ -248,7 +250,7 @@ const BlogCard = ({ blog, index }: { blog: any, index: number }) => {
           <div className="flex items-center gap-4 text-xs text-foreground/60 font-paragraph !mb-6 !pb-6 border-b border-slate-100">
             <div className="flex items-center gap-1">
               <Clock className="w-4 h-4" />
-              <span>{blog.reading_time || 5} min</span>
+              <span>{formatDateOnly(blog.edited_at) || 5} </span>
             </div>
             
               <div>
@@ -258,7 +260,8 @@ const BlogCard = ({ blog, index }: { blog: any, index: number }) => {
           </div>
 
           {/* Read More Button */}
-          <Button variant="ghost" className="p-0 hover:bg-transparent text-[var(--accentsec)] font-heading font-bold group/btn self-start">
+          <Button variant="ghost" className="p-0 hover:bg-transparent text-[var(--accentsec)] font-heading font-bold group/btn self-start"
+           onClick={() => navigate(`/course-blogs/${blog.id}`)}>
             Read More
             <ChevronRight className="w-4 h-4 ml-1 group-hover/btn:translate-x-1 transition-transform" />
           </Button>
@@ -336,6 +339,7 @@ export default function BlogListingPage() {
   const [featuredBlog,setFeaturedBlog]=useState([])
   const [otherBlogs,setOtherBlogs]=useState([])
   const {allblogs,fetchblogs}=useStore()
+
  
 
   const apiurl = process.env.NEXT_PUBLIC_API_URL || "https://api.codingscholar.com";

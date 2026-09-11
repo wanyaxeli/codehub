@@ -16,6 +16,7 @@ import BulletList from '@tiptap/extension-bullet-list';
 import OrderedList from '@tiptap/extension-ordered-list';
 import ListItem from '@tiptap/extension-list-item';
 import useStore from '@/lib/storage';
+import { formatDateOnly, formatLongMonth } from '@/utils/date_formats';
 
 interface Blog {
   id: string;
@@ -27,6 +28,7 @@ interface Blog {
   featuredImage?: string;
   category?: string;
   reading_time?: number;
+  edited_at?:any
   isFeatured?: boolean;
   author?: string;
   image?:string
@@ -93,7 +95,8 @@ const BlogHeader = ({ blog }: { blog: Blog }) => {
             {/* Read Time */}
             <div className="flex items-center gap-2">
               <Clock className="w-4 h-4 text-bg-[var(--primarysec)] " />
-              <span>{blog.reading_time || 5} min read</span>
+              {/* <span>{blog.reading_time || 5} min read</span> */}
+              <span>{formatLongMonth(blog.edited_at) || 5} </span>
             </div>
 
             {/* Date */}
@@ -231,10 +234,11 @@ const BlogContent = ({ blog, relatedBlogs }: { blog: Blog, relatedBlogs: Blog[] 
 
                         <div className="flex items-center gap-2 text-xs text-foreground/60 font-paragraph !mb-4">
                           <Clock className="w-3 h-3" />
-                          <span>{relatedBlog.reading_time || 5} min read</span>
+                          {/* <span>{relatedBlog.reading_time || 5} min read</span> */}
+                            <span>{formatDateOnly(blog.edited_at) || 5} </span>
                         </div>
 
-                        <a href={`/course-blog/${relatedBlog.id}`} className="!text-[var(--accentsec)] font-heading font-bold hover:text-[var(--accentsec)]/80 transition-colors inline-flex items-center gap-1 group/link">
+                        <a href={`/course-blogs/${relatedBlog.id}`} className="!text-[var(--accentsec)] font-heading font-bold hover:text-[var(--accentsec)]/80 transition-colors inline-flex items-center gap-1 group/link">
                           Read More
                           <ChevronRight className="w-4 h-4 group-hover/link:translate-x-1 transition-transform" />
                         </a>
