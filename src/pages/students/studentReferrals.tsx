@@ -31,13 +31,18 @@ export default function ReferralPage() {
 
   const handleWhatsAppShare = () => {
    
-    const message = `Hi! 👋 I wanted to share something you might find useful for your child.
+  const message = `Hi! 👋 I wanted to share something that I think could be really helpful for your child.
 
-My Kid has been learning with *CodingScholar*, which offers *live* *coding* and *math* *classes8 for kids, and I thought you might be interested in checking it out.
+My child has been learning with Codingscholar, and I’ve really liked the idea of giving kids an opportunity to learn coding and math through live, interactive classes. They get to learn practical skills, work on projects, and build confidence while learning.
 
-You can have a look here — it’s a page set up through my referral: ${referralLink}
+I thought you might be interested in checking it out for your child too. 😊
 
-They also have a *free trial*, so you can see what the classes are like before deciding. 😊`;
+You can take a look here through my referral link: 
+${referralLink}
+
+They also offer a free trial, so you can let your child experience a class first and see if they enjoy it before making any commitment. 🚀💻
+
+I thought I’d share in case you’re looking for a fun and useful activity that can help your child develop valuable skills for the future. 🌟`;
 
   
     const msg = encodeURIComponent(`${message}`)
@@ -188,7 +193,7 @@ You can check it out through my referral, try a *free class*, and maybe your chi
     <div className='flex flex-wrap gap-3'>
       <button
         onClick={onWhatsApp}
-        className='inline-flex items-center gap-2 bg-[#25D366] text-white font-semibold text-sm !px-5 !py-3 rounded-xl hover:opacity-90 transition-opacity'
+        className='inline-flex items-center gap-2 !bg-[#25D366] !text-white font-semibold text-sm !px-5 !py-3 rounded-xl hover:opacity-90 transition-opacity'
       >
         <MessageCircle size={16} />
         Share on WhatsApp
@@ -206,7 +211,7 @@ You can check it out through my referral, try a *free class*, and maybe your chi
       {/* ---- Right: QR card (desktop only) ---- */}
   <div className='hidden md:flex flex-col items-center text-center bg-white rounded-2xl shadow-xl !p-5 w-[210px] shrink-0'>
     <div className='inline-flex items-center gap-1.5 text-xs font-semibold text-gray-900 !mb-1'>
-      <span className='inline-flex items-center justify-center w-5 h-5 rounded-full bg-[#25D366]'>
+      <span className='inline-flex items-center justify-center !w-5 !h-5 rounded-full !bg-[#25D366]'>
         <MessageCircle size={11} className='text-white' />
       </span>
       Scan to share on WhatsApp
@@ -300,7 +305,7 @@ You can check it out through my referral, try a *free class*, and maybe your chi
 
   <button
     onClick={onWhatsApp}
-    className='w-full inline-flex items-center justify-center gap-2 bg-[#25D366] text-white text-sm font-semibold !px-4 !py-3 rounded-xl hover:opacity-90 transition-opacity'
+    className='w-full inline-flex items-center justify-center gap-2 !bg-[#25D366] text-white text-sm font-semibold !px-4 !py-3 rounded-xl hover:opacity-90 transition-opacity'
   >
     <MessageCircle size={16} />
     Share on WhatsApp
