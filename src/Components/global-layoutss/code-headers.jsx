@@ -49,6 +49,7 @@ export default function HeaderSection() {
         console.log(error);
 }
 } const handleTologin=()=>{
+  console.log('token',token)
   if (token) {
     try {
     
