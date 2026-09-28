@@ -2,7 +2,17 @@ import React, { useContext, useState } from 'react'
 import { Share2, Copy, Check, MessageCircle, Gift, Users, ArrowRight, Calendar, Clock } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { context } from '../../App';
+import { QRCodeSVG } from 'qrcode.react';
+import YourReferralsTab from '@/Components/students/referrals/referralstab';
 type Tab = 'about' | 'yours'
+
+export interface Referral {
+  id: string
+  name: string
+  dateReferred: string // ISO date string
+  modulesCompleted: 0 | 1 | 2
+}
+
 
 export default function ReferralPage() {
   const [tab, setTab] = useState<Tab>('about')
@@ -20,9 +30,45 @@ export default function ReferralPage() {
   }
 
   const handleWhatsAppShare = () => {
-    const msg = encodeURIComponent(`Come learn with me on CodingScholar! ${referralLink}`)
-    window.open(`https://wa.me/?text=${msg}`, '_blank')
+   
+  const message = `Hi! 👋 I wanted to share something that I think could be really helpful for your child.
+
+My child has been learning with Codingscholar, and I’ve really liked the idea of giving kids an opportunity to learn coding and math through live, interactive classes. They get to learn practical skills, work on projects, and build confidence while learning.
+
+I thought you might be interested in checking it out for your child too. 😊
+
+You can take a look here through my referral link: 
+${referralLink}
+
+They also offer a free trial, so you can let your child experience a class first and see if they enjoy it before making any commitment. 🚀💻
+
+I thought I’d share in case you’re looking for a fun and useful activity that can help your child develop valuable skills for the future. 🌟`;
+
+  
+    const msg = encodeURIComponent(`${message}`)
+    
+    window.open(`https://wa.me/?text=${msg}`, '_blank','noopener,noreferrer')
+    
+    console.log(message)
   }
+
+  const referrals:Referral[]= [
+  { id: '1', name: 'Brian Otieno', dateReferred: '2026-08-28', modulesCompleted: 2 },
+  { id: '2', name: 'Faith Wanjiru', dateReferred: '2026-08-20', modulesCompleted: 2 },
+  { id: '3', name: 'Kevin Mwangi', dateReferred: '2026-08-15', modulesCompleted: 2 },
+  { id: '4', name: 'Grace Achieng', dateReferred: '2026-08-10', modulesCompleted: 1 },
+  { id: '5', name: 'Dennis Kiplagat', dateReferred: '2026-07-29', modulesCompleted: 1 },
+  { id: '6', name: 'Sharon Njeri', dateReferred: '2026-07-22', modulesCompleted: 0 },
+  { id: '7', name: 'Peter Mutua', dateReferred: '2026-07-14', modulesCompleted: 0 },
+  { id: '8', name: 'Kevin Mwangi', dateReferred: '2026-08-15', modulesCompleted: 2 },
+  { id: '9', name: 'Grace Achieng', dateReferred: '2026-08-10', modulesCompleted: 1 },
+  { id: '10', name: 'Dennis Kiplagat', dateReferred: '2026-07-29', modulesCompleted: 1 },
+  { id: '11', name: 'Sharon Njeri', dateReferred: '2026-07-22', modulesCompleted: 0 },
+  { id: '12', name: 'Peter Mutua', dateReferred: '2026-07-14', modulesCompleted: 0 },
+]
+
+const freeClassesRemaining = 10
+const totalClassesGained = 15
 
   return (
     <div className='!w-full !p-2'>
@@ -74,10 +120,11 @@ export default function ReferralPage() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
-            {/* TODO: build out — list of invites + status */}
-            <div className='text-gray-400 text-sm !py-20 text-center'>
-              Your referrals will show here soon.
-            </div>
+            <YourReferralsTab
+  referrals={referrals}                       // Referral[] from your API
+  freeClassesRemaining={freeClassesRemaining}  // from student/context
+  totalClassesGained={totalClassesGained}
+/>
           </motion.div>
         )}
       </AnimatePresence>
@@ -96,6 +143,13 @@ function AboutTab({
   onCopy: () => void
   onWhatsApp: () => void
 }) {
+
+  const qrMessage=`Hi! 👋 I thought your child might enjoy *CodingScholar*. They offer *live* *online* *coding* and *math* *classes* for kids, and my kid is already learning with them and loving the experience! 
+You can check it out through my referral, try a *free class*, and maybe your child can join mine too 😊: ${referralLink}
+`
+  const waQrUrl = `https://wa.me/?text=${encodeURIComponent(qrMessage)}`;
+  
+
   return (
     <div className='!px-7'>
       {/* ---- Hero ---- */}
@@ -117,7 +171,9 @@ function AboutTab({
     <line x1='190' y1='220' x2='270' y2='130' stroke='white' strokeWidth='1.5' />
   </svg>
 
-  <div className='relative z-10'>
+  <div className='relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-8'>
+    {/* ---- Left: copy + actions ---- */}
+  <div className='flex-1'>
     <h1 className='text-2xl md:text-3xl font-bold !mb-3 w-full'>
       Bring a friend into CodingScholar
     </h1>
@@ -135,13 +191,13 @@ function AboutTab({
 
     {/* ---- Share actions ---- */}
     <div className='flex flex-wrap gap-3'>
-      {/* <button
+      <button
         onClick={onWhatsApp}
-        className='inline-flex items-center gap-2 bg-[#25D366] text-white font-semibold text-sm !px-5 !py-3 rounded-xl hover:opacity-90 transition-opacity'
+        className='inline-flex items-center gap-2 !bg-[#25D366] !text-white font-semibold text-sm !px-5 !py-3 rounded-xl hover:opacity-90 transition-opacity'
       >
         <MessageCircle size={16} />
         Share on WhatsApp
-      </button> */}
+      </button>
       <button
         onClick={onCopy}
         className='inline-flex items-center gap-2 bg-white text-[var(--primarysec)] font-semibold text-sm !px-5 !py-3 rounded-xl hover:bg-gray-50 transition-colors'
@@ -150,6 +206,31 @@ function AboutTab({
         {copied ? 'Copied!' : 'Copy link'}
       </button>
     </div>
+    </div>
+
+      {/* ---- Right: QR card (desktop only) ---- */}
+  <div className='hidden md:flex flex-col items-center text-center bg-white rounded-2xl shadow-xl !p-5 w-[210px] shrink-0'>
+    <div className='inline-flex items-center gap-1.5 text-xs font-semibold text-gray-900 !mb-1'>
+      <span className='inline-flex items-center justify-center !w-5 !h-5 rounded-full !bg-[#25D366]'>
+        <MessageCircle size={11} className='text-white' />
+      </span>
+      Scan to share on WhatsApp
+    </div>
+    <p className='text-[11px] text-gray-500 leading-snug !mb-3'>
+      Point your phone camera here, then pick who to send it to.
+    </p>
+
+    <div className='rounded-xl border border-gray-100 bg-white !p-2'>
+      <QRCodeSVG
+        value={waQrUrl}
+        size={150}
+        level='L'
+        fgColor='#111827'
+        bgColor='#ffffff'
+      />
+    </div>
+  </div>
+
   </div>
 </section>
 
@@ -222,13 +303,13 @@ function AboutTab({
     </button>
   </div>
 
-  {/* <button
+  <button
     onClick={onWhatsApp}
-    className='w-full inline-flex items-center justify-center gap-2 bg-[#25D366] text-white text-sm font-semibold !px-4 !py-3 rounded-xl hover:opacity-90 transition-opacity'
+    className='w-full inline-flex items-center justify-center gap-2 !bg-[#25D366] text-white text-sm font-semibold !px-4 !py-3 rounded-xl hover:opacity-90 transition-opacity'
   >
     <MessageCircle size={16} />
     Share on WhatsApp
-  </button> */}
+  </button>
 
   {/* ---- Share a class (stub) ---- */}
   {/* <ShareClassPicker /> */}

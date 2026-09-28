@@ -182,7 +182,7 @@ useEffect(()=>{
 getToken()
 },[])
   return (
-    <div className='CalendarWrapper'>
+    <div className='CalendarWrapper !text-black'>
       <FullCalendar
       plugins={[dayGridPlugin]}
       initialView="dayGridMonth"
