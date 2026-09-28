@@ -28,8 +28,12 @@ export default function BookingsManager() {
     const data={...values,...{last_name:last_name,utcDateTime:utcDateTime,first_name:first_name}}
     axios.post(url,data)
     .then(res=>{
-      console.log(res.data)
+      console.log('booking',res.data)
       alert(res.data)
+      
+      if(res.data='Booking done successfully Link for class sent to your email'){
+        trackEvent('CompleteRegistration');
+      }
       setValues(initialState)
     })
     .catch(error=>console.log(error))

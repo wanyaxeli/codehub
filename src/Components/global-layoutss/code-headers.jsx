@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, lazy } from 'react'
 // import Link from 'next/Link'
 import { Link, useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
+import { jwtDecode } from 'jwt-decode'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { Menu, X, Code2, ChevronDown } from 'lucide-react'
 import pic from '@/assets/codingscholarlogo00v2.png'
@@ -11,6 +12,7 @@ import pic from '@/assets/codingscholarlogo00v2.png'
 export default function HeaderSection() {
   const [isCoursesOpen, setIsCoursesOpen] = useState(false)
   const [isOpen,setIsOpen]=useState(false)
+  const [token,setToken]=useState('')
   const [isMobileCoursesOpen,setIsMobileCoursesOpen]=useState(false)
   const coursesRef = useRef(null)
   const navigate=useNavigate()
@@ -37,7 +39,44 @@ export default function HeaderSection() {
     { name: 'Python for Kids', id: 1 },
     { name: 'Web Development for Kids', id: 2},
   ]
-
+  async function getToken(){
+    try{
+        const token= localStorage.getItem('token') // No need to await
+        if (token){
+            setToken(token);
+        }
+    } catch(error) {
+        console.log(error);
+}
+} const handleTologin=()=>{
+  if (token) {
+    try {
+    
+      const decode = jwtDecode(token)
+      console.log('asssss',decode)
+      const { exp,role } = decode
+      if (exp <= Math.floor(Date.now() / 1000)) {
+        localStorage.removeItem('token')
+        navigate('/Login')
+      }else{
+        if(role ==='student'){
+          navigate('/student/dashboard/Details')
+      }else if(role==='teacher'){
+          navigate('/teacher/dashboard',{state:access})
+      }else if(role==='marketer'){
+        navigate('/marketingStaff',{state:access})
+      }
+      }
+    } catch (error) {
+      console.error('JWT Decode Error:', error)
+    }
+  }else{
+    navigate('/Login')
+  }
+}
+  useEffect(()=>{
+    getToken()
+  },[])
   return (
     <>
     {/* desktop header */}
@@ -124,7 +163,7 @@ export default function HeaderSection() {
         {/* Right: Actions */}
         <div className="flex items-center gap-6">
           <div className="header-text text-gray-700 hover:!text-cyan-600 font-medium transition-colors cursor-pointer" 
-            onClick={()=>{navigate('/Login')}}>
+            onClick={handleTologin}>
             Login
           </div>
 
@@ -263,7 +302,7 @@ export default function HeaderSection() {
             {/* Login */}
             <div className="pt-four">
               <Button className=" paddingy-three flex items-center justify-center !bg-transparent w-full !text-gray-700 hover:text-cyan-600 border !border-[var(--accentsec)] font-medium transition-colors rounded-lg hover:bg-cyan-50"
-              onClick={()=>{navigate('/Login')}}
+              onClick={()=>{handleTologin}}
          >
       
               Login

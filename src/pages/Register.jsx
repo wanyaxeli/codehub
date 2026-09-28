@@ -207,6 +207,7 @@ export default function Register() {
         console.log('SUCCESS:', res.data);
     
         if (res.data.message === 'Lead created successfully') {
+          window.fbq('track', 'Lead');
           navigate('/Class booking');
         } else {
           setErrors('We experienced an error. Please try again.');

@@ -24,7 +24,7 @@ function App() {
   const [name, setName] = useState('')
   const [CountryCode, setCountryCode] = useState('')
   const [CountryName, setCountryName] = useState('')
-  const [student, setStudent] = useState('')
+  const [student,setStudent] = useState('')
   const [teacher, setTeacher] = useState('')
   const [classEndedfully, setClassEndedfully] = useState(false)
   const [proPic, setProPic] = useState('')
