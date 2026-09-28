@@ -55,6 +55,7 @@ export default function HeaderSection() {
     
       const decode = jwtDecode(token)
       console.log('asssss',decode)
+      const access=token
       const { exp,role } = decode
       if (exp <= Math.floor(Date.now() / 1000)) {
         localStorage.removeItem('token')
