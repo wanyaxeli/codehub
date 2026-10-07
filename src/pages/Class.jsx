@@ -243,6 +243,7 @@ useEffect(() => {
             ws.close();
         };
     },[code]);
+    
     function startCall(){
         if(participants && participants.length===2 && timeLeft ==='Event has started!' && user_id && ws &&  ice.length > 0){
             const InitiatorUser = participants.find(user =>user.initiator === true);
@@ -456,6 +457,7 @@ useEffect(() => {
         const { state } = location || {}; // Ensure location is not undefined
         const { id, time,typeOfClass ,student,studentPic,title,studentName,groupName,studentUserId,classType,notes,studentDetails,groupId,lessontype,lesid} = state || {};
         if (state && classType==='NormalClass') {
+            console.log('time...',time)
             setLesId(lesid)
             setCode(id);  // Set the state if it exists
             setStartingTime(time);
@@ -664,7 +666,7 @@ useEffect(() => {
         </div>
         
         <WherebyProvider>
-        <WherebyClass role={role} StudentUser_id={StudentUser_id} typeOfClass={typeOfClass} code={slug}/>
+        <WherebyClass role={role} StudentUser_id={StudentUser_id} typeOfClass={typeOfClass} code={slug} lessonCode={code}/>
         </WherebyProvider>
         {openSubmitModal && (
   ClassName && ClassName !== 'undefined' ? (

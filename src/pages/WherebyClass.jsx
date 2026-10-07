@@ -6,6 +6,7 @@ import { useRoomConnection } from "@whereby.com/browser-sdk/react";
 // import WherebyRoom from '@whereby.com/browser-sdk/react';
 import axios from "axios";
 import Whereby from '../Components/WhereBy';
+import WherebyIframe from '../Components/WhereBy';
 // export default function WherebyClass({code}) {
 //   const [roomUrl, setRoomUrl] = useState(null);
 //   // const [connection, setConnection] = useState(null);
@@ -102,7 +103,7 @@ import Whereby from '../Components/WhereBy';
 //   </div>
 //   )
 // }
-export default function WherebyClass({ StudentUser_id,code,role,studentName ,typeOfClass}) {
+export default function WherebyClass({ StudentUser_id,code,role,studentName ,typeOfClass,lessonCode}) {
   // const [roomUrl, setRoomUrl] = useState(null);
   const [roomUrl, setRoomUrl] = useState('');
   const [shouldConnect, setShouldConnect] = useState(false);
@@ -153,7 +154,7 @@ export default function WherebyClass({ StudentUser_id,code,role,studentName ,typ
   //   return <p>Loading room...</p>;
   // }
   if (roomUrl !=='' && roomUrl!=='undefined' && roomUrl!==null){
-    return <Whereby roomUrl={roomUrl}  />;
+    return <WherebyIframe roomUrl={roomUrl} code={lessonCode} studentUserId={StudentUser_id}  />;
   } 
    else{
     return <p>Loading room...</p>;

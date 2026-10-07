@@ -4,13 +4,15 @@ const CountdownTimer = ({ startingTime,timeLeft ,setTimeLeft}) => {
 
     useEffect(() => {
         if (!startingTime) return;
-        console.log('start',startingTime)
+        
         const eventTime = new Date(startingTime).getTime();
         let interval;  
 
         const updateCountdown = () => {
             const now = new Date().getTime();
             const remainingTime = eventTime - now;
+            console.log('start',startingTime)
+            console.log('remaining time ',remainingTime)
 
             if (remainingTime <= 0) {
                 setTimeLeft("Event has started!");

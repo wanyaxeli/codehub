@@ -76,6 +76,7 @@ export default function TeacherClassDetails() {
           localStorage.setItem('earning', seeEarning);
         }
       }
+
     const handleToJoinClass=(les,student,Lessonid,time)=>{
         
         todayClass.forEach(item=>{
@@ -109,6 +110,7 @@ export default function TeacherClassDetails() {
             }
         })
     }
+    
     const handleNotes = ( title,les, notes) => {
         // e.preventDefault(); // Prevents default link or form behavior
         const id = title
@@ -372,7 +374,7 @@ export default function TeacherClassDetails() {
   useEffect(()=>{
    getToken()
   },[])
-  console.log('progress',todayClass)
+  console.log('todayClass',todayClass)
   return (
     <div className='DetailsWrapper'>
          <div className='TeacherDetailsWrapper'>
@@ -449,7 +451,7 @@ export default function TeacherClassDetails() {
                                     </div>
                                 </div>
                             <div>
-                            <h2>reschedule NclassName</h2>
+                            <h2>reschedule className</h2>
                             </div>
                             <div className='rescheduleInputWrapper'>
                                 <input value={dates} type='datetime-local' onChange={handleDateInputs}/>

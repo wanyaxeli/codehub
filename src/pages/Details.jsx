@@ -251,6 +251,10 @@ export default function Details() {
     const handleBlogManagement=()=>{
       navigate('/teacher/dashboard/blogs')
     }
+
+    const handleLiveClasses=()=>{
+      navigate('/teacher/dashboard/liveclasses')
+    }
     useEffect(()=>{
     getToken()
     },[])
@@ -354,6 +358,9 @@ export default function Details() {
     </div>
     <div onClick={handleBlogManagement} className='actionBtnContainer bookingsManagerBtn'>
       <p>Blog Management</p>
+    </div>
+    <div onClick={handleLiveClasses} className='actionBtnContainer bookingsManagerBtn'>
+      <p>Live Classes</p>
     </div>
 
   </div>
