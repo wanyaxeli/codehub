@@ -89,7 +89,7 @@ const normalizeStatus = (item: any): Status | null => {
   }
 }
 //  const API_URL = 'http://127.0.0.1:8000'
- const API_URL='https://api.codingscholar.com/api/token/'
+ const API_URL='https://api.codingscholar.com'
 const {
   data: classes = [],
   isLoading,
