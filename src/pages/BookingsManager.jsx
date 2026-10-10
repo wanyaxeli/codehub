@@ -19,6 +19,7 @@ export default function BookingsManager() {
   console.log('valu',values)
   const handleSubmit=()=>{
     const url='https://api.codingscholar.com/TeacherAvailability/'
+    // const url='http://127.0.0.1:8000/TeacherAvailability/'
     const splitName=values.teacher.trim().split(/\s+/);
     const first_name=splitName[0]
     const last_name=splitName[1]

@@ -112,34 +112,6 @@ const {
     const refreshing = isFetching && !isLoading
 
 
-//   const fetchLiveClasses = (silent = false) => {
-//   const API_URL = 'http://127.0.0.1:8000'
-//   silent ? setRefreshing(true) : setIsLoading(true)
-//   return fetch(`${API_URL}/getliveclasses/`, {
-//     headers: { "Authorization": `Bearer ${token}` }
-//   })
-//     .then((res) => res.json())
-//     .then(({ live_classes, status }) => {
-//       const mappedClasses = live_classes.map((lc: any) => ({
-//         ...lc,
-//         uiStatus: normalizeStatus(lc)
-//       }))
-//       setClasses(mappedClasses)
-//       console.log('\n__MAPPED_LIVE_CLASSES__',mappedClasses)
-//     })
-//     .catch((err) => console.error('getliveclasses failed:', err))
-//     .finally(() => {
-//       setIsLoading(false)
-//       setRefreshing(false)
-//     })
-// }
-
-// useEffect(() => {
-//   fetchLiveClasses()
-// }, [token])
-
-// useEffect(()=>{ ...old inline fetch... },[token])
-
   const normalizeFilters=(item:any,filter:string)=>{
     if (filter==='ongoing'){
         return item.status==='live'
