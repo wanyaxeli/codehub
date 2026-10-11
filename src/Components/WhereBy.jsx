@@ -41,7 +41,7 @@ export default function WherebyIframe({ roomUrl,code,studentUserId }) {
    }
 
 
-    const { prompt, secondsLeft, stillHere } = useAloneGuard(count, closeRoom);
+    // const { prompt, secondsLeft, stillHere } = useAloneGuard(count, closeRoom);
 
      useEffect(() => {
       if (!baseUrl) return;
