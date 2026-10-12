@@ -58,8 +58,8 @@ export default function Page() {
   const [query, setQuery] = useState('')
 //   const [refreshing, setRefreshing] = useState(false)
   const [selected, setSelected] = useState<any|null>(null)
-  const token=localStorage.getItem('token')
-//   const [classes,setClasses]=useState<[]|null>(null)
+  const [token,setToken]=useState<any|null>(null)
+  //   const [classes,setClasses]=useState<[]|null>(null)
   const [loading,setIsLoading]=useState(false)
   const navigate=useNavigate()
   const [studentPic,setStudentPic]=useState('')
@@ -110,6 +110,12 @@ const {
   },
 })   
     const refreshing = isFetching && !isLoading
+
+    useEffect(()=>{
+        const mytoken=localStorage.getItem('token')
+        console.log(mytoken) 
+        if(token)setToken(mytoken)
+    })
 
 
   const normalizeFilters=(item:any,filter:string)=>{
@@ -170,7 +176,7 @@ const {
     const handleToJoinClass=(cl:any)=>{
         if(cl.student_lesson.is_completed===false){
             const studentUserId=cl.student.student_userId
-            const title=cl.lesson.title 
+            const title=cl?.lesson?.title 
             const url_notes=cl.lesson.pdf_notes  
             const id=cl.lesson.lessonId
             const navID=`${cl.student.id}${id}`
@@ -232,7 +238,7 @@ const {
             </button>{cards.map((card) => 
             <button key={card.filter} className={`summary-card ${card.tone} ${filter === card.filter ? 'selected' : ''}`} onClick={() => setFilter(card.filter)}>
                 <div className="card-top">
-                    <span>{card.title}</span>
+                    <span>{card?.title}</span>
                     <span className="status-dot" />
                 </div>
                 <strong>{card.count}</strong>
@@ -266,7 +272,7 @@ const {
                     <tbody>{visibleClasses?.map((item:any) => 
 
                         <tr key={item.id} onClick={() => setSelected(item)} tabIndex={0} onKeyDown={(event) => event.key === 'Enter' && setSelected(item)}>
-                        <td className="class-name">{item.lesson.title}</td>
+                        <td className="class-name">{item?.lesson?.title}</td>
                         <td>{getTimeIn24HR(item.scheduled_start)}</td>
                         <td>{toTitleCase(`${item.teacher.first_name} ${item.teacher.last_name}`)?? '—'}</td>
                         <td>{toTitleCase(`${item.student.first_name} ${item.student.last_name}`)?? '—'}</td>
@@ -294,7 +300,7 @@ const {
             <div className="drawer-header">
                 <div>
                     <span className="eyebrow">CLASS DETAILS</span>
-                    <h2>{selected?.lesson.title}</h2>
+                    <h2>{selected?.lesson?.title}</h2>
                 </div>
                 <button className="close-button" onClick={() => setSelected(null)} aria-label="Close details">
                     <X size={19} />
