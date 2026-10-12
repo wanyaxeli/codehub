@@ -24,7 +24,7 @@ export default function Login() {
         if(values.email){
             if (emailRegex.test(values.email)) {
                 if(values.password){
-                    // const url='http://127.0.0.1:8000/api/token/'
+                    // const url='https://untawed-overheady-tony.ngrok-free.dev/api/token/'
                     const url='https://api.codingscholar.com/api/token/'
                     axios.post(url,values,{headers:{
                       'Content-Type':'application/json'

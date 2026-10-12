@@ -106,16 +106,25 @@ const {
     })
     if (!res.ok) throw new Error(`getliveclasses failed: ${res.status}`)
     const { live_classes } = await res.json()
+    console.log('live_classes...',live_classes)
     return live_classes.map((lc: any) => ({ ...lc, uiStatus: normalizeStatus(lc) }))
   },
 })   
     const refreshing = isFetching && !isLoading
 
-    useEffect(()=>{
-        const mytoken=localStorage.getItem('token')
-        console.log(mytoken) 
-        if(token)setToken(mytoken)
-    })
+    async function getToken(){
+      try{
+          const token= localStorage.getItem('token') // No need to await
+          if (token){
+              setToken(token);
+          }
+      } catch(error) {
+          console.log(error);
+    }
+    }
+  useEffect(()=>{
+    getToken()
+  },[])
 
 
   const normalizeFilters=(item:any,filter:string)=>{
