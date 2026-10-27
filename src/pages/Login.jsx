@@ -6,6 +6,8 @@ import axios from 'axios'
 import { Helmet } from 'react-helmet-async';
 import {Link} from 'react-router-dom'
 import { ChevronLeft } from 'lucide-react'
+import { useAuth } from '../context/AuthContext'   // adjust the path
+
 export default function Login() {
     const navigate =useNavigate()
     const initialState={
@@ -19,64 +21,127 @@ export default function Login() {
     const {value,name}=e.target
     setValues({...values,[name]:value})
     }
-    const handleToSignUp =()=>{
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Email validation regex
-        if(values.email){
-            if (emailRegex.test(values.email)) {
-                if(values.password){
-                    // const url='https://untawed-overheady-tony.ngrok-free.dev/api/token/'
-                    const url='https://api.codingscholar.com/api/token/'
-                    axios.post(url,values,{headers:{
-                      'Content-Type':'application/json'
-                    }})
-                    .then(res=>{
-                      const data = res.data
-                      const{access, refresh, role}=data
-                      localStorage.setItem('token',access)
-                      console.log(access,role)
-                      if(role ==='student'){
-                          navigate('/student/dashboard/Details')
-                      }else if(role==='teacher'){
-                          navigate('/teacher/dashboard',{state:access})
-                      }else if(role==='marketer'){
-                        navigate('/marketingStaff',{state:access})
-                      }
+    const { login } = useAuth()
+
+    const API_BASE = import.meta.env.VITE_API_URL ?? 'https://api.codingscholar.com'
+    // const handleToSignIn =()=>{
+    //     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Email validation regex
+    //     if(values.email){
+    //         if (emailRegex.test(values.email)) {
+    //             if(values.password){
+    //                 // const url='https://untawed-overheady-tony.ngrok-free.dev/api/token/'
+    //                 const url=`${API_BASE}/api/token/`
+    //                 axios.post(url,values,{headers:{
+    //                   'Content-Type':'application/json'
+    //                 }})
+    //                 .then(res=>{
+    //                   const data = res.data
+    //                   const{access, refresh, role}=data
+    //                   localStorage.setItem('token',access)
+    //                   console.log(access,role)
+    //                   if(role ==='student'){
+    //                       navigate('/student/dashboard/Details')
+    //                   }else if(role==='teacher'){
+    //                       navigate('/teacher/dashboard',{state:access})
+    //                   }else if(role==='marketer'){
+    //                     navigate('/marketingStaff',{state:access})
+    //                   }
+    //                 })
+    //                 .catch(error=>{
+    //                   if (error.response) {
+    //                       // The request was made, but the server responded with an error status code
+    //                       console.log('Error Status:', error.response.status); // Example: 401
+    //                       if( error.response.status===400){
+    //                          setError('Please Fill All Inputs')
+    //                       }else if( error.response.status===404){ 
+    //                          setError('Please No User Found')
+    //                       }else if( error.response.status===401){
+    //                          setError("Please Enter Correct Password ")
+    //                       }
+    //                       console.log('Error Data:', error.response.data); // The server response
+    //                       console.log('Error Headers:', error.response.headers);
+    //                   } else if (error.request) {
+    //                       // The request was made but no response was received
+    //                       console.log('No response received:', error.request);
+    //                       setError('Bad Request')
+    //                   } else {
+    //                       // Something else happened in setting up the request
+    //                       console.log('Axios Error:', error.message);
+    //                       if(error.message ==="Network Error"){
+    //                            setError("Network error! Please check your internet connection or server.")
+    //                       }
+    //                   }
+    //                 })
+    //             }else{
+    //              setError('Please Enter Password')
+    //             }
+    //         }else{
+    //             setError("Email is invalid")
+    //         }
+    //     }else{
+    //         setError("Please Enter Email")
+    //     }
+    // }
+    const handleToSignIn = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Email validation regex
+    if (values.email) {
+        if (emailRegex.test(values.email)) {
+            if (values.password) {
+                // const url='https://untawed-overheady-tony.ngrok-free.dev/api/token/'
+                // const url=`${API_BASE}/api/token/`
+                // axios.post(url,values,{headers:{
+                //   'Content-Type':'application/json'
+                // }})
+                // .then(res=>{
+                //   const data = res.data
+                //   const{access, refresh, role}=data
+                //   localStorage.setItem('token',access)
+                //   console.log(access,role)
+                login(values) // POSTs to /api/token/, cookies are set by the backend, returns the role
+                    .then((role) => {
+                        if (role === 'student') {
+                            navigate('/student/dashboard/Details')
+                        } else if (role === 'teacher') {
+                            navigate('/teacher/dashboard') // ,{state:access}
+                        } else if (role === 'marketer') {
+                            navigate('/marketingStaff') // ,{state:access}
+                        }
                     })
-                    .catch(error=>{
-                      if (error.response) {
-                          // The request was made, but the server responded with an error status code
-                          console.log('Error Status:', error.response.status); // Example: 401
-                          if( error.response.status===400){
-                             setError('Please Fill All Inputs')
-                          }else if( error.response.status===404){ 
-                             setError('Please No User Found')
-                          }else if( error.response.status===401){
-                             setError("Please Enter Correct Password ")
-                          }
-                          console.log('Error Data:', error.response.data); // The server response
-                          console.log('Error Headers:', error.response.headers);
-                      } else if (error.request) {
-                          // The request was made but no response was received
-                          console.log('No response received:', error.request);
-                          setError('Bad Request')
-                      } else {
-                          // Something else happened in setting up the request
-                          console.log('Axios Error:', error.message);
-                          if(error.message ==="Network Error"){
-                               setError("Network error! Please check your internet connection or server.")
-                          }
-                      }
+                    .catch(error => {
+                        if (error.response) {
+                            // The request was made, but the server responded with an error status code
+                            console.log('Error Status:', error.response.status); // Example: 401
+                            if (error.response.status === 400) {
+                                setError('Please Fill All Inputs')
+                            } else if (error.response.status === 404) {
+                                setError('Please No User Found')
+                            } else if (error.response.status === 401) {
+                                setError("Please Enter Correct Password ")
+                            }
+                            console.log('Error Data:', error.response.data); // The server response
+                            console.log('Error Headers:', error.response.headers);
+                        } else if (error.request) {
+                            // The request was made but no response was received
+                            console.log('No response received:', error.request);
+                            setError('Bad Request')
+                        } else {
+                            // Something else happened in setting up the request
+                            console.log('Axios Error:', error.message);
+                            if (error.message === "Network Error") {
+                                setError("Network error! Please check your internet connection or server.")
+                            }
+                        }
                     })
-                }else{
-                 setError('Please Enter Password')
-                }
-            }else{
-                setError("Email is invalid")
+            } else {
+                setError('Please Enter Password')
             }
-        }else{
-            setError("Please Enter Email")
+        } else {
+            setError("Email is invalid")
         }
+    } else {
+        setError("Please Enter Email")
     }
+}
 
     const handleChecked =(e)=>{
     setShowPassword(e.target.checked)
@@ -171,7 +236,7 @@ export default function Login() {
              <span>show password</span>
            </div>
            <div className='LoginBtnWrapper'>
-            <button onClick={handleToSignUp}>Login</button>
+            <button onClick={handleToSignIn}>Login</button>
            </div>
            <div>
             <p className='margintop-ii justify-center  text-md text-center'>Don't have an account? <a className='link-blue text-sm font-medium' href="/register">Try Free Trial</a></p>

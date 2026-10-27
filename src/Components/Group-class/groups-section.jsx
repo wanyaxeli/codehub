@@ -5,6 +5,7 @@ import { GroupTable } from './group-table'
 import { ChevronLeft,ChevronRight,X } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { ConfirmationModal } from '../global-layoutss/confirmationmodal'
+import { API } from '@/lib/api'
 const ITEMS_PER_PAGE=7
 const TEACHERS = [
   'John Smith',
@@ -19,7 +20,7 @@ export default function GroupSection({onViewGroup}) {
     const [groupName,setGroupName]=useState('')
     const [currentPage,setCurrentPage]=useState(1)
     const [isModalOpen,setIsModalOpen]=useState()
-    const [gotentoken,setGotenToken]=useState()
+
     const [groups, setGroups] = useState([]);
   const [formData, setFormData] = useState({
     name: '',
@@ -53,13 +54,10 @@ export default function GroupSection({onViewGroup}) {
     // const handleToTeacherClass=()=>{
     //     navigate('/teacher/dashboard/Teacher Group Class')
     // }
-    const groupurl="https://api.codingscholar.com/class_groups/"
-    const fetchgroups=async(gottoken)=>{
+    const groupurl=`${API}/class_groups/`
+    const fetchgroups=async()=>{
       const allgroups=await axios.get(groupurl,
-        { headers: {
-          "Authorization":`Bearer ${gottoken}`
-        }}
-      )
+        )
 
       const sortedgroups=allgroups.data.sort((a,b)=>new Date(b.created_at)-new Date(a.created_at))
       setGroups(sortedgroups)
@@ -67,16 +65,8 @@ export default function GroupSection({onViewGroup}) {
 
 
     useEffect(()=>{
-      const gotentoken=localStorage.getItem('token')
-      setGotenToken(gotentoken)
-
-      fetchgroups(gotentoken)
-      
-
-
-
-
-    },[])
+      fetchgroups()
+ },[])
 
     
 
@@ -92,14 +82,12 @@ export default function GroupSection({onViewGroup}) {
 
       console.log('new group..',newGroup)
 
-      const gotentoken=localStorage.getItem('token')
+   
 
       const gradeName=groupName
       
       const savegroup=await axios.post(groupurl,{gradeName},
-       { headers: {
-          "Authorization":`Bearer ${gotentoken}`
-        }}
+       { withCredentials:true,}
         
       )
       const savedgroup=savegroup.data
@@ -108,7 +96,7 @@ export default function GroupSection({onViewGroup}) {
 // {message: 'Class group successfully created'}
       if (savedgroup.message=== 'Class group successfully created'){
         alert("Group created successfully")
-        fetchgroups(gotentoken)
+        fetchgroups()
         setGroupName('');
         setCurrentPage(1);
 
@@ -118,7 +106,7 @@ export default function GroupSection({onViewGroup}) {
       }
 
       // if (savedgroup){
-      //   fetchgroups(gotentoken)
+      //   fetchgroups()
       //   // setGroups([newGroup, ...groups]);
       //   setGroupName('');
       //   setCurrentPage(1);

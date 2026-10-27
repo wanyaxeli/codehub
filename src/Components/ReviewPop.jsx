@@ -8,16 +8,14 @@ export default function ReviewPOP({getQuiz,setReview,studentId,quizId}) {
       points:'',
       comment:''
     }
-    const [token,setToken]=useState('')
+    
     const [values,setValues]=useState(initialState)
     const [error,setError]=useState('')
    const handleReview=()=>{
-   if(studentId && quizId && token && values.points !=='undefined' && values.comment !=='undefined' ){
-    const url = 'https://api.codingscholar.com/updateStudentMarks/';
+   if(studentId && quizId  && values.points !=='undefined' && values.comment !=='undefined' ){
+    const url = `${API}/updateStudentMarks/`;
     const data={studentId:studentId,points:parseInt(values.points),comment:values.comment,quizId:quizId}
-    axios.put(url,data,{headers:{
-        'Authorization':`Bearer ${token}`
-    }})
+    axios.put(url,data,{withCredentials:true})
     .then(res=>{
         console.log(res.data)
         setValues(initialState)
@@ -39,19 +37,8 @@ export default function ReviewPOP({getQuiz,setReview,studentId,quizId}) {
     })
    }
    console.log(values)
-   async function getToken(){
-    try{
-        const token= localStorage.getItem('token') // No need to await
-        if (token){
-            setToken(token);
-        }
-    } catch(error) {
-        console.log(error);
-}
-}
-useEffect(()=>{
- getToken()
-},[])
+ 
+
   return ReactDOM.createPortal (
     <div className='AlertPOPUpWrapper'>
         <div className='AlertPOPUpContainer'>

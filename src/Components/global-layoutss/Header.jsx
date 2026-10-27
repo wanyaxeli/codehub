@@ -6,6 +6,7 @@ import pic2 from '@/assets/codehubImage.jpeg'
 import HeaderDetails from '../HeaderDetails';
 import Sidebar from '../sideBar'
 import { jwtDecode } from 'jwt-decode'
+import { useAuth } from '@/context/AuthContext'
 export default function Header() {
     const [selectedValue, setSelectedValue] = useState('');
     // const [token,setToken]=useState('')
@@ -15,6 +16,8 @@ export default function Header() {
     const navigate=useNavigate()
     const {teacher,student,proPic}=useContext(context)
     const {pathname}=location
+    const {logout,user}=useAuth()
+    
     
     const handleChange = (event) => {
         setSelectedValue(event.target.value);
@@ -54,9 +57,8 @@ export default function Header() {
    
    
     const handleToLogin=()=>{
-     
-      const token=localStorage.getItem('token')
-      if (token){
+      const user_id=user.id
+      if (user_id){
         
            try {
           const decode = jwtDecode(token);
@@ -131,11 +133,12 @@ export default function Header() {
   useEffect(()=>{
     setToggleSideBarClass('sideBarWrapper')
   },[])
-  const handleLogout =()=>{
-    localStorage.removeItem('token')
-    localStorage.removeItem('refpopup_open')
-    navigate('/')
-  }
+
+  const handleLogout = async () => {
+  await logout()
+  localStorage.removeItem('refpopup_open')
+  navigate('/')
+}
   // useEffect(()=>{
   // getToken()
   // },[])

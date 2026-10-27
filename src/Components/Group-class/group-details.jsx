@@ -2,6 +2,7 @@ import { Accessibility, ArrowLeft, Calendar, Check, Edit2, Plus, Trash2, User, U
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import AddStudents from "../../pages/AddStudents";
+import { API } from "@/lib/api";
 
 // const allstudents = [
 //   {
@@ -69,28 +70,25 @@ export default function GroupDetails({group,onBack}){
     const [classDay,setClassDay]=useState()
     const [scheduleDays,setScheduleDays]=useState([])
     const [changedTeacher,setChangedTeacher]=useState()
-    const [got_t, setGot_t]=useState()
+    
+  
 
-    const student_url='https://api.codingscholar.com/student/'
-    const teachers_url ='https://api.codingscholar.com/registerTeacher/'
-    const saveroom_url=`https://api.codingscholar.com/CreateClassGroupRoomView/${group.id}`
-    const studentaddurl=`https://api.codingscholar.com/AddStudentToGroup/${group.id}`
-    const scheduleclasses_url =`https://api.codingscholar.com/GroupLessonView/${group.id}`
+    const student_url=`${API}/student/`
+     const teachers_url =`${API}/registerTeacher/`
+    const saveroom_url=`${API}/CreateClassGroupRoomView/${group.id}`
+    const studentaddurl=`${API}/AddStudentToGroup/${group.id}`
+    const scheduleclasses_url =`${API}/GroupLessonView/${group.id}`
     // const scheduleclasses_url=''
-    const deletegroup=`https://api.codingscholar.com/DeleteGroupclass/${group.id}`
-    const students_in_group_url=`https://api.codingscholar.com/studentInGroup/${group.id}`
-    const group_lesson_url=`https://api.codingscholar.com/teacherGroupClass`
-    const group_details=`https://api.codingscholar.com/Get_class_group_room/${group.id}`
-    const remove_student=`https://api.codingscholar.com/RemoveStudentInGroupClass/${group.id}`
+    const deletegroup=`${API}/DeleteGroupclass/${group.id}`
+    const students_in_group_url=`${API}/studentInGroup/${group.id}`
+    const group_lesson_url=`${API}/teacherGroupClass`
+    const group_details=`${API}/Get_class_group_room/${group.id}`
+    const remove_student=`${API}/RemoveStudentInGroupClass/${group.id}`
 
 
-    const fetchgroup_students=async(goten_token)=>{
+    const fetchgroup_students=async()=>{
       try{
-        const students=await axios.get(students_in_group_url,{
-          headers:{
-            Authorization:`Bearer ${goten_token}`
-          }
-        })
+        const students=await axios.get(students_in_group_url,)
 
         const group_students=students.data
         setStudents(group_students)
@@ -112,13 +110,9 @@ export default function GroupDetails({group,onBack}){
       })
     }
 
-    const grouplessons=async(goten_token)=>{
+    const grouplessons=async()=>{
       try{
-        const {data}=await axios.get(group_lesson_url,{
-          headers:{
-            Authorization:`Bearer ${goten_token}`
-          }
-        })
+        const {data}=await axios.get(group_lesson_url,)
 
         const group_classes=data.filter((lesson)=> lesson.group_class.id==group.id && new Date(lesson.date_time).getTime() >= Date.now())
         setscheduledClasses(group_classes)
@@ -190,12 +184,11 @@ export default function GroupDetails({group,onBack}){
       }
     }
     useEffect(()=>{
-      const got_t=localStorage.getItem('token')
-      setGot_t(got_t)
-      fetchgroup_students(got_t)
+     
+      fetchgroup_students()
       fetchData()
       fetch_groupdetails()
-      grouplessons(got_t)
+      grouplessons()
       
     },[])
 
@@ -230,7 +223,7 @@ export default function GroupDetails({group,onBack}){
             // api call
             if (addedstudents.length>0){
               addresults=await Promise.allSettled(
-                addedstudents.map(student=>axios.post(studentaddurl,{student:student.id},{headers:{"Authorization":`Bearer ${got_t}`}}))
+                addedstudents.map(student=>axios.post(studentaddurl,{student:student.id},{ withCredentials:true,}))
               )
 
               addresults.forEach((add_res,index)=>{
@@ -247,7 +240,7 @@ export default function GroupDetails({group,onBack}){
 
               removedresults=await Promise.allSettled(
                 removedstudents.map(removedstudent=>axios.delete(remove_student,
-                  {headers:{"Authorization":`Bearer ${got_t}`},
+                  { withCredentials:true,
                    data:{student_id:removedstudent.id}
                 }
                 ))
@@ -265,7 +258,7 @@ export default function GroupDetails({group,onBack}){
             await new Promise((resolve) => setTimeout(resolve, 1000));
 
             setOriginalstudents(students)
-            fetchgroup_students(got_t)
+            fetchgroup_students()
             
 
         }catch(e){
@@ -314,9 +307,7 @@ export default function GroupDetails({group,onBack}){
                 teacherId:room.teacher
               },
               {
-                headers:{
-                  "Authorization":`Bearer ${got_t}`
-                }
+                withCredentials:true
               }
             
              )
@@ -447,9 +438,7 @@ export default function GroupDetails({group,onBack}){
                 "lesson_number":addclass.lessonNumber
               },
               {
-                headers:{
-                  "Authorization":`Bearer ${got_t}`
-                }
+                 withCredentials:true,
               }
             )
 
@@ -475,9 +464,7 @@ export default function GroupDetails({group,onBack}){
                 class:removeclass.id
               },
               {
-                headers:{
-                  "Authorization":`Bearer ${got_t}`
-                }
+                 withCredentials:true,
               }
             ))
 
@@ -535,9 +522,7 @@ export default function GroupDetails({group,onBack}){
     setShowDeleteConfirmModal(false);
     // const {addedstudents,removedstudents} =getStudentchanges()
     const deletinggroup=await axios.delete(deletegroup,{
-      headers:{
-        Authorization:`Bearer ${got_t}`
-      }
+      withCredentials:true,
     }) 
 
     onBack();

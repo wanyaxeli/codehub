@@ -1,5 +1,6 @@
 import React,{useState,useEffect} from 'react'
 import axios from 'axios'
+import {API} from '@/lib/api'
 export default function SetQuiz() {
   const initialState={quiz:'',name:'',deadline:'',module:'',title:''}
   const [values,setValues]=useState(initialState)
@@ -13,13 +14,11 @@ export default function SetQuiz() {
   }
   const handleSubmit =()=>{
     if(values.module && lesson &&values.deadline && values.name && values.quiz && values.title){
-      const url = 'https://api.codingscholar.com/Quizes/';
+      const url = `${API}/Quizes/`;
       const data={module:values.module,
       lessonId:lesson,deadline:values.deadline,name:values.name,
       quiz:values.quiz,title:values.title}
-      axios.post(url,data,{headers:{
-        'Authorization':`Bearer ${token}`
-      }})
+      axios.post(url,data,{ withCredentials:true,})
       .then(res=>{
         console.log(res.data)
         setValues(initialState)
@@ -31,7 +30,7 @@ export default function SetQuiz() {
     }
   }
   function getNotes(){
-    const url ='https://api.codingscholar.com/classNotes/'
+    const url =`${API}/classNotes/`
     axios.get(url)
     .then(res=>{
         console.log('res notes',res.data)
@@ -41,23 +40,12 @@ export default function SetQuiz() {
     .catch(error=>console.log(error))
 }
 
-  async function getToken(){
-    try{
-        const token= localStorage.getItem('token') // No need to await
-        if (token){
-            setToken(token);
-        }
-    } catch(error) {
-        console.log(error);
-}
-} 
+ 
 const handleCourseChange=(e)=>{
  console.log(e)
  setLesson(e)
 }
-useEffect(()=>{
-getToken()
-},[])
+
 useEffect(()=>{
   getNotes()
  },[])

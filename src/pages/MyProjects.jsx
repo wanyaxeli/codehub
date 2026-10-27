@@ -1,24 +1,13 @@
 import React,{useState,useEffect} from 'react'
 import axios from 'axios'
+import {API} from '@/lib/api'
 export default function MyProjects() {
   const [projects,setProject]=useState([])
-  const [token,setToken]=useState()
-  async function getToken(){
-    try{
-        const token= localStorage.getItem('token') // No need to await
-        if (token){
-            setToken(token);
-        }
-    } catch(error) {
-        console.log(error);
-}
-}
+  
 function getProjects(){
   if(token){
-    const url = 'https://api.codingscholar.com/studentProject/';
-    axios.get(url,{headers:{
-      'Authorization':`Bearer ${token}`
-    }})
+    const url = `${API}/studentProject/`;
+    axios.get(url)
     .then(res=>{
       const data=res.data
       console.log('res',data)
@@ -34,16 +23,14 @@ function getProjects(){
 }
 useEffect(()=>{
   getProjects()
- },[token])
+ },[])
  const handleViewProject=(link)=>{
   if (!link.startsWith('http://') && !link.startsWith('https://')) {
     link = 'https://' + link; // add https:// if missing
   }
   window.open(link, '_blank');
  }
-useEffect(()=>{
- getToken()
-},[])
+
   return (
     <div className='MyProjectsWrapper'>
          <div>

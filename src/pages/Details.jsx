@@ -7,16 +7,20 @@ import { parsePhoneNumberFromString } from "libphonenumber-js";
 import countries from "i18n-iso-countries";
 import en from "i18n-iso-countries/langs/en.json";
 import { jwtDecode } from 'jwt-decode'
+import { useAuth } from '../context/AuthContext'
+import {API} from '../lib/api'
 // countries.registerLocale(en);
 export default function Details() {
     const [booking,setBookings]=useState([])
     const [loading,setLoading]=useState(false)
     const [token,setToken]=useState('')
-    const [userId,setUser_id]=useState('')
     const [todayBooking,settodayBooking]=useState([])
     const navigate=useNavigate()
     const {teacher,proPic,getProfilePic,seeEarning,setEarning} =useContext(context)
     const [profilePic,setProfilePic]=useState('')
+    const {user}=useAuth()
+    const userId=user.id
+
     const handleToAllTeachers=()=>{
     navigate('/teacher/dashboard/All Teachers')
     }
@@ -55,17 +59,8 @@ export default function Details() {
     const handleSetLessons=()=>{
         navigate('/teacher/dashboard/Lessons')
     }
-    async function getToken(){
-        try{
-            const token= localStorage.getItem('token') // No need to await
-            if (token){
-                setToken(token);
-            }
-        } catch(error) {
-            console.log(error);
-  }
-}
-    // Register the English locale for i18n-iso-countries
+
+    
     countries.registerLocale(en);
 
     // Function to fetch country name by country code
@@ -79,16 +74,17 @@ export default function Details() {
       navigate('/teacher/dashboard/Slots')
     }
     function UpdateProfilePic(){
-    if(token && profilePic){
-        const url = 'https://api.codingscholar.com/profilePic/';
+    if(profilePic){
+        const url = `${API}/profilePic/`;
         const formData = new FormData();
         formData.append('image', profilePic);
 
         axios.post(url,formData,{
             headers: {
-                'Authorization': `Bearer ${token}`,
-                // 'Content-Type': 'multipart/form-data'
-            }
+                
+                'Content-Type': 'multipart/form-data'
+            },
+            withCredentials: true
         })
         .then(response => {
             alert(response.data.message)
@@ -110,37 +106,25 @@ export default function Details() {
     //     })
     //     .catch(error=>console.log(error))  
     // }
-    useEffect(() => {
-   
-        if (token) {
-          try {
-            const decode = jwtDecode(token);
-            const {role,user_id}=decode
-            setUser_id(user_id)
-            console.log("Decoded Token:", role);
-            // setRole(role)
-          } catch (error) {
-            console.error("JWT Decode Error:", error);
-          }
-        }
-      }, [token]);
+    
     useEffect(()=>{
     UpdateProfilePic()
-    },[token,profilePic])
+    },[profilePic])
     useEffect(()=>{
-        getProfilePic(token)
-    },[token])
+        getProfilePic()
+    },[])
+
     useEffect(()=>{
-    if(token){
-        const url ='https://api.codingscholar.com/Teacherbooking/'
+        const url = `${API}/Teacherbooking/`
         setLoading(true)
         axios.get(url,{headers:{
-           'Content-Type':'application/json',
-           'Authorization':`Bearer ${token}`
+           'Content-Type':'application/json'
+          //  'Authorization':`Bearer ${token}`
         }})
         .then(res=>{
            const data=res.data
            setLoading(false)
+           console.log('booking data...',data)
            if (data){ 
            data.forEach(item=>{
                const {countryCode,BookingName,phone_number,grade,time,joined,id,email,date} =item
@@ -176,18 +160,11 @@ export default function Details() {
         .catch(error=>{
            console.log(error)
         })
-    }
-    },[token])
-    async function getToken(){
-        try{
-            const token= localStorage.getItem('token') // No need to await
-            if (token){
-                setToken(token);
-            }
-        } catch(error) {
-            console.log(error);
-  }
-}
+    
+    },[])
+
+
+
     useEffect(()=>{
     if(booking){
        // Get year, month, and day
@@ -255,9 +232,7 @@ export default function Details() {
     const handleLiveClasses=()=>{
       navigate('/teacher/dashboard/liveclasses')
     }
-    useEffect(()=>{
-    getToken()
-    },[])
+  
     const handleToSeeEarning =()=>{
       if(seeEarning===true){
         setEarning(false)

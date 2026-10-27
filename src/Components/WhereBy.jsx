@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import {API} from '../lib/api'
 // import { useAloneGuard } from "./whereby_alone_guard";
 
 export default function WherebyIframe({ roomUrl,code,studentUserId }) {
@@ -15,7 +16,7 @@ export default function WherebyIframe({ roomUrl,code,studentUserId }) {
    ? `${roomUrl}&showLogo=false`
    : `${roomUrl}?showLogo=false`;
 
-   const token=localStorage.getItem('token')
+  
 
   //  mark that a person has joined a room and the time they did join
    const API_URL = 'https://api.codingscholar.com'
@@ -26,12 +27,13 @@ export default function WherebyIframe({ roomUrl,code,studentUserId }) {
         lessonId:code,
         studentUserId
       }
-      const res=await fetch(`${API_URL}/update_liveclass/`,{
+      const res=await fetch(`${API}/update_liveclass/`,{
         method:'PATCH',
         headers:{
-          'Authorization':`Bearer ${token}`,
+          // 'Authorization':`Bearer ${token}`,
           'Content-Type':'application/json'
         },
+        credentials:'include',
         body:JSON.stringify(to_updatedata)
       })
     }catch(e){
@@ -54,7 +56,7 @@ export default function WherebyIframe({ roomUrl,code,studentUserId }) {
       console.log('Whereby event:', type, payload); // log everything first
 
       if (type === 'participantupdate') {
-        alert('participantupdate..',payload?.count )
+        // alert('participantupdate..',payload?.count )
         setCount(payload?.count ?? 0);
       }
 

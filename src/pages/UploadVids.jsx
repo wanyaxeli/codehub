@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { API } from '@/lib/api';
 
 export default function UploadVids() {
-  const [token, setToken] = useState('');
   const [values, setValues] = useState({
     className: '',
     grade: '',
@@ -18,17 +18,7 @@ export default function UploadVids() {
     }
   };
 
-  const getToken = () => {
-    const storedToken = localStorage.getItem('token');
-    if (storedToken) {
-      setToken(storedToken);
-    }
-  };
-
-  useEffect(() => {
-    getToken();
-  }, []);
-
+  
   const handleUpload = async () => {
     if (!values.className || !values.grade || !videoFile) {
       alert('All fields are required.');
@@ -41,11 +31,12 @@ export default function UploadVids() {
     formData.append('vid', videoFile); 
 
     try {
-      const res = await axios.post('https://api.codingscholar.com/teacherVideoUpload/', formData, {
+      const res = await axios.post(`${API}/teacherVideoUpload/`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${token}`,
+        
         },
+        withCredentials: true, // Include credentials for cross-origin requests
       });
       alert('Upload successful!');
       console.log(res.data);

@@ -1,10 +1,11 @@
 import React,{useEffect,useState}from 'react'
 import { useNavigate,Outlet } from 'react-router-dom'
 import axios from 'axios'
+import { API } from '@/lib/api'
 export default function Questions() {
     const [mathlessonactive,setMathLessonActive]=useState(false)
     const [codinglessonactive,setCodingLessonActive]=useState(true)
-    const[token,setToken]=useState('')
+   
     const[error,setError]=useState('')
     const[questions,setQuestions]=useState([])
     const[Attemptedquestions,setAttemptedQuestions]=useState([])
@@ -22,37 +23,22 @@ export default function Questions() {
       }
      
       function getAttemptedQuiz(){
-       if(token){
-        const url ='https://api.codingscholar.com/getAttemptedQuizzes/'
-        axios.get(url,{
-          headers:{
-            "Authorization":`Bearer ${token}`
-          }
-        })
+       
+        const url =`${API}/getAttemptedQuizzes/`
+        axios.get(url)
         .then(res=>{
          
           setAttemptedQuestions(res.data)
 
         })
         .catch(error=>console.log(error))
-       }
+       
       } 
-      async function getToken(){
-        try{
-            const token= localStorage.getItem('token') // No need to await
-            if (token){
-                setToken(token);
-            }
-        } catch(error) {
-            console.log(error);
-    }
-    }
+    
     function getStudentQuestions(){
-        if(token){
-          const url ='https://api.codingscholar.com/studentQuestions/'
-        axios.get(url,{headers:{
-          'Authorization':`Bearer ${token}`
-        }})
+       
+          const url =`${API}/studentQuestions/`
+        axios.get(url,)
         .then(res=>{
           const data=res.data 
          
@@ -68,7 +54,7 @@ export default function Questions() {
         .catch(error=>{
           console.log(error)
         })
-        }
+        
       }
       useEffect(() => {
         if (questions.length >0 && Attemptedquestions.length >0){
@@ -128,11 +114,9 @@ export default function Questions() {
       useEffect(()=>{
         getStudentQuestions()
         getAttemptedQuiz()
-      },[token])
-      
-      useEffect(()=>{
-       getToken()
       },[])
+      
+    
   return (
     <div style={{padding:10}} className='AllquestionsWrapper'>
      <div className='classtypenavWrapper'>

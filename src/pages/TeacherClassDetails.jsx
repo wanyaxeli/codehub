@@ -24,7 +24,7 @@ export default function TeacherClassDetails() {
     const [openPortal,setopenPortal]=useState(false)
     const [selectedFile, setSelectedFile] = useState(null);
     const [RescheduleBtn,setRescheduleBtn]=useState(false)
-    const [token,setToken]=useState()
+    c
     const [dates,setDates]=useState()
     const [studentId,setStudentId]=useState()
     const {teacher,proPic,seeEarning,setEarning}=useContext(context)
@@ -125,7 +125,7 @@ export default function TeacherClassDetails() {
             studentDetails.map(async(item)=>{
                 const studentId=item.id
                
-                const url =`https://api.codingscholar.com/getprofilePic/${studentId}`;
+                const url =`${API}/getprofilePic/${studentId}`;
                 try{
                 const res=await  axios.get(url)
                 const data=res.data
@@ -169,7 +169,7 @@ export default function TeacherClassDetails() {
    if(lessonId && studentUserId){
     const id=lessonId
     const studentId = studentUserId
-    const url =`https://api.codingscholar.com/get_student_video/${id}/${studentId}`;
+    const url =`${API}/get_student_video/${id}/${studentId}`;
     axios.get(url)
     .then(res=>{
       const data=res.data
@@ -179,15 +179,15 @@ export default function TeacherClassDetails() {
     .catch(error=>console.log(error))
    }
   }
-   const uploadFileToS3 = async (file, token) => {
+   const uploadFileToS3 = async (file,) => {
     const chunkSize = 5 * 1024 * 1024; // 5MB
     const totalChunks = Math.ceil(file.size / chunkSize);
     const cleanName = file.name.replace(/[^a-zA-Z0-9.-]/g, "_");
     // 1. Start upload
     const startRes = await axios.post(
-      "https://api.codingscholar.com/start-upload/",
+      `${API}/start-upload/`,
       { filename:cleanName},
-      { headers: { Authorization: `Bearer ${token}` } }
+      {  withCredentials:true, }
     );
   
     const { uploadId, key } = startRes.data;
@@ -199,13 +199,13 @@ export default function TeacherClassDetails() {
       const chunk = file.slice(i * chunkSize, (i + 1) * chunkSize);
   
       const urlRes = await axios.post(
-        "https://api.codingscholar.com/get-chunk-url/",
+        `${API}/get-chunk-url/`,
         {
           uploadId,
           key,
           partNumber: i + 1,
         },
-        { headers: { Authorization: `Bearer ${token}` } }
+        { withCredentials:true }
       );
   
       const { url } = urlRes.data;
@@ -236,28 +236,28 @@ export default function TeacherClassDetails() {
   
     // 3. Complete upload
     const completeRes = await axios.post(
-      "https://api.codingscholar.com/complete-upload/",
+      `${API}/complete-upload/`,
       {
         uploadId,
         key,
         parts,
       },
-      { headers: { Authorization: `Bearer ${token}` } }
+      { withCredentials:true }
     );
   
     return completeRes.data.url;
   };
    const handleUpload = async() => {
-    if (selectedFile && lessonId && studentUserId && token) {
+    if (selectedFile && lessonId && studentUserId ) {
       
       setIsLoading(true)
       try{
         
         const id = lessonId
       
-        const group_vediosAPI=`https://api.codingscholar.com/upload_videos/`
+        const group_vediosAPI=`${API}/upload_videos/`
         // 1. upload to S3
-        const fileUrl = await uploadFileToS3(selectedFile, token);
+        const fileUrl = await uploadFileToS3(selectedFile);
        
             const data={
               lessonId:lessonId,
@@ -273,10 +273,7 @@ export default function TeacherClassDetails() {
             // }
             axios.post(group_vediosAPI,data,
           {
-            headers:{
-
-              "Authorization":`Bearer ${token}`
-            },
+            withCredentials:true,
           }
           )
           .then(res=>{
@@ -310,19 +307,17 @@ export default function TeacherClassDetails() {
     }
   };
   const  RescheduleClass =(lesson)=>{
-  
+    if (lesson.is_completed)return
    const id=lesson.id
    const studentId=lesson.student.id
-   const url=`https://api.codingscholar.com/reschedulingClassToAnotherDay/${id}`
+   const url=`${API}/reschedulingClassToAnotherDay/${id}`
    const data={
     student_id:studentId,
     date:dates
    }
 
    axios.put(url,data,{
-    'headers':{
-        'Authorization':`Bearer ${token}`
-    }
+    withCredentials:true,
    })
    .then(res=>{
    
@@ -345,16 +340,7 @@ export default function TeacherClassDetails() {
    setDates(e.target.value)
   }
   
-  async function getToken(){
-    try{
-        const token= localStorage.getItem('token') // No need to await
-        if (token){
-            setToken(token);
-        }
-    } catch(error) {
-        console.log(error);
-}
-}
+  
 
  useEffect(()=>{
   GetClassVideo()
@@ -371,9 +357,7 @@ export default function TeacherClassDetails() {
   }
   },[todayClass])
   
-  useEffect(()=>{
-   getToken()
-  },[])
+ 
   console.log('todayClass',todayClass)
   return (
     <div className='DetailsWrapper'>
@@ -436,12 +420,27 @@ export default function TeacherClassDetails() {
                        {video!==''?  <span >{video.length > 20 ? video.slice(0, 20) + '...' : video}</span>:  <span onClick={handleOpenUploadPortal}>Upload</span>}
                         </p>
                          :' '}
-                        {lesson.is_completed===false?<button onClick={()=>handleToJoinClass(lesson,lesson.student.id,lesson.lesson.lessonId,lesson.date_time)}>join</button>:<button>Completed</button>}
-                         {todayclassobj?.classType==='oneOnone'?
+                       {lesson.is_completed === false ? (
+                          <button onClick={() => handleToJoinClass(lesson, lesson.student.id, lesson.lesson.lessonId, lesson.date_time)}>join</button>
+                        ) : (
+                          // <button>Completed</button>
+                          <button
+                            disabled
+                            aria-label="Class completed"
+                            className="!inline-flex !items-center !gap-1.5 !rounded-lg !bg-green-50 !px-3 !py-1.5 !text-sm !font-medium !text-green-700 !ring-1 !ring-inset !ring-green-200 !cursor-not-allowed !select-none"
+                          >
+                            <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                              <path fillRule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.5 7.5a1 1 0 01-1.4 0L3.3 9.7a1 1 0 011.4-1.4l3.8 3.8 6.8-6.8a1 1 0 011.4 0z" clipRule="evenodd" />
+                            </svg>
+                            Class Completed
+                          </button>
+                        )}
+                         {/* {todayclassobj?.classType && lesson.is_completed ?==='oneOnone'? */}
+                        {todayclassobj?.classType === 'oneOnone' && !lesson.is_completed ? (
                           <div onClick={handleOpenSchedule} className='showMoreWrapper'>
-                          <span ><i className="fa fa-ellipsis-v" aria-hidden="true"></i></span>
-                      </div>
-                         :""}
+                            <span><i className="fa fa-ellipsis-v" aria-hidden="true"></i></span>
+                          </div>
+                        ) : ""}
                        {RescheduleBtn===true? <Portal>
                         <div className='RescheduleWrapper'>`
                             <div className='InnerRescheduleWrapper'>

@@ -48,13 +48,14 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { DateTime } from 'luxon'
 import { ArrowLeft, ArrowRight, CalendarDays, ChevronRight } from 'lucide-react'
+import { API} from '../../lib/api'
 
 // Re-add these only if you re-enable the commented-out sections:
 // import FullCalendar from '@fullcalendar/react'
 // import dayGridPlugin from '@fullcalendar/daygrid'
 // import { Plus } from 'lucide-react'
 
-const API_BASE = 'https://api.codingscholar.com'
+
 const USER_TIME_ZONE = Intl.DateTimeFormat().resolvedOptions().timeZone
 
 const weekdays = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
@@ -110,11 +111,13 @@ function lessonToCalendarEvent(item) {
 }
 
 /** GET a schedule endpoint; always resolves to an array (empty on failure). */
-async function fetchSchedule(url, token) {
+async function fetchSchedule(url, signal) {
   try {
-    const res = await axios.get(url, { headers: { Authorization: `Bearer ${token}` } })
+    const res = await axios.get(url, { signal })
+    // console.log(`fetching url...${url}.`,res)
     return Array.isArray(res.data) ? res.data : []
   } catch (err) {
+    if (axios.isCancel(err)) return []
     console.error(`Failed to fetch ${url}`, err)
     return []
   }
@@ -155,9 +158,12 @@ export default function Calendar() {
    * current flow is loadTeacherSchedule(). Kept for reference.
    */
   function getTeacherGroupClassSchudule() {
-    if (token) {
-      const url = `${API_BASE}/teacherGroupClass/`
-      axios.get(url, { headers: { Authorization: `Bearer ${token}` } })
+
+      const url = `${API}/teacherGroupClass/`
+      axios.get(url, {
+  headers: token ? { Authorization: `Bearer ${token}` } : {},
+  withCredentials: true,
+})
         .then((res) => {
           const groupData = res.data
           if (groupData.length > 0) {
@@ -179,27 +185,30 @@ export default function Calendar() {
           }
         })
         .catch((error) => console.log(error))
-    }
+    
   }
 
-  async function getToken() {
-    try {
-      const storedToken = localStorage.getItem('token')
-      if (storedToken) {
-        setToken(storedToken)
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  //  _____DURING TESTING OR WHEN ITS RECEIVING TOKEN FROM BACKEND___
+  // async function getToken() {
+  //   try {
+  //     const storedToken = localStorage.getItem('token')
+  //     if (storedToken) {
+  //       setToken(storedToken)
+  //     }
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+   // useEffect(() => {
+  //   getToken()
+  // }, [])
+  // ____     ______
 
   /** Loads one-on-one + group lessons and replaces `data` / `calendarEvent`. */
-  async function loadTeacherSchedule(isCancelled = () => false) {
-    if (!token) return
-
+  async function loadTeacherSchedule(signal,isCancelled = () => false) {
     const [oneOnOneLessons, groupLessons] = await Promise.all([
-      fetchSchedule(`${API_BASE}/teacherSchedule/`, token),
-      fetchSchedule(`${API_BASE}/teacherGroupClass/`, token),
+      fetchSchedule(`${API}/teacherSchedule/`, signal),
+      fetchSchedule(`${API}/teacherGroupClass/`, signal),
     ])
     if (isCancelled()) return // component unmounted or token changed
 
@@ -212,17 +221,21 @@ export default function Calendar() {
     setData(lessons)
     setCalendarEvent(lessons.map(lessonToCalendarEvent).filter((e) => e.start))
   }
-
+   
   useEffect(() => {
-    getToken()
-  }, [])
+  const controller = new AbortController()
+  loadTeacherSchedule(controller.signal, () => controller.signal.aborted)
+  return () => controller.abort()
+}, [])
+ 
 
-  useEffect(() => {
-    let cancelled = false
-    loadTeacherSchedule(() => cancelled)
-    return () => { cancelled = true }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token])
+  // useEffect(() => {
+  //   const controller = new AbortController()
+  //   let cancelled = false
+  //   loadTeacherSchedule(() => cancelled)
+  //   return () => { cancelled = true }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [token])
 
   // ---- calendar grid (derived from viewDate on every render) ----
   const year = viewDate.getFullYear()

@@ -1,22 +1,14 @@
 import React,{useState,useEffect} from 'react'
 import axios from 'axios'
 import ReviewPOP from '../Components/ReviewPop'
+import {API} from '@/lib/api'
 export default function MyProjects() {
   const [quiz,setQuiz]=useState([])
   const [quizId,setQuizId]=useState('')
   const [studentId,setStudentId]=useState('')
-  const [token,setToken]=useState()
   const [review,setReview]=useState(false)
-  async function getToken(){
-    try{
-        const token= localStorage.getItem('token') // No need to await
-        if (token){
-            setToken(token);
-        }
-    } catch(error) {
-        console.log(error);
-}
-}
+ 
+
 const handleViewProject =(link)=>{
   if (!link.startsWith('http://') && !link.startsWith('https://')) {
     link = 'https://' + link; // add https:// if missing
@@ -24,17 +16,15 @@ const handleViewProject =(link)=>{
   window.open(link, '_blank');
 }
 function getQuiz(){
-  if(token){
-    const url = 'https://api.codingscholar.com/TeacherQuizes/';
-    axios.get(url,{headers:{
-      'Authorization':`Bearer ${token}`
-    }})
+  
+    const url = `${API}/TeacherQuizes/`;
+    axios.get(url)
     .then(res=>{
       const data = res.data
       setQuiz(res.data)
     })
     .catch(error=>console.log(error))
-  }
+  
 }
 const handleToReview=(quizId,studentId)=>{
   setStudentId(studentId)
@@ -47,10 +37,8 @@ const handleToReview=(quizId,studentId)=>{
 console.log('quiz',quiz)
 useEffect(()=>{
   getQuiz()
- },[token])
-useEffect(()=>{
- getToken()
-},[])
+ },[])
+
 console.log('qui',studentId,quizId)
   return (
     <div className='MyProjectsWrapper'>

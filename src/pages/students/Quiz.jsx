@@ -1,8 +1,9 @@
 import React,{useState,useEffect} from 'react'
 import { useLocation,useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import {API} from '@/lib/api'
 export default function quiz() {
-  const [token,setToken]=useState()
+  
   const [quizId,setQuizid]=useState('')
   const [quiz,setQuiz]=useState('')
   const [quizTitle,setQuizTitle]=useState('')
@@ -10,16 +11,7 @@ export default function quiz() {
   const [error,setError]=useState('')
   const location = useLocation()
   const navigate=useNavigate()
-  async function getToken(){
-    try{
-        const token= localStorage.getItem('token') // No need to await
-        if (token){
-            setToken(token);
-        }
-    } catch(error) {
-        console.log(error);
-}
-}
+  
 const handleChange=(e)=>{
   setLink(e.target.value)
 }
@@ -36,11 +28,9 @@ const handlesubmit =()=>{
 if(quizId && link){
   if (isValidURL(link)) {
     // const url = 'http://127.0.0.1:8000/AttemptQuizes/';
-    const url = 'https://api.codingscholar.com/AttemptQuizes/';
+    const url = `${API}/AttemptQuizes/`;
     const data={link:link,quizId:quizId}
-    axios.post(url,data,{headers:{
-      'Authorization':`Bearer ${token}`
-    }})
+    axios.post(url,data,{ withCredentials:true,})
     .then(res=>{
       console.log(res.data)
       alert(res.data)
@@ -64,9 +54,7 @@ setQuiz(quiz)
 setQuizid(id)
 
 },[location])
-useEffect(()=>{
- getToken()
-},[])
+
   return (
     <div className='QuizWrapper'>
       {error && <p style={{color:'red',textAlign:'center'}}>{error}</p>}

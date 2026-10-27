@@ -4,6 +4,7 @@ import { useLocation,useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import ScheduleClasses from './ScheduleClasses'
 import Portal from '@/Components/Portal'
+import { API } from '@/lib/api'
 export default function Stdent() {
   const initialState={grade:'',teacher:'',module:""}
   const initialEditState={name:'',email:'',password:'',phone_number:""}
@@ -17,7 +18,6 @@ export default function Stdent() {
   const [studentId,setStudentId]=useState('')
   const [student,setStudent]=useState('')
   const [openPortal,setPortal]=useState(false)
-  const [token,setToken]=useState(null)
   const [lessonNumber,setLessonNumber]=useState('')
   const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday","Sunday"];
   const [selectedTimes, setSelectedTimes] = useState({});
@@ -43,11 +43,9 @@ export default function Stdent() {
   const handleActivate =()=>{
    if (studentId && fees.amount && fees.amountPerClass){
       const id = studentId
-      const url=`https://api.codingscholar.com/updateFee/${id}`
+      const url=`${API}/updateFee/${id}`
       const data={studentId:studentId,fees:fees.amount,feesPerClass:fees.amountPerClass}
-      axios.put(url,data,{headers:{
-        'Content-Type':'application/json'
-      }})
+      axios.put(url,data,{withCredentials:true})
       .then(res=>{
         console.log(res.data)
         setFees('')
@@ -76,12 +74,12 @@ export default function Stdent() {
    if(studentId && classManagement.grade && classManagement.module && classManagement.teacher){
     console.log('hello class',studentId,classManagement.teacher)
     const id = studentId
-    const url=`https://api.codingscholar.com/createStudentRoom/${id}`
+    const url=`${API}/createStudentRoom/${id}`
     const splitname = classManagement.teacher.trim().split(/\s+/);
     const first_name=splitname[0]
     const last_name=splitname[1]
     const data={...classManagement,...{first_name:first_name,roomType:'coding',last_name:last_name}}
-    axios.post(url,data)
+    axios.post(url,data,{withCredentials})
     .then(res=>{
       SetClassManagement(initialState)
       alert(res.data)
@@ -97,7 +95,7 @@ export default function Stdent() {
   function GetStudent(){
     if(studentId){
       const id = studentId
-    const url=`https://api.codingscholar.com/specificStudent/${id}`
+    const url=`${API}/specificStudent/${id}`
     axios.get(url)
     .then(res=>{
       console.log(res.data)
@@ -112,13 +110,13 @@ export default function Stdent() {
      // Convert local date & time to UTC
     // const localDateTime = new Date(`${values.date}T${values.time}`);
     // const utcDateTime = localDateTime.toISOString();
-    const url=`https://api.codingscholar.com/StudentLesson/${id}`
+    const url=`${API}/StudentLesson/${id}`
     const data = {
       lesson_schedule: selectedTimes,
       roomType: 'coding',
       lessonNumber:parseInt(lessonNumber)
     };
-    axios.post(url,data)
+    axios.post(url,data,{withCredentials:true})
     .then(res=>{
       console.log(res.data)
       SetClassLesson(initialStateforLessonAttendace)
@@ -137,16 +135,7 @@ export default function Stdent() {
    useEffect(()=>{
     GetStudent()
    },[studentId])
-   async function getToken(){
-    try{
-        const token= localStorage.getItem('token') // No need to await
-        if (token){
-            setToken(token);
-        }
-    } catch(error) {
-        console.log(error);
-}
-}
+ 
    const handlePromoteValue=(e)=>{
      const {name,value}=e.target
      setPromoteValues({...promoteValues,[name]:value})
@@ -154,9 +143,9 @@ export default function Stdent() {
   const handlePromote=()=>{
    if(studentId && promoteValues.promoteclass && promoteValues.promotemodule && promoteValues.promoteclassType){
     const id=studentId
-    const url=`https://api.codingscholar.com/promotion/${id}`
+    const url=`${API}/promotion/${id}`
     const data={className:promoteValues.promoteclass,lessonNumber:parseInt(promoteValues.lessonNumber),roomType:promoteValues.promoteclassType,module:promoteValues.promotemodule}
-    axios.post(url,data)
+    axios.post(url,data,{withCredentials:true})
     .then(res=>{
       console.log(res.data)
       const {student} = res.data
@@ -221,11 +210,11 @@ export default function Stdent() {
   const handleEditProfile = async (e) => {
     e.preventDefault();
 
-    if (!studentId || !token) {
+    if (!studentId ) {
         return;
     }
 
-    const url = `https://api.codingscholar.com/UpdateStudentDetails/${studentId}`;
+    const url = `${API}/UpdateStudentDetails/${studentId}`;
 
     const splitName = editDatails.name.trim().split(/\s+/);
 
@@ -262,9 +251,10 @@ if (editDatails.password?.trim()) {
             newData,
             {
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    
                     "Content-Type": "application/json",
                 },
+                withCredentials:true
             }
         );
 
@@ -279,9 +269,7 @@ if (editDatails.password?.trim()) {
         console.log(error.response?.data || error.message);
     }
 };
-  useEffect(()=>{
-  getToken()
-  },[])
+ 
   return (
     <div className='StudentWrapper'>
         <div className='studentDetailsWrapper'>

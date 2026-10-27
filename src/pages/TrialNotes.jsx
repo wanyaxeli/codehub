@@ -16,7 +16,7 @@ export default function TrialNotes() {
     const [notes,setNotes]=useState([])
     const [lesson,setLesson]=useState('')
     const [error,setError]=useState('')
-    const [token,setToken]=useState('')
+   
     const [loading,setLoading]=useState(false)
     const handleChange=(e)=>{
      const { name, value, type, files } = e.target;
@@ -30,22 +30,10 @@ export default function TrialNotes() {
         setInputs({...inputs,[name]:value})
      }
     }
-    async function getToken(){
-      try{
-          const token= localStorage.getItem('token') // No need to await
-          if (token){
-              setToken(token);
-          }
-      } catch(error) {
-          console.log(error);
-}
-}
+   
     function getTrialNotes(){
-       if(token){
-        const url ='https://api.codingscholar.com/trial_notes/'
-        axios.get(url,{headers:{
-          'Authorization':`Bearer ${token}`
-        }})
+        const url ='${API}/trial_notes/'
+        axios.get(url,)
         .then(res=>{
           
             const data= res.data
@@ -66,7 +54,7 @@ export default function TrialNotes() {
             // setNotes(data)
         })
         .catch(error=>console.log(error))
-       }
+       
     }
     const handleCreateClass = () => {
         setLoading(true);
@@ -88,7 +76,7 @@ export default function TrialNotes() {
             //   setError('Please Fill in all the inputs')
             // }
         
-            const url = "https://api.codingscholar.com/trial_notes/";
+            const url = `${API}/trial_notes/`;
             for (let [key, value] of formData.entries()) {
                 console.log('form',`${key}:`, value);
               }
@@ -96,9 +84,9 @@ export default function TrialNotes() {
                 axios
                 .post(url, formData, {
                     headers: {
-                        "Authorization":`Bearer ${token}`,
                         "Content-Type": "multipart/form-data",
                     },
+                    withCredentials: true,
                 })
                 .then((res) => {
                     getTrialNotes(); // Corrected missing function execution ()
@@ -127,10 +115,8 @@ export default function TrialNotes() {
     }
   useEffect(()=>{
     getTrialNotes()
-  },[token])
-  useEffect(()=>{
-    getToken()
   },[])
+ 
   return (
     <div className='CreatLessonsWrapper'>
         <h3>create classes</h3>

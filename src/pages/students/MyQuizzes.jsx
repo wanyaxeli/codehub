@@ -2,9 +2,10 @@ import React,{useState,useEffect} from 'react'
 import { useNavigate,Outlet } from 'react-router-dom'
 import axios from 'axios'
 import { jwtDecode } from 'jwt-decode'
+import { API } from '@/lib/api'
+import { useAuth } from '../context/AuthContext'
 export default function MyQuizzes() {
   const navigate=useNavigate()
-  const [token,setToken]=useState()
   const [quiz,setQuiz]=useState([])
   const [notDonequiz,setNotDoneQuiz]=useState([])
   const [user_id,setUser_id]=useState('')
@@ -12,35 +13,15 @@ export default function MyQuizzes() {
   const [complete,setComplete]=useState({})
   const [mathlessonactive,setMathLessonActive]=useState(false)
   const [codinglessonactive,setCodingLessonActive]=useState(true)
-  async function getDecodeToken(){
-    try{
-        if (token){
-          try {
-            const decode = jwtDecode(token);
-            const { exp, role, user_id } = decode;
-            setUser_id(user_id)
-          } catch (error) {
-            console.error("JWT Decode Error:", error);
-          }
-        }
-    } catch(error) {
-        console.log(error);
-    }
-}
-  async function getToken(){
-    try{
-        const token= localStorage.getItem('token') // No need to await
-        if (token){
-            setToken(token);
-        }
-    } catch(error) {
-        console.log(error);
-}
-} 
+  const {user}=useAuth()
+  const role=user.role
+  const id=user.id
+
+ 
 function getStudentClassRoom(){
    if(user_id){
     const id =user_id
-    axios.get(`https://api.codingscholar.com/studentRoom/${id}`)
+    axios.get(`${API}/studentRoom/${id}`)
     .then(res => {
       console.log('aaaaa',res.data)
       if (!res.data.error) {
@@ -87,17 +68,13 @@ useEffect(() => {
   checkComplete()
   UnDoneQuizzes()
 }, [quiz, attemptedquiz]);
-useEffect(()=>{
-getDecodeToken()
-},[token])
+
 // useEffect(()=>{
 //   getStudentClassRoom()
 //   },[user_id])
 useEffect(() => {
-  if (token) {
-    axios.get('https://api.codingscholar.com/StudentAttemptedQuizes/', {
-      headers: { 'Authorization': `Bearer ${token}` }
-    })
+  
+    axios.get(`${API}/StudentAttemptedQuizes/`)
     .then(res => {
       console.log('attempted res', res.data);
       if (!res.data.error) {
@@ -106,9 +83,7 @@ useEffect(() => {
     })
     .catch(console.error);
 
-    axios.get('https://api.codingscholar.com/Getquizes/',{
-      headers: { 'Authorization': `Bearer ${token}` }
-    })
+    axios.get(`${API}/Getquizes/`)
     .then(res => {
       console.log('ressssdd',res.data);
       if (!res.data.error) {
@@ -118,10 +93,8 @@ useEffect(() => {
     })
     .catch(console.error);
   }
-}, [token]);
-useEffect(()=>{
- getToken()
-},[])
+, []);
+
 const handlecodingLessons =()=>{
   setCodingLessonActive(true)
   setMathLessonActive(false)

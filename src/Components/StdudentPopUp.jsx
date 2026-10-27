@@ -5,16 +5,20 @@ import { jwtDecode } from 'jwt-decode'
 import { useEffect } from 'react';
 import confetti from 'canvas-confetti';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/context/AuthContext';
+import { API } from '@/lib/api';
 export default function StudentPopUp({fullQuestions,marks,studentChoices}) {
     const[res,setRes]=useState('')
-    const[token,setToken]=useState('')
-    const[userId,setUser_id]=useState('')
+
+   
+    const {user}=useAuth()
+    const userId=user.id
     const navigate=useNavigate()
     const handleToHome =()=>{
      if(userId && marks){
-        const url =`https://api.codingscholar.com/updateStudentMarks/${userId}`
+        const url =`${API}/updateStudentMarks/${userId}`
         const data= marks
-        axios.put(url,data)
+        axios.put(url,data,{withCredentials:true})
         .then(res=>{
             markQuestionsCompleter()
         })
@@ -27,10 +31,8 @@ export default function StudentPopUp({fullQuestions,marks,studentChoices}) {
       fullQuestions.forEach(item=>{
         const id = item.id
         const data={marks:marks,quiz_name:item.quiz_name,questions:{question:fullQuestions,studentChoices:studentChoices}}
-        const url =`https://api.codingscholar.com/StudentMarks/`
-        axios.post(url,data,{headers:{
-          'Authorization':`Bearer ${token}`
-        }})
+        const url =`${API}/StudentMarks/`
+        axios.post(url,data,{withCredentials:true})
         .then(res=>{
           navigate('/student/dashboard/Questions')
         })
@@ -65,33 +67,12 @@ export default function StudentPopUp({fullQuestions,marks,studentChoices}) {
     //     setMarks(false)
     //     navigate('/student/dashboard/Today Questions',{state:fullQuestions})
     // }
-    async function getToken(){
-        try{
-            const token= localStorage.getItem('token') // No need to await
-            if (token){
-                setToken(token);
-            }
-        } catch(error) {
-            console.log(error);
-    }
-    }
-    useEffect(() => {
-        if (token) {
-          try {
-            const decode = jwtDecode(token);
-            const {role,user_id}=decode
-            setUser_id(user_id)
-          } catch (error) {
-            console.error("JWT Decode Error:", error);
-          }
-        }
-      }, [token]);
+  
+  
       useEffect(()=>{
       confettiShow()
       },[marks])
-    useEffect(()=>{
-    getToken()
-    },[])
+   
     // useEffect(()=>{
     // markQuestionsCompleter()
     // },[fullQuestions])

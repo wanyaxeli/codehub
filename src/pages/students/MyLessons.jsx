@@ -3,6 +3,7 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { Input } from '@/components/ui/input'
 import { Search } from 'lucide-react'
+import { API } from '@/lib/api'
 export default function MyLessons() {
   const [token,setToken]=useState('')
   const [fullData,setData]=useState([])
@@ -14,10 +15,8 @@ export default function MyLessons() {
   const navigate=useNavigate()
   function GetMyLessons(){
     if(token){
-      const url ='https://api.codingscholar.com/studentLessons/'
-      axios.get(url,{headers:{
-        'Authorization':`Bearer ${token}`
-      }})
+      const url =`${API}/studentLessons/`
+      axios.get(url)
       .then(res=>{
         const data =res.data
         
@@ -44,10 +43,8 @@ export default function MyLessons() {
  
   function GetGroupClassMyLessons(){
     if(token){
-      const url ='https://api.codingscholar.com/student_class_groups/'
-      axios.get(url,{headers:{
-        'Authorization':`Bearer ${token}`
-      }})
+      const url =`${API}/student_class_groups/`
+      axios.get(url)
       .then(res=>{
         const data =res.data
        
@@ -70,16 +67,7 @@ export default function MyLessons() {
       .catch(error=>console.log(error))
     }
   }
-  async function getToken(){
-    try{
-        const token= localStorage.getItem('token') // No need to await
-        if (token){
-            setToken(token);
-        }
-    } catch(error) {
-        console.log(error);
-}
-}
+ 
 const handleToNotes =(notesurl,videourl)=>{
   const resources={
     notesurl,

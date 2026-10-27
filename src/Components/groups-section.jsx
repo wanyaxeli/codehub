@@ -18,8 +18,7 @@ export default function GroupSection({onViewGroup}) {
     const [groupName,setGroupName]=useState('')
     const [currentPage,setCurrentPage]=useState(1)
     const [isModalOpen,setIsModalOpen]=useState()
-    const [gotentoken,setGotenToken]=useState()
-    const [token,setToken]=useState('')
+
     const [groups, setGroups] = useState([
     // {
     //   id: '1',
@@ -81,41 +80,23 @@ export default function GroupSection({onViewGroup}) {
     //     navigate('/teacher/dashboard/Teacher Group Class')
     // }
     const groupurl="https://api.codingscholar.com/class_groups/"
-    const fetchgroups=async(gottoken)=>{
-     if(token){
-      const allgroups=await axios.get(groupurl,
-        { headers: {
-          "Authorization":`Bearer ${token}`
-        }}
-      )
+    const fetchgroups=async()=>{
+      const allgroups=await axios.get(groupurl)
 
       const sortedgroups=allgroups.data.sort((a,b)=>new Date(b.created_at)-new Date(a.created_at))
       setGroups(sortedgroups)
-     }
+     
     }
 
-    async function getToken(){
-      try{
-          const token= localStorage.getItem('token') // No need to await
-          if (token){
-              setToken(token);
-          }
-      } catch(error) {
-          console.log(error);
-  }
-  }
    useEffect(()=>{
     fetchgroups()
-   },[token])
-    useEffect(()=>{
-     getToken()
+   },[])
 
     
-    },[])
 
   
     const handleaddGroup = async() => {
-    if(token){
+   
       if (groupName.trim()) {
         const newGroup = { 
           // id: Date.now().toString(),
@@ -124,20 +105,15 @@ export default function GroupSection({onViewGroup}) {
           status: 'Inactive',
         };
   
-        // const gotentoken=localStorage.getItem('token')
-  
         const gradeName=groupName
         
         const savegroup=await axios.post(groupurl,{gradeName},
-         { headers: {
-            "Authorization":`Bearer ${token}`
-          }}
+         {withCredentials:true,}
           
         )
         const savedgroup=savegroup.data
       console.log('res',savedgroup)
-       
-  // {message: 'Class group successfully created'}
+
         if (savedgroup.message==='Class group successfully created'){
           alert("Group created successfully")
           fetchgroups()
@@ -148,17 +124,10 @@ export default function GroupSection({onViewGroup}) {
           console.error('error in creating the group')
         }
   
-        // if (savedgroup){
-        //   fetchgroups(gotentoken)
-        //   // setGroups([newGroup, ...groups]);
-        //   setGroupName('');
-        //   setCurrentPage(1);
-        // }else{
-        //   console.log('group not saved')
-        // }
+      
   
       }
-    }
+    
   };
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {

@@ -1,6 +1,7 @@
 import React,{useEffect,useState} from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import {API} from '@/lib/api'
 export default function MyStudents() {
     const navigate =useNavigate()
     const [token,setToken]=useState('')
@@ -10,10 +11,8 @@ export default function MyStudents() {
     }
     function getMyStudents(){
     if(token){
-        const url ='https://api.codingscholar.com/TeacherStudent/'
-        axios.get(url,{headers:{
-            'Authorization':`Bearer ${token}`
-        }})
+        const url =`${API}/TeacherStudent/`
+        axios.get(url)
         .then(res=>{
             console.log('res',res.data)
             const data = res.data
@@ -25,22 +24,11 @@ export default function MyStudents() {
         .catch(error=>console.log(error))
     }
     }
-    async function getToken(){
-        try{
-            const token=localStorage.getItem('token') // No need to await
-            if (token){
-                setToken(token);
-            }
-        } catch(error) {
-            console.log(error);
-    }
-    }
-    useEffect(()=>{
-    getToken()
-    },[])
+  
+   
     useEffect(()=>{
         getMyStudents()
-    },[token])
+    },[])
   return (
     <div className='AllTeachersWrapper'>
         <h3>All My Students</h3>

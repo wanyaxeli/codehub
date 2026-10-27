@@ -106,16 +106,7 @@ export default function Class() {
     }
 
     console.log('lesid...',lesid)
-    async function getToken(){
-        try{
-            const token= localStorage.getItem('token') // No need to await
-            if (token){
-                setToken(token);
-            }
-        } catch(error) {
-            console.log(error);
-  }
-} 
+   
 const handleShowBarges =()=>{
     setOpenBadge(true)
 } 
@@ -141,7 +132,7 @@ useEffect(() => {
   }, [UserToken]);
   const fetchIceServers = async () => {
     try {
-      const response = await fetch("https://api.codingscholar.com/get-ice-servers/");
+      const response = await fetch("https://api.codingscholar.com/get-ice-servers/",{credentials: 'include'});
       const data = await response.json();
       return data.iceServers || []
     } catch (error) {
@@ -553,9 +544,7 @@ useEffect(() => {
    function SubmitProeject(){
     if(token){
         const url ='https://api.codingscholar.com/Project/'
-        axios.post(url,{projectLink:project},{headers:{
-            'Authorization':`Bearer ${token}`
-        }})
+        axios.post(url,{projectLink:project},{ withCredentials:true,})
         .then(res=>{
             console.log(res.data)
         })

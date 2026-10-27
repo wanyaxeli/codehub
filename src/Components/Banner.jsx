@@ -47,20 +47,7 @@ export default function Banner() {
         borderRadius: "10px",
         paddingLeft: "10px",
       };
-      async function getToken(){
-        try{
-            const token= JSON.parse(localStorage.getItem('token')) // No need to await
-            if (token){
-                setToken(token);
-            }
-        } catch(error) {
-            console.log(error);
-        }
-    }
-   
-  // useEffect(()=>{
-  // getToken()
-  // },[])
+ 
   return (
     <div className='bannerWrapper'
     // style={{backgroundImage:`url(${pic})`}}

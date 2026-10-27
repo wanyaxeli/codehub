@@ -40,7 +40,7 @@ const Teacher = lazy(() => import("../pages/Teacher.jsx"));
 const Dashboard = lazy(() => import("../pages/Dashboard.jsx"));
 const Details = lazy(() => import("../pages/Details.jsx"));
 const BookingsManager = lazy(() => import("../pages/BookingsManager.jsx"));
-const Calendar = lazy(() => import("../pages/Calendar.jsx"));
+const Calendar = lazy(() => import("../pages/teachers/Calendar.jsx"));
 const MyStudents = lazy(() => import("../pages/MyStudents.jsx"));
 const Projects = lazy(() => import("../pages/Projects.jsx"));
 const AllTeachers = lazy(() => import("../pages/AllTeachers.jsx"));

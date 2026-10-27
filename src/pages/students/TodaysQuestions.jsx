@@ -4,8 +4,9 @@ import { context } from '../../App';
 import { useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import StudentPopUp from '../../Components/StdudentPopUp';
+import { API } from '@/lib/api';
 export default function TodaysQuestions() {
-  const[token,setToken]=useState('')
+ 
   const[questions,setQuestions]=useState([])
   const[fullQuestions,setFullQuestions]=useState([])
   const[answers,setAnswer]=useState([])
@@ -18,16 +19,7 @@ export default function TodaysQuestions() {
   const[showMarks,setshowMarks]=useState(false)
   // const {DaillyQuizAttempt,setDaillyQuizAttempt}=useContext(context)
   const location= useLocation()
-  async function getToken(){
-    try{
-        const token= localStorage.getItem('token') // No need to await
-        if (token){
-            setToken(token);
-        }
-    } catch(error) {
-        console.log(error);
-}
-}
+  
 const handleSelect = (id, option, answer) => {
   const studentChoice = { id: id, choice: option };
 
@@ -40,11 +32,9 @@ const handleSelect = (id, option, answer) => {
   });
 };
 function getStudentQuestions(){
-  if(token){
-    const url ='https://api.codingscholar.com/studentQuestions/'
-  axios.get(url,{headers:{
-    'Authorization':`Bearer ${token}`
-  }})
+  
+    const url =`${API}/studentQuestions/`
+  axios.get(url)
   .then(res=>{
     const data=res.data 
     if (Array.isArray(data) && data.length > 0) {
@@ -57,7 +47,7 @@ function getStudentQuestions(){
   .catch(error=>{
     console.log(error)
   })
-  }
+  
 }
 // function getcodingLessons() {
 //   if (fullQuestions.length>0) {
@@ -129,13 +119,8 @@ const handleSubmit = () => {
 useEffect(()=>{
   setshowMarks(true)
 },[marks])
-// useEffect(()=>{
-//   getStudentQuestions()
-// },[token])
 
-useEffect(()=>{
- getToken()
-},[])
+
   return (
     <div className='TodaysQuestionsWrapper'>
         <div className='TodaysQuestionsContainer'>

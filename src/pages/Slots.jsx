@@ -1,40 +1,27 @@
 import React,{useState,useEffect, useId} from 'react'
 import { jwtDecode } from 'jwt-decode'
 import axios from 'axios'
+import { useAuth } from '../context/AuthContext'
+import {API} from '@/lib/api'
 export default function Slots() {
     const initialState={date:'',time:''}
     const[values,setValues]=useState(initialState)
-    const[userID,setUserId]=useState('')
-    const[token,setToken]=useState('')
+  
     const[teacherName,setTeacherName]=useState('')
     const [groupedSlots, setGroupedSlots] = useState({});
+    const {user}=useAuth()
+    const userID=user.id
+
     const handleChange=(e)=>{
     const {value,name}=e.target
     setValues({...values,[name]:value})
     }
     console.log(values)
-    async function getToken(){
-      try{
-          const token= localStorage.getItem('token') // No need to await
-          if (token){
-            setToken(token)
-            try {
-              const decode = jwtDecode(token);
-              const { exp, role, user_id } = decode;
-              console.log(user_id)
-              setUserId(user_id)
-            } catch (error) {
-              console.error("JWT Decode Error:", error);
-            }
-          }
-      } catch(error) {
-          console.log(error);
-      }
-  }
+  
     function getTeacherDetails(){
       if(userID){
         console.log('user',userID)
-        const url = `https://api.codingscholar.com/getTeacher/${userID}`;
+        const url = `${API}/getTeacher/${userID}`;
         axios.get(url)
         .then(res=>{
           const name = `${res.data.user.first_name } ${res.data.user.last_name }`
@@ -45,8 +32,8 @@ export default function Slots() {
       }
     }
     const handleEnterSlot=()=>{
-      if(token){
-        const url='https://api.codingscholar.com/TeacherAvailability/'
+    
+        const url=`${API}/TeacherAvailability/`
         // const splitName=teacherName.trim().split(/\s+/);
         // const first_name=splitName[0]
         // const last_name=splitName[1]
@@ -54,9 +41,7 @@ export default function Slots() {
         const localDateTime = new Date(`${values.date}T${values.time}`);
         const utcDateTime = localDateTime.toISOString();  // Convert to UTC
         const data={...values,...{utcDateTime:utcDateTime}}
-        axios.post(url,data,{headers:{
-          'Authorization':`Bearer ${token}`
-        }})
+        axios.post(url,data,{ withCredentials:true,})
         .then(res=>{
           alert(res.data.message
             )
@@ -64,21 +49,19 @@ export default function Slots() {
           setValues(initialState)
         })
         .catch(error=>console.log(error))
-      }
+      
     }
     function getMySlots(){
-      if(token){
-        const url='https://api.codingscholar.com/Myslots/'
-        axios.get(url,{headers:{
-          'Authorization':`Bearer ${token}`
-        }})
+      
+        const url=`${API}/Myslots/`
+        axios.get(url)
         .then(res=>{
           console.log(res.data)
           const grouped = groupSlotsByDate(res.data);
           setGroupedSlots(grouped);
         })
         .catch(error=>console.log(error))
-      }
+      
     }
     console.log('slots',groupedSlots)
     function groupSlotsByDate(slots) {
@@ -98,13 +81,11 @@ export default function Slots() {
     }
     useEffect(()=>{
       getMySlots()
-    },[token])
+    },[])
     useEffect(()=>{
     getTeacherDetails()
     },[userID])
-    useEffect(()=>{
-    getToken()
-    },[])
+   
   return (
     <div className='slotWrapper'>
         <div className='slotContainer'>

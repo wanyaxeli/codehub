@@ -3,17 +3,6 @@ import ReactDOM from 'react-dom'; // Correct import
 import axios from 'axios';
 export default function SubmitProjectModal({openSubmitModal,bookingId,ClassName,setopenSubmitModal}) {
     const [project,setProject]=useState('')
-    const [token,setToken]=useState('')
-    async function getToken(){
-        try{
-            const token= localStorage.getItem('token') // No need to await
-            if (token){
-                setToken(token);
-            }
-        } catch(error) {
-            console.log(error);
-  }
-}
     const handleCloseModal=()=>{
         setopenSubmitModal(false)
     }
@@ -22,11 +11,9 @@ export default function SubmitProjectModal({openSubmitModal,bookingId,ClassName,
     }
     const handleSubmit =()=>{
         if(ClassName && project){
-            const url = `https://api.codingscholar.com/Project/`
+            const url = `${API}/Project/`
             const data={project:project,className:ClassName}
-            axios.post(url,data,{headers:{
-                'Authorization':`Bearer ${token}`
-            }})
+            axios.post(url,data,{withCredentials:true})
             .then(res=>{
                 console.log(res.data)
                 setProject('')
@@ -35,9 +22,9 @@ export default function SubmitProjectModal({openSubmitModal,bookingId,ClassName,
             })
             .catch(error=>console.log(error))
         }else if(bookingId && project){
-            const url = `https://api.codingscholar.com/TrialProject/`
+            const url = `${API}/TrialProject/`
             const data={project:project,bookingId:bookingId}
-            axios.post(url,data)
+            axios.post(url,data,{withCredentials:true})
             .then(res=>{
                 console.log(res.data)
                 alert(res.data)
@@ -48,9 +35,7 @@ export default function SubmitProjectModal({openSubmitModal,bookingId,ClassName,
         }
     }
     console.log('booktwo',bookingId,project)
-    useEffect(()=>{
-    getToken()
-    },[])
+   
     return ReactDOM.createPortal(
       <div className="SubmitWrapper">
         <div className='submitInnerWrapper'>

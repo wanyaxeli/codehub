@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { jwtDecode } from 'jwt-decode'
 import useClarityPageView from './Components/UseclarityPageView'
+import { API } from './lib/api'
 
 export const context = createContext()
 
@@ -20,7 +21,7 @@ function App() {
   const [grade, setGrade] = useState('')
   const [course, setCourse] = useState('')
   const [email, setEmail] = useState('')
-  const [token, setToken] = useState('')
+
   const [name, setName] = useState('')
   const [CountryCode, setCountryCode] = useState('')
   const [CountryName, setCountryName] = useState('')
@@ -30,47 +31,28 @@ function App() {
   const [proPic, setProPic] = useState('')
   const [seeEarning, setEarning] = useState(true)
   const [DaillyQuizAttempt, setDaillyQuizAttempt] = useState(false)
+  
 
   const navigate = useNavigate()
 
-  useEffect(() => {
-    const token = localStorage.getItem('token')
-    if (token) {
-      try {
-        setToken(token)
-        const decode = jwtDecode(token)
-        const { exp } = decode
-        if (exp <= Math.floor(Date.now() / 1000)) {
-          localStorage.removeItem('token')
-          navigate('/Login')
-        }
-      } catch (error) {
-        console.error('JWT Decode Error:', error)
-      }
-    }
-  }, [navigate])
+
 
   useEffect(() => {
-    if (token) {
       const attempted = localStorage.getItem('attempted')
       setDaillyQuizAttempt(attempted)
-    }
-  }, [token])
+    
+  }, [])
 
   useEffect(() => {
     const earning = localStorage.getItem('earning')
     setEarning(earning)
   }, [])
 
-  const getProfilePic = (token) => {
-    if (token) {
+  const getProfilePic = () => {
       axios
-        .get('https://api.codingscholar.com/profilePic/', {
-          headers: { Authorization: `Bearer ${token}` },
-        })
+        .get(`${API}/profilePic/`)
         .then((res) => setProPic(res.data.image))
         .catch(console.error)
-    }
   }
 
   return (

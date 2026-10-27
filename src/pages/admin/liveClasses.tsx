@@ -6,6 +6,7 @@ import { formatLongMonth, getTimeIn24HR } from '@/utils/date_formats'
 import { toTitleCase } from '@/utils/normalizeWords'
 import { useNavigate } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
+import { API, apiFetch } from '@/lib/api'
 
 
 
@@ -58,7 +59,7 @@ export default function Page() {
   const [query, setQuery] = useState('')
 //   const [refreshing, setRefreshing] = useState(false)
   const [selected, setSelected] = useState<any|null>(null)
-  const [token,setToken]=useState<any|null>(null)
+
   //   const [classes,setClasses]=useState<[]|null>(null)
   const [loading,setIsLoading]=useState(false)
   const navigate=useNavigate()
@@ -89,21 +90,23 @@ const normalizeStatus = (item: any): Status | null => {
   }
 }
 //  const API_URL = 'http://127.0.0.1:8000'
- const API_URL='https://api.codingscholar.com'
+ 
 const {
   data: classes = [],
   isLoading,
   isFetching,
   refetch: fetchLiveClasses, // manual refresh, replaces fetchLiveClasses(true)
 } = useQuery({
-  queryKey: ['liveClasses', token],
-  enabled: !!token,
+  queryKey: ['liveClasses'],
+//   enabled: ,
   refetchInterval: 2 * 60 * 1000,      // 2 min
   refetchIntervalInBackground: false,  // pauses when tab is hidden
   queryFn: async () => {
-    const res = await fetch(`${API_URL}/getliveclasses/`, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
+    const res = await fetch(`${API}/getliveclasses/`, {
+      credentials: 'include',
+    }
+)
+    // const res=await apiFetch('getliveclasses/',{raw:true})
     if (!res.ok) throw new Error(`getliveclasses failed: ${res.status}`)
     const { live_classes } = await res.json()
     console.log('live_classes...',live_classes)
@@ -112,19 +115,7 @@ const {
 })   
     const refreshing = isFetching && !isLoading
 
-    async function getToken(){
-      try{
-          const token= localStorage.getItem('token') // No need to await
-          if (token){
-              setToken(token);
-          }
-      } catch(error) {
-          console.log(error);
-    }
-    }
-  useEffect(()=>{
-    getToken()
-  },[])
+    
 
 
   const normalizeFilters=(item:any,filter:string)=>{

@@ -39,15 +39,15 @@ export default function EndClass() {
   // console.log('lessonId...',classId)
 
 
-  const automatic_rescheduleAPI=`https://api.codingscholar.com/forwardRescheduling/${lesid}`
-  const manual_rescheduleAPI=`https://api.codingscholar.com/reschedulingClassToAnotherDay/${lesid}`
+  const automatic_rescheduleAPI=`${API}/forwardRescheduling/${lesid}`
+  const manual_rescheduleAPI=`${API}/reschedulingClassToAnotherDay/${lesid}`
   // console.log('group api ',group_vediosAPI)
   // console.log('automatic api :: ',automatic_rescheduleAPI ,'\n manual reschedule::',manual_rescheduleAPI)
 
   function getClass(){
    if(classId && studentId){
     const code= classId
-    const url = `https://api.codingscholar.com/currentClass/${(code)}/${studentId}`
+    const url = `${API}/currentClass/${(code)}/${studentId}`
     
     axios.get(url)
     .then(res=>{
@@ -57,7 +57,7 @@ export default function EndClass() {
    }else{
       if(bookingId){
       const code= bookingId
-      const url=`https://api.codingscholar.com/trialClass/${code}`
+      const url=`${API}/trialClass/${code}`
       axios.get(url)
       .then(res=>{
         setBooking([res.data])
@@ -84,7 +84,7 @@ export default function EndClass() {
   function markClassComplete(){
     const code= classId
       const data={studentId:studentId}
-      const url = `https://api.codingscholar.com/ClassAttendedFully/${encodeURIComponent(code)}`
+      const url = `${API}/ClassAttendedFully/${encodeURIComponent(code)}`
       axios.put(url,data)
       .then(res=>{
        
@@ -106,7 +106,7 @@ export default function EndClass() {
       if(item.is_completed===false && item.reason.trim() === "" || item.reason.trim()==="''"||item.reason===""){
       // const code= classId
       // const data={studentId:studentId}
-      // const url = `https://api.codingscholar.com/ClassAttendedFully/${encodeURIComponent(code)}`
+      // const url = `${API}/ClassAttendedFully/${encodeURIComponent(code)}`
       // axios.put(url,data)
       // .then(res=>{
       //   console.log('class res',res.data)
@@ -127,7 +127,7 @@ export default function EndClass() {
     booking.map(item=>{
       if(item.joined===false && item.reason===''){
         const code= bookingId
-        const url = `https://api.codingscholar.com/TrailClassAttendedFully/${code}/${teacherId}}`
+        const url = `${API}/TrailClassAttendedFully/${code}/${teacherId}}`
         axios.put(url)
         .then(res=>{
          
@@ -151,7 +151,7 @@ export default function EndClass() {
         if(item.is_completed===false){
           setIsOpen(true)
           const code= classId
-          const url = `https://api.codingscholar.com/NotAttendedClass/${encodeURIComponent(code)}/${studentId}}`
+          const url = `${API}/NotAttendedClass/${encodeURIComponent(code)}/${studentId}}`
           axios.put(url,{data:value})
           .then(res=>{
            
@@ -170,7 +170,7 @@ export default function EndClass() {
       booking.map(item=>{
         if(item.joined===false && item.reason===''){
           const code= bookingId
-          const url = `https://api.codingscholar.com/NotAttendedTrailClass/${code}/${teacherId}`
+          const url = `${API}/NotAttendedTrailClass/${code}/${teacherId}`
           axios.put(url,{data:value})
           .then(res=>{
         
@@ -196,16 +196,7 @@ export default function EndClass() {
       })
     }
   }
-  async function getToken(){
-    try{
-        const token= localStorage.getItem('token') // No need to await
-        if (token){
-            setToken(token);
-        }
-    } catch(error) {
-        console.log(error);
-}
-}  
+  
 const handleChangeClassStatus=()=>{
   setClassEnded(false)
 }
@@ -276,9 +267,9 @@ const handleFileChange = (event) => {
     const cleanName = file.name.replace(/[^a-zA-Z0-9.-]/g, "_");
     // 1. Start upload
     const startRes = await axios.post(
-      "https://api.codingscholar.com/start-upload/",
+      `${API}/start-upload/`,
       { filename: cleanName},
-      { headers: { Authorization: `Bearer ${token}` } }
+      {  withCredentials:true, }
     );
   
     const { uploadId, key } = startRes.data;
@@ -290,13 +281,13 @@ const handleFileChange = (event) => {
       const chunk = file.slice(i * chunkSize, (i + 1) * chunkSize);
   
       const urlRes = await axios.post(
-        "https://api.codingscholar.com/get-chunk-url/",
+        `${API}/get-chunk-url/`,
         {
           uploadId,
           key,
           partNumber: i + 1,
         },
-        { headers: { Authorization: `Bearer ${token}` } }
+        {  withCredentials:true, }
       );
   
       const { url } = urlRes.data;
@@ -315,7 +306,8 @@ const handleFileChange = (event) => {
              ((i + chunkProgress) / totalChunks) * 100
      
            setProgress(Math.round(overallProgress))
-        }
+        },
+        withCredentials:true,
      });
       const etag = uploadRes.headers.get("ETag");
   
@@ -327,13 +319,13 @@ const handleFileChange = (event) => {
   
     // 3. Complete upload
     const completeRes = await axios.post(
-      "https://api.codingscholar.com/complete-upload/",
+      `${API}/complete-upload/`,
       {
         uploadId,
         key,
         parts,
       },
-      { headers: { Authorization: `Bearer ${token}` } }
+      {  withCredentials:true, }
     );
   
     return completeRes.data.url;
@@ -346,7 +338,7 @@ const handleFileChange = (event) => {
         const id = lesid
         const lessonId=classId.replace(/^[^-]+-/, "");
        
-        const group_vediosAPI=`https://api.codingscholar.com/student_class_videos/${id}`
+        const group_vediosAPI=`${API}/student_class_videos/${id}`
         // 1. upload to S3
         const fileUrl = await uploadFileToS3(selectedFile, token);
        
@@ -367,10 +359,7 @@ const handleFileChange = (event) => {
             // }
             return axios.post(group_vediosAPI,data,
           {
-            headers:{
-
-              "Authorization":`Bearer ${token}`
-            }
+             withCredentials:true,
   
           }
           );
@@ -418,9 +407,7 @@ const handleRescheduleDateTime =async()=>{
           date:selectedtimestamp
          },
          {
-          headers:{
-            'Authorization':`Bearer ${token}`
-          }
+           withCredentials:true,
          }
       
          );
@@ -460,9 +447,7 @@ const handleRescheduleNextClass = async() => {
           lesson_type:lessontype
         },
         {
-          headers:{
-            'Authorization':`Bearer ${token}`
-          }
+           withCredentials:true,
         }
       
       );

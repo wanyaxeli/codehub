@@ -71,7 +71,7 @@ export default function GroupDetails({group,onBack}){
     const [scheduleDays,setScheduleDays]=useState([])
     const [lessons,setLessons]=useState([])
     const [changedTeacher,setChangedTeacher]=useState()
-    const [got_t, setGot_t]=useState()
+   
 
     const student_url='https://api.codingscholar.com/student/'
     const teachers_url ='https://api.codingscholar.com/registerTeacher/'
@@ -86,14 +86,10 @@ export default function GroupDetails({group,onBack}){
     const remove_student=`https://api.codingscholar.com/RemoveStudentInGroupClass/${group.id}`
 
 
-    const fetchgroup_students=async(goten_token)=>{
-    if(token){
+    const fetchgroup_students=async()=>{
+    
       try{
-        const students=await axios.get(students_in_group_url,{
-          headers:{
-            Authorization:`Bearer ${token}`
-          }
-        })
+        const students=await axios.get(students_in_group_url)
 
         const group_students=students.data
         setStudents(group_students)
@@ -102,7 +98,7 @@ export default function GroupDetails({group,onBack}){
       }catch(e){
         console.log('error in getting all students in agroup',e)
       }
-    }
+    
     }
 
     const formatdates=(dates)=>{
@@ -115,58 +111,21 @@ export default function GroupDetails({group,onBack}){
         minute:'2-digit'
       })
     }
-    async function getToken(){
-      try{
-          const token= localStorage.getItem('token') // No need to await
-          if (token){
-              setToken(token);
-          }
-      } catch(error) {
-          console.log(error);
-  }
-  }
-    const grouplessons=async(goten_token)=>{
-      // alert('hello')
-      if(token ){
+
+
+    const grouplessons=async()=>{
+
         try{
-          const {data}=await axios.get(group_lesson_url,{
-            headers:{
-              Authorization:`Bearer ${token}`
-            }
-          })
+          const {data}=await axios.get(group_lesson_url)
   
           const group_classes=data.filter((lesson)=> lesson.group_class.id==group.id && new Date(lesson.date_time).getTime() >= Date.now())
           console.log('fffdd',data)
-          // setscheduledClasses(group_classes)
-          // setOriginalClassSchedule(group_classes)
-          // const grouped_lessons=Object.values(
-          //   group_classes.reduce((acc,lesson)=>{
-          //     const classType=lesson.lessontype
-  
-          //     if(!acc[classType]){
-          //       acc[classType]={
-          //         classType:classType,
-          //         lessonNumber:[],
-          //         lessonTitle:[],
-          //         scheduleddates:[]
-          //       }
-          //     }
-  
-          //     acc[classType].lessonNumber.push()
-          //   })  
-          // )
-  
-  
-  
-        // const 
-        // const upcoming_classes=group_classes.filter()
-  
-  
+          
         }catch(e){
           console.error('error in getting group lessons',e)
         }
       }
-    }
+    
 
     const fetch_groupdetails=async()=>{
       try{
@@ -212,10 +171,8 @@ export default function GroupDetails({group,onBack}){
     useEffect(()=>{
       grouplessons()
       fetchgroup_students()
-    },[token])
+    },[])
     useEffect(()=>{
-      const got_t=localStorage.getItem('token')
-      setGot_t(got_t)
       
       fetchData()
       fetch_groupdetails()
@@ -254,7 +211,13 @@ export default function GroupDetails({group,onBack}){
             // api call
             if (addedstudents.length>0){
               addresults=await Promise.allSettled(
-                addedstudents.map(student=>axios.post(studentaddurl,{student:student.id},{headers:{"Authorization":`Bearer ${got_t}`}}))
+                addedstudents.map(student=>axios.post(studentaddurl,{
+                  student:student.id}
+                  ,{
+                  withCredentials:true,
+                  }
+
+                ))
               )
 
               addresults.forEach((add_res,index)=>{
@@ -271,7 +234,9 @@ export default function GroupDetails({group,onBack}){
 
               removedresults=await Promise.allSettled(
                 removedstudents.map(removedstudent=>axios.delete(remove_student,
-                  {headers:{"Authorization":`Bearer ${got_t}`},
+                  {
+                    // headers:{"Authorization":`Bearer ${got_t}`},
+                    withCredentials:true,
                    data:{student_id:removedstudent.id}
                 }
                 ))
@@ -289,7 +254,7 @@ export default function GroupDetails({group,onBack}){
             await new Promise((resolve) => setTimeout(resolve, 1000));
 
             setOriginalstudents(students)
-            fetchgroup_students(got_t)
+            fetchgroup_students()
             
 
         }catch(e){
@@ -371,24 +336,24 @@ export default function GroupDetails({group,onBack}){
     }
 
     const handleRemoveStudent=async(studentId)=>{
-    //   // try{
-    //   //   console.log('removing student')
-    //   //   const remove_res=await axios.post(remove_student,
-    //   //     {
-    //   //       student_id:studentId
-    //   //     },
-    //   //     {
-    //   //             headers:{
-    //   //               "Authorization":`Bearer ${got_t}`
-    //   //             }
-    //   //           }
-    //   //   )
-    //   //   console.log('removed student results',remove_res)
-    //   //   alert('✅student removed successfully ')
+      // try{
+      //   console.log('removing student')
+      //   const remove_res=await axios.post(remove_student,
+      //     {
+      //       student_id:studentId
+      //     },
+      //     {
+      //             headers:{
+      //               "Authorization":`Bearer ${got_t}`
+      //             }
+      //           }
+      //   )
+      //   console.log('removed student results',remove_res)
+      //   alert('✅student removed successfully ')
 
-    //   // }catch(e){
-    //   //   console.error('❌error in removing the student from the group')
-    //   // }
+      // }catch(e){
+      //   console.error('❌error in removing the student from the group')
+      // }
 
         setStudents(students.filter((s)=>s.id!==studentId))
     }

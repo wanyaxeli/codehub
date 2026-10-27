@@ -8,6 +8,7 @@ import { jwtDecode } from 'jwt-decode'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { Menu, X, Code2, ChevronDown } from 'lucide-react'
 import pic from '@/assets/codingscholarlogo00v2.png'
+import { useAuth } from '@/context/AuthContext'
 
 export default function HeaderSection() {
   const [isCoursesOpen, setIsCoursesOpen] = useState(false)
@@ -20,6 +21,7 @@ export default function HeaderSection() {
  const toggleCourses = () => {
   setIsMobileCoursesOpen(prev => !prev);
 };
+  const { user, loading } = useAuth()
   useEffect(() => {
     function handleClickOutside(event) {
       if (coursesRef.current && !coursesRef.current.contains(event.target)) {
@@ -39,46 +41,27 @@ export default function HeaderSection() {
     { name: 'Python for Kids', id: 1 },
     { name: 'Web Development for Kids', id: 2},
   ]
-  async function getToken(){
-    try{
-        const token= localStorage.getItem('token') // No need to await
-        if (token){
-            setToken(token);
-        }
-    } catch(error) {
-        console.log(error);
-}
-} const handleTologin=()=>{
-  console.log('token',token)
-  if (token) {
-    try {
-    
-      const decode = jwtDecode(token)
-      console.log('asssss',decode)
-      const access=token
-      const { exp,role } = decode
-      if (exp <= Math.floor(Date.now() / 1000)) {
-        localStorage.removeItem('token')
-        navigate('/Login')
-      }else{
-        if(role ==='student'){
-          navigate('/student/dashboard/Details')
-      }else if(role==='teacher'){
-          navigate('/teacher/dashboard',{state:access})
-      }else if(role==='marketer'){
-        navigate('/marketingStaff',{state:access})
-      }
-      }
-    } catch (error) {
-      console.error('JWT Decode Error:', error)
+
+
+
+  const handleTologin = () => {
+    if (loading) return // /me is still checking the session
+    if (user) {
+    // expiry is handled automatically: /me 401 -> refresh cookie -> or user becomes null
+    if (user.role === 'student') {
+      navigate('/student/dashboard/Details')
+    } else if (user.role === 'teacher') {
+      navigate('/teacher/dashboard') // ,{state:access}
+    } else if (user.role === 'marketer') {
+      navigate('/marketingStaff') // ,{state:access}
     }
-  }else{
+  } else {
     navigate('/Login')
   }
 }
-  useEffect(()=>{
-    getToken()
-  },[])
+  // useEffect(()=>{
+  //   getToken()
+  // },[])
   return (
     <>
     {/* desktop header */}

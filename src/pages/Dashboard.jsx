@@ -4,14 +4,18 @@ import { context } from '../App'
 import { Outlet,useNavigate ,useLocation} from 'react-router-dom'
 import { jwtDecode } from 'jwt-decode'
 import axios from 'axios'
+import { useAuth } from '../context/AuthContext'
+import { API } from '@/lib/api'
 export default function Dashboard() {
   const navigate=useNavigate()
   const location =useLocation()
-  const [token,setToken]=useState('')
+ 
   const [NotReviewed,setNotReviewed]=useState('')
-  const [role,setRole]=useState('')
-  const [user_id,setUser_id]=useState('')
   const {setTeacher}= useContext(context)
+
+  const {user}=useAuth()
+  const user_id=user.id
+  const role=user.role
   // const [teacher,setTeacher]=useState('')
   const {pathname}=location
   const dashboardLinks=['/teacher/dashboard/teacher%20details','/teacher/dashboard/Math','/teacher/dashboard/Slots','/teacher/dashboard/Teacher%20Group%20Class','/teacher/dashboard/Group%20Class','/teacher/dashboard/Details','/teacher/dashboard/Special%20Groups','/teacher/dashboard/Special%20Class','/teacher/dashboard/student/:id','/teacher/dashboard/Lessons','/teacher/dashboard','/teacher/dashboard/Add%Students','/teacher/dashboard/All%20Teachers',
@@ -30,50 +34,29 @@ export default function Dashboard() {
   const handleToDashboard=()=>{
         navigate('/teacher/dashboard/Details')
         }
-  console.log('role',role)
-  async function getToken(){
-          try{
-              const token= localStorage.getItem('token') // No need to await
-              if (token){
-                  setToken(token);
-              }
-          } catch(error) {
-              console.log(error);
-    }
-  }
-  useEffect(() => {
-    if (location.state) {
-      setToken(location.state); // Assuming you passed a token as state
-    } else {
-      console.log('No state found in location');
-    }
-  }, [location]);
-useEffect(()=>{
-  console.log("running getToken effect");
-getToken()
-},[])
+  console.log('\n USER role.....',user)
+
+ 
+
+
 function getQuiz(){
-  if(token){
-    const url = 'https://api.codingscholar.com/TeacherQuizes/';
-    axios.get(url,{headers:{
-      'Authorization':`Bearer ${token}`
-    }})
+
+    const url = `${API}/TeacherQuizes/`;
+    axios.get(url)
     .then(res=>{
       const data = res.data
       const review= data.filter(item=>item.review === false)
       setNotReviewed(review.length)
     })
     .catch(error=>console.log(error))
-  }
+  
 }
   function getTeacher(){
-    console.log('tea',token)
-    if(token && user_id && role ==='teacher'){
-     const url=`https://api.codingscholar.com/getTeacher/${user_id}`
-     console.log('user',role)
-     axios.get(url,{headers:{
-      //  'Authorization':`Bearer ${token}`
-     }})
+   
+    if( user_id && role ==='teacher'){
+     const url=`${API}/getTeacher/${user_id}`
+     console.log('\nUSERROLE.....',role)
+     axios.get(url)
      .then(res=>{
        console.log('teachers',res.data)
        const data = res.data
@@ -82,25 +65,14 @@ function getQuiz(){
      .catch(error=>console.log(error))
     }
   }
-  useEffect(() => {
-    if (token) {
-      try {
-        const decode = jwtDecode(token);
-        const {role,user_id}=decode
-        setUser_id(user_id)
-        setRole(role)
-        console.log("Decoded Tokens:", user_id);
-      } catch (error) {
-        console.error("JWT Decode Error:", error);
-      }
-    }
-  }, [token]);
+  
+
   useEffect(()=>{
     getQuiz()
-   },[token])
+   },[])
   useEffect(()=>{
     getTeacher()
-    },[token,user_id,role])
+    },[user_id,role])
   return (
     <div className='DashboardWrapper'>
         <Header />

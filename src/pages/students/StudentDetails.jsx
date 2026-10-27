@@ -28,6 +28,8 @@ import badge19 from '../../assets/badge19.png'
 import badge20 from '../../assets/badge20.png'
 import badge21 from '../../assets/bagde21.png'
 import ReferralPopup from '@/Components/global-layoutss/referral-popup';
+import { API } from '@/lib/api';
+import { useAuth } from '@/context/AuthContext';
 
 
 export default function StudentDetails() {
@@ -35,16 +37,18 @@ export default function StudentDetails() {
     {id:11,img:badge11,name:'coding explorer'},{id:12,img:badge12,name:'logic legend'},{id:13,img:badge13,name:'algorithm ace'},{id:14,img:badge14,name:'syntax superstar'},{id:15,img:badge15,name:'bug buster hero'},{id:16,img:badge16,name:'code champion'},
     {id:1,img:badge17,name:'math guru'},{id:2,img:badge18,name:'number ninja'},{id:4,img:badge19,name:'problem solver'},{id:5,img:badge20,name:'math genius 2'},{id:6,img:badge21,name:'math genius'}]
     const navigate = useNavigate()
-    const [token,setToken]=useState('')
+   
     const [lessons,setLesson]=useState([])
     const [cert,setCert]=useState([])
     const [previewUrl, setPreviewUrl] = useState([]);
     const [todayClass,setTodayClass]=useState([])
     const [studentBadge,setStudentbadge]=useState([])
-    const [studentId,setStudentId]=useState('')
+
     const {student,proPic,getProfilePic}=useContext(context)
     const [profilePic,setProfilePic]=useState('')
     const [isreferralpop,setIsReferralpop]=useState(true)
+    const {user}=useAuth()
+    studentId=user.id
     const handleToJoinClass =(les,Lessonid,time,title)=>{
         if(les.group_class){
             
@@ -75,20 +79,11 @@ export default function StudentDetails() {
     // },[])
     console.log('stdddd',student)
     const studentRefarralCode=student.share_token
-        async function getToken(){
-        try{
-            const token= localStorage.getItem('token') // No need to await
-            if (token){
-                setToken(token);
-            }
-        } catch(error) {
-            console.log(error);
-  }
-}
+
  function getLessons(){
-   if(studentId && token){
+   if(studentId ){
     const id = studentId
-    const url =`https://api.codingscholar.com/getstudentLessons/${id}`
+    const url =`${API}/getstudentLessons/${id}`
     axios.get(url)
     .then(res=>{
         const data=res.data
@@ -105,12 +100,10 @@ export default function StudentDetails() {
    }
  }
  function GetStudentGroupLessons(){
-    if(studentId && token){
+    if(studentId ){
      const id = studentId
-     const url =`https://api.codingscholar.com/studentGroupLesson/${id}`
-     axios.get(url,{headers:{
-        'Authorization':`Bearer ${token}`
-     }})
+     const url =`${API}/studentGroupLesson/${id}`
+     axios.get(url)
      .then(res=>{
          const data=res.data
          if(data.length > 0){
@@ -128,41 +121,39 @@ export default function StudentDetails() {
     }
   }
  function UpdateProfilePic(){
-    if(token && profilePic){
-        const url = 'https://api.codingscholar.com/profilePic/';
+    if( profilePic){
+        const url = `${API}/profilePic/`;
         const formData = new FormData();
         formData.append('image', profilePic);
 
         axios.post(url,formData,{
             headers: {
-                'Authorization': `Bearer ${token}`,
                 'Content-Type': 'multipart/form-data'
-            }
+            },
+            withCredentioals:true
         })
         .then(response => {
             alert(response.data.message)
-            getProfilePic(token)
+            getProfilePic()
         })
         .catch(error => console.error(error));
     }
     }
  function getCertificate(){
-    if(token){
-        const url = `https://api.codingscholar.com/getCert/`;
-        axios.get(url,{headers:{
-            'Authorization':`Bearer ${token}`
-        }})
+
+        const url = `${API}/getCert/`;
+        axios.get(url)
         .then(res=>{
             const data = res.data
             setCert(data)
         })
         .catch(error=>{console.log(error)})
-    }
+    
  }
  function getStudentBadge(){
    if(student){
     const id = student.id
-    const url = `https://api.codingscholar.com/getbadge/${id}`;
+    const url = `${API}getbadge/${id}`;
     axios.get(url)
     .then(res=>{
         const data=res.data
@@ -252,7 +243,8 @@ useEffect(()=>{
 },[student])
 useEffect(()=>{
     getCertificate()
-},[token])
+},[])
+
 useEffect(()=>{
     generatePDF()
 },[cert,student])
@@ -284,23 +276,17 @@ useEffect(()=>{
  const flatData=studentBadge.flat()
  useEffect(()=>{
     UpdateProfilePic()
-    },[token,profilePic])
+    },[,profilePic])
  useEffect(()=>{
   getLessons()
   GetStudentGroupLessons()
- },[token,studentId])
+ },[studentId])
  useEffect(()=>{
-    getProfilePic(token)
-},[token])
+    getProfilePic()
+},[])
+
 useEffect(()=>{
-    if(token){
-        const decoded = jwtDecode(token);
-        const {user_id}=decoded
-        setStudentId(user_id)
-    }
-},[token])
-useEffect(()=>{
- getToken()
+
  setIsReferralpop(false)
 // localStorage.clear();
  localStorage.getItem('refpopup_open')?setIsReferralpop(false):setIsReferralpop(true)
