@@ -45,7 +45,7 @@ export default function HeaderSection() {
 
 
   const handleTologin = () => {
-    if (loading) return // /me is still checking the session
+    // if (loading) retur n // /me is still checking the session
     if (user) {
     // expiry is handled automatically: /me 401 -> refresh cookie -> or user becomes null
     if (user.role === 'student') {

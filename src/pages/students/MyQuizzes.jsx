@@ -3,7 +3,7 @@ import { useNavigate,Outlet } from 'react-router-dom'
 import axios from 'axios'
 import { jwtDecode } from 'jwt-decode'
 import { API } from '@/lib/api'
-import { useAuth } from '../context/AuthContext'
+import { useAuth } from '@/context/AuthContext'
 export default function MyQuizzes() {
   const navigate=useNavigate()
   const [quiz,setQuiz]=useState([])

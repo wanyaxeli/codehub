@@ -5,7 +5,6 @@ export default function MyProjects() {
   const [projects,setProject]=useState([])
   
 function getProjects(){
-  if(token){
     const url = `${API}/studentProject/`;
     axios.get(url)
     .then(res=>{
@@ -19,7 +18,7 @@ function getProjects(){
       console.log(res.data)
     })
     .catch(error=>console.log(error))
-  }
+  
 }
 useEffect(()=>{
   getProjects()

@@ -212,15 +212,19 @@ export default function Calendar() {
     ])
     if (isCancelled()) return // component unmounted or token changed
 
+    
     const lessons = [...oneOnOneLessons, ...groupLessons].map((item) => ({
       ...item,
       classType: item.group_class ? 'group' : 'oneOnone',
     }))
-
+    
+    // console.log('\n Lessons::', lessons)
     // replace (not append) so re-runs and StrictMode never create duplicates
     setData(lessons)
     setCalendarEvent(lessons.map(lessonToCalendarEvent).filter((e) => e.start))
   }
+
+  //  console.log('\n calendarEvent::', calendarEvent)
    
   useEffect(() => {
   const controller = new AbortController()

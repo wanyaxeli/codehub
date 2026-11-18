@@ -48,7 +48,7 @@ export default function StudentDetails() {
     const [profilePic,setProfilePic]=useState('')
     const [isreferralpop,setIsReferralpop]=useState(true)
     const {user}=useAuth()
-    studentId=user.id
+    const studentId=user.id
     const handleToJoinClass =(les,Lessonid,time,title)=>{
         if(les.group_class){
             

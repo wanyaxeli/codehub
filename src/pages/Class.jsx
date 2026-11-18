@@ -114,7 +114,6 @@ const handleShowBarges =()=>{
       navigate('/')
     }
 useEffect(()=>{
-    getToken()
     setToggleCam(true)
 },[])
 useEffect(() => {

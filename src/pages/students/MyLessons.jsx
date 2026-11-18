@@ -151,9 +151,7 @@ useEffect(()=>{
     }
   }
 },[fullData])
-useEffect(()=>{
-  getToken()
-},[])
+
   return (
     <div className='MyLessonWrapper'>
      <div className='classtypenavWrapper'>

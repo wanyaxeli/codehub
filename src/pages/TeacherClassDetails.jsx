@@ -5,6 +5,7 @@ import pic from '../assets/codehubImage.jpeg'
 import axios from 'axios'
 import Portal from '../Components/Portal'
 import {Upload, X,Calendar} from 'lucide-react'
+import {API} from '../lib/api'
 export default function TeacherClassDetails() {
     const location =useLocation()
     const fileInputRef = useRef(null);
@@ -24,7 +25,6 @@ export default function TeacherClassDetails() {
     const [openPortal,setopenPortal]=useState(false)
     const [selectedFile, setSelectedFile] = useState(null);
     const [RescheduleBtn,setRescheduleBtn]=useState(false)
-    c
     const [dates,setDates]=useState()
     const [studentId,setStudentId]=useState()
     const {teacher,proPic,seeEarning,setEarning}=useContext(context)
