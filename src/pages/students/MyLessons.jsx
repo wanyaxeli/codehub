@@ -14,7 +14,6 @@ export default function MyLessons() {
   const [searchvalue,setSearchValue]=useState('')
   const navigate=useNavigate()
   function GetMyLessons(){
-    if(token){
       const url =`${API}/studentLessons/`
       axios.get(url)
       .then(res=>{
@@ -38,11 +37,11 @@ export default function MyLessons() {
       })
       .catch(error=>console.log(error))
     }
-  }
+  
 
  
   function GetGroupClassMyLessons(){
-    if(token){
+ 
       const url =`${API}/student_class_groups/`
       axios.get(url)
       .then(res=>{
@@ -65,7 +64,7 @@ export default function MyLessons() {
         }
       })
       .catch(error=>console.log(error))
-    }
+    
   }
  
 const handleToNotes =(notesurl,videourl)=>{
@@ -134,7 +133,7 @@ console.log('filteredlessons', lessons)
 useEffect(()=>{
   GetMyLessons()
   GetGroupClassMyLessons()
-},[token])
+})
 useEffect(()=>{
   if(fullData.length>0){
     const lessonTypes = fullData.map(item => item.lessonType);
