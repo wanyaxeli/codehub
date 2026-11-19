@@ -133,7 +133,7 @@ export default function EndClass() {
       if(item.joined===false && item.reason===''){
         const code= bookingId
         const url = `${API}/TrailClassAttendedFully/${code}/${teacherId}}`
-        axios.put(url)
+        axios.put(url, data, {withCredentials: true,})
         .then(res=>{
          
           const data = res.data.message
@@ -157,7 +157,7 @@ export default function EndClass() {
           setIsOpen(true)
           const code= classId
           const url = `${API}/NotAttendedClass/${encodeURIComponent(code)}/${studentId}}`
-          axios.put(url,{data:value})
+          axios.put(url,{data:value},{withCredentials:true})
           .then(res=>{
            
             const data = res.data.message
@@ -176,7 +176,7 @@ export default function EndClass() {
         if(item.joined===false && item.reason===''){
           const code= bookingId
           const url = `${API}/NotAttendedTrailClass/${code}/${teacherId}`
-          axios.put(url,{data:value})
+          axios.put(url,{data:value},{withCredentials:true})
           .then(res=>{
         
             const data = res.data.message
