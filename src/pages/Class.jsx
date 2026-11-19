@@ -14,6 +14,8 @@ import { Phone, User,X } from 'lucide-react'
 import { WherebyProvider } from "@whereby.com/browser-sdk/react";
 import StudentProfilePopUp from '../Components/StudentProfilePopUp';
 import Barge from '../Components/Barge';
+import { API } from '@/lib/api';
+import { useAuth } from '@/context/AuthContext';
 // import Image from "next/image"
 export default function Class() {
     const [mainCss,setMainCss]=useState('fullPageMain')
@@ -50,12 +52,11 @@ export default function Class() {
     const { name, token } = useParams();
     const [UserToken, setToken] = useState('');
     const [startingTime, setStartingTime] = useState('');
-    const [role, setRole] = useState('');
     const [socket, setSocket] = useState(null);
     const [peer, setPeer] = useState(null);
     const peerRef = useRef(null);
     const screenPeerRef = useRef(null);
-    const [user_id, setUser_id] = useState('');
+    
     const [StudentUser_id, setStudentUser_id] = useState('');
     const [waiting, setWaiting] = useState(false);
     const [connected, setConnected] = useState([]);
@@ -94,6 +95,10 @@ export default function Class() {
     const [lessontype,setLessonType]=useState()
     const [lesid,setLesId]=useState()
     const {classEndedfully}=useContext(context)
+    const {user}=useAuth()
+    const user_id=user.id
+    const role=user.role
+
     const handleOpenChat=()=>{
         if(toggleChat===false){
             setToggleChat(true)
@@ -116,19 +121,19 @@ const handleShowBarges =()=>{
 useEffect(()=>{
     setToggleCam(true)
 },[])
-useEffect(() => {
+// useEffect(() => {
    
-    if (UserToken && trails ===false) {
-      try {
-        const decode = jwtDecode(UserToken);
-        const {role,user_id}=decode
-        setUser_id(user_id)
-        setRole(role)
-      } catch (error) {
-        console.error("JWT Decode Error:", error);
-      }
-    }
-  }, [UserToken]);
+//     if (UserToken && trails ===false) {
+//       try {
+//         const decode = jwtDecode(UserToken);
+//         const {role,user_id}=decode
+//         setUser_id(user_id)
+//         setRole(role)
+//       } catch (error) {
+//         console.error("JWT Decode Error:", error);
+//       }
+//     }
+//   }, [UserToken]);
   const fetchIceServers = async () => {
     try {
       const response = await fetch("https://api.codingscholar.com/get-ice-servers/",{credentials: 'include'});
@@ -493,11 +498,11 @@ useEffect(() => {
                   : String(id);
               }
             let roomName = normalizeId(code);
-            setUser_id(id)
+            // setUser_id(id)
             setBookingId(booking_id)
             setCode(code)
             setTrails(true)
-            setRole(role)
+            // setRole(role)
             setStudentUser_id(roomName)
             setClassType('trial')
         }
@@ -541,14 +546,14 @@ useEffect(() => {
         return () => clearInterval(interval); // Cleanup interval
     }, [timeLeft])
    function SubmitProeject(){
-    if(token){
+  
         const url ='https://api.codingscholar.com/Project/'
         axios.post(url,{projectLink:project},{ withCredentials:true,})
         .then(res=>{
             console.log(res.data)
         })
         .catch(error=>console.log(error))
-    }
+    
    }
    const handleToggleStudents = () => {
     console.log('students...',groupstdntdetails)

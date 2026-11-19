@@ -4,6 +4,8 @@ import { useNavigate,useLocation,useNavigation } from 'react-router-dom'
 import axios from 'axios'
 import { jwtDecode } from 'jwt-decode';
 import {Upload, X,Calendar} from 'lucide-react'
+import { API} from '@/lib/api'
+import {useAuth} from '@/context/AuthContext'
 // import { promiseHooks } from 'v8';
 export default function EndClass() {
   const location = useLocation()
@@ -12,12 +14,12 @@ export default function EndClass() {
   const [bookingId,setBookingId]=useState('')
   const [studentId,setStudentId]=useState('')
   const [groupstdntdetails,setGroupstudentdetails]=useState([])
-  const [teacherId,setTeacherId]=useState('')
+  // const [teacherId,setTeacherId]=useState('')
   const [booking,setBooking]=useState([])
   const [value,setValue]=useState()
   const [isLoading,setLoading]=useState(false)
   const [token,setToken]=useState('')
-  const [role,setRole]=useState('')
+  // const [role,setRole]=useState('')
   const [classEnded,setClassEnded]=useState('')
   const [lesson,setLesson]=useState([])
   const [status,setStatus]=useState('Absent')
@@ -35,6 +37,9 @@ export default function EndClass() {
   const[lessontype,setLessonType]=useState()
   const [lesid,setLesId]=useState()
   const [progress, setProgress] = useState(0)
+  const {user}=useAuth()
+  const teacherId=user.id
+  const role=user.role
   // console.log('groupId...',groupId)
   // console.log('lessonId...',classId)
 
@@ -85,7 +90,7 @@ export default function EndClass() {
     const code= classId
       const data={studentId:studentId}
       const url = `${API}/ClassAttendedFully/${encodeURIComponent(code)}`
-      axios.put(url,data)
+      axios.put(url,data,{withCredentials:true})
       .then(res=>{
        
         const data = res.data.message
@@ -203,23 +208,21 @@ const handleChangeClassStatus=()=>{
 const handleCancelEndClass =()=>{
   setClassEnded(true)
 }
-useEffect(()=>{
-  getToken()
-},[classId])
-  useEffect(() => {
+
+  // useEffect(() => {
    
-    if (token) {
-      try {
-        const decode = jwtDecode(token);
-        const {role,user_id}=decode
+  //   if (token) {
+  //     try {
+  //       const decode = jwtDecode(token);
+  //       const {role,user_id}=decode
         
-        setTeacherId(user_id)
-        setRole(role)
-      } catch (error) {
-        console.error("JWT Decode Error:", error);
-      }
-    }
-  },[token]);
+  //       setTeacherId(user_id)
+  //       setRole(role)
+  //     } catch (error) {
+  //       console.error("JWT Decode Error:", error);
+  //     }
+  //   }
+  // },[token]);
   useEffect(()=>{
     const { state } = location || {}; // Ensure location is not undefined
     // const { id } = state || {};\
@@ -261,7 +264,7 @@ const handleFileChange = (event) => {
       setSelectedFile(file);
     }
   };
-  const uploadFileToS3 = async (file, token) => {
+  const uploadFileToS3 = async (file) => {
     const chunkSize = 5 * 1024 * 1024; // 5MB
     const totalChunks = Math.ceil(file.size / chunkSize);
     const cleanName = file.name.replace(/[^a-zA-Z0-9.-]/g, "_");
@@ -340,7 +343,7 @@ const handleFileChange = (event) => {
        
         const group_vediosAPI=`${API}/student_class_videos/${id}`
         // 1. upload to S3
-        const fileUrl = await uploadFileToS3(selectedFile, token);
+        const fileUrl = await uploadFileToS3(selectedFile);
        
         const sendfile_res=await Promise.allSettled(
           groupstdntdetails.map((student)=>{
@@ -434,7 +437,6 @@ const handlemanualreschedule=()=>{
   setFooter(false)
 }
 
-// console.log('TOKENNNNNN....',token)
 const handleRescheduleNextClass = async() => {
     // console.log('[v0] Rescheduling to next class on timetable');
 
